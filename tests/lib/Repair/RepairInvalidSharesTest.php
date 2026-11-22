@@ -1,0 +1,272 @@
+<?php
+
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+namespace Test\Repair;
+
+use OC\Core\AppInfo\ConfigLexicon;
+use OC\Repair\RepairInvalidShares;
+use OCP\Constants;
+use OCP\IAppConfig;
+use OCP\IConfig;
+use OCP\IDBConnection;
+use OCP\Migration\IOutput;
+use OCP\Server;
+use OCP\Share\IShare;
+use Test\TestCase;
+
+/**
+ * Tests for repairing invalid shares
+ *
+ *
+ * @see \OC\Repair\RepairInvalidShares
+ */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
+class RepairInvalidSharesTest extends TestCase {
+
+	private RepairInvalidShares $repair;
+	private IDBConnection $connection;
+	private IAppConfig&\PHPUnit\Framework\MockObject\MockObject $appConfig;
+
+	#[\Override]
+	protected function setUp(): void {
+		parent::setUp();
+
+		$config = $this->getMockBuilder(IConfig::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$config->expects($this->any())
+			->method('getSystemValueString')
+			->with('version')
+			->willReturn('12.0.0.0');
+
+		$this->connection = Server::get(IDBConnection::class);
+		$this->deleteAllShares();
+
+		$this->appConfig = $this->createMock(IAppConfig::class);
+
+		$this->repair = new RepairInvalidShares($config, $this->connection, $this->appConfig);
+	}
+
+	#[\Override]
+	protected function tearDown(): void {
+		$this->deleteAllShares();
+
+		parent::tearDown();
+	}
+
+	protected function deleteAllShares() {
+		$qb = $this->connection->getQueryBuilder();
+		$qb->delete('share')->executeStatement();
+	}
+
+	/**
+	 * Test remove shares where the parent share does not exist anymore
+	 */
+	public function testSharesNonExistingParent(): void {
+		$qb = $this->connection->getQueryBuilder();
+		$shareValues = [
+			'share_type' => $qb->expr()->literal(IShare::TYPE_USER),
+			'share_with' => $qb->expr()->literal('recipientuser1'),
+			'uid_owner' => $qb->expr()->literal('user1'),
+			'item_type' => $qb->expr()->literal('folder'),
+			'item_source' => $qb->expr()->literal(123),
+			'item_target' => $qb->expr()->literal('/123'),
+			'file_source' => $qb->expr()->literal(123),
+			'file_target' => $qb->expr()->literal('/test'),
+			'permissions' => $qb->expr()->literal(1),
+			'stime' => $qb->expr()->literal(time()),
+			'expiration' => $qb->expr()->literal('2015-09-25 00:00:00')
+		];
+
+		// valid share
+		$qb = $this->connection->getQueryBuilder();
+		$qb->insert('share')
+			->values($shareValues)
+			->executeStatement();
+		$parent = $qb->getLastInsertId();
+
+		// share with existing parent
+		$qb = $this->connection->getQueryBuilder();
+		$qb->insert('share')
+			->values(array_merge($shareValues, [
+				'parent' => $qb->expr()->literal($parent),
+			]))->executeStatement();
+		$validChild = $qb->getLastInsertId();
+
+		// share with non-existing parent
+		$qb = $this->connection->getQueryBuilder();
+		$qb->insert('share')
+			->values(array_merge($shareValues, [
+				'parent' => $qb->expr()->literal($parent + 100),
+			]))->executeStatement();
+		$invalidChild = $qb->getLastInsertId();
+
+		$query = $this->connection->getQueryBuilder();
+		$result = $query->select('id')
+			->from('share')
+			->orderBy('id', 'ASC')
+			->executeQuery();
+		$rows = $result->fetchAllAssociative();
+		$this->assertEquals([['id' => $parent], ['id' => $validChild], ['id' => $invalidChild]], $rows);
+		$result->closeCursor();
+
+		/** @var IOutput | \PHPUnit\Framework\MockObject\MockObject $outputMock */
+		$outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->repair->run($outputMock);
+
+		$query = $this->connection->getQueryBuilder();
+		$result = $query->select('id')
+			->from('share')
+			->orderBy('id', 'ASC')
+			->executeQuery();
+		$rows = $result->fetchAllAssociative();
+		$this->assertEquals([['id' => $parent], ['id' => $validChild]], $rows);
+		$result->closeCursor();
+	}
+
+	public static function trailingSlashProvider(): array {
+		return [
+			// trailing slash left behind by renaming a parent folder of a moved share
+			['/rename_folder/First_share_the_file.odt/', '/rename_folder/First_share_the_file.odt'],
+			['/shared_folder/', '/shared_folder'],
+			// unchanged
+			['/rename_folder/First_share_the_file.odt', '/rename_folder/First_share_the_file.odt'],
+			['/', '/'],
+		];
+	}
+
+	/**
+	 * Test stripping trailing slashes from the share target
+	 */
+	private function addShareWithTarget(string $fileTarget): void {
+		$qb = $this->connection->getQueryBuilder();
+		$qb->insert('share')
+			->values([
+				'share_type' => $qb->expr()->literal(IShare::TYPE_USER),
+				'share_with' => $qb->expr()->literal('recipientuser1'),
+				'uid_owner' => $qb->expr()->literal('user1'),
+				'item_type' => $qb->expr()->literal('folder'),
+				'item_source' => $qb->expr()->literal(123),
+				'item_target' => $qb->expr()->literal('/123'),
+				'file_source' => $qb->expr()->literal(123),
+				'file_target' => $qb->expr()->literal($fileTarget),
+				'permissions' => $qb->expr()->literal(31),
+				'stime' => $qb->expr()->literal(time()),
+			])
+			->executeStatement();
+	}
+
+	private function getSingleFileTarget(): string {
+		$results = $this->connection->getQueryBuilder()
+			->select('file_target')
+			->from('share')
+			->executeQuery()
+			->fetchAllAssociative();
+
+		$this->assertCount(1, $results);
+
+		return $results[0]['file_target'];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('trailingSlashProvider')]
+	public function testRemoveTrailingSlashFromFileTarget(string $fileTarget, string $expectedFileTarget): void {
+		$this->addShareWithTarget($fileTarget);
+
+		$this->appConfig->method('getValueBool')
+			->with('core', ConfigLexicon::SHARE_REPAIR_REMOVED_TRAILING_SLASHES, false, true)
+			->willReturn(false);
+		$this->appConfig->expects($this->once())
+			->method('setValueBool')
+			->with('core', ConfigLexicon::SHARE_REPAIR_REMOVED_TRAILING_SLASHES, true, true);
+
+		$this->repair->run($this->createMock(IOutput::class));
+
+		$this->assertSame($expectedFileTarget, $this->getSingleFileTarget());
+	}
+
+	public function testRemoveTrailingSlashFromFileTargetSkippedWhenAlreadyRun(): void {
+		$this->addShareWithTarget('/rename_folder/First_share_the_file.odt/');
+
+		$this->appConfig->method('getValueBool')
+			->with('core', ConfigLexicon::SHARE_REPAIR_REMOVED_TRAILING_SLASHES, false, true)
+			->willReturn(true);
+		$this->appConfig->expects($this->never())
+			->method('setValueBool');
+
+		$this->repair->run($this->createMock(IOutput::class));
+
+		$this->assertSame('/rename_folder/First_share_the_file.odt/', $this->getSingleFileTarget());
+	}
+
+	public static function fileSharePermissionsProvider(): array {
+		return [
+			// unchanged for folder
+			[
+				'folder',
+				31,
+				31,
+			],
+			// unchanged for read-write + share
+			[
+				'file',
+				Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE | Constants::PERMISSION_SHARE,
+				Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE | Constants::PERMISSION_SHARE,
+			],
+			// fixed for all perms
+			[
+				'file',
+				Constants::PERMISSION_READ | Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE | Constants::PERMISSION_SHARE,
+				Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE | Constants::PERMISSION_SHARE,
+			],
+		];
+	}
+
+	/**
+	 * Test adjusting file share permissions
+	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('fileSharePermissionsProvider')]
+	public function testFileSharePermissions($itemType, $testPerms, $expectedPerms): void {
+		$qb = $this->connection->getQueryBuilder();
+		$qb->insert('share')
+			->values([
+				'share_type' => $qb->expr()->literal(IShare::TYPE_LINK),
+				'uid_owner' => $qb->expr()->literal('user1'),
+				'item_type' => $qb->expr()->literal($itemType),
+				'item_source' => $qb->expr()->literal(123),
+				'item_target' => $qb->expr()->literal('/123'),
+				'file_source' => $qb->expr()->literal(123),
+				'file_target' => $qb->expr()->literal('/test'),
+				'permissions' => $qb->expr()->literal($testPerms),
+				'stime' => $qb->expr()->literal(time()),
+			])
+			->executeStatement();
+
+		/** @var IOutput | \PHPUnit\Framework\MockObject\MockObject $outputMock */
+		$outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->repair->run($outputMock);
+
+		$results = $this->connection->getQueryBuilder()
+			->select('*')
+			->from('share')
+			->orderBy('permissions', 'ASC')
+			->executeQuery()
+			->fetchAllAssociative();
+
+		$this->assertCount(1, $results);
+
+		$updatedShare = $results[0];
+
+		$this->assertEquals($expectedPerms, $updatedShare['permissions']);
+	}
+}

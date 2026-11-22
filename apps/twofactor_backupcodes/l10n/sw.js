@@ -1,0 +1,23 @@
+OC.L10N.register(
+    "twofactor_backupcodes",
+    {
+    "You created two-factor backup codes for your account" : "Umeunda misimbo ya usaidizi ya vipengele viwili vya akaunti yako",
+    "Second-factor backup codes" : "Misimbo ya ambari mbadala za kipengele cha pili",
+    "Generate backup codes" : "Tengeneza misimbo mbadala",
+    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Umewasha uthibitishaji wa vipengele viwili lakini bado hukutoa misimbo mbadala. Inahitajika ili kurejesha ufikiaji wa akaunti yako endapo utapoteza kipengele chako cha pili.",
+    "Backup code" : "Msimbo mbadala wa usaidizi",
+    "Use backup code" : "Tumia nambari ya kuthibitisha",
+    "Two factor backup codes" : "Nambari mbili mbadala za misimbo",
+    "A two-factor auth backup codes provider" : "Mtoa huduma wa misimbo ya uthibitishaji wa vipengele viwili",
+    "An error occurred while generating your backup codes" : "Hitilafu ilitokea wakati wa kuunda misimbo yako mbadala",
+    "Backup codes have been generated. {used} of {total} codes have been used." : "Misimbo ya hifadhi rudufu imetolewa. {used}kati ya misimbo {total} zimetumika.",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Hii ndiyo misimbo yako mbadala. Tafadhali ihifadhi na/au uichapishe kwani hutaweza kusoma misimbo tena baadaye.",
+    "Regenerate backup codes" : "Tengeneza upya misimbo mbadala ya usaidizi",
+    "Print backup codes" : "Chapisha misimbo mbadala ya usaidizi",
+    "Save backup codes" : "Hifadhi misimbo mbadala ya usaidizi",
+    "If you regenerate backup codes, you automatically invalidate old codes." : "Ukiunda upya misimbo mbadala, unabatilisha misimbo ya zamani kiotomatiki.",
+    "{name} backup codes" : "{name}  misimbo mbadala ya usaidizi",
+    "Use one of the backup codes you saved when setting up two-factor authentication." : "Tumia mojawapo ya misimbo mbadala uliyohifadhi wakati wa kusanidi uthibitishaji wa vipengele viwili.",
+    "Submit" : "Wasilisha"
+},
+"nplurals=2; plural=(n != 1);");

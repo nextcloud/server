@@ -1,0 +1,301 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+namespace Test\Security\VerificationToken;
+
+use OC\Security\VerificationToken\VerificationToken;
+use OC\User\LastInteractiveLogin;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IConfig;
+use OCP\IUser;
+use OCP\Security\ICrypto;
+use OCP\Security\ISecureRandom;
+use OCP\Security\VerificationToken\InvalidTokenException;
+use Test\TestCase;
+
+class VerificationTokenTest extends TestCase {
+	/** @var VerificationToken */
+	protected $token;
+
+	#[\Override]
+	protected function setUp(): void {
+		parent::setUp();
+
+		$this->token = $this->createInstanceWithMocks(VerificationToken::class);
+	}
+
+	protected function mockLastInteractiveLogin(int $timestamp): void {
+		$this->getAutoMock(LastInteractiveLogin::class)->expects($this->atLeastOnce())
+			->method('get')
+			->willReturn($timestamp);
+	}
+
+	public function testTokenUserUnknown(): void {
+		$this->expectException(InvalidTokenException::class);
+		$this->expectExceptionCode(InvalidTokenException::USER_UNKNOWN);
+		$this->token->check('encryptedToken', null, 'fingerprintToken', 'foobar');
+	}
+
+	public function testTokenUserUnknown2(): void {
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->atLeastOnce())
+			->method('isEnabled')
+			->willReturn(false);
+
+		$this->expectException(InvalidTokenException::class);
+		$this->expectExceptionCode(InvalidTokenException::USER_UNKNOWN);
+		$this->token->check('encryptedToken', $user, 'fingerprintToken', 'foobar');
+	}
+
+	public function testTokenNotFound(): void {
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->atLeastOnce())
+			->method('isEnabled')
+			->willReturn(true);
+		$user->expects($this->atLeastOnce())
+			->method('getUID')
+			->willReturn('alice');
+
+		// implicit: IConfig::getUserValue returns null by default
+
+		$this->expectException(InvalidTokenException::class);
+		$this->expectExceptionCode(InvalidTokenException::TOKEN_NOT_FOUND);
+		$this->token->check('encryptedToken', $user, 'fingerprintToken', 'foobar');
+	}
+
+	public function testTokenDecryptionError(): void {
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->atLeastOnce())
+			->method('isEnabled')
+			->willReturn(true);
+		$user->expects($this->atLeastOnce())
+			->method('getUID')
+			->willReturn('alice');
+
+		$this->getAutoMock(IConfig::class)->expects($this->atLeastOnce())
+			->method('getUserValue')
+			->with('alice', 'core', 'fingerprintToken', null)
+			->willReturn('encryptedToken');
+		$this->getAutoMock(IConfig::class)->expects($this->any())
+			->method('getSystemValueString')
+			->with('secret')
+			->willReturn('357111317');
+
+		$this->getAutoMock(ICrypto::class)->method('decrypt')
+			->with('encryptedToken', 'foobar' . '357111317')
+			->willThrowException(new \Exception('decryption failed'));
+
+		$this->expectException(InvalidTokenException::class);
+		$this->expectExceptionCode(InvalidTokenException::TOKEN_DECRYPTION_ERROR);
+		$this->token->check('encryptedToken', $user, 'fingerprintToken', 'foobar');
+	}
+
+	public function testTokenInvalidFormat(): void {
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->atLeastOnce())
+			->method('isEnabled')
+			->willReturn(true);
+		$user->expects($this->atLeastOnce())
+			->method('getUID')
+			->willReturn('alice');
+
+		$this->getAutoMock(IConfig::class)->expects($this->atLeastOnce())
+			->method('getUserValue')
+			->with('alice', 'core', 'fingerprintToken', null)
+			->willReturn('encryptedToken');
+		$this->getAutoMock(IConfig::class)->expects($this->any())
+			->method('getSystemValueString')
+			->with('secret')
+			->willReturn('357111317');
+
+		$this->getAutoMock(ICrypto::class)->method('decrypt')
+			->with('encryptedToken', 'foobar' . '357111317')
+			->willReturn('decrypted^nonsense');
+
+		$this->expectException(InvalidTokenException::class);
+		$this->expectExceptionCode(InvalidTokenException::TOKEN_INVALID_FORMAT);
+		$this->token->check('encryptedToken', $user, 'fingerprintToken', 'foobar');
+	}
+
+	public function testTokenExpired(): void {
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->atLeastOnce())
+			->method('isEnabled')
+			->willReturn(true);
+		$user->expects($this->atLeastOnce())
+			->method('getUID')
+			->willReturn('alice');
+
+		$this->getAutoMock(IConfig::class)->expects($this->atLeastOnce())
+			->method('getUserValue')
+			->with('alice', 'core', 'fingerprintToken', null)
+			->willReturn('encryptedToken');
+		$this->getAutoMock(IConfig::class)->expects($this->any())
+			->method('getSystemValueString')
+			->with('secret')
+			->willReturn('357111317');
+
+		$this->getAutoMock(ICrypto::class)->method('decrypt')
+			->with('encryptedToken', 'foobar' . '357111317')
+			->willReturn('604800:barfoo');
+
+		$this->getAutoMock(ITimeFactory::class)->expects($this->any())
+			->method('getTime')
+			->willReturn(604800 * 3);
+
+		$this->expectException(InvalidTokenException::class);
+		$this->expectExceptionCode(InvalidTokenException::TOKEN_EXPIRED);
+		$this->token->check('barfoo', $user, 'fingerprintToken', 'foobar');
+	}
+
+	public function testTokenExpiredByLogin(): void {
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->atLeastOnce())
+			->method('isEnabled')
+			->willReturn(true);
+		$user->expects($this->atLeastOnce())
+			->method('getUID')
+			->willReturn('alice');
+		$this->mockLastInteractiveLogin(604803);
+
+		$this->getAutoMock(IConfig::class)->expects($this->atLeastOnce())
+			->method('getUserValue')
+			->with('alice', 'core', 'fingerprintToken', null)
+			->willReturn('encryptedToken');
+		$this->getAutoMock(IConfig::class)->expects($this->any())
+			->method('getSystemValueString')
+			->with('secret')
+			->willReturn('357111317');
+
+		$this->getAutoMock(ICrypto::class)->method('decrypt')
+			->with('encryptedToken', 'foobar' . '357111317')
+			->willReturn('604800:barfoo');
+
+		$this->getAutoMock(ITimeFactory::class)->expects($this->any())
+			->method('getTime')
+			->willReturn(604801);
+
+		$this->expectException(InvalidTokenException::class);
+		$this->expectExceptionCode(InvalidTokenException::TOKEN_EXPIRED);
+		$this->token->check('barfoo', $user, 'fingerprintToken', 'foobar', true);
+	}
+
+	public function testTokenNotExpiredBySessionRevalidation(): void {
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->atLeastOnce())
+			->method('isEnabled')
+			->willReturn(true);
+		$user->expects($this->atLeastOnce())
+			->method('getUID')
+			->willReturn('alice');
+		$user->expects($this->never())
+			->method('getLastLogin');
+		// last actual authentication predates the token
+		$this->mockLastInteractiveLogin(604700);
+
+		$this->getAutoMock(IConfig::class)->expects($this->atLeastOnce())
+			->method('getUserValue')
+			->with('alice', 'core', 'fingerprintToken', null)
+			->willReturn('encryptedToken');
+		$this->getAutoMock(IConfig::class)->expects($this->any())
+			->method('getSystemValueString')
+			->with('secret')
+			->willReturn('357111317');
+
+		$this->getAutoMock(ICrypto::class)->method('decrypt')
+			->with('encryptedToken', 'foobar' . '357111317')
+			->willReturn('604800:barfoo');
+
+		$this->getAutoMock(ITimeFactory::class)->expects($this->any())
+			->method('getTime')
+			->willReturn(604801);
+
+		$this->token->check('barfoo', $user, 'fingerprintToken', 'foobar', true);
+	}
+
+	public function testTokenMismatch(): void {
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->atLeastOnce())
+			->method('isEnabled')
+			->willReturn(true);
+		$user->expects($this->atLeastOnce())
+			->method('getUID')
+			->willReturn('alice');
+
+		$this->getAutoMock(IConfig::class)->expects($this->atLeastOnce())
+			->method('getUserValue')
+			->with('alice', 'core', 'fingerprintToken', null)
+			->willReturn('encryptedToken');
+		$this->getAutoMock(IConfig::class)->expects($this->any())
+			->method('getSystemValueString')
+			->with('secret')
+			->willReturn('357111317');
+
+		$this->getAutoMock(ICrypto::class)->method('decrypt')
+			->with('encryptedToken', 'foobar' . '357111317')
+			->willReturn('604802:mY70K3n');
+
+		$this->getAutoMock(ITimeFactory::class)->expects($this->any())
+			->method('getTime')
+			->willReturn(604801);
+
+		$this->expectException(InvalidTokenException::class);
+		$this->expectExceptionCode(InvalidTokenException::TOKEN_MISMATCH);
+		$this->token->check('encryptedToken', $user, 'fingerprintToken', 'foobar');
+	}
+
+	public function testTokenSuccess(): void {
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->atLeastOnce())
+			->method('isEnabled')
+			->willReturn(true);
+		$user->expects($this->atLeastOnce())
+			->method('getUID')
+			->willReturn('alice');
+
+		$this->getAutoMock(IConfig::class)->expects($this->atLeastOnce())
+			->method('getUserValue')
+			->with('alice', 'core', 'fingerprintToken', null)
+			->willReturn('encryptedToken');
+		$this->getAutoMock(IConfig::class)->expects($this->any())
+			->method('getSystemValueString')
+			->with('secret')
+			->willReturn('357111317');
+
+		$this->getAutoMock(ICrypto::class)->method('decrypt')
+			->with('encryptedToken', 'foobar' . '357111317')
+			->willReturn('604802:barfoo');
+
+		$this->getAutoMock(ITimeFactory::class)->expects($this->any())
+			->method('getTime')
+			->willReturn(604801);
+
+		$this->token->check('barfoo', $user, 'fingerprintToken', 'foobar');
+	}
+
+	public function testCreate(): void {
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->any())
+			->method('getUID')
+			->willReturn('alice');
+
+		$this->getAutoMock(ISecureRandom::class)->expects($this->atLeastOnce())
+			->method('generate')
+			->willReturn('barfoo');
+		$this->getAutoMock(ICrypto::class)->expects($this->atLeastOnce())
+			->method('encrypt')
+			->willReturn('encryptedToken');
+		$this->getAutoMock(IConfig::class)->expects($this->atLeastOnce())
+			->method('setUserValue')
+			->with('alice', 'core', 'fingerprintToken', 'encryptedToken');
+
+		$vToken = $this->token->create($user, 'fingerprintToken', 'foobar');
+		$this->assertSame('barfoo', $vToken);
+	}
+}

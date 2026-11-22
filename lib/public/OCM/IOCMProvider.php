@@ -1,0 +1,275 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+namespace OCP\OCM;
+
+use JsonSerializable;
+use OCP\AppFramework\Attribute\Consumable;
+use OCP\OCM\Exceptions\OCMArgumentException;
+use OCP\OCM\Exceptions\OCMProviderException;
+
+/**
+ * Model based on the Open Cloud Mesh Discovery API
+ * @link https://github.com/cs3org/OCM-API/
+ * @since 28.0.0
+ */
+#[Consumable(since: '28.0.0')]
+interface IOCMProvider extends JsonSerializable {
+	/**
+	 * enable OCM
+	 *
+	 * @param bool $enabled
+	 *
+	 * @return $this
+	 * @since 28.0.0
+	 */
+	public function setEnabled(bool $enabled): static;
+
+	/**
+	 * is set as enabled ?
+	 *
+	 * @return bool
+	 * @since 28.0.0
+	 */
+	public function isEnabled(): bool;
+
+	/**
+	 * get set API Version
+	 *
+	 * @param string $apiVersion
+	 *
+	 * @return $this
+	 * @since 28.0.0
+	 */
+	public function setApiVersion(string $apiVersion): static;
+
+	/**
+	 * returns API version
+	 *
+	 * @return string
+	 * @since 28.0.0
+	 */
+	public function getApiVersion(): string;
+
+	/**
+	 * Remove the non-standard publicKey field from OCM discovery
+	 *
+	 * @since 35.0.0
+	 */
+	public function removePublicKey(): void;
+
+	/**
+	 * Remove the non-standard version field from OCM discovery
+	 *
+	 * @since 35.0.0
+	 */
+	public function removeVersion(): void;
+
+	/**
+	 * configure endpoint
+	 *
+	 * @param string $endPoint
+	 *
+	 * @return $this
+	 * @since 28.0.0
+	 */
+	public function setEndPoint(string $endPoint): static;
+
+	/**
+	 * get configured endpoint
+	 *
+	 * @return string
+	 * @since 28.0.0
+	 */
+	public function getEndPoint(): string;
+
+	/**
+	 * create a new resource to later add it with {@see addResourceType()}
+	 * @return IOCMResource
+	 * @since 28.0.0
+	 */
+	public function createNewResourceType(): IOCMResource;
+
+	/**
+	 * add a single resource to the object
+	 *
+	 * @param IOCMResource $resource
+	 *
+	 * @return $this
+	 * @since 28.0.0
+	 */
+	public function addResourceType(IOCMResource $resource): static;
+
+	/**
+	 * set resources
+	 *
+	 * @param IOCMResource[] $resourceTypes
+	 *
+	 * @return $this
+	 * @since 28.0.0
+	 */
+	public function setResourceTypes(array $resourceTypes): static;
+
+	/**
+	 * get all set resources
+	 *
+	 * @return IOCMResource[]
+	 * @since 28.0.0
+	 */
+	public function getResourceTypes(): array;
+
+	/**
+	 * get the capabilities advertised by this provider
+	 *
+	 * @since 33.0.0
+	 */
+	public function getCapabilities(): OCMCapabilities;
+
+	/**
+	 * return if provider supports $capability
+	 *
+	 * @since 33.0.0
+	 */
+	public function hasCapability(string $capability): bool;
+
+	/**
+	 * get the provider name
+	 *
+	 * @return string
+	 * @since 33.0.0
+	 */
+	public function getProvider(): string;
+
+	/**
+	 * returns the invite accept dialog
+	 *
+	 * @return string
+	 * @since 33.0.0
+	 */
+	public function getInviteAcceptDialog(): string;
+
+	/**
+	 * set the capabilities
+	 *
+	 * @param array $capabilities
+	 *
+	 * @return $this
+	 * @since 33.0.0
+	 */
+	public function setCapabilities(array $capabilities): static;
+
+	/**
+	 * set the invite accept dialog
+	 *
+	 * @param string $inviteAcceptDialog
+	 *
+	 * @return $this
+	 * @since 33.0.0
+	 */
+	public function setInviteAcceptDialog(string $inviteAcceptDialog): static;
+
+	/**
+	 * get the URL of the JWK Set document (RFC 7517) containing the public
+	 * keys this OCM provider uses for HTTP Message Signatures (RFC 9421)
+	 *
+	 * @return string empty string if not advertised
+	 * @since 35.0.0
+	 */
+	public function getJwksUri(): string;
+
+	/**
+	 * set the URL of the JWK Set document (RFC 7517) containing the public
+	 * keys this OCM provider uses for HTTP Message Signatures (RFC 9421).
+	 * MUST use https when the `http-sig` capability is advertised.
+	 *
+	 * @param string $jwksUri
+	 *
+	 * @return $this
+	 * @since 35.0.0
+	 */
+	public function setJwksUri(string $jwksUri): static;
+
+	/**
+	 * get the token endpoint URL
+	 *
+	 * @return string
+	 * @since 33.0.0
+	 */
+	public function getTokenEndPoint(): string;
+
+	/**
+	 * set the token endpoint URL
+	 *
+	 * @param string $endPoint
+	 *
+	 * @return $this
+	 * @since 33.0.0
+	 */
+	public function setTokenEndPoint(string $endPoint): static;
+	/**
+	 * extract a specific string value from the listing of protocols, based on resource-name and protocol-name
+	 *
+	 * @param string $resourceName
+	 * @param string $protocol
+	 *
+	 * @return string
+	 * @throws OCMArgumentException
+	 * @since 28.0.0
+	 */
+	public function extractProtocolEntry(string $resourceName, string $protocol): string;
+
+	//	/**
+	//	 * store signatory (public/private key pair) to sign outgoing/incoming request
+	//	 *
+	//	 * @param Signatory $signatory
+	//	 * @experimental 31.0.0
+	//	 */
+	//	public function setSignatory(Signatory $signatory): void;
+
+	//	/**
+	//	 * signatory (public/private key pair) used to sign outgoing/incoming request
+	//	 *
+	//	 * @return Signatory|null returns null if no Signatory available
+	//	 * @experimental 31.0.0
+	//	 */
+	//	public function getSignatory(): ?Signatory;
+
+	/**
+	 * import data from an array
+	 *
+	 * @param array<string, int|string|bool|array> $data
+	 *
+	 * @return $this
+	 * @throws OCMProviderException in case a descent provider cannot be generated from data
+	 * @since 28.0.0
+	 */
+	public function import(array $data): static;
+
+	/**
+	 * @return array{
+	 *     enabled: bool,
+	 *     apiVersion: string,
+	 *     endPoint: string,
+	 *     publicKey?: array{
+	 *         keyId: string,
+	 *         publicKeyPem: string
+	 *	   },
+	 *     resourceTypes: list<array{
+	 *         name: string,
+	 *         shareTypes: list<string>,
+	 *         protocols: array<string, string>
+	 *     }>,
+	 *     version?: string,
+	 *     jwksUri?: string
+	 * }
+	 * @since 28.0.0
+	 */
+	#[\Override]
+	public function jsonSerialize(): array;
+}

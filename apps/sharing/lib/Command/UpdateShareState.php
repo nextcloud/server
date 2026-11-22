@@ -1,0 +1,42 @@
+<?php
+
+/**
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+declare(strict_types=1);
+
+namespace OCA\Sharing\Command;
+
+use NCU\Sharing\Share;
+use NCU\Sharing\ShareState;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
+final class UpdateShareState extends SharingBase {
+	#[\Override]
+	public function configure(): void {
+		$this
+			->setName('sharing:update-share-state')
+			->setDescription('Update the state of a share.')
+			->addArgument('id', InputArgument::REQUIRED, 'Share ID')
+			->addArgument('state', InputArgument::REQUIRED, 'State');
+		parent::configure();
+	}
+
+	#[\Override]
+	public function execute(InputInterface $input, OutputInterface $output): int {
+		/** @var string $id */
+		$id = $input->getArgument('id');
+		/** @var string $state */
+		$state = $input->getArgument('state');
+		$state = ShareState::from($state);
+
+		return $this->wrapExecution($input, $output, function () use ($id, $state): Share {
+			$share = $this->manager->getShare($this->accessContext, $id);
+			return $this->manager->updateShareState($this->accessContext, $share, $state);
+		});
+	}
+}

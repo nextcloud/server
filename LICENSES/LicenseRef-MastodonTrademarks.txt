@@ -1,0 +1,46 @@
+Trademark Policy
+
+Last updated December 21, 2022
+
+The Mastodon name and logos are trademarks of Mastodon gGmbH. As such, their use is restricted and protected by intellectual property law. While the software we create is available under a free and open source software license, the copyright license does not include an implied right or license to use our trademarks.
+
+The role of trademarks is to prevent the exploitation of the good name and reputation of Mastodon by other people and organizations, and to provide assurance about the quality of the products and services associated with it.
+
+To use our trademarks beyond what is considered "fair" or "nominative" use, you must follow these guidelines. By making use of our trademarks, you agree to abide by the following terms and conditions. You further agree that any dispute arising in connection with your use of our trademarks or under these terms and conditions shall be under the exclusive jurisdiction of the state and federal courts of New York in the United States of America and that the state and federal courts of New York shall have personal jurisdiction over you for the purposes of adjudicating any dispute concerning the use of our trademarks or these terms and conditions.
+
+You agree to defend and indemnify Mastodon gGmbH from and against any and all claims and losses brought by a third party in connection with your use of the Mastodon trademarks.
+
+To request the use of the Mastodon name and logos in a way not covered in these guidelines, or to report violations, please contact us at trademark@joinmastodon.org. In the event that we do not approve such use of the Mastodon name and logos within ten (10) business days, your request shall be deemed denied.
+General guidelines
+
+In general:
+
+* Only use the Mastodon marks to accurately identify those goods or services that are built using the Mastodon software.
+* Do not use the Mastodon marks in any way that could mistakenly imply that Mastodon GmbH has reviewed, approved, or guaranteed your goods or services.
+* Do not use or register, in whole or in part, the Mastodon marks as part of your own or any other trademark, service mark, domain name, company name, trade name, product name, or service name.
+* Do not use the Mastodon marks in a manner that disparages or defames the marks, Mastodon gGmbH, or Mastodon’s products.
+* Do not use the Mastodon marks in connection with any illegal activity.
+* You may use the Mastodon word mark in referential phrases such as "for", "for use with", or "compatible with".
+* You may use the Mastodon marks when embedding or otherwise displaying user generated content published using the Mastodon software.
+* Do not change or modify the Mastodon marks.
+* Any all use of the Mastodon marks, and any goodwill accrued as a result of that use, belongs entirely to, and shall inure for the benefit of, Mastodon gGmbH.
+
+Server guidelines
+
+If you run your own Mastodon server using the Mastodon software, including modified Mastodon software on the condition that the modifications are limited to switching on or off features already included in the software, minor tweaks in visual appearance, translations into other languages, and bug fixes:
+
+* You may not use the Mastodon word mark, or any similar mark, in your domain name, unless you have written permission from Mastodon gGmbH.
+* As long as you abide by the terms and conditions of this agreement, you may use the Mastodon marks included in the Mastodon server software for the purposes of running the server.
+
+Open source project guidelines
+
+If you choose to build on or modify Mastodon's open-source code, beyond modifications limited to switching on or off features already included in the software, minor tweaks in visual appearance, translations into other languages, and bug fixes:
+
+* You must choose your own branding, logos, and trademarks that denote your unique identity so as to clearly signal to users that there is no affiliation with or endorsement by Mastodon gGmbH.
+* You may use word marks, but not our logos, in truthful statements that describe the relationship between your software and ours, for example "this software is derived from the source code of the Mastodon software".
+
+Social media guidelines
+
+The name and handle of your social media account and any and all pages cannot begin with a Mastodon word mark, or a similar mark (e.g. "mastodoon", "mast0don", "mstdn"). In addition, Mastodon logos cannot be used in a way that might suggest affiliation with or endorsement by Mastodon.
+
+A copy can be found at https://joinmastodon.org/de/trademark

@@ -1,0 +1,32 @@
+<!--
+  - SPDX-FileCopyrightText: 2006-2015 Apple Inc. All rights reserved.
+  - SPDX-License-Identifier: Apache-2.0
+-->
+
+<!ELEMENT serverinfo (host, path, nonsslport, sslport, unix?,
+						host2?, nonsslport2?, sslport2?, unix2?,
+						authtype?, waitcount?, waitdelay?, waitsuccess?,
+						features?, substitutions)? >
+
+	<!ELEMENT host			(#PCDATA)>
+	<!ELEMENT path			(#PCDATA)>
+	<!ELEMENT nonsslport	(#PCDATA)>
+	<!ELEMENT sslport		(#PCDATA)>
+	<!ELEMENT unix			(#PCDATA)>
+	<!ELEMENT host2			(#PCDATA)>
+	<!ELEMENT nonsslport2	(#PCDATA)>
+	<!ELEMENT sslport2		(#PCDATA)>
+	<!ELEMENT unix2			(#PCDATA)>
+	<!ELEMENT authtype		(#PCDATA)>
+	<!ELEMENT waitdelay     (#PCDATA)>
+	<!ELEMENT waitcount     (#PCDATA)>
+	<!ELEMENT waitsuccess   (#PCDATA)>
+	<!ELEMENT features      (feature*)>
+		<!ELEMENT feature   (#PCDATA)>
+	<!ELEMENT substitutions	(substitution|repeat)*>
+		<!ELEMENT repeat	(substitution+)>
+    		<!ATTLIST repeat count CDATA "1">
+		<!ELEMENT substitution	(key, value)>
+			<!ELEMENT key			(#PCDATA)>
+			<!ELEMENT value			(#PCDATA)>
+	

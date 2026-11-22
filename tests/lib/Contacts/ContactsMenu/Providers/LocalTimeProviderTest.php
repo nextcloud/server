@@ -1,0 +1,146 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+namespace lib\Contacts\ContactsMenu\Providers;
+
+use OC\Contacts\ContactsMenu\Providers\LocalTimeProvider;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Contacts\ContactsMenu\IActionFactory;
+use OCP\Contacts\ContactsMenu\IEntry;
+use OCP\Contacts\ContactsMenu\ILinkAction;
+use OCP\IConfig;
+use OCP\IDateTimeFormatter;
+use OCP\IURLGenerator;
+use OCP\IUser;
+use OCP\IUserManager;
+use OCP\IUserSession;
+use Test\TestCase;
+
+class LocalTimeProviderTest extends TestCase {
+	private LocalTimeProvider $provider;
+
+	#[\Override]
+	protected function setUp(): void {
+		parent::setUp();
+
+		$this->provider = $this->createInstanceWithMocks(LocalTimeProvider::class);
+	}
+
+	public static function dataTestProcess(): array {
+		return [
+			'no current user' => [
+				false,
+				null,
+				null,
+				'Local time: 10:24',
+			],
+			'both UTC' => [
+				true,
+				null,
+				null,
+				'10:24 • same time',
+			],
+			'both same time zone' => [
+				true,
+				'Europe/Berlin',
+				'Europe/Berlin',
+				'11:24 • same time',
+			],
+			'1h behind' => [
+				true,
+				'Europe/Berlin',
+				'Europe/London',
+				'10:24 • 1h behind',
+			],
+			'4:45h ahead' => [
+				true,
+				'Europe/Berlin',
+				'Asia/Kathmandu',
+				'16:09 • 4h45m ahead',
+			],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestProcess')]
+	public function testProcess(bool $hasCurrentUser, ?string $currentUserTZ, ?string $targetUserTZ, string $expected): void {
+		$entry = $this->createMock(IEntry::class);
+		$entry->expects($this->once())
+			->method('getProperty')
+			->with('UID')
+			->willReturn('user1');
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('user1');
+		$this->getAutoMock(IUserManager::class)->expects($this->once())
+			->method('get')
+			->with('user1')
+			->willReturn($user);
+
+		$this->getAutoMock(IConfig::class)->method('getSystemValueString')
+			->with('default_timezone', 'UTC')
+			->willReturn('UTC');
+		$this->getAutoMock(IConfig::class)
+			->method('getUserValue')
+			->willReturnMap([
+				['user1', 'core', 'timezone', '', $targetUserTZ],
+				['currentUser', 'core', 'timezone', '', $currentUserTZ],
+			]);
+
+		if ($hasCurrentUser) {
+			$currentUser = $this->createMock(IUser::class);
+			$currentUser->method('getUID')
+				->willReturn('currentUser');
+			$this->getAutoMock(IUserSession::class)->method('getUser')
+				->willReturn($currentUser);
+		}
+
+		$this->getAutoMock(ITimeFactory::class)->method('getDateTime')
+			->willReturnCallback(fn ($time, $tz) => (new \DateTime('2023-01-04 10:24:43', new \DateTimeZone('UTC')))->setTimezone($tz));
+
+		$this->getAutoMock(IDateTimeFormatter::class)->method('formatTime')
+			->willReturnCallback(fn (\DateTime $time) => $time->format('H:i'));
+
+		$this->getAutoMock(IURLGenerator::class)->method('imagePath')
+			->willReturn('actions/recent.svg');
+		$this->getAutoMock(IURLGenerator::class)->method('getAbsoluteURL')
+			->with('actions/recent.svg')
+			->willReturn('https://localhost/actions/recent.svg');
+
+		$action = $this->createMock(ILinkAction::class);
+		$this->getAutoMock(IActionFactory::class)->expects($this->once())
+			->method('newLinkAction')
+			->with(
+				'https://localhost/actions/recent.svg',
+				$expected,
+				'#',
+				'timezone'
+			)
+			->willReturn($action);
+
+		$entry->expects($this->once())
+			->method('addAction')
+			->with($action);
+
+		$this->provider->process($entry);
+	}
+
+	public function testProcessNoUser(): void {
+		$entry = $this->createMock(IEntry::class);
+		$entry->expects($this->once())
+			->method('getProperty')
+			->with('UID')
+			->willReturn('user1');
+
+		$entry->expects($this->never())
+			->method('addAction');
+
+		$this->provider->process($entry);
+	}
+}

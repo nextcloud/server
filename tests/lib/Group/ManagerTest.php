@@ -1,0 +1,877 @@
+<?php
+
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+namespace Test\Group;
+
+use OC\Group\Database;
+use OC\User\Manager;
+use OC\User\User;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Group\Backend\ABackend;
+use OCP\Group\Backend\IAddToGroupBackend;
+use OCP\Group\Backend\ICreateGroupBackend;
+use OCP\Group\Backend\IGroupDetailsBackend;
+use OCP\Group\Backend\IRemoveFromGroupBackend;
+use OCP\Group\Backend\ISearchableGroupBackend;
+use OCP\GroupInterface;
+use OCP\IUser;
+use OCP\Security\Ip\IRemoteAddress;
+use PHPUnit\Framework\MockObject\MockObject;
+use Test\TestCase;
+
+abstract class TestBackend extends ABackend implements ISearchableGroupBackend, IAddToGroupBackend, ICreateGroupBackend, IGroupDetailsBackend, IRemoveFromGroupBackend, GroupInterface {
+
+}
+
+class ManagerTest extends TestCase {
+	#[\Override]
+	protected function setUp(): void {
+		parent::setUp();
+
+		$this->getAutoMock(IRemoteAddress::class)->method('allowsAdminActions')->willReturn(true);
+	}
+
+	private function getTestUser($userId) {
+		$mockUser = $this->createMock(IUser::class);
+		$mockUser->expects($this->any())
+			->method('getUID')
+			->willReturn($userId);
+		$mockUser->expects($this->any())
+			->method('getDisplayName')
+			->willReturn($userId);
+		return $mockUser;
+	}
+
+	private function getTestBackend(?int $implementedActions = null): MockObject&TestBackend {
+		if ($implementedActions === null) {
+			$implementedActions
+				= GroupInterface::ADD_TO_GROUP
+				| GroupInterface::REMOVE_FROM_GOUP
+				| GroupInterface::COUNT_USERS
+				| GroupInterface::CREATE_GROUP
+				| GroupInterface::DELETE_GROUP;
+		}
+		// need to declare it this way due to optional methods
+		// thanks to the implementsActions logic
+		$backend = $this->getMockBuilder(TestBackend::class)
+			->disableOriginalConstructor()
+			->onlyMethods([
+				'getGroupDetails',
+				'implementsActions',
+				'getUserGroups',
+				'inGroup',
+				'getGroups',
+				'groupExists',
+				'groupsExists',
+				'usersInGroup',
+				'createGroup',
+				'addToGroup',
+				'removeFromGroup',
+				'searchInGroup',
+			])
+			->getMock();
+		$backend->expects($this->any())
+			->method('implementsActions')
+			->willReturnCallback(function ($actions) use ($implementedActions) {
+				return (bool)($actions & $implementedActions);
+			});
+		return $backend;
+	}
+
+	public function testGet(): void {
+		$backend = $this->getTestBackend();
+		$backend->expects($this->any())
+			->method('groupExists')
+			->with('group1')
+			->willReturn(true);
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+		$manager->addBackend($backend);
+
+		$group = $manager->get('group1');
+		$this->assertNotNull($group);
+		$this->assertEquals('group1', $group->getGID());
+	}
+
+	public function testGetNoBackend(): void {
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+
+		$this->assertNull($manager->get('group1'));
+	}
+
+	public function testGetNotExists(): void {
+		$backend = $this->getTestBackend();
+		$backend->expects($this->once())
+			->method('groupExists')
+			->with('group1')
+			->willReturn(false);
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+		$manager->addBackend($backend);
+
+		$this->assertNull($manager->get('group1'));
+	}
+
+	public function testGetDeleted(): void {
+		$backend = new \Test\Util\Group\Dummy();
+		$backend->createGroup('group1');
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+		$manager->addBackend($backend);
+
+		$group = $manager->get('group1');
+		$group->delete();
+		$this->assertNull($manager->get('group1'));
+	}
+
+	public function testGetMultipleBackends(): void {
+		$backend1 = $this->getTestBackend();
+		$backend1->expects($this->any())
+			->method('groupExists')
+			->with('group1')
+			->willReturn(false);
+
+		$backend2 = $this->getTestBackend();
+		$backend2->expects($this->any())
+			->method('groupExists')
+			->with('group1')
+			->willReturn(true);
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+		$manager->addBackend($backend1);
+		$manager->addBackend($backend2);
+
+		$group = $manager->get('group1');
+		$this->assertNotNull($group);
+		$this->assertEquals('group1', $group->getGID());
+	}
+
+	public function testCreate(): void {
+		$backendGroupCreated = false;
+		$backend = $this->getTestBackend();
+		$backend->expects($this->any())
+			->method('groupExists')
+			->with('group1')
+			->willReturnCallback(function () use (&$backendGroupCreated) {
+				return $backendGroupCreated;
+			});
+		$backend->expects($this->once())
+			->method('createGroup')
+			->willReturnCallback(function () use (&$backendGroupCreated) {
+				$backendGroupCreated = true;
+				return true;
+			});
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+		$manager->addBackend($backend);
+
+		$group = $manager->createGroup('group1');
+		$this->assertEquals('group1', $group->getGID());
+	}
+
+	public function testCreateFailure(): void {
+		$backendGroupCreated = false;
+		$backend = $this->getTestBackend(
+			GroupInterface::ADD_TO_GROUP
+			| GroupInterface::REMOVE_FROM_GOUP
+			| GroupInterface::COUNT_USERS
+			| GroupInterface::CREATE_GROUP
+			| GroupInterface::DELETE_GROUP
+			| GroupInterface::GROUP_DETAILS
+		);
+		$backend->expects($this->any())
+			->method('groupExists')
+			->with('group1')
+			->willReturn(false);
+		$backend->expects($this->once())
+			->method('createGroup')
+			->willReturn(false);
+		$backend->expects($this->once())
+			->method('getGroupDetails')
+			->willReturn([]);
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+		$manager->addBackend($backend);
+
+		$group = $manager->createGroup('group1');
+		$this->assertEquals(null, $group);
+	}
+
+	public function testCreateTooLong(): void {
+		$backendGroupCreated = false;
+		$backend = $this->getTestBackend(
+			GroupInterface::ADD_TO_GROUP
+			| GroupInterface::REMOVE_FROM_GOUP
+			| GroupInterface::COUNT_USERS
+			| GroupInterface::CREATE_GROUP
+			| GroupInterface::DELETE_GROUP
+			| GroupInterface::GROUP_DETAILS
+		);
+		$groupName = str_repeat('x', 256);
+		$backend->expects($this->any())
+			->method('groupExists')
+			->with($groupName)
+			->willReturn(false);
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+		$manager->addBackend($backend);
+
+		$this->expectException(\Exception::class);
+		$group = $manager->createGroup($groupName);
+	}
+
+	public function testCreateExists(): void {
+		$backend = $this->getTestBackend();
+		$backend->expects($this->any())
+			->method('groupExists')
+			->with('group1')
+			->willReturn(true);
+		$backend->expects($this->never())
+			->method('createGroup');
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+		$manager->addBackend($backend);
+
+		$group = $manager->createGroup('group1');
+		$this->assertEquals('group1', $group->getGID());
+	}
+
+	public function testSearch(): void {
+		$backend = $this->getTestBackend();
+		$backend->expects($this->once())
+			->method('getGroups')
+			->with('1')
+			->willReturn(['group1']);
+		$backend->expects($this->once())
+			->method('getGroupDetails')
+			->willReturnMap([
+				['group1', ['displayName' => 'group1']],
+			]);
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+		$manager->addBackend($backend);
+
+		$groups = $manager->search('1');
+		$this->assertCount(1, $groups);
+		$group1 = reset($groups);
+		$this->assertEquals('group1', $group1->getGID());
+	}
+
+	public function testSearchMultipleBackends(): void {
+		$backend1 = $this->getTestBackend();
+		$backend1->expects($this->once())
+			->method('getGroups')
+			->with('1')
+			->willReturn(['group1']);
+		$backend1->expects($this->any())
+			->method('getGroupDetails')
+			->willReturnMap([
+				['group1', ['displayName' => 'group1']],
+				['group12', []],
+			]);
+
+		$backend2 = $this->getTestBackend();
+		$backend2->expects($this->once())
+			->method('getGroups')
+			->with('1')
+			->willReturn(['group12', 'group1']);
+		$backend2->expects($this->any())
+			->method('getGroupDetails')
+			->willReturnMap([
+				['group12', ['displayName' => 'group12']],
+				['group1', ['displayName' => 'group1']],
+			]);
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+		$manager->addBackend($backend1);
+		$manager->addBackend($backend2);
+
+		$groups = $manager->search('1');
+		$this->assertCount(2, $groups);
+		$group1 = reset($groups);
+		$group12 = next($groups);
+		$this->assertEquals('group1', $group1->getGID());
+		$this->assertEquals('group12', $group12->getGID());
+	}
+
+	public function testSearchMultipleBackendsLimitAndOffset(): void {
+		$backend1 = $this->getTestBackend();
+		$backend1->expects($this->once())
+			->method('getGroups')
+			->with('1', 2, 1)
+			->willReturn(['group1']);
+		$backend1->expects($this->any())
+			->method('getGroupDetails')
+			->willReturnMap([
+				[1, []],
+				[2, []],
+				['group1', ['displayName' => 'group1']],
+				['group12', []],
+			]);
+
+		$backend2 = $this->getTestBackend();
+		$backend2->expects($this->once())
+			->method('getGroups')
+			->with('1', 2, 1)
+			->willReturn(['group12']);
+		$backend2->expects($this->any())
+			->method('getGroupDetails')
+			->willReturnMap([
+				[1, []],
+				[2, []],
+				['group1', []],
+				['group12', ['displayName' => 'group12']],
+			]);
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+		$manager->addBackend($backend1);
+		$manager->addBackend($backend2);
+
+		$groups = $manager->search('1', 2, 1);
+		$this->assertCount(2, $groups);
+		$group1 = reset($groups);
+		$group12 = next($groups);
+		$this->assertEquals('group1', $group1->getGID());
+		$this->assertEquals('group12', $group12->getGID());
+	}
+
+	public function testSearchResultExistsButGroupDoesNot(): void {
+		$backend = $this->createMock(Database::class);
+		$backend->expects($this->once())
+			->method('getGroups')
+			->with('1')
+			->willReturn(['group1']);
+		$backend->expects($this->never())
+			->method('groupExists');
+		$backend->expects($this->once())
+			->method('getGroupsDetails')
+			->with(['group1'])
+			->willReturn([]);
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+		$manager->addBackend($backend);
+
+		$groups = $manager->search('1');
+		$this->assertEmpty($groups);
+	}
+
+	public function testGetUserGroups(): void {
+		$backend = $this->getTestBackend();
+		$backend->expects($this->once())
+			->method('getUserGroups')
+			->with('user1')
+			->willReturn(['group1']);
+		$backend->expects($this->any())
+			->method('getGroupDetails')
+			->with('group1')
+			->willReturn(['displayName' => 'group1']);
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+		$manager->addBackend($backend);
+
+		$groups = $manager->getUserGroups($this->getTestUser('user1'));
+		$this->assertCount(1, $groups);
+		$group1 = reset($groups);
+		$this->assertEquals('group1', $group1->getGID());
+	}
+
+	public function testGetUserGroupIds(): void {
+		$backend = $this->getTestBackend();
+		$backend->method('getUserGroups')
+			->with('myUID')
+			->willReturn(['123', 'abc']);
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+		$manager->addBackend($backend);
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('myUID');
+
+		$groups = $manager->getUserGroupIds($user);
+		$this->assertCount(2, $groups);
+
+		foreach ($groups as $group) {
+			$this->assertIsString($group);
+		}
+	}
+
+	public function testGetUserGroupsWithDeletedGroup(): void {
+		$backend = $this->createMock(Database::class);
+		$backend->expects($this->once())
+			->method('getUserGroups')
+			->with('user1')
+			->willReturn(['group1']);
+		$backend->expects($this->any())
+			->method('getGroupsDetails')
+			->with(['group1'])
+			->willReturn(['group1' => []]);
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+		$manager->addBackend($backend);
+
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->atLeastOnce())
+			->method('getUID')
+			->willReturn('user1');
+
+		$groups = $manager->getUserGroups($user);
+		$this->assertEmpty($groups);
+	}
+
+	public function testInGroup(): void {
+		$backend = $this->getTestBackend();
+		$backend->expects($this->once())
+			->method('getUserGroups')
+			->with('user1')
+			->willReturn(['group1', 'admin', 'group2']);
+		$backend->expects($this->any())
+			->method('groupExists')
+			->willReturn(true);
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+		$manager->addBackend($backend);
+
+		$this->assertTrue($manager->isInGroup('user1', 'group1'));
+	}
+
+	public function testIsAdmin(): void {
+		$backend = $this->getTestBackend();
+		$backend->expects($this->once())
+			->method('getUserGroups')
+			->with('user1')
+			->willReturn(['group1', 'admin', 'group2']);
+		$backend->expects($this->any())
+			->method('groupExists')
+			->willReturn(true);
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+		$manager->addBackend($backend);
+
+		$this->assertTrue($manager->isAdmin('user1'));
+	}
+
+	public function testNotAdmin(): void {
+		$backend = $this->getTestBackend();
+		$backend->expects($this->once())
+			->method('getUserGroups')
+			->with('user1')
+			->willReturn(['group1', 'group2']);
+		$backend->expects($this->any())
+			->method('groupExists')
+			->willReturn(true);
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+		$manager->addBackend($backend);
+
+		$this->assertFalse($manager->isAdmin('user1'));
+	}
+
+	public function testGetUserGroupsMultipleBackends(): void {
+		$backend1 = $this->getTestBackend();
+		$backend1->expects($this->once())
+			->method('getUserGroups')
+			->with('user1')
+			->willReturn(['group1']);
+		$backend1->expects($this->any())
+			->method('getGroupDetails')
+			->willReturnCallback(fn ($gid) => $gid === 'group1' ? ['displayName' => 'group1'] : []);
+
+		$backend2 = $this->getTestBackend();
+		$backend2->expects($this->once())
+			->method('getUserGroups')
+			->with('user1')
+			->willReturn(['group1', 'group2']);
+		$backend2->expects($this->any())
+			->method('getGroupDetails')
+			->willReturnCallback(fn ($gid) => ['displayName' => $gid]);
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+		$manager->addBackend($backend1);
+		$manager->addBackend($backend2);
+
+		$groups = $manager->getUserGroups($this->getTestUser('user1'));
+		$this->assertCount(2, $groups);
+		$group1 = reset($groups);
+		$group2 = next($groups);
+		$this->assertEquals('group1', $group1->getGID());
+		$this->assertEquals('group2', $group2->getGID());
+	}
+
+	public function testDisplayNamesInGroupWithOneUserBackend(): void {
+		$backend = $this->getTestBackend();
+		$backend->expects($this->exactly(1))
+			->method('groupExists')
+			->with('testgroup')
+			->willReturn(true);
+
+		$backend->expects($this->any())
+			->method('inGroup')
+			->willReturnCallback(function ($uid, $gid) {
+				switch ($uid) {
+					case 'user1': return false;
+					case 'user2': return true;
+					case 'user3': return false;
+					case 'user33': return true;
+					default:
+						return null;
+				}
+			});
+
+		$this->getAutoMock(Manager::class)->expects($this->any())
+			->method('searchDisplayName')
+			->with('user3')
+			->willReturnCallback(function ($search, $limit, $offset) {
+				switch ($offset) {
+					case 0: return ['user3' => $this->getTestUser('user3'),
+						'user33' => $this->getTestUser('user33')];
+					case 2: return [];
+				}
+				return null;
+			});
+		$this->getAutoMock(Manager::class)->expects($this->any())
+			->method('get')
+			->willReturnCallback(function ($uid) {
+				switch ($uid) {
+					case 'user1': return $this->getTestUser('user1');
+					case 'user2': return $this->getTestUser('user2');
+					case 'user3': return $this->getTestUser('user3');
+					case 'user33': return $this->getTestUser('user33');
+					default:
+						return null;
+				}
+			});
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+		$manager->addBackend($backend);
+
+		$users = $manager->displayNamesInGroup('testgroup', 'user3');
+		$this->assertCount(1, $users);
+		$this->assertFalse(isset($users['user1']));
+		$this->assertFalse(isset($users['user2']));
+		$this->assertFalse(isset($users['user3']));
+		$this->assertTrue(isset($users['user33']));
+	}
+
+	public function testDisplayNamesInGroupWithOneUserBackendWithLimitSpecified(): void {
+		$backend = $this->getTestBackend();
+		$backend->expects($this->exactly(1))
+			->method('groupExists')
+			->with('testgroup')
+			->willReturn(true);
+
+		$backend->expects($this->any())
+			->method('inGroup')
+			->willReturnCallback(function ($uid, $gid) {
+				switch ($uid) {
+					case 'user1': return false;
+					case 'user2': return true;
+					case 'user3': return false;
+					case 'user33': return true;
+					case 'user333': return true;
+					default:
+						return null;
+				}
+			});
+
+		$this->getAutoMock(Manager::class)->expects($this->any())
+			->method('searchDisplayName')
+			->with('user3')
+			->willReturnCallback(function ($search, $limit, $offset) {
+				switch ($offset) {
+					case 0: return ['user3' => $this->getTestUser('user3'),
+						'user33' => $this->getTestUser('user33')];
+					case 2: return ['user333' => $this->getTestUser('user333')];
+				}
+				return null;
+			});
+		$this->getAutoMock(Manager::class)->expects($this->any())
+			->method('get')
+			->willReturnCallback(function ($uid) {
+				switch ($uid) {
+					case 'user1': return $this->getTestUser('user1');
+					case 'user2': return $this->getTestUser('user2');
+					case 'user3': return $this->getTestUser('user3');
+					case 'user33': return $this->getTestUser('user33');
+					case 'user333': return $this->getTestUser('user333');
+					default:
+						return null;
+				}
+			});
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+		$manager->addBackend($backend);
+
+		$users = $manager->displayNamesInGroup('testgroup', 'user3', 1);
+		$this->assertCount(1, $users);
+		$this->assertFalse(isset($users['user1']));
+		$this->assertFalse(isset($users['user2']));
+		$this->assertFalse(isset($users['user3']));
+		$this->assertTrue(isset($users['user33']));
+		$this->assertFalse(isset($users['user333']));
+	}
+
+	public function testDisplayNamesInGroupWithOneUserBackendWithLimitAndOffsetSpecified(): void {
+		$backend = $this->getTestBackend();
+		$backend->expects($this->exactly(1))
+			->method('groupExists')
+			->with('testgroup')
+			->willReturn(true);
+
+		$backend->expects($this->any())
+			->method('inGroup')
+			->willReturnCallback(function ($uid) {
+				switch ($uid) {
+					case 'user1': return false;
+					case 'user2': return true;
+					case 'user3': return false;
+					case 'user33': return true;
+					case 'user333': return true;
+					default:
+						return null;
+				}
+			});
+
+		$this->getAutoMock(Manager::class)->expects($this->any())
+			->method('searchDisplayName')
+			->with('user3')
+			->willReturnCallback(function ($search, $limit, $offset) {
+				switch ($offset) {
+					case 0:
+						return [
+							'user3' => $this->getTestUser('user3'),
+							'user33' => $this->getTestUser('user33'),
+							'user333' => $this->getTestUser('user333')
+						];
+				}
+				return null;
+			});
+		$this->getAutoMock(Manager::class)->expects($this->any())
+			->method('get')
+			->willReturnCallback(function ($uid) {
+				switch ($uid) {
+					case 'user1': return $this->getTestUser('user1');
+					case 'user2': return $this->getTestUser('user2');
+					case 'user3': return $this->getTestUser('user3');
+					case 'user33': return $this->getTestUser('user33');
+					case 'user333': return $this->getTestUser('user333');
+					default:
+						return null;
+				}
+			});
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+		$manager->addBackend($backend);
+
+		$users = $manager->displayNamesInGroup('testgroup', 'user3', 1, 1);
+		$this->assertCount(1, $users);
+		$this->assertFalse(isset($users['user1']));
+		$this->assertFalse(isset($users['user2']));
+		$this->assertFalse(isset($users['user3']));
+		$this->assertFalse(isset($users['user33']));
+		$this->assertTrue(isset($users['user333']));
+	}
+
+	public function testDisplayNamesInGroupWithOneUserBackendAndSearchEmpty(): void {
+		$backend = $this->getTestBackend();
+		$backend->expects($this->exactly(1))
+			->method('groupExists')
+			->with('testgroup')
+			->willReturn(true);
+
+		$backend->expects($this->once())
+			->method('searchInGroup')
+			->with('testgroup', '', -1, 0)
+			->willReturn(['user2' => $this->getTestUser('user2'), 'user33' => $this->getTestUser('user33')]);
+
+		$this->getAutoMock(Manager::class)->expects($this->never())->method('get');
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+		$manager->addBackend($backend);
+
+		$users = $manager->displayNamesInGroup('testgroup', '');
+		$this->assertCount(2, $users);
+		$this->assertFalse(isset($users['user1']));
+		$this->assertTrue(isset($users['user2']));
+		$this->assertFalse(isset($users['user3']));
+		$this->assertTrue(isset($users['user33']));
+	}
+
+	public function testDisplayNamesInGroupWithOneUserBackendAndSearchEmptyAndLimitSpecified(): void {
+		$backend = $this->getTestBackend();
+		$backend->expects($this->exactly(1))
+			->method('groupExists')
+			->with('testgroup')
+			->willReturn(true);
+
+		$backend->expects($this->once())
+			->method('searchInGroup')
+			->with('testgroup', '', 1, 0)
+			->willReturn([new User('user2', null, $this->getAutoMock(IEventDispatcher::class))]);
+
+		$this->getAutoMock(Manager::class)->expects($this->never())->method('get');
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+		$manager->addBackend($backend);
+
+		$users = $manager->displayNamesInGroup('testgroup', '', 1);
+		$this->assertCount(1, $users);
+		$this->assertFalse(isset($users['user1']));
+		$this->assertTrue(isset($users['user2']));
+		$this->assertFalse(isset($users['user3']));
+		$this->assertFalse(isset($users['user33']));
+	}
+
+	public function testDisplayNamesInGroupWithOneUserBackendAndSearchEmptyAndLimitAndOffsetSpecified(): void {
+		$backend = $this->getTestBackend();
+		$backend->expects($this->exactly(1))
+			->method('groupExists')
+			->with('testgroup')
+			->willReturn(true);
+
+		$backend->expects($this->once())
+			->method('searchInGroup')
+			->with('testgroup', '', 1, 1)
+			->willReturn(['user33' => $this->getTestUser('user33')]);
+
+		$this->getAutoMock(Manager::class)->expects($this->never())->method('get');
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+		$manager->addBackend($backend);
+
+		$users = $manager->displayNamesInGroup('testgroup', '', 1, 1);
+		$this->assertCount(1, $users);
+		$this->assertFalse(isset($users['user1']));
+		$this->assertFalse(isset($users['user2']));
+		$this->assertFalse(isset($users['user3']));
+		$this->assertTrue(isset($users['user33']));
+	}
+
+	public function testGetUserGroupsWithAddUser(): void {
+		$backend = $this->getTestBackend();
+		$expectedGroups = [];
+		$backend->expects($this->any())
+			->method('getUserGroups')
+			->with('user1')
+			->willReturnCallback(function () use (&$expectedGroups) {
+				return $expectedGroups;
+			});
+		$backend->expects($this->any())
+			->method('groupExists')
+			->with('group1')
+			->willReturn(true);
+		$backend->expects($this->any())
+			->method('getGroupDetails')
+			->with('group1')
+			->willReturn(['displayName' => 'group1']);
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+		$manager->addBackend($backend);
+
+		// prime cache
+		$user1 = $this->getTestUser('user1');
+		$groups = $manager->getUserGroups($user1);
+		$this->assertEquals([], $groups);
+
+		// add user
+		$group = $manager->get('group1');
+		$group->addUser($user1);
+		$expectedGroups[] = 'group1';
+
+		// check result
+		$groups = $manager->getUserGroups($user1);
+		$this->assertCount(1, $groups);
+		$group1 = reset($groups);
+		$this->assertEquals('group1', $group1->getGID());
+	}
+
+	public function testGetUserGroupsWithRemoveUser(): void {
+		$backend = $this->getTestBackend();
+		$expectedGroups = ['group1'];
+		$backend->expects($this->any())
+			->method('getUserGroups')
+			->with('user1')
+			->willReturnCallback(function () use (&$expectedGroups) {
+				return $expectedGroups;
+			});
+		$backend->expects($this->any())
+			->method('getGroupDetails')
+			->with('group1')
+			->willReturn(['displayName' => 'group1']);
+		$backend->expects($this->once())
+			->method('inGroup')
+			->willReturn(true);
+		$backend->expects($this->once())
+			->method('removeFromGroup')
+			->willReturn(true);
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+		$manager->addBackend($backend);
+
+		// prime cache
+		$user1 = $this->getTestUser('user1');
+		$groups = $manager->getUserGroups($user1);
+		$this->assertCount(1, $groups);
+		$group1 = reset($groups);
+		$this->assertEquals('group1', $group1->getGID());
+
+		// remove user
+		$group = $manager->get('group1');
+		$group->removeUser($user1);
+		$expectedGroups = [];
+
+		// check result
+		$groups = $manager->getUserGroups($user1);
+		$this->assertEquals($expectedGroups, $groups);
+	}
+
+	public function testGetUserIdGroups(): void {
+		$backend = $this->getTestBackend();
+		$backend->expects($this->any())
+			->method('getUserGroups')
+			->with('user1')
+			->willReturn(null);
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+		$manager->addBackend($backend);
+
+		$groups = $manager->getUserIdGroups('user1');
+		$this->assertEquals([], $groups);
+	}
+
+	public function testGroupDisplayName(): void {
+		$backend = $this->getTestBackend(
+			GroupInterface::ADD_TO_GROUP
+			| GroupInterface::REMOVE_FROM_GOUP
+			| GroupInterface::COUNT_USERS
+			| GroupInterface::CREATE_GROUP
+			| GroupInterface::DELETE_GROUP
+			| GroupInterface::GROUP_DETAILS
+		);
+		$backend->expects($this->any())
+			->method('getGroupDetails')
+			->willReturnMap([
+				['group1', ['gid' => 'group1', 'displayName' => 'Group One']],
+				['group2', ['gid' => 'group2']],
+			]);
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+		$manager->addBackend($backend);
+
+		// group with display name
+		$group = $manager->get('group1');
+		$this->assertNotNull($group);
+		$this->assertEquals('group1', $group->getGID());
+		$this->assertEquals('Group One', $group->getDisplayName());
+
+		// group without display name
+		$group = $manager->get('group2');
+		$this->assertNotNull($group);
+		$this->assertEquals('group2', $group->getGID());
+		$this->assertEquals('group2', $group->getDisplayName());
+	}
+}

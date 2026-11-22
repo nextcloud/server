@@ -1,0 +1,324 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+namespace OCA\Encryption\Tests;
+
+use OC\Files\View;
+use OCA\Encryption\Crypto\Crypt;
+use OCA\Encryption\KeyManager;
+use OCA\Encryption\Recovery;
+use OCP\Config\IUserConfig;
+use OCP\Encryption\IFile;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IAppConfig;
+use OCP\IUser;
+use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
+use PHPUnit\Framework\MockObject\MockObject;
+use Test\TestCase;
+
+class RecoveryTest extends TestCase {
+	private static $tempStorage = [];
+
+	private IFile&MockObject $fileMock;
+	private View&MockObject $viewMock;
+	private IUserSession&MockObject $userSessionMock;
+	private IUser&MockObject $user;
+	private KeyManager&MockObject $keyManagerMock;
+	private IAppConfig&MockObject $appConfigMock;
+	private IUserConfig&MockObject $userConfigMock;
+	private Crypt&MockObject $cryptMock;
+	private IEventDispatcher&MockObject $eventDispatcherMock;
+
+	private Recovery $instance;
+
+	public function testEnableAdminRecoverySuccessful(): void {
+		$this->keyManagerMock->expects($this->exactly(2))
+			->method('recoveryKeyExists')
+			->willReturnOnConsecutiveCalls(false, true);
+
+		$this->cryptMock->expects($this->once())
+			->method('createKeyPair')
+			->willReturn([
+				'publicKey' => 'privateKey',
+				'privateKey' => 'publicKey',
+			]);
+
+		$this->keyManagerMock->expects($this->once())
+			->method('setRecoveryKey')
+			->willReturn(false);
+
+		$this->keyManagerMock->expects($this->exactly(2))
+			->method('checkRecoveryPassword')
+			->willReturnOnConsecutiveCalls(true, true);
+
+		$this->expectAuditEvents([
+			['encryption.recovery_key.enabled', 'Recovery key was enabled', []],
+			['encryption.recovery_key.enabled', 'Recovery key was enabled', []],
+		]);
+
+		$this->assertTrue($this->instance->enableAdminRecovery('password'));
+		$this->assertArrayHasKey('recoveryAdminEnabled', self::$tempStorage);
+		$this->assertTrue(self::$tempStorage['recoveryAdminEnabled']);
+
+		$this->assertTrue($this->instance->enableAdminRecovery('password'));
+	}
+
+	public function testEnableAdminRecoveryCouldNotCheckPassword(): void {
+		$this->keyManagerMock->expects($this->exactly(2))
+			->method('recoveryKeyExists')
+			->willReturnOnConsecutiveCalls(false, true);
+
+		$this->cryptMock->expects($this->once())
+			->method('createKeyPair')
+			->willReturn([
+				'publicKey' => 'privateKey',
+				'privateKey' => 'publicKey',
+			]);
+
+		$this->keyManagerMock->expects($this->once())
+			->method('setRecoveryKey')
+			->willReturn(false);
+
+		$this->keyManagerMock->expects($this->exactly(2))
+			->method('checkRecoveryPassword')
+			->willReturnOnConsecutiveCalls(true, false);
+
+		$this->expectAuditEvents([
+			['encryption.recovery_key.enabled', 'Recovery key was enabled', []],
+		]);
+
+		$this->assertTrue($this->instance->enableAdminRecovery('password'));
+		$this->assertArrayHasKey('recoveryAdminEnabled', self::$tempStorage);
+		$this->assertTrue(self::$tempStorage['recoveryAdminEnabled']);
+
+		$this->assertFalse($this->instance->enableAdminRecovery('password'));
+	}
+
+	public function testEnableAdminRecoveryCouldNotCreateKey(): void {
+		$this->keyManagerMock->expects($this->once())
+			->method('recoveryKeyExists')
+			->willReturn(false);
+
+		$this->cryptMock->expects($this->once())
+			->method('createKeyPair')
+			->willReturn(false);
+
+		$this->expectAuditEvents([]);
+
+		$this->assertFalse($this->instance->enableAdminRecovery('password'));
+	}
+
+	public function testChangeRecoveryKeyPasswordSuccessful(): void {
+		$this->assertFalse($this->instance->changeRecoveryKeyPassword('password', 'passwordOld'));
+
+		$this->keyManagerMock->expects($this->once())
+			->method('getSystemPrivateKey')
+			->willReturn('privateKey');
+
+		$this->cryptMock->expects($this->once())
+			->method('decryptPrivateKey')
+			->with('privateKey', 'passwordOld')
+			->willReturn('decryptedPrivateKey');
+
+		$this->cryptMock->expects($this->once())
+			->method('encryptPrivateKey')
+			->with('decryptedPrivateKey', 'password')
+			->willReturn('privateKey');
+
+		$this->expectAuditEvents([
+			['encryption.recovery_key.password_changed', 'Recovery key password was changed', []],
+		]);
+
+		$this->assertTrue($this->instance->changeRecoveryKeyPassword('password', 'passwordOld'));
+	}
+
+	public function testChangeRecoveryKeyPasswordCouldNotDecryptPrivateRecoveryKey(): void {
+		$this->assertFalse($this->instance->changeRecoveryKeyPassword('password', 'passwordOld'));
+
+		$this->keyManagerMock->expects($this->once())
+			->method('getSystemPrivateKey');
+
+		$this->cryptMock->expects($this->once())
+			->method('decryptPrivateKey')
+			->willReturn(false);
+
+		$this->expectAuditEvents([]);
+
+		$this->assertFalse($this->instance->changeRecoveryKeyPassword('password', 'passwordOld'));
+	}
+
+	public function testDisableAdminRecovery(): void {
+		$this->keyManagerMock->expects($this->exactly(2))
+			->method('checkRecoveryPassword')
+			->willReturnOnConsecutiveCalls(true, false);
+
+		$this->expectAuditEvents([
+			['encryption.recovery_key.disabled', 'Recovery key was disabled', []],
+		]);
+
+		$this->assertArrayHasKey('recoveryAdminEnabled', self::$tempStorage);
+		$this->assertTrue($this->instance->disableAdminRecovery('password'));
+		$this->assertFalse(self::$tempStorage['recoveryAdminEnabled']);
+
+		$this->assertFalse($this->instance->disableAdminRecovery('password'));
+	}
+
+	public function testIsRecoveryEnabledForUser(): void {
+		$this->userConfigMock->expects($this->exactly(2))
+			->method('getValueBool')
+			->willReturnOnConsecutiveCalls(true, false);
+
+		$this->assertTrue($this->instance->isRecoveryEnabledForUser());
+		$this->assertFalse($this->instance->isRecoveryEnabledForUser('admin'));
+	}
+
+	public function testIsRecoveryKeyEnabled(): void {
+		$this->assertFalse($this->instance->isRecoveryKeyEnabled());
+		self::$tempStorage['recoveryAdminEnabled'] = true;
+		$this->assertTrue($this->instance->isRecoveryKeyEnabled());
+	}
+
+	public function testSetRecoveryFolderForUser(): void {
+		$this->viewMock->expects($this->exactly(2))
+			->method('getDirectoryContent')
+			->willReturn([]);
+		$this->expectAuditEvents([
+			['encryption.user_recovery.updated', 'Recovery key access for the files of user "%s" was %s', ['userId' => 'admin', 'status' => 'disabled']],
+			['encryption.user_recovery.updated', 'Recovery key access for the files of user "%s" was %s', ['userId' => 'admin', 'status' => 'enabled']],
+		]);
+		$this->assertTrue($this->instance->setRecoveryForUser(false));
+		$this->assertTrue($this->instance->setRecoveryForUser(true));
+	}
+
+	public function testRecoverUserFiles(): void {
+		$this->viewMock->expects($this->once())
+			->method('getDirectoryContent')
+			->willReturn([]);
+
+		$this->cryptMock->expects($this->once())
+			->method('decryptPrivateKey')
+			->willReturn('privateKey');
+		$this->expectAuditEvents([
+			['encryption.user_files.recovered', 'Files of user "%s" were recovered with the recovery key', ['userId' => 'admin']],
+		]);
+		$this->instance->recoverUsersFiles('password', 'admin');
+	}
+
+	public function testRecoverFile(): void {
+		$this->keyManagerMock->expects($this->once())
+			->method('getEncryptedFileKey')
+			->willReturn(true);
+
+		$this->keyManagerMock->expects($this->once())
+			->method('getShareKey')
+			->willReturn(true);
+
+		$this->cryptMock->expects($this->once())
+			->method('multiKeyDecryptLegacy')
+			->willReturn('multiKeyDecryptLegacyResult');
+
+		$this->fileMock->expects($this->once())
+			->method('getAccessList')
+			->willReturn(['users' => ['admin']]);
+
+		$this->keyManagerMock->expects($this->once())
+			->method('getPublicKey')
+			->willReturn('publicKey');
+
+		$this->keyManagerMock->expects($this->once())
+			->method('addSystemKeys')
+			->with($this->anything(), $this->anything(), $this->equalTo('admin'))
+			->willReturn(['admin' => 'publicKey']);
+
+		$this->cryptMock->expects($this->once())
+			->method('multiKeyEncrypt')
+			->willReturn(['admin' => 'shareKey']);
+
+		$this->keyManagerMock->expects($this->once())
+			->method('deleteLegacyFileKey');
+		$this->keyManagerMock->expects($this->once())
+			->method('setShareKey');
+
+		$this->assertNull(self::invokePrivate($this->instance,
+			'recoverFile',
+			['/', 'testkey', 'admin']));
+	}
+
+	public function testRecoverUserFilesWrongPassword(): void {
+		$this->cryptMock->expects($this->once())
+			->method('decryptPrivateKey')
+			->willReturn(false);
+		$this->expectAuditEvents([]);
+		$this->instance->recoverUsersFiles('password', 'admin');
+	}
+
+	/**
+	 * @param list<array{string, string, array<string, string>}> $expected operation, message and parameters of each expected audit event
+	 */
+	private function expectAuditEvents(array $expected): void {
+		$this->eventDispatcherMock->expects($this->exactly(count($expected)))
+			->method('dispatchTyped')
+			->willReturnCallback(function (CriticalActionPerformedEvent $event) use (&$expected): void {
+				[$operation, $message, $parameters] = array_shift($expected);
+				$this->assertSame($operation, $event->getOperation());
+				$this->assertSame($message, $event->getLogMessage());
+				$this->assertSame($parameters, $event->getParameters());
+			});
+	}
+
+	protected function setUp(): void {
+		parent::setUp();
+
+		$this->user = $this->createMock(IUser::class);
+		$this->user->expects($this->any())
+			->method('getUID')
+			->willReturn('admin');
+
+		$this->userSessionMock = $this->createMock(IUserSession::class);
+		$this->userSessionMock->expects($this->any())
+			->method('getUser')
+			->willReturn($this->user);
+		$this->userSessionMock->expects($this->any())
+			->method('isLoggedIn')
+			->willReturn(true);
+
+		$this->cryptMock = $this->getMockBuilder(Crypt::class)->disableOriginalConstructor()->getMock();
+		$this->keyManagerMock = $this->getMockBuilder(KeyManager::class)->disableOriginalConstructor()->getMock();
+		$this->appConfigMock = $this->createMock(IAppConfig::class);
+		$this->userConfigMock = $this->createMock(IUserConfig::class);
+		$this->fileMock = $this->createMock(IFile::class);
+		$this->viewMock = $this->createMock(View::class);
+		$this->eventDispatcherMock = $this->createMock(IEventDispatcher::class);
+
+		$this->appConfigMock->expects($this->any())
+			->method('setValueBool')
+			->willReturnCallback(function (string $app, string $key, bool $value): bool {
+				self::$tempStorage[$key] = $value;
+				return true;
+			});
+
+		$this->appConfigMock->expects($this->any())
+			->method('getValueBool')
+			->willReturnCallback(function (string $app, string $key, bool $default = false): bool {
+				return self::$tempStorage[$key] ?? $default;
+			});
+
+		$this->instance = new Recovery($this->userSessionMock,
+			$this->cryptMock,
+			$this->keyManagerMock,
+			$this->appConfigMock,
+			$this->userConfigMock,
+			$this->fileMock,
+			$this->viewMock,
+			$this->eventDispatcherMock);
+	}
+
+}

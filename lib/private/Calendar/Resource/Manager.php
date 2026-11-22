@@ -1,0 +1,88 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+namespace OC\Calendar\Resource;
+
+use OC\AppFramework\Bootstrap\Coordinator;
+use OC\Calendar\ResourcesRoomsUpdater;
+use OCP\Calendar\Resource\IBackend;
+use OCP\Calendar\Resource\IManager;
+use Psr\Container\ContainerInterface;
+
+class Manager implements IManager {
+	private bool $bootstrapBackendsLoaded = false;
+
+	/**
+	 * @var string[] holds all registered resource backends
+	 * @psalm-var list<class-string<IBackend>>
+	 */
+	private array $backends = [];
+
+	/** @var array<class-string<IBackend>, IBackend> holds all backends that have been initialized already */
+	private array $initializedBackends = [];
+
+	public function __construct(
+		private Coordinator $bootstrapCoordinator,
+		private ContainerInterface $container,
+		private ResourcesRoomsUpdater $updater,
+	) {
+	}
+
+	private function fetchBootstrapBackends(): void {
+		if ($this->bootstrapBackendsLoaded) {
+			return;
+		}
+
+		$context = $this->bootstrapCoordinator->getRegistrationContext();
+		if ($context === null) {
+			// Too soon
+			return;
+		}
+
+		foreach ($context->getCalendarResourceBackendRegistrations() as $registration) {
+			$this->backends[] = $registration->getService();
+		}
+	}
+
+	#[\Override]
+	public function getBackends():array {
+		$this->fetchBootstrapBackends();
+
+		foreach ($this->backends as $backend) {
+			if (isset($this->initializedBackends[$backend])) {
+				continue;
+			}
+
+			$this->initializedBackends[$backend] = $this->container->get($backend);
+		}
+
+		return array_values($this->initializedBackends);
+	}
+
+	public function getBackend(string $backendId): ?IBackend {
+		$backends = $this->getBackends();
+		foreach ($backends as $backend) {
+			if ($backend->getBackendIdentifier() === $backendId) {
+				return $backend;
+			}
+		}
+
+		return null;
+	}
+
+	#[\Override]
+	public function update(): void {
+		$this->updater->updateResources();
+	}
+
+	#[\Override]
+	public function isEnabled(): bool {
+		return $this->getBackends() !== [];
+	}
+}

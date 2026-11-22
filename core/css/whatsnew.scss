@@ -1,0 +1,28 @@
+/*!
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+.whatsNewPopover {
+  bottom: 35px !important;
+  inset-inline-start: 15px !important;
+  width: 270px;
+  z-index: 700;
+}
+
+.whatsNewPopover p {
+  width: auto !important;
+}
+
+.whatsNewPopover .caption {
+  font-weight: bold;
+  cursor: auto !important;
+}
+
+.whatsNewPopover .icon-close {
+  position: absolute;
+  inset-inline-end: 0;
+}
+
+.whatsNewPopover::after {
+  content: none;
+}

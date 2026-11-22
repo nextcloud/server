@@ -1,0 +1,7 @@
+SPDX-License-Identifier: BSD-3-Clause
+SPDX-FileCopyrightText: PhonicScore
+
+This file is generated from multiple sources. Included packages:
+- opensheetmusicdisplay
+	- version: 2.1.3
+	- license: BSD-3-Clause

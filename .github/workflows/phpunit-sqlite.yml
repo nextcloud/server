@@ -1,0 +1,114 @@
+# This workflow is provided via the organization template repository
+#
+# https://github.com/nextcloud/.github
+# https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+#
+# SPDX-FileCopyrightText: 2022-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
+name: PHPUnit SQLite
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  phpunit-sqlite:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ['8.3', '8.5']
+
+    name: SQLite (PHP ${{ matrix.php-versions }})
+
+    services:
+      cache:
+        image: ghcr.io/nextcloud/continuous-integration-redis:latest # zizmor: ignore[unpinned-images]
+        ports:
+          - 6379:6379/tcp
+        options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Checkout server
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          submodules: true
+
+      - name: Set up php ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        timeout-minutes: 5
+        with:
+          php-version: ${{ matrix.php-versions }}
+          # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, imagick, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
+          coverage: none
+          ini-file: development
+          ini-values: disable_functions=""
+        env:
+          fail-fast: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Enable HEIC and PostScript support in ImageMagick
+        run: |
+          # The HEIC and PostScript preview tests need ImageMagick to actually decode
+          # these files. GitHub-hosted runners register the coders (so the tests are
+          # not skipped) but decoding fails because the libheif delegate is missing
+          # and/or the coder is blocked by ImageMagick's security policy. Install
+          # the delegate and allow the coders so decoding succeeds.
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libheif1 libheif-dev
+          for policy in /etc/ImageMagick-{6,7}/policy.xml; do
+            if [ -f "$policy" ]; then
+              sudo sed -i -E 's/rights="none" pattern="(HEIC|HEIF|AVIF|PS|EPS)"/rights="read|write" pattern="\1"/g' "$policy"
+            fi
+          done
+
+      - name: Set up dependencies
+        run: |
+          sudo apt-get install -y ghostscript
+          composer i
+
+      - name: Set up Nextcloud
+        run: |
+          mkdir data
+          cp tests/redis.config.php config/
+          cp tests/preseed-config.php config/config.php
+          ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
+          NC_debug=true ./occ testing:prepare-ci
+          php -f tests/enable_all.php
+
+      - name: Nextcloud debug information
+        run: ./occ app:list && echo "======= System config =======" && ./occ config:list system
+
+      - name: PHPUnit database tests
+        run: composer run test:db -- --log-junit junit.xml
+
+      - name: Slowest tests
+        if: always()
+        continue-on-error: true
+        run: |
+          {
+            echo '```'
+            php tests/junit-analyzer.php junit.xml 30
+            echo '```'
+          } | tee -a "${GITHUB_STEP_SUMMARY:-/dev/null}"
+
+      - name: Outgoing HTTP requests
+        if: always()
+        continue-on-error: true
+        run: |
+          {
+            echo '```'
+            php tests/http-analyzer.php http-requests.log 20
+            echo '```'
+          } | tee -a "${GITHUB_STEP_SUMMARY:-/dev/null}"
+
+      - name: Print logs
+        if: always()
+        run: |
+          cat data/nextcloud.log

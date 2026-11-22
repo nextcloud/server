@@ -1,0 +1,216 @@
+<?php
+
+declare(strict_types=1);
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+namespace OC\Files\Node;
+
+use OC\Files\Filesystem;
+use OC\Files\View;
+use OCP\EventDispatcher\GenericEvent;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Exceptions\AbortedEventException;
+use OCP\Files\Events\Node\BeforeNodeCopiedEvent;
+use OCP\Files\Events\Node\BeforeNodeCreatedEvent;
+use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
+use OCP\Files\Events\Node\BeforeNodeReadEvent;
+use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
+use OCP\Files\Events\Node\BeforeNodeTouchedEvent;
+use OCP\Files\Events\Node\BeforeNodeWrittenEvent;
+use OCP\Files\Events\Node\NodeCopiedEvent;
+use OCP\Files\Events\Node\NodeCreatedEvent;
+use OCP\Files\Events\Node\NodeDeletedEvent;
+use OCP\Files\Events\Node\NodeRenamedEvent;
+use OCP\Files\Events\Node\NodeTouchedEvent;
+use OCP\Files\Events\Node\NodeWrittenEvent;
+use OCP\Files\FileInfo;
+use OCP\Files\IRootFolder;
+use OCP\Util;
+use Psr\Log\LoggerInterface;
+
+class HookConnector {
+	/** @var FileInfo[] */
+	private array $deleteMetaCache = [];
+
+	public function __construct(
+		private IRootFolder $root,
+		private View $view,
+		private IEventDispatcher $dispatcher,
+		private LoggerInterface $logger,
+	) {
+	}
+
+	public function viewToNode() {
+		Util::connectHook(Filesystem::CLASSNAME, Filesystem::signal_write, $this, 'write');
+		Util::connectHook(Filesystem::CLASSNAME, Filesystem::signal_post_write, $this, 'postWrite');
+
+		Util::connectHook(Filesystem::CLASSNAME, 'create', $this, 'create');
+		Util::connectHook(Filesystem::CLASSNAME, 'post_create', $this, 'postCreate');
+
+		Util::connectHook(Filesystem::CLASSNAME, 'delete', $this, 'delete');
+		Util::connectHook(Filesystem::CLASSNAME, 'post_delete', $this, 'postDelete');
+
+		Util::connectHook(Filesystem::CLASSNAME, 'rename', $this, 'rename');
+		Util::connectHook(Filesystem::CLASSNAME, 'post_rename', $this, 'postRename');
+
+		Util::connectHook(Filesystem::CLASSNAME, 'copy', $this, 'copy');
+		Util::connectHook(Filesystem::CLASSNAME, 'post_copy', $this, 'postCopy');
+
+		Util::connectHook(Filesystem::CLASSNAME, 'touch', $this, 'touch');
+		Util::connectHook(Filesystem::CLASSNAME, 'post_touch', $this, 'postTouch');
+
+		Util::connectHook(Filesystem::CLASSNAME, 'read', $this, 'read');
+	}
+
+	public function write($arguments) {
+		$node = $this->getNodeForPath($arguments['path']);
+		$this->dispatcher->dispatch('\OCP\Files::preWrite', new GenericEvent($node));
+
+		$event = new BeforeNodeWrittenEvent($node);
+		$this->dispatcher->dispatchTyped($event);
+	}
+
+	public function postWrite($arguments) {
+		$node = $this->getNodeForPath($arguments['path']);
+		$this->root->emit('\OC\Files', 'postWrite', [$node]);
+		$this->dispatcher->dispatch('\OCP\Files::postWrite', new GenericEvent($node));
+
+		$event = new NodeWrittenEvent($node);
+		$this->dispatcher->dispatchTyped($event);
+	}
+
+	public function create($arguments) {
+		$node = $this->getNodeForPath($arguments['path']);
+		$this->dispatcher->dispatch('\OCP\Files::preCreate', new GenericEvent($node));
+
+		$event = new BeforeNodeCreatedEvent($node);
+		$this->dispatcher->dispatchTyped($event);
+	}
+
+	public function postCreate($arguments) {
+		$node = $this->getNodeForPath($arguments['path']);
+		$this->dispatcher->dispatch('\OCP\Files::postCreate', new GenericEvent($node));
+
+		$event = new NodeCreatedEvent($node);
+		$this->dispatcher->dispatchTyped($event);
+	}
+
+	public function delete($arguments) {
+		$node = $this->getNodeForPath($arguments['path']);
+		$this->deleteMetaCache[$node->getPath()] = $node->getFileInfo();
+		$this->dispatcher->dispatch('\OCP\Files::preDelete', new GenericEvent($node));
+
+		$event = new BeforeNodeDeletedEvent($node);
+		try {
+			$this->dispatcher->dispatchTyped($event);
+		} catch (AbortedEventException $e) {
+			$arguments['run'] = false;
+			$this->logger->warning('delete process aborted', ['exception' => $e]);
+		}
+	}
+
+	public function postDelete($arguments) {
+		$node = $this->getNodeForPath($arguments['path']);
+		unset($this->deleteMetaCache[$node->getPath()]);
+		$this->dispatcher->dispatch('\OCP\Files::postDelete', new GenericEvent($node));
+
+		$event = new NodeDeletedEvent($node);
+		$this->dispatcher->dispatchTyped($event);
+	}
+
+	public function touch($arguments) {
+		$node = $this->getNodeForPath($arguments['path']);
+		$this->dispatcher->dispatch('\OCP\Files::preTouch', new GenericEvent($node));
+
+		$event = new BeforeNodeTouchedEvent($node);
+		$this->dispatcher->dispatchTyped($event);
+	}
+
+	public function postTouch($arguments) {
+		$node = $this->getNodeForPath($arguments['path']);
+		$this->dispatcher->dispatch('\OCP\Files::postTouch', new GenericEvent($node));
+
+		$event = new NodeTouchedEvent($node);
+		$this->dispatcher->dispatchTyped($event);
+	}
+
+	public function rename($arguments) {
+		$source = $this->getNodeForPath($arguments['oldpath']);
+		$target = $this->getNodeForPath($arguments['newpath']);
+		$this->dispatcher->dispatch('\OCP\Files::preRename', new GenericEvent([$source, $target]));
+
+		$event = new BeforeNodeRenamedEvent($source, $target);
+		try {
+			$this->dispatcher->dispatchTyped($event);
+		} catch (AbortedEventException $e) {
+			$arguments['run'] = false;
+			$this->logger->warning('rename process aborted', ['exception' => $e]);
+		}
+	}
+
+	public function postRename($arguments) {
+		$source = $this->getNodeForPath($arguments['oldpath']);
+		$target = $this->getNodeForPath($arguments['newpath']);
+		$this->dispatcher->dispatch('\OCP\Files::postRename', new GenericEvent([$source, $target]));
+
+		$event = new NodeRenamedEvent($source, $target);
+		$this->dispatcher->dispatchTyped($event);
+	}
+
+	public function copy($arguments) {
+		$source = $this->getNodeForPath($arguments['oldpath']);
+		$target = $this->getNodeForPath($arguments['newpath'], $source instanceof Folder);
+		$this->dispatcher->dispatch('\OCP\Files::preCopy', new GenericEvent([$source, $target]));
+
+		$event = new BeforeNodeCopiedEvent($source, $target);
+		try {
+			$this->dispatcher->dispatchTyped($event);
+		} catch (AbortedEventException $e) {
+			$arguments['run'] = false;
+			$this->logger->warning('copy process aborted', ['exception' => $e]);
+		}
+	}
+
+	public function postCopy($arguments) {
+		$source = $this->getNodeForPath($arguments['oldpath']);
+		$target = $this->getNodeForPath($arguments['newpath']);
+		$this->dispatcher->dispatch('\OCP\Files::postCopy', new GenericEvent([$source, $target]));
+
+		$event = new NodeCopiedEvent($source, $target);
+		$this->dispatcher->dispatchTyped($event);
+	}
+
+	public function read($arguments) {
+		$node = $this->getNodeForPath($arguments['path']);
+		$this->dispatcher->dispatch('\OCP\Files::read', new GenericEvent([$node]));
+
+		$event = new BeforeNodeReadEvent($node);
+		$this->dispatcher->dispatchTyped($event);
+	}
+
+	private function getNodeForPath(string $path, bool $isDir = false): Node {
+		$info = Filesystem::getView()->getFileInfo($path);
+		if (!$info) {
+			$fullPath = Filesystem::getView()->getAbsolutePath($path);
+			if (isset($this->deleteMetaCache[$fullPath])) {
+				$info = $this->deleteMetaCache[$fullPath];
+			} else {
+				$info = null;
+			}
+			if ($isDir || Filesystem::is_dir($path)) {
+				return new NonExistingFolder($this->root, $this->view, $fullPath, $info);
+			} else {
+				return new NonExistingFile($this->root, $this->view, $fullPath, $info);
+			}
+		}
+		if ($info->getType() === FileInfo::TYPE_FILE) {
+			return new File($this->root, $this->view, $info->getPath(), $info);
+		} else {
+			return new Folder($this->root, $this->view, $info->getPath(), $info);
+		}
+	}
+}

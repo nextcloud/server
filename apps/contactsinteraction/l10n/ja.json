@@ -1,0 +1,7 @@
+{ "translations": {
+    "Recently contacted" : "最近連絡した",
+    "Contacts Interaction" : "連絡先のやり取り",
+    "Manages interaction between accounts and contacts" : "アカウントと連絡先間のやり取りを管理します",
+    "Collect data about accounts and contacts interactions and provide an address book for the data" : "アカウントと連絡先のやり取りに関するデータを収集し、データのアドレス帳を提供します"
+},"pluralForm" :"nplurals=1; plural=0;"
+}

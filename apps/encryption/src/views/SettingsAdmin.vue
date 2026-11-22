@@ -1,0 +1,43 @@
+<!--
+ - SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+ -->
+
+<script setup lang="ts">
+import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
+import { NcNoteCard, NcSettingsSection } from '@nextcloud/vue'
+import { ref } from 'vue'
+import SettingsAdminHomeStorage from '../components/SettingsAdminHomeStorage.vue'
+import SettingsAdminRecoveryKey from '../components/SettingsAdminRecoveryKey.vue'
+import SettingsAdminRecoveryKeyChange from '../components/SettingsAdminRecoveryKeyChange.vue'
+import { InitStatus } from '../utils/types.ts'
+
+const adminSettings = loadState<{
+	recoveryEnabled: boolean
+	initStatus: typeof InitStatus[keyof typeof InitStatus]
+	encryptHomeStorage: boolean
+	masterKeyEnabled: boolean
+	serverSideEncryptionEnabled: boolean
+}>('encryption', 'adminSettings')
+
+const encryptHomeStorage = ref(adminSettings.encryptHomeStorage!)
+const recoveryEnabled = ref(adminSettings.recoveryEnabled!)
+</script>
+
+<template>
+	<NcSettingsSection :name="t('encryption', 'Default encryption module')">
+		<NcNoteCard v-if="adminSettings.initStatus === InitStatus.NotInitialized && !adminSettings.masterKeyEnabled" type="warning">
+			{{ adminSettings.serverSideEncryptionEnabled
+				? t('encryption', 'Your encryption keys are not initialized for this session. Please sign out and sign back in.')
+				: t('encryption', 'Server-side encryption is disabled. To enable it, open Administration settings, select Security, and turn on Server-side encryption.') }}
+		</NcNoteCard>
+
+		<template v-else>
+			<SettingsAdminHomeStorage v-model="encryptHomeStorage" />
+			<br>
+			<SettingsAdminRecoveryKey v-if="!adminSettings.masterKeyEnabled" v-model="recoveryEnabled" />
+			<SettingsAdminRecoveryKeyChange v-if="!adminSettings.masterKeyEnabled && recoveryEnabled" />
+		</template>
+	</NcSettingsSection>
+</template>

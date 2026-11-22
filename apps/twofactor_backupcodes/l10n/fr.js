@@ -1,0 +1,25 @@
+OC.L10N.register(
+    "twofactor_backupcodes",
+    {
+    "You created two-factor backup codes for your account" : "Vous avez créé des codes de récupération pour l’authentification à deux facteurs sur votre compte",
+    "Second-factor backup codes" : "Codes de récupération pour l’authentification à deux facteurs",
+    "Generate backup codes" : "Générer des codes de récupération",
+    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Vous avez activé l’authentification à deux facteurs, mais vous n’avez pas encore généré de codes de récupération. Ils sont nécessaires pour rétablir l’accès à votre compte si vous n’avez plus accès à votre second facteur d’authentification.",
+    "Backup code" : "Code de récupération",
+    "Use backup code" : "Utiliser un code de récupération",
+    "Two factor backup codes" : "Codes de récupération pour l’authentification à deux facteurs",
+    "A two-factor auth backup codes provider" : "Un fournisseur de codes de récupération pour l’authentification à deux facteurs",
+    "An error occurred while generating your backup codes" : "Une erreur est survenue lors de la génération de vos codes de récupération",
+    "Backup codes have been generated. {used} of {total} codes have been used." : "Les codes de récupération ont été générés. Nombre de codes utilisés : {used} sur {total}.",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Ce sont vos codes de récupération. Veuillez les enregistrer et/ou les imprimer, car vous ne pourrez plus les consulter par la suite.",
+    "List of backup codes" : "Liste des codes de récupération",
+    "Regenerate backup codes" : "Régénérer les codes de récupération",
+    "Print backup codes" : "Imprimer les codes de récupération",
+    "Save backup codes" : "Enregistrer les codes de récupération",
+    "If you regenerate backup codes, you automatically invalidate old codes." : "Si vous régénérez les codes de récupération, vous invalidez automatiquement les anciens codes.",
+    "{name} backup codes" : "Codes de récupération de {name}",
+    "Unable to open a new tab for printing" : "Impossible d’ouvrir un nouvel onglet pour l’impression",
+    "Use one of the backup codes you saved when setting up two-factor authentication." : "Utilisez l'un des codes de récupération que vous avez enregistrés lors de la configuration de l'authentification à deux facteurs.",
+    "Submit" : "Soumettre"
+},
+"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

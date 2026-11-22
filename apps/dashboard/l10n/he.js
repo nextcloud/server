@@ -1,0 +1,23 @@
+OC.L10N.register(
+    "dashboard",
+    {
+    "Dashboard" : "לוח בקרה",
+    "Dashboard app" : "אפליקציית לוח המחוונים",
+    "Weather" : "מזג אוויר",
+    "Status" : "מצב",
+    "Good morning" : "בוקר טוב",
+    "Good morning, {name}" : "בוקר טוב, {name}",
+    "Good afternoon" : "צהריים טובים",
+    "Good afternoon, {name}" : "צהריים טובים, {name}",
+    "Good evening" : "ערב טוב",
+    "Good evening, {name}" : "ערב טוב, {name}",
+    "Hello" : "שלום",
+    "Hello, {name}" : "שלום, {name}",
+    "Customize" : "התאמה אישית",
+    "Edit widgets" : "ערוך יישומונים",
+    "Weather service" : "שירות מזג אוויר",
+    "Weather data from Met.no" : "נתוני מזג אוויר מ- Met.no",
+    "geocoding with Nominatim" : "קידוד גיאוגרפי עם Nominatim",
+    "elevation data from OpenTopoData" : "נתוני גובה מ- OpenTopoData"
+},
+"nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

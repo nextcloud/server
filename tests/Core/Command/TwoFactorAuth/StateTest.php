@@ -1,0 +1,86 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+namespace Tests\Core\Command\TwoFactorAuth;
+
+use OC\Core\Command\TwoFactorAuth\State;
+use OCP\Authentication\TwoFactorAuth\IRegistry;
+use OCP\IUser;
+use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Component\Console\Tester\CommandTester;
+use Test\TestCase;
+
+class StateTest extends TestCase {
+	/** @var CommandTester|MockObject */
+	private $cmd;
+
+	#[\Override]
+	protected function setUp(): void {
+		parent::setUp();
+
+		$cmd = $this->createInstanceWithMocks(State::class);
+		$this->cmd = new CommandTester($cmd);
+	}
+
+	public function testWrongUID(): void {
+		$this->cmd->execute([
+			'uid' => 'nope',
+		]);
+
+		$output = $this->cmd->getDisplay();
+		$this->assertStringContainsString('Invalid UID', $output);
+	}
+
+	public function testStateNoProvidersActive(): void {
+		$user = $this->createMock(IUser::class);
+		$this->getAutoMock(IUserManager::class)->expects($this->once())
+			->method('get')
+			->with('eldora')
+			->willReturn($user);
+		$states = [
+			'u2f' => false,
+			'totp' => false,
+		];
+		$this->getAutoMock(IRegistry::class)->expects($this->once())
+			->method('getProviderStates')
+			->with($user)
+			->willReturn($states);
+
+		$this->cmd->execute([
+			'uid' => 'eldora',
+		]);
+
+		$output = $this->cmd->getDisplay();
+		$this->assertStringContainsString('Two-factor authentication is not enabled for user eldora', $output);
+	}
+
+	public function testStateOneProviderActive(): void {
+		$user = $this->createMock(IUser::class);
+		$this->getAutoMock(IUserManager::class)->expects($this->once())
+			->method('get')
+			->with('mohamed')
+			->willReturn($user);
+		$states = [
+			'u2f' => true,
+			'totp' => false,
+		];
+		$this->getAutoMock(IRegistry::class)->expects($this->once())
+			->method('getProviderStates')
+			->with($user)
+			->willReturn($states);
+
+		$this->cmd->execute([
+			'uid' => 'mohamed',
+		]);
+
+		$output = $this->cmd->getDisplay();
+		$this->assertStringContainsString('Two-factor authentication is enabled for user mohamed', $output);
+	}
+}

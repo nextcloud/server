@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="6.20.4@e53db692e6600cf729c88190b892bcf96e1c550e">
+  <file src="lib/public/DB/QueryBuilder/IQueryBuilder.php">
+    <TaintedSql>
+      <code><![CDATA[$column]]></code>
+    </TaintedSql>
+  </file>
+</files>

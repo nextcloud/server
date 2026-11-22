@@ -1,0 +1,81 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+namespace OCP\DirectEditing;
+
+use OCP\AppFramework\Http\Response;
+use OCP\Files\NotPermittedException;
+use RuntimeException;
+
+/**
+ * Interface IManager
+ *
+ * @since 18.0.0
+ */
+interface IManager {
+	/**
+	 * Register a new editor
+	 *
+	 * @since 18.0.0
+	 */
+	public function registerDirectEditor(IEditor $directEditor): void;
+
+	/**
+	 * Open the editing page for a provided token
+	 *
+	 * @since 18.0.0
+	 */
+	public function edit(string $token): Response;
+
+	/**
+	 * Create a file and generate a token based on the file path and editor details
+	 *
+	 * @since 18.0.0
+	 * @throws NotPermittedException
+	 * @throws RuntimeException
+	 */
+	public function create(string $path, string $editorId, string $creatorId, $templateId = null): string;
+
+	/**
+	 * Create a token based on an existing file path and editor details
+	 *
+	 * @since 35.0.0
+	 * @throws NotPermittedException
+	 * @throws RuntimeException
+	 */
+	public function open(string $filePath, ?string $editorId = null, ?int $fileId = null): string;
+
+	/**
+	 * Get the token details for a given token
+	 *
+	 * @since 18.0.0
+	 */
+	public function getToken(string $token): IToken;
+
+	/**
+	 * Cleanup expired tokens
+	 *
+	 * @since 18.0.0
+	 * @return int number of deleted tokens
+	 */
+	public function cleanup(): int;
+
+	/**
+	 * Check if direct editing is enabled
+	 *
+	 * @since 20.0.0
+	 */
+	public function isEnabled(): bool;
+
+	/**
+	 * @since 24.0.0
+	 * @return IEditor[]
+	 */
+	public function getEditors(): array;
+}

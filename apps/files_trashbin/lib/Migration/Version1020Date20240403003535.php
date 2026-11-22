@@ -1,0 +1,41 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+namespace OCA\Files_Trashbin\Migration;
+
+use Closure;
+use OCP\DB\ISchemaWrapper;
+use OCP\DB\Types;
+use OCP\Migration\Attributes\AddColumn;
+use OCP\Migration\Attributes\ColumnType;
+use OCP\Migration\IOutput;
+use OCP\Migration\SimpleMigrationStep;
+use Override;
+
+#[AddColumn(table: 'files_trash', name: 'deleted_by', type: ColumnType::STRING)]
+class Version1020Date20240403003535 extends SimpleMigrationStep {
+	#[Override]
+	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
+		/** @var ISchemaWrapper $schema */
+		$schema = $schemaClosure();
+
+		if ($schema->hasTable('files_trash')) {
+			$table = $schema->getTable('files_trash');
+			if (!$table->hasColumn('deleted_by')) {
+				$table->addColumn('deleted_by', Types::STRING, [
+					'notnull' => false,
+					'length' => 64,
+				]);
+				return $schema;
+			}
+		}
+
+		return null;
+	}
+}

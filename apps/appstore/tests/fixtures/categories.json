@@ -1,0 +1,202 @@
+{
+	"data": [
+		{
+			"id": "ai",
+			"translations": {
+				"en": {
+					"name": "AI",
+					"description": "Artificial Intelligence apps"
+				},
+				"de": {
+					"name": "AI",
+					"description": "Apps für künstliche Intelligenz"
+				}
+			}
+		},
+		{
+			"id": "customization",
+			"translations": {
+				"en": {
+					"name": "Customization",
+					"description": "Themes, layout and UX change apps"
+				},
+				"de": {
+					"name": "Anpassung",
+					"description": "Apps zur Änderung von Design, Layout und Benutzererfahrung"
+				}
+			}
+		},
+		{
+			"id": "dashboard",
+			"translations": {
+				"en": {
+					"name": "Dashboard",
+					"description": "Apps including Nextcloud Dashboard widgets"
+				},
+				"de": {
+					"name": "Dashboard",
+					"description": "Apps einschließlich Nextcloud Dashboard-Widgets"
+				}
+			}
+		},
+		{
+			"id": "files",
+			"translations": {
+				"en": {
+					"name": "Files",
+					"description": "File management and Files app extension apps"
+				},
+				"de": {
+					"name": "Dateien",
+					"description": "Dateimanagement sowie Erweiterungs-Apps für die Dateien-App"
+				}
+			}
+		},
+		{
+			"id": "games",
+			"translations": {
+				"en": {
+					"name": "Games",
+					"description": "Games run in your Nextcloud"
+				},
+				"de": {
+					"name": "Spiele",
+					"description": "Spiele für deine Nextcloud"
+				}
+			}
+		},
+		{
+			"id": "integration",
+			"translations": {
+				"en": {
+					"name": "Integration",
+					"description": "Apps that connect Nextcloud with other services and platforms"
+				},
+				"de": {
+					"name": "Einbindung",
+					"description": "Apps die Nextcloud mit anderen Diensten und Plattformen verbinden"
+				}
+			}
+		},
+		{
+			"id": "monitoring",
+			"translations": {
+				"en": {
+					"name": "Monitoring",
+					"description": "Data statistics, system diagnostics and activity apps"
+				},
+				"de": {
+					"name": "Überwachung",
+					"description": "Datenstatistiken-, Systemdiagnose- und Aktivitäten-Apps"
+				}
+			}
+		},
+		{
+			"id": "multimedia",
+			"translations": {
+				"en": {
+					"name": "Multimedia",
+					"description": "Audio, video and picture apps"
+				},
+				"de": {
+					"name": "Multimedia",
+					"description": "Audio-, Video- und Bilder-Apps"
+				}
+			}
+		},
+		{
+			"id": "office",
+			"translations": {
+				"en": {
+					"name": "Office & text",
+					"description": "Office and text processing apps"
+				},
+				"de": {
+					"name": "Büro & Text",
+					"description": "Büro- und Textverarbeitungs-Apps"
+				}
+			}
+		},
+		{
+			"id": "organization",
+			"translations": {
+				"en": {
+					"name": "Organization",
+					"description": "Time management, Todo list and calendar apps"
+				},
+				"de": {
+					"name": "Organisation",
+					"description": "Time management, Todo list and calendar apps"
+				}
+			}
+		},
+		{
+			"id": "search",
+			"translations": {
+				"en": {
+					"name": "Search",
+					"description": "Search related apps"
+				},
+				"de": {
+					"name": "Suche",
+					"description": "Verwandte Apps durchsuchen"
+				}
+			}
+		},
+		{
+			"id": "security",
+			"translations": {
+				"en": {
+					"name": "Security",
+					"description": "Apps that provide additional security mechanisms like authentication, authorization, encryption, etc."
+				},
+				"de": {
+					"name": "Sicherheit",
+					"description": "Apps die zusätzliche Sicherheitsmechanismen bereitstellen, wie z. B. Authentifizierung, Autorisierung, Verschlüsselung usw."
+				}
+			}
+		},
+		{
+			"id": "social",
+			"translations": {
+				"en": {
+					"name": "Social & communication",
+					"description": "Messaging, contact management and social media apps"
+				},
+				"de": {
+					"name": "Kommunikation",
+					"description": "Nachrichten-, Kontaktverwaltungs- und Social-Media-Apps"
+				}
+			}
+		},
+		{
+			"id": "tools",
+			"translations": {
+				"en": {
+					"name": "Tools",
+					"description": "Everything else"
+				},
+				"de": {
+					"name": "Werkzeuge",
+					"description": "Alles Andere"
+				}
+			}
+		},
+		{
+			"id": "workflow",
+			"translations": {
+				"en": {
+					"name": "Flow",
+					"description": "Apps for Nextcloud Flow"
+				},
+				"de": {
+					"name": "Flow",
+					"description": "Apps für Nextcloud Flow"
+				}
+			}
+		}
+	],
+	"timestamp": 1770475258,
+	"ncversion": "34.0.0.0",
+	"ETag": "\"6986f131-6575\""
+}

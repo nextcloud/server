@@ -1,0 +1,142 @@
+/*
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+import type { IFileAction, IFolder, INode, IView } from '@nextcloud/files'
+
+import StarOutlineSvg from '@mdi/svg/svg/star-outline.svg?raw'
+import StarSvg from '@mdi/svg/svg/star.svg?raw'
+import axios from '@nextcloud/axios'
+import { emit } from '@nextcloud/event-bus'
+import { Permission } from '@nextcloud/files'
+import { t } from '@nextcloud/l10n'
+import { encodePath } from '@nextcloud/paths'
+import { generateUrl } from '@nextcloud/router'
+import { isPublicShare } from '@nextcloud/sharing/public'
+import PQueue from 'p-queue'
+import { logger } from '../utils/logger.ts'
+
+const queue = new PQueue({ concurrency: 5 })
+
+export const ACTION_FAVORITE = 'favorite'
+
+export const action: IFileAction = {
+	id: ACTION_FAVORITE,
+	displayName({ nodes }) {
+		return shouldFavorite(nodes)
+			? t('files', 'Add to favorites')
+			: t('files', 'Remove from favorites')
+	},
+	iconSvgInline: ({ nodes }) => {
+		return shouldFavorite(nodes)
+			? StarOutlineSvg
+			: StarSvg
+	},
+
+	enabled({ nodes }) {
+		// Not enabled for public shares
+		if (isPublicShare()) {
+			return false
+		}
+
+		// We can only favorite nodes if they are located in files
+		return nodes.every((node) => node.root?.startsWith?.('/files'))
+			// and we have permissions
+			&& nodes.every((node) => node.permissions !== Permission.NONE)
+	},
+
+	async exec({ nodes, view, folder }): Promise<boolean> {
+		const willFavorite = shouldFavorite([nodes[0]])
+		return await favoriteNode(nodes[0], view, willFavorite, folder)
+	},
+	async execBatch({ nodes, view, folder }): Promise<boolean[]> {
+		const willFavorite = shouldFavorite(nodes)
+
+		// Map each node to a promise that resolves with the result of exec(node)
+		const promises = nodes.map((node) => {
+			// Create a promise that resolves with the result of exec(node)
+			const promise = new Promise<boolean>((resolve) => {
+				queue.add(async () => {
+					try {
+						await favoriteNode(node, view, willFavorite, folder)
+						resolve(true)
+					} catch (error) {
+						logger.error('Error while adding file to favorite', { error, source: node.source, node })
+						resolve(false)
+					}
+				})
+			})
+			return promise
+		})
+
+		return Promise.all(promises)
+	},
+
+	order: -50,
+
+	hotkey: {
+		description: t('files', 'Add or remove favorite'),
+		key: 'S',
+	},
+}
+
+/**
+ * Favorite or unfavorite a node
+ *
+ * @param node - The node to favorite/unfavorite
+ * @param view - The current view
+ * @param willFavorite - Whether to favorite or unfavorite the node
+ * @param folder - The currently open folder
+ */
+export async function favoriteNode(node: INode, view: IView, willFavorite: boolean, folder?: IFolder): Promise<boolean> {
+	try {
+		// TODO: migrate to webdav tags plugin
+		const url = generateUrl('/apps/files/api/v1/files') + encodePath(node.path)
+		await axios.post(url, {
+			tags: willFavorite
+				? [window.OC.TAG_FAVORITE]
+				: [],
+		})
+
+		// Remove from the virtual favorites listing, not when browsing a real folder
+		if (view.id === 'favorites' && !willFavorite && isFavoritesRoot(folder)) {
+			emit('files:node:deleted', node)
+		}
+
+		// Update the node webdav attribute
+		node.attributes.favorite = willFavorite ? 1 : 0
+		emit('files:node:updated', node)
+
+		// Dispatch event to whoever is interested
+		if (willFavorite) {
+			emit('files:favorites:added', node)
+		} else {
+			emit('files:favorites:removed', node)
+		}
+
+		return true
+	} catch (error) {
+		const action = willFavorite ? 'adding a file to favourites' : 'removing a file from favourites'
+		logger.error('Error while ' + action, { error, source: node.source, node })
+		return false
+	}
+}
+
+/**
+ * If any of the nodes is not favored, we display the favorite action.
+ *
+ * @param nodes - The nodes to check
+ */
+function shouldFavorite(nodes: INode[]): boolean {
+	return nodes.some((node) => node.attributes.favorite !== 1)
+}
+
+/**
+ * Whether the current folder is the virtual root of the favorites view.
+ *
+ * @param folder - The currently open folder
+ */
+function isFavoritesRoot(folder?: IFolder): boolean {
+	return !folder?.path || folder.path === '/'
+}

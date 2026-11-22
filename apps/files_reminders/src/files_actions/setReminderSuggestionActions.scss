@@ -1,0 +1,23 @@
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+ // TODO: remove when/if the actions API supports a separator
+ // This the last preset action, so we need to add a separator
+.files-list__row-action-set-reminder-custom {
+	margin-top: 13px;
+	position: relative;
+
+	&::before {
+		content: "";
+		margin-block: 3px;
+		margin-inline: 15px 10px;
+		border-bottom: 1px solid var(--color-border-dark);
+		cursor: default;
+		display: flex;
+		height: 0;
+		position: absolute;
+		inset-inline: 0;
+		top: -10px;
+	}
+}

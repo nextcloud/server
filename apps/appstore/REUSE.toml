@@ -1,0 +1,22 @@
+version = 1
+SPDX-PackageName = "nextcloud"
+SPDX-PackageSupplier = "Nextcloud <info@nextcloud.com>"
+SPDX-PackageDownloadLocation = "https://github.com/nextcloud/server"
+
+[[annotations]]
+path = ["tests/fixtures/categories.json", "tests/fixtures/categories-api-response.json"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+
+[[annotations]]
+path = ["img/app.svg", "img/app-dark.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2018-2024 Google LLC"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["l10n/**.js", "l10n/**.json"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Nextcloud translators"
+SPDX-License-Identifier = "AGPL-3.0-or-later"

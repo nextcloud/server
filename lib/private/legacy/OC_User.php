@@ -1,0 +1,315 @@
+<?php
+
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+use OC\Authentication\Token\IProvider;
+use OC\SystemConfig;
+use OC\User\Database;
+use OC\User\DisabledUserException;
+use OC\User\Session;
+use OCP\App\IAppManager;
+use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\Authentication\Exceptions\WipeTokenException;
+use OCP\Authentication\IApacheBackend;
+use OCP\Authentication\IProvideUserSecretBackend;
+use OCP\Authentication\Token\IToken;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IGroupManager;
+use OCP\IRequest;
+use OCP\ISession;
+use OCP\IURLGenerator;
+use OCP\IUserManager;
+use OCP\IUserSession;
+use OCP\L10N\IFactory;
+use OCP\Server;
+use OCP\Session\Exceptions\SessionNotAvailableException;
+use OCP\User\Events\BeforeUserLoggedInEvent;
+use OCP\User\Exceptions\UserNotFoundException;
+use OCP\UserInterface;
+use Psr\Log\LoggerInterface;
+
+/**
+ * This class provides wrapper methods for user management. Multiple backends are
+ * supported. User management operations are delegated to the configured backend for
+ * execution.
+ *
+ * Note that &run is deprecated and won't work anymore.
+ *
+ * Hooks provided:
+ *   logout()
+ * @deprecated 36.0.0 No more non-deprecated methods in there
+ */
+class OC_User {
+	public static $_setupedBackends = [];
+
+	/**
+	 * Adds the backend to the list of used backends
+	 *
+	 * @param string|UserInterface $backend default: database The backend to use for user management
+	 * @return bool
+	 * @deprecated 32.0.0 Use IUserManager::registerBackend instead
+	 *
+	 * Set the User Authentication Module
+	 */
+	public static function useBackend($backend = 'database') {
+		if ($backend instanceof UserInterface) {
+			Server::get(IUserManager::class)->registerBackend($backend);
+		} else {
+			// You'll never know what happens
+			if ($backend === null || !is_string($backend)) {
+				$backend = 'database';
+			}
+
+			// Load backend
+			switch ($backend) {
+				case 'database':
+				case 'mysql':
+				case 'sqlite':
+					Server::get(LoggerInterface::class)->debug('Adding user backend ' . $backend . '.', ['app' => 'core']);
+					Server::get(IUserManager::class)->registerBackend(new Database());
+					break;
+				case 'dummy':
+					Server::get(IUserManager::class)->registerBackend(new \Test\Util\User\Dummy());
+					break;
+				default:
+					Server::get(LoggerInterface::class)->debug('Adding default user backend ' . $backend . '.', ['app' => 'core']);
+					$className = 'OC_USER_' . strtoupper($backend);
+					Server::get(IUserManager::class)->registerBackend(new $className());
+					break;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * setup the configured backends in config.php
+	 * @suppress PhanDeprecatedFunction
+	 * @internal Should not be used by applications
+	 */
+	public static function setupBackends() {
+		Server::get(IAppManager::class)->loadApps(['prelogin']);
+
+		$backends = Server::get(SystemConfig::class)->getValue('user_backends', []);
+		if (isset($backends['default']) && !$backends['default']) {
+			// clear default backends
+			Server::get(IUserManager::class)->clearBackends();
+		}
+		foreach ($backends as $i => $config) {
+			if (!is_array($config)) {
+				continue;
+			}
+			$class = $config['class'];
+			$arguments = $config['arguments'];
+			if (class_exists($class)) {
+				if (!in_array($i, self::$_setupedBackends, true)) {
+					// make a reflection object
+					$reflectionObj = new ReflectionClass($class);
+
+					// use Reflection to create a new instance, using the $args
+					$backend = $reflectionObj->newInstanceArgs($arguments);
+					self::useBackend($backend);
+					self::$_setupedBackends[] = $i;
+				} else {
+					Server::get(LoggerInterface::class)->debug('User backend ' . $class . ' already initialized.', ['app' => 'core']);
+				}
+			} else {
+				Server::get(LoggerInterface::class)->error('User backend ' . $class . ' not found.', ['app' => 'core']);
+			}
+		}
+	}
+
+	/**
+	 * Try to login a user, assuming authentication
+	 * has already happened (e.g. via Single Sign On).
+	 *
+	 * Log in a user and regenerate a new session.
+	 * @internal Should not be called by applications
+	 */
+	public static function loginWithApache(IApacheBackend $backend): bool {
+		$uid = $backend->getCurrentUserId();
+		$run = true;
+
+		if ($uid) {
+			if (self::getUser() !== $uid) {
+				self::setUserId($uid);
+				/** @var Session $userSession */
+				$userSession = Server::get(IUserSession::class);
+				$dispatcher = Server::get(IEventDispatcher::class);
+				$request = Server::get(IRequest::class);
+				$user = $userSession->getUser();
+
+				if (!$user) {
+					// Should not happen except from bad code or configuration
+					throw new UserNotFoundException('User ' . $uid . ' not found');
+				}
+				if (!$user->isEnabled()) {
+					$message = Server::get(IFactory::class)->get('lib')->t('Account disabled');
+					throw new DisabledUserException($message);
+				}
+
+				$password = null;
+				if ($backend instanceof IProvideUserSecretBackend) {
+					$password = $backend->getCurrentUserSecret();
+				}
+
+				$dispatcher->dispatchTyped(new BeforeUserLoggedInEvent($uid, $password, $backend));
+
+				$userSession->createSessionToken($request, $uid, $uid, $password, IToken::REMEMBER);
+				$userSession->completeLogin(
+					$user,
+					['loginName' => $uid, 'password' => $password ?? ''],
+					regenerateSessionId:false,
+				);
+				$userSession->createRememberMeToken($user);
+
+				if (empty($password)) {
+					$tokenProvider = Server::get(IProvider::class);
+					try {
+						$token = $tokenProvider->getToken($userSession->getSession()->getId());
+						$token->setScope([
+							IToken::SCOPE_SKIP_PASSWORD_VALIDATION => true,
+							IToken::SCOPE_FILESYSTEM => true,
+						]);
+						$tokenProvider->updateToken($token);
+					} catch (InvalidTokenException|WipeTokenException|SessionNotAvailableException) {
+						// swallow the exceptions as we do not deal with them here
+						// simply skip updating the token when is it missing
+					}
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Verify with Apache whether user is authenticated.
+	 *
+	 * @return bool|null
+	 *                   true: authenticated
+	 *                   false: not authenticated
+	 *                   null: not handled / no backend available
+	 * @deprecated 36.0.0 Should not be used by new apps, for user_saml we need to refactor to drop it
+	 */
+	public static function handleApacheAuth(): ?bool {
+		$backend = self::findFirstActiveUsedBackend();
+		if ($backend) {
+			Server::get(IAppManager::class)->loadApps();
+
+			//setup extra user backends
+			self::setupBackends();
+			/** @var Session $session */
+			$session = Server::get(IUserSession::class);
+			$session->unsetMagicInCookie();
+
+			return self::loginWithApache($backend);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Sets user id for session and triggers emit
+	 * @deprecated 36.0.0 Use IUserSession
+	 */
+	public static function setUserId(?string $uid): void {
+		$userSession = Server::get(IUserSession::class);
+		$userManager = Server::get(IUserManager::class);
+		if ($user = $userManager->get($uid)) {
+			$userSession->setUser($user);
+		} else {
+			Server::get(ISession::class)->set('user_id', $uid);
+		}
+	}
+
+	/**
+	 * Set incognito mode, e.g. if a user wants to open a public link
+	 * @deprecated 36.0.0 Use IUserSession::setIncognitoMode instead
+	 */
+	public static function setIncognitoMode(bool $status): void {
+		Server::get(IUserSession::class)->setIncognitoMode($status);
+	}
+
+	/**
+	 * Get incognito mode status
+	 * @deprecated 36.0.0 Use IUserSession::isIncognitoMode instead
+	 */
+	public static function isIncognitoMode(): bool {
+		return Server::get(IUserSession::class)->isIncognitoMode();
+	}
+
+	/**
+	 * Returns the current logout URL valid for the currently logged-in user
+	 * @return string
+	 * @deprecated 36.0.0 Use IURLGenerator
+	 */
+	public static function getLogoutUrl(IURLGenerator $urlGenerator): string {
+		return $urlGenerator->getLogoutUrl();
+	}
+
+	/**
+	 * Check if the user is an admin user
+	 *
+	 * @param string $uid uid of the admin
+	 * @deprecated 36.0.0 Use IUserManager and IGroupManager
+	 */
+	public static function isAdminUser(string $uid): bool {
+		$user = Server::get(IUserManager::class)->get($uid);
+		$isAdmin = $user && Server::get(IGroupManager::class)->isAdmin($user->getUID());
+		return $isAdmin && !self::isIncognitoMode();
+	}
+
+	/**
+	 * get the user id of the user currently logged in.
+	 *
+	 * @return string|false uid or false
+	 * @deprecated 36.0.0 Use IUserSession or DI
+	 */
+	public static function getUser(): string|false {
+		$uid = Server::get(ISession::class)?->get('user_id');
+		if (!is_null($uid) && !self::isIncognitoMode()) {
+			return $uid;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Set password
+	 *
+	 * @param string $uid The username
+	 * @param string $password The new password
+	 * @param string $recoveryPassword for the encryption app to reset encryption keys
+	 *
+	 * Change the password of a user
+	 * @deprecated 36.0.0 Use OCP APIs
+	 */
+	public static function setPassword(string $uid, string $password, ?string $recoveryPassword = null): bool {
+		$user = Server::get(IUserManager::class)->get($uid);
+		if ($user) {
+			return $user->setPassword($password, $recoveryPassword);
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Returns the first active backend from self::$_usedBackends.
+	 *
+	 * @return IApacheBackend|null if no backend active, otherwise OCP\Authentication\IApacheBackend
+	 */
+	private static function findFirstActiveUsedBackend(): ?IApacheBackend {
+		foreach (Server::get(IUserManager::class)->getBackends() as $backend) {
+			if ($backend instanceof IApacheBackend) {
+				if ($backend->isSessionActive()) {
+					return $backend;
+				}
+			}
+		}
+
+		return null;
+	}
+}

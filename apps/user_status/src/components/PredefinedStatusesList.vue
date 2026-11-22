@@ -1,0 +1,97 @@
+<!--
+  - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
+<template>
+	<ul
+		v-if="statusesHaveLoaded"
+		class="predefined-statuses-list"
+		:aria-label="t('user_status', 'Predefined statuses')">
+		<PredefinedStatus
+			v-for="status in predefinedStatuses"
+			:key="status.id"
+			:messageId="status.id"
+			:icon="status.icon"
+			:message="status.message"
+			:clearAt="status.clearAt"
+			:selected="lastSelected === status.id"
+			@select="selectStatus(status)" />
+	</ul>
+	<div
+		v-else
+		class="predefined-statuses-list">
+		<NcLoadingIcon :size="16" />
+	</div>
+</template>
+
+<script>
+import { t } from '@nextcloud/l10n'
+import { mapActions, mapState } from 'pinia'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import PredefinedStatus from './PredefinedStatus.vue'
+import { usePredefinedStatusesStore } from '../store/predefinedStatuses.ts'
+import { useUserStatusStore } from '../store/userStatus.ts'
+
+export default {
+	name: 'PredefinedStatusesList',
+	components: {
+		NcLoadingIcon,
+		PredefinedStatus,
+	},
+
+	emits: ['selectStatus'],
+
+	data() {
+		return {
+			lastSelected: null,
+		}
+	},
+
+	computed: {
+		...mapState(usePredefinedStatusesStore, ['predefinedStatuses', 'statusesHaveLoaded']),
+		...mapState(useUserStatusStore, ['messageId']),
+	},
+
+	watch: {
+		messageId: {
+			immediate: true,
+			handler() {
+				this.lastSelected = this.messageId
+			},
+		},
+	},
+
+	/**
+	 * Loads all predefined statuses from the server
+	 * when this component is mounted
+	 */
+	created() {
+		this.loadAllPredefinedStatuses()
+	},
+
+	methods: {
+		...mapActions(usePredefinedStatusesStore, ['loadAllPredefinedStatuses']),
+		t,
+
+		/**
+		 * Emits an event when the user selects a status
+		 *
+		 * @param {object} status The selected status
+		 */
+		selectStatus(status) {
+			this.lastSelected = status.id
+			this.$emit('selectStatus', status)
+		},
+	},
+}
+</script>
+
+<style lang="scss" scoped>
+.predefined-statuses-list {
+	display: flex;
+	flex-direction: column;
+	gap: var(--default-grid-baseline);
+	margin-block: 0 calc(2 * var(--default-grid-baseline));
+}
+</style>

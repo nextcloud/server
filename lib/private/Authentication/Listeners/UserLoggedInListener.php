@@ -1,0 +1,46 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+namespace OC\Authentication\Listeners;
+
+use OC\Authentication\Token\Manager;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
+use OCP\User\Events\UserLoggedInEvent;
+
+/**
+ * @template-implements IEventListener<UserLoggedInEvent>
+ */
+class UserLoggedInListener implements IEventListener {
+	public function __construct(
+		private Manager $manager,
+	) {
+	}
+
+	#[\Override]
+	public function handle(Event $event): void {
+		if (!($event instanceof UserLoggedInEvent)) {
+			return;
+		}
+
+		$password = $event->getPassword();
+
+		// prevent setting an empty pw as result of pw-less-login
+		if ($password === null || $password === '') {
+			return;
+		}
+
+		// If this is already a token login there is nothing to do
+		if ($event->isTokenLogin()) {
+			return;
+		}
+
+		$this->manager->updatePasswords($event->getUser()->getUID(), $password);
+	}
+}

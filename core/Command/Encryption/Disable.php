@@ -1,0 +1,44 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+namespace OC\Core\Command\Encryption;
+
+use OCP\IAppConfig;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
+class Disable extends Command {
+	public function __construct(
+		protected IAppConfig $appConfig,
+	) {
+		parent::__construct();
+	}
+
+	#[\Override]
+	protected function configure() {
+		$this
+			->setName('encryption:disable')
+			->setDescription('Disable encryption')
+		;
+	}
+
+	#[\Override]
+	protected function execute(InputInterface $input, OutputInterface $output): int {
+		$isEnabled = $this->appConfig->getValueBool('core', 'encryption_enabled', false);
+		if (!$isEnabled) {
+			$output->writeln('Encryption is already disabled');
+		} else {
+			$this->appConfig->setValueBool('core', 'encryption_enabled', false);
+			$output->writeln('<info>Encryption disabled</info>');
+		}
+		return 0;
+	}
+}

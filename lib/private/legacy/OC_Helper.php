@@ -1,0 +1,291 @@
+<?php
+
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+use OC\Files\Filesystem;
+use OC\Files\ObjectStore\HomeObjectStoreStorage;
+use OC\Files\Storage\Home;
+use OC\Files\Storage\Wrapper\Quota;
+use OC\Files\View;
+use OC\SystemConfig;
+use OCA\Files_Sharing\External\Storage;
+use OCP\Files\FileInfo;
+use OCP\Files\Mount\IMountPoint;
+use OCP\Files\NotFoundException;
+use OCP\Files\Storage\ISharedStorage;
+use OCP\ICacheFactory;
+use OCP\IConfig;
+use OCP\IUser;
+use OCP\IUserManager;
+use OCP\IUserSession;
+use OCP\Server;
+use Psr\Log\LoggerInterface;
+
+/**
+ * Collection of useful functions
+ *
+ * @psalm-type StorageInfo = array{
+ *     free: float|int,
+ *     mountPoint: string,
+ *     mountType: string,
+ *     owner: string,
+ *     ownerDisplayName: string,
+ *     quota: float|int,
+ *     relative: float|int,
+ *     total: float|int,
+ *     used: float|int,
+ * }
+ */
+class OC_Helper {
+	private static ?ICacheFactory $cacheFactory = null;
+	private static ?bool $quotaIncludeExternalStorage = null;
+
+	/**
+	 * @internal
+	 */
+	public static function reset(): void {
+		self::$cacheFactory = null;
+		self::$quotaIncludeExternalStorage = null;
+	}
+
+	/**
+	 * Calculate the disc space for the given path
+	 *
+	 * BEWARE: this requires that Util::setupFS() was called
+	 * already !
+	 *
+	 * @param string $path
+	 * @param FileInfo $rootInfo (optional)
+	 * @param bool $includeMountPoints whether to include mount points in the size calculation
+	 * @param bool $useCache whether to use the cached quota values
+	 * @psalm-suppress LessSpecificReturnStatement Legacy code outputs weird types - manually validated that they are correct
+	 * @return StorageInfo
+	 * @throws NotFoundException
+	 * @deprecated 36.0.0 use \OCP\Files\IUserFolder::getUserQuota
+	 */
+	public static function getStorageInfo($path, $rootInfo = null, $includeMountPoints = true, $useCache = true) {
+		if (!self::$cacheFactory) {
+			self::$cacheFactory = Server::get(ICacheFactory::class);
+		}
+		$memcache = self::$cacheFactory->createLocal('storage_info');
+
+		// return storage info without adding mount points
+		if (self::$quotaIncludeExternalStorage === null) {
+			self::$quotaIncludeExternalStorage = Server::get(SystemConfig::class)->getValue('quota_include_external_storage', false);
+		}
+
+		$view = Filesystem::getView();
+		if (!$view) {
+			throw new NotFoundException();
+		}
+		$fullPath = Filesystem::normalizePath($view->getAbsolutePath($path));
+
+		$cacheKey = $fullPath . '::' . ($includeMountPoints ? 'include' : 'exclude');
+		if ($useCache) {
+			$cached = $memcache->get($cacheKey);
+			if ($cached) {
+				return $cached;
+			}
+		}
+
+		if (!$rootInfo) {
+			$rootInfo = Filesystem::getFileInfo($path, self::$quotaIncludeExternalStorage ? 'ext' : false);
+		}
+		if (!$rootInfo instanceof FileInfo) {
+			throw new NotFoundException('The root directory of the user\'s files is missing');
+		}
+
+		/** @var int|float $quota */
+		$quota = FileInfo::SPACE_UNLIMITED;
+		$mount = $rootInfo->getMountPoint();
+		$storage = $mount->getStorage();
+		$sourceStorage = $storage;
+		if ($storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage')) {
+			self::$quotaIncludeExternalStorage = false;
+		}
+		if (self::$quotaIncludeExternalStorage) {
+			if ($storage->instanceOfStorage(ISharedStorage::class)) {
+				// we must use the shared nodes owner,
+				// because if user A shared a file with user B and B shares this again,
+				// then the share initiator is user B but the quota that this counts in is user A's quota.
+				/** @var ISharedStorage $storage */
+				$user = $storage->getShare()->getNode()->getOwner();
+			} elseif (
+				$storage->instanceOfStorage('\OC\Files\Storage\Home')
+				|| $storage->instanceOfStorage('\OC\Files\ObjectStore\HomeObjectStoreStorage')
+			) {
+				/** @var Home|HomeObjectStoreStorage $storage */
+				$user = $storage->getUser();
+			} else {
+				$user = self::getUserOfPath($rootInfo->getPath()) ?? Server::get(IUserSession::class)->getUser();
+			}
+			$quota = $user?->getQuotaBytes() ?? FileInfo::SPACE_UNKNOWN;
+			if ($user !== null && $quota !== FileInfo::SPACE_UNLIMITED) {
+				// always get free space / total space from root + mount points
+				return self::getGlobalStorageInfo($quota, $user, $mount);
+			}
+		}
+
+		// TODO: need a better way to get total space from storage
+		if ($sourceStorage->instanceOfStorage('\OC\Files\Storage\Wrapper\Quota')) {
+			/** @var Quota $sourceStorage */
+			$quota = $sourceStorage->getQuota();
+			$used = $sourceStorage->getSize($path, $storage);
+		} else {
+			$used = $rootInfo->getSize($includeMountPoints);
+		}
+
+		$used = max($used, 0.0);
+
+		try {
+			$free = $sourceStorage->free_space($rootInfo->getInternalPath());
+			if (is_bool($free)) {
+				$free = 0.0;
+			}
+		} catch (\Exception $e) {
+			if ($path === '') {
+				throw $e;
+			}
+			/** @var LoggerInterface $logger */
+			$logger = Server::get(LoggerInterface::class);
+			$logger->warning('Error while getting quota info, using root quota', ['exception' => $e]);
+			$rootInfo = self::getStorageInfo('');
+			$memcache->set($cacheKey, $rootInfo, 5 * 60);
+			return $rootInfo;
+		}
+		if ($free >= 0) {
+			$total = $free + $used;
+		} else {
+			$total = $free; //either unknown or unlimited
+		}
+		if ($total > 0) {
+			if ($quota > 0 && $total > $quota) {
+				$total = $quota;
+			}
+			// prevent division by zero or error codes (negative values)
+			$relative = round(($used / $total) * 10000) / 100;
+		} else {
+			$relative = 0;
+		}
+
+		/*
+		 * \OCA\Files_Sharing\External\Storage returns the cloud ID as the owner for the storage.
+		 * It is unnecessary to query the user manager for the display name, as it won't have this information.
+		 */
+		$isRemoteShare = $storage->instanceOfStorage(Storage::class);
+
+		$ownerId = $storage->getOwner($path);
+		$ownerDisplayName = '';
+
+		if ($isRemoteShare === false && $ownerId !== false) {
+			$ownerDisplayName = Server::get(IUserManager::class)->getDisplayName($ownerId) ?? '';
+		}
+
+		if (substr_count($mount->getMountPoint(), '/') < 3) {
+			$mountPoint = '';
+		} else {
+			[,,,$mountPoint] = explode('/', $mount->getMountPoint(), 4);
+		}
+
+		$info = [
+			'free' => $free,
+			'used' => $used,
+			'quota' => $quota,
+			'total' => $total,
+			'relative' => $relative,
+			'owner' => $ownerId,
+			'ownerDisplayName' => $ownerDisplayName,
+			'mountType' => $mount->getMountType(),
+			'mountPoint' => trim($mountPoint, '/'),
+		];
+
+		if ($isRemoteShare === false && $ownerId !== false && $path === '/') {
+			// If path is root, store this as last known quota usage for this user
+			Server::get(IConfig::class)->setUserValue($ownerId, 'files', 'lastSeenQuotaUsage', (string)$relative);
+		}
+
+		$memcache->set($cacheKey, $info, 5 * 60);
+
+		return $info;
+	}
+
+	/**
+	 * The user whose tree an absolute path is in, e.g. the user `alice` for `/alice/files/...`
+	 */
+	private static function getUserOfPath(string $path): ?IUser {
+		$userId = explode('/', ltrim($path, '/'))[0];
+		if ($userId === '') {
+			return null;
+		}
+		return Server::get(IUserManager::class)->get($userId);
+	}
+
+	/**
+	 * Get storage info including all mount points and quota
+	 *
+	 * @psalm-suppress LessSpecificReturnStatement Legacy code outputs weird types - manually validated that they are correct
+	 * @return StorageInfo
+	 * @throws NotFoundException
+	 */
+	private static function getGlobalStorageInfo(int|float $quota, IUser $user, IMountPoint $mount): array {
+		// the usage has to be read from the home of the user the quota belongs to,
+		// which is not necessarily the user of the current session
+		$view = new View('/' . $user->getUID() . '/files');
+		$rootInfo = $view->getFileInfo('', 'ext');
+		if (!$rootInfo instanceof FileInfo) {
+			throw new NotFoundException('The root directory of the user\'s files is missing');
+		}
+		/** @var int|float $used */
+		$used = $rootInfo['size'];
+		if ($used < 0) {
+			$used = 0.0;
+		}
+
+		$total = $quota;
+		/** @var int|float $free */
+		$free = $quota - $used;
+
+		if ($total > 0) {
+			if ($quota > 0 && $total > $quota) {
+				$total = $quota;
+			}
+			// prevent division by zero or error codes (negative values)
+			$relative = round(($used / $total) * 10000) / 100;
+		} else {
+			$relative = 0.0;
+		}
+
+		if (substr_count($mount->getMountPoint(), '/') < 3) {
+			$mountPoint = '';
+		} else {
+			[,,,$mountPoint] = explode('/', $mount->getMountPoint(), 4);
+		}
+
+		return [
+			'free' => $free,
+			'used' => $used,
+			'total' => $total,
+			'relative' => $relative,
+			'quota' => $quota,
+			'owner' => $user->getUID(),
+			'ownerDisplayName' => $user->getDisplayName(),
+			'mountType' => $mount->getMountType(),
+			'mountPoint' => trim($mountPoint, '/'),
+		];
+	}
+
+	/**
+	 * @deprecated 36.0.0
+	 */
+	public static function clearStorageInfo(string $absolutePath): void {
+		/** @var ICacheFactory $cacheFactory */
+		$cacheFactory = Server::get(ICacheFactory::class);
+		$memcache = $cacheFactory->createLocal('storage_info');
+		$cacheKeyPrefix = Filesystem::normalizePath($absolutePath) . '::';
+		$memcache->remove($cacheKeyPrefix . 'include');
+		$memcache->remove($cacheKeyPrefix . 'exclude');
+	}
+}

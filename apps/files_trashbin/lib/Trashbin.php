@@ -1,0 +1,1278 @@
+<?php
+
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+namespace OCA\Files_Trashbin;
+
+use OC\Files\Cache\Cache;
+use OC\Files\Cache\CacheEntry;
+use OC\Files\Cache\CacheQueryBuilder;
+use OC\Files\Filesystem;
+use OC\Files\Node\NonExistingFile;
+use OC\Files\Node\NonExistingFolder;
+use OC\Files\View;
+use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCA\Files_Trashbin\Command\Expire;
+use OCA\Files_Trashbin\Events\BeforeNodeRestoredEvent;
+use OCA\Files_Trashbin\Events\NodeRestoredEvent;
+use OCA\Files_Trashbin\Exceptions\CopyRecursiveException;
+use OCA\Files_Versions\Storage;
+use OCP\App\IAppManager;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Command\IBus;
+use OCP\Config\IUserConfig;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\EventDispatcher\IEventListener;
+use OCP\Exceptions\AbortedEventException;
+use OCP\Files\Cache\IPropagator;
+use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
+use OCP\Files\File;
+use OCP\Files\Folder;
+use OCP\Files\IMimeTypeLoader;
+use OCP\Files\IRootFolder;
+use OCP\Files\Node;
+use OCP\Files\NotEnoughSpaceException;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
+use OCP\Files\Storage\ILockingStorage;
+use OCP\Files\Storage\IStorage;
+use OCP\FilesMetadata\IFilesMetadataManager;
+use OCP\IAppConfig;
+use OCP\IDBConnection;
+use OCP\IRequest;
+use OCP\IURLGenerator;
+use OCP\IUser;
+use OCP\IUserManager;
+use OCP\IUserSession;
+use OCP\Lock\ILockingProvider;
+use OCP\Lock\LockedException;
+use OCP\Server;
+use OCP\Share\Exceptions\ShareNotFound;
+use OCP\User\Exceptions\UserNotFoundException;
+use OCP\Util;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use Psr\Log\LoggerInterface;
+
+/** @template-implements IEventListener<BeforeNodeDeletedEvent> */
+class Trashbin implements IEventListener {
+	// unit: percentage; 50% of available disk space/quota
+	public const DEFAULTMAXSIZE = 50;
+
+	private static function getUser(): string|false {
+		return Server::get(IUserSession::class)->getUser()?->getUID() ?? false;
+	}
+
+	/**
+	 * Ensure we don't need to scan the file during the move to trash
+	 * by triggering the scan in the pre-hook
+	 */
+	public static function ensureFileScannedHook(Node $node): void {
+		try {
+			self::getUidAndFilename($node->getPath());
+		} catch (NotFoundException $e) {
+			// Nothing to scan for non existing files
+		}
+	}
+
+	/**
+	 * get the UID of the owner of the file and the path to the file relative to
+	 * owners files folder
+	 *
+	 * @param string $filename
+	 * @return array
+	 * @throws UserNotFoundException
+	 */
+	public static function getUidAndFilename($filename) {
+		$uid = Filesystem::getOwner($filename);
+		$userManager = Server::get(IUserManager::class);
+		// if the user with the UID doesn't exists, e.g. because the UID points
+		// to a remote user with a federated cloud ID we use the current logged-in
+		// user. We need a valid local user to move the file to the right trash bin
+		if (!$userManager->userExists($uid)) {
+			$uid = self::getUser();
+		}
+		if (!$uid) {
+			// no owner, usually because of share link from ext storage
+			return [null, null];
+		}
+		Filesystem::initMountPoints($uid);
+		if ($uid !== self::getUser()) {
+			$info = Filesystem::getFileInfo($filename);
+			$ownerView = new View('/' . $uid . '/files');
+			try {
+				$filename = $ownerView->getPath($info['fileid']);
+			} catch (NotFoundException $e) {
+				$filename = null;
+			}
+		}
+		return [$uid, $filename];
+	}
+
+	/**
+	 * get original location and deleted by of files for user
+	 *
+	 * @param string $user
+	 * @return array<string, array<string, array{location: string, deletedBy: string}>>
+	 */
+	public static function getExtraData($user) {
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
+		$query->select('id', 'timestamp', 'location', 'deleted_by')
+			->from('files_trash')
+			->where($query->expr()->eq('user', $query->createNamedParameter($user)));
+		$result = $query->executeQuery();
+		$array = [];
+		foreach ($result->iterateAssociative() as $row) {
+			$array[$row['id']][$row['timestamp']] = [
+				'location' => (string)$row['location'],
+				'deletedBy' => (string)$row['deleted_by'],
+			];
+		}
+		$result->closeCursor();
+		return $array;
+	}
+
+	/**
+	 * get original location of file
+	 *
+	 * @param string $user
+	 * @param string $filename
+	 * @param string $timestamp
+	 * @return string|false original location
+	 */
+	public static function getLocation($user, $filename, $timestamp) {
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
+		$query->select('location')
+			->from('files_trash')
+			->where($query->expr()->eq('user', $query->createNamedParameter($user)))
+			->andWhere($query->expr()->eq('id', $query->createNamedParameter($filename)))
+			->andWhere($query->expr()->eq('timestamp', $query->createNamedParameter($timestamp)));
+
+		$result = $query->executeQuery();
+		$row = $result->fetchAssociative();
+		$result->closeCursor();
+
+		if (isset($row['location'])) {
+			return $row['location'];
+		} else {
+			return false;
+		}
+	}
+
+	/** @param string $user */
+	private static function setUpTrash($user): void {
+		$view = new View('/' . $user);
+		if (!$view->is_dir('files_trashbin')) {
+			$view->mkdir('files_trashbin');
+		}
+		if (!$view->is_dir('files_trashbin/files')) {
+			$view->mkdir('files_trashbin/files');
+		}
+		if (!$view->is_dir('files_trashbin/versions')) {
+			$view->mkdir('files_trashbin/versions');
+		}
+		if (!$view->is_dir('files_trashbin/keys')) {
+			$view->mkdir('files_trashbin/keys');
+		}
+	}
+
+	/**
+	 * copy file to owners trash
+	 *
+	 * @param string $sourcePath
+	 * @param string $owner
+	 * @param string $targetPath
+	 * @param string $user
+	 * @param int $timestamp
+	 */
+	private static function copyFilesToUser($sourcePath, $owner, $targetPath, $user, $timestamp): void {
+		self::setUpTrash($owner);
+
+		$targetFilename = basename($targetPath);
+		$targetLocation = dirname($targetPath);
+
+		$sourceFilename = basename($sourcePath);
+
+		$view = new View('/');
+
+		$target = $user . '/files_trashbin/files/' . static::getTrashFilename($targetFilename, $timestamp);
+		$source = $owner . '/files_trashbin/files/' . static::getTrashFilename($sourceFilename, $timestamp);
+		$free = $view->free_space($target);
+		$isUnknownOrUnlimitedFreeSpace = $free < 0;
+		$isEnoughFreeSpaceLeft = $view->filesize($source) < $free;
+		if ($isUnknownOrUnlimitedFreeSpace || $isEnoughFreeSpaceLeft) {
+			self::copy_recursive($source, $target, $view);
+		}
+
+		if ($view->file_exists($target)) {
+			$query = Server::get(IDBConnection::class)->getQueryBuilder();
+			$query->insert('files_trash')
+				->setValue('id', $query->createNamedParameter($targetFilename))
+				->setValue('timestamp', $query->createNamedParameter($timestamp))
+				->setValue('location', $query->createNamedParameter($targetLocation))
+				->setValue('user', $query->createNamedParameter($user))
+				->setValue('deleted_by', $query->createNamedParameter($user));
+			$result = $query->executeStatement();
+			if (!$result) {
+				Server::get(LoggerInterface::class)->error('trash bin database couldn\'t be updated for the files owner', ['app' => 'files_trashbin']);
+			}
+		}
+	}
+
+	/**
+	 * move file to the trash bin
+	 *
+	 * @param string $file_path path to the deleted file/directory relative to the files root directory
+	 * @param bool $ownerOnly delete for owner only (if file gets moved out of a shared folder)
+	 *
+	 * @return bool
+	 */
+	public static function move2trash($file_path, $ownerOnly = false) {
+		// get the user for which the filesystem is setup
+		$root = Filesystem::getRoot();
+		[, $user] = explode('/', $root);
+		[$owner, $ownerPath] = self::getUidAndFilename($file_path);
+
+		// if no owner found (ex: ext storage + share link), will use the current user's trashbin then
+		if (is_null($owner)) {
+			$owner = $user;
+			$ownerPath = $file_path;
+		}
+
+		$ownerView = new View('/' . $owner);
+
+		// file has been deleted in between
+		if (is_null($ownerPath) || $ownerPath === '') {
+			return true;
+		}
+
+		$sourceInfo = $ownerView->getFileInfo('/files/' . $ownerPath);
+
+		if ($sourceInfo === false) {
+			return true;
+		}
+
+		self::setUpTrash($user);
+		if ($owner !== $user) {
+			// also setup for owner
+			self::setUpTrash($owner);
+		}
+
+		$path_parts = pathinfo($ownerPath);
+
+		$filename = $path_parts['basename'];
+		$location = $path_parts['dirname'];
+		/** @var ITimeFactory $timeFactory */
+		$timeFactory = Server::get(ITimeFactory::class);
+		$timestamp = $timeFactory->getTime();
+
+		$lockingProvider = Server::get(ILockingProvider::class);
+
+		// disable proxy to prevent recursive calls
+		$trashPath = '/files_trashbin/files/' . static::getTrashFilename($filename, $timestamp);
+		$gotLock = false;
+
+		do {
+			/** @var ILockingStorage & IStorage $trashStorage */
+			[$trashStorage, $trashInternalPath] = $ownerView->resolvePath($trashPath);
+			try {
+				$trashStorage->acquireLock($trashInternalPath, ILockingProvider::LOCK_EXCLUSIVE, $lockingProvider);
+				$gotLock = true;
+			} catch (LockedException $e) {
+				// a file with the same name is being deleted concurrently
+				// nudge the timestamp a bit to resolve the conflict
+
+				$timestamp = $timestamp + 1;
+
+				$trashPath = '/files_trashbin/files/' . static::getTrashFilename($filename, $timestamp);
+			}
+		} while (!$gotLock);
+
+		$sourceStorage = $sourceInfo->getStorage();
+		$sourceInternalPath = $sourceInfo->getInternalPath();
+
+		if ($trashStorage->file_exists($trashInternalPath)) {
+			$trashStorage->unlink($trashInternalPath);
+		}
+
+		$configuredTrashbinSize = static::getConfiguredTrashbinSize($owner);
+		if ($configuredTrashbinSize >= 0 && $sourceInfo->getSize() >= $configuredTrashbinSize) {
+			$trashStorage->releaseLock($trashInternalPath, ILockingProvider::LOCK_EXCLUSIVE, $lockingProvider);
+			return false;
+		}
+
+		// there is still a possibility that the file has been deleted by a remote user
+		$deletedBy = self::overwriteDeletedBy($user);
+
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
+		$query->insert('files_trash')
+			->setValue('id', $query->createNamedParameter($filename))
+			->setValue('timestamp', $query->createNamedParameter($timestamp))
+			->setValue('location', $query->createNamedParameter($location))
+			->setValue('user', $query->createNamedParameter($owner))
+			->setValue('deleted_by', $query->createNamedParameter($deletedBy));
+		$inserted = false;
+		try {
+			$inserted = ($query->executeStatement() === 1);
+		} catch (\Throwable $e) {
+			Server::get(LoggerInterface::class)->error(
+				'trash bin database insert failed',
+				[
+					'app' => 'files_trashbin',
+					'exception' => $e,
+					'user' => $owner,
+					'filename' => $filename,
+					'timestamp' => $timestamp,
+				]
+			);
+		}
+		if (!$inserted) {
+			Server::get(LoggerInterface::class)->error(
+				'trash bin database couldn\'t be updated, skipping trash move',
+				[
+					'app' => 'files_trashbin',
+					'user' => $owner,
+					'filename' => $filename,
+					'timestamp' => $timestamp,
+				]
+			);
+			$trashStorage->releaseLock($trashInternalPath, ILockingProvider::LOCK_EXCLUSIVE, $lockingProvider);
+			return false;
+		}
+
+		$moveSuccessful = true;
+		try {
+			$inCache = $sourceStorage->getCache()->inCache($sourceInternalPath);
+			$trashStorage->moveFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
+			if ($inCache) {
+				$trashStorage->getUpdater()->renameFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
+			} else {
+				$sizeDifference = $sourceInfo->getSize();
+				if ($sizeDifference < 0) {
+					$sizeDifference = null;
+				} else {
+					$sizeDifference = (int)$sizeDifference;
+				}
+				$trashStorage->getUpdater()->update($trashInternalPath, null, $sizeDifference);
+			}
+		} catch (\Exception $e) {
+			$moveSuccessful = false;
+			if ($trashStorage->file_exists($trashInternalPath)) {
+				$trashStorage->unlink($trashInternalPath);
+			}
+			Server::get(LoggerInterface::class)->error('Couldn\'t move ' . $file_path . ' to the trash bin', ['app' => 'files_trashbin']);
+		}
+
+		if ($sourceStorage->file_exists($sourceInternalPath)) { // failed to delete the original file, abort
+			if ($sourceStorage->is_dir($sourceInternalPath)) {
+				$sourceStorage->rmdir($sourceInternalPath);
+			} else {
+				$sourceStorage->unlink($sourceInternalPath);
+			}
+
+			if ($sourceStorage->file_exists($sourceInternalPath)) {
+				// undo the cache move
+				$sourceStorage->getUpdater()->renameFromStorage($trashStorage, $trashInternalPath, $sourceInternalPath);
+			} else {
+				$trashStorage->getUpdater()->remove($trashInternalPath);
+			}
+			$moveSuccessful = false;
+		}
+
+		if (!$moveSuccessful) {
+			Server::get(LoggerInterface::class)->error(
+				'trash move failed, removing trash metadata and payload',
+				[
+					'app' => 'files_trashbin',
+					'user' => $owner,
+					'filename' => $filename,
+					'timestamp' => $timestamp,
+				]
+			);
+			// The metadata row belongs to the owner, even when another user initiated
+			// the deletion.
+			self::deleteTrashRow($owner, $filename, $timestamp);
+			if ($trashStorage->file_exists($trashInternalPath)) {
+				if ($trashStorage->is_dir($trashInternalPath)) {
+					$trashStorage->rmdir($trashInternalPath);
+				} else {
+					$trashStorage->unlink($trashInternalPath);
+				}
+			}
+			$trashStorage->getUpdater()->remove($trashInternalPath);
+		}
+
+		if ($moveSuccessful) {
+			Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_moveToTrash', ['filePath' => Filesystem::normalizePath($file_path),
+				'trashPath' => Filesystem::normalizePath(static::getTrashFilename($filename, $timestamp))]);
+
+			self::retainVersions($filename, $owner, $ownerPath, $timestamp);
+
+			// if owner !== user we need to also add a copy to the users trash
+			if ($user !== $owner && $ownerOnly === false) {
+				self::copyFilesToUser($ownerPath, $owner, $file_path, $user, $timestamp);
+			}
+		}
+
+		$trashStorage->releaseLock($trashInternalPath, ILockingProvider::LOCK_EXCLUSIVE, $lockingProvider);
+
+		self::scheduleExpire($user);
+
+		// if owner !== user we also need to update the owners trash size
+		if ($owner !== $user) {
+			self::scheduleExpire($owner);
+		}
+
+		return $moveSuccessful;
+	}
+
+	private static function getConfiguredTrashbinSize(string $user): int|float {
+		$userConfig = Server::get(IUserConfig::class);
+		$userTrashbinSize = $userConfig->getValueString($user, 'files_trashbin', 'trashbin_size', '-1');
+		if (is_numeric($userTrashbinSize) && ($userTrashbinSize > -1)) {
+			return Util::numericToNumber($userTrashbinSize);
+		}
+
+		$appConfig = Server::get(IAppConfig::class);
+		$systemTrashbinSize = $appConfig->getValueString('files_trashbin', 'trashbin_size', '-1');
+		if (is_numeric($systemTrashbinSize)) {
+			return Util::numericToNumber($systemTrashbinSize);
+		}
+		return -1;
+	}
+
+	/**
+	 * Move file versions to trash so that they can be restored later
+	 *
+	 * @param string $filename of deleted file
+	 * @param string $owner owner user id
+	 * @param string $ownerPath path relative to the owner's home storage
+	 * @param int $timestamp when the file was deleted
+	 */
+	private static function retainVersions($filename, $owner, $ownerPath, $timestamp) {
+		if (Server::get(IAppManager::class)->isEnabledForUser('files_versions') && !empty($ownerPath)) {
+			$user = self::getUser();
+			$rootView = new View('/');
+
+			if ($rootView->is_dir($owner . '/files_versions/' . $ownerPath)) {
+				if ($owner !== $user) {
+					self::copy_recursive($owner . '/files_versions/' . $ownerPath, $owner . '/files_trashbin/versions/' . static::getTrashFilename(basename($ownerPath), $timestamp), $rootView);
+				}
+				self::move($rootView, $owner . '/files_versions/' . $ownerPath, $user . '/files_trashbin/versions/' . static::getTrashFilename($filename, $timestamp));
+			} elseif ($versions = Storage::getVersions($owner, $ownerPath)) {
+				foreach ($versions as $v) {
+					if ($owner !== $user) {
+						self::copy($rootView, $owner . '/files_versions' . $v['path'] . '.v' . $v['version'], $owner . '/files_trashbin/versions/' . static::getTrashFilename($v['name'] . '.v' . $v['version'], $timestamp));
+					}
+					self::move($rootView, $owner . '/files_versions' . $v['path'] . '.v' . $v['version'], $user . '/files_trashbin/versions/' . static::getTrashFilename($filename . '.v' . $v['version'], $timestamp));
+				}
+			}
+		}
+	}
+
+	/**
+	 * Move a file or folder on storage level
+	 *
+	 * @param View $view
+	 * @param string $source
+	 * @param string $target
+	 * @return bool
+	 */
+	private static function move(View $view, $source, $target) {
+		/** @var \OC\Files\Storage\Storage $sourceStorage */
+		[$sourceStorage, $sourceInternalPath] = $view->resolvePath($source);
+		/** @var \OC\Files\Storage\Storage $targetStorage */
+		[$targetStorage, $targetInternalPath] = $view->resolvePath($target);
+		/** @var \OC\Files\Storage\Storage $ownerTrashStorage */
+
+		$result = $targetStorage->moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+		if ($result) {
+			$targetStorage->getUpdater()->renameFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+		}
+		return $result;
+	}
+
+	/**
+	 * Copy a file or folder on storage level
+	 *
+	 * @param View $view
+	 * @param string $source
+	 * @param string $target
+	 * @return bool
+	 */
+	private static function copy(View $view, $source, $target) {
+		/** @var \OC\Files\Storage\Storage $sourceStorage */
+		[$sourceStorage, $sourceInternalPath] = $view->resolvePath($source);
+		/** @var \OC\Files\Storage\Storage $targetStorage */
+		[$targetStorage, $targetInternalPath] = $view->resolvePath($target);
+		/** @var \OC\Files\Storage\Storage $ownerTrashStorage */
+
+		$result = $targetStorage->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+		if ($result) {
+			$targetStorage->getUpdater()->update($targetInternalPath);
+		}
+		return $result;
+	}
+
+	/**
+	 * Restore a file or folder from trash bin
+	 *
+	 * @param string $file path to the deleted file/folder relative to "files_trashbin/files/",
+	 *                     including the timestamp suffix ".d12345678"
+	 * @param string $filename name of the file/folder
+	 * @param int $timestamp time when the file/folder was deleted
+	 *
+	 * @return bool true on success, false otherwise
+	 */
+	public static function restore($file, $filename, $timestamp) {
+		$user = self::getUser();
+		if (!$user) {
+			throw new \Exception('Tried to restore a file while not logged in');
+		}
+		$view = new View('/' . $user);
+
+		$location = '';
+		if ($timestamp) {
+			$location = self::getLocation($user, $filename, $timestamp);
+			if ($location === false) {
+				Server::get(LoggerInterface::class)->error('trash bin database inconsistent! ($user: ' . $user . ' $filename: ' . $filename . ', $timestamp: ' . $timestamp . ')', ['app' => 'files_trashbin']);
+			} else {
+				// if location no longer exists, restore file in the root directory
+				if ($location !== '/'
+					&& (!$view->is_dir('files/' . $location)
+						|| !$view->isCreatable('files/' . $location))
+				) {
+					$location = '';
+				}
+			}
+		}
+
+		// we need a  extension in case a file/dir with the same name already exists
+		$uniqueFilename = self::getUniqueFilename($location, $filename, $view);
+
+		$source = Filesystem::normalizePath('files_trashbin/files/' . $file);
+		$target = Filesystem::normalizePath('files/' . $location . '/' . $uniqueFilename);
+		if (!$view->file_exists($source)) {
+			return false;
+		}
+		$mtime = $view->filemtime($source);
+
+		// restore file
+		if (!$view->isCreatable(dirname($target))) {
+			throw new NotPermittedException("Can't restore trash item because the target folder is not writable");
+		}
+
+		$sourcePath = Filesystem::normalizePath($file);
+		$targetPath = Filesystem::normalizePath('/' . $location . '/' . $uniqueFilename);
+
+		$sourceNode = self::getNodeForPath($user, $sourcePath);
+		$targetNode = self::getNodeForPath($user, $targetPath, 'files');
+
+		$targetParent = $targetNode->getParent();
+
+		$free = $targetParent->getFreeSpace();
+		if ($free >= 0 && $free < $sourceNode->getSize(false)) {
+			throw new NotEnoughSpaceException('Not enough free space in ' . $targetParent->getPath() . ' to restore ' . $sourceNode->getPath());
+		}
+
+		$run = true;
+		$event = new BeforeNodeRestoredEvent($sourceNode, $targetNode, $run);
+		$dispatcher = Server::get(IEventDispatcher::class);
+		try {
+			$dispatcher->dispatchTyped($event);
+		} catch (AbortedEventException) {
+			$run = false;
+		}
+
+		if (!$run) {
+			return false;
+		}
+
+		$restoreResult = $view->rename($source, $target);
+
+		// handle the restore result
+		if ($restoreResult) {
+			$fakeRoot = $view->getRoot();
+			$view->chroot('/' . $user . '/files');
+			$view->touch('/' . $location . '/' . $uniqueFilename, $mtime);
+			$view->chroot($fakeRoot);
+			Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', ['filePath' => $targetPath, 'trashPath' => $sourcePath]);
+
+			$sourceNode = self::getNodeForPath($user, $sourcePath);
+			$targetNode = self::getNodeForPath($user, $targetPath, 'files');
+			$event = new NodeRestoredEvent($sourceNode, $targetNode);
+			$dispatcher = Server::get(IEventDispatcher::class);
+			$dispatcher->dispatchTyped($event);
+
+			self::restoreVersions($view, $file, $filename, $uniqueFilename, $location, $timestamp);
+
+			if ($timestamp) {
+				self::deleteTrashRow($user, $filename, $timestamp);
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * restore versions from trash bin
+	 *
+	 * @param View $view file view
+	 * @param string $file complete path to file
+	 * @param string $filename name of file once it was deleted
+	 * @param string $uniqueFilename new file name to restore the file without overwriting existing files
+	 * @param string $location location if file
+	 * @param int $timestamp deletion time
+	 * @return bool|null
+	 */
+	private static function restoreVersions(View $view, $file, $filename, $uniqueFilename, $location, $timestamp) {
+		if (Server::get(IAppManager::class)->isEnabledForUser('files_versions')) {
+			$user = self::getUser();
+			$rootView = new View('/');
+
+			$target = Filesystem::normalizePath('/' . $location . '/' . $uniqueFilename);
+
+			[$owner, $ownerPath] = self::getUidAndFilename($target);
+
+			// file has been deleted in between
+			if (empty($ownerPath)) {
+				return false;
+			}
+
+			if ($timestamp) {
+				$versionedFile = $filename;
+			} else {
+				$versionedFile = $file;
+			}
+
+			if ($view->is_dir('/files_trashbin/versions/' . $file)) {
+				$rootView->rename(Filesystem::normalizePath($user . '/files_trashbin/versions/' . $file), Filesystem::normalizePath($owner . '/files_versions/' . $ownerPath));
+			} elseif ($versions = self::getVersionsFromTrash($versionedFile, $timestamp, $user)) {
+				foreach ($versions as $v) {
+					if ($timestamp) {
+						$rootView->rename($user . '/files_trashbin/versions/' . static::getTrashFilename($versionedFile . '.v' . $v, $timestamp), $owner . '/files_versions/' . $ownerPath . '.v' . $v);
+					} else {
+						$rootView->rename($user . '/files_trashbin/versions/' . $versionedFile . '.v' . $v, $owner . '/files_versions/' . $ownerPath . '.v' . $v);
+					}
+				}
+			}
+			return true;
+		}
+		return null;
+	}
+
+	/**
+	 * delete all files from the trash
+	 */
+	public static function deleteAll(IUser $user): bool {
+		$rootFolder = Server::get(IRootFolder::class);
+		$dispatcher = Server::get(IEventDispatcher::class);
+		$dbConnection = Server::get(IDBConnection::class);
+
+		$userRoot = $rootFolder->getUserFolder($user->getUID())->getParent();
+
+		try {
+			/** @var Folder $trashRoot */
+			$trashRoot = $userRoot->get('files_trashbin');
+			/** @var Folder $trashFilesRoot */
+			$trashFilesRoot = $trashRoot->get('files');
+		} catch (NotFoundException|NotPermittedException) {
+			return false;
+		}
+
+		$trashNodes = $trashFilesRoot->getDirectoryListing();
+
+		// Single-File Hooks
+		foreach ($trashNodes as $trashNode) {
+			$event = new Events\BeforeNodeDeletedEvent($trashNode);
+			$dispatcher->dispatchTyped($event);
+		}
+
+		// actual file deletion
+		$trashRoot->delete();
+
+		$query = $dbConnection->getQueryBuilder();
+		$query->delete('files_trash')
+			->where($query->expr()->eq('user', $query->createNamedParameter($user->getUID())));
+		$query->executeStatement();
+
+		// Single-File Hooks
+		foreach ($trashNodes as $trashNode) {
+			$event = new Events\NodeDeletedEvent($trashNode->getPath());
+			$dispatcher->dispatchTyped($event);
+		}
+
+		$trash = $userRoot->newFolder('files_trashbin');
+		$trash->newFolder('files');
+
+		return true;
+	}
+
+	/**
+	 * Delete file from trash bin permanently
+	 *
+	 * @param string $filename path to the file
+	 * @param ?int $timestamp of deletion time
+	 * @return int|float size of deleted files
+	 */
+	public static function delete(string $filename, string $user, ?int $timestamp = null): int|float {
+		$rootFolder = Server::get(IRootFolder::class);
+		$appManager = Server::get(IAppManager::class);
+		$dispatcher = Server::get(IEventDispatcher::class);
+
+		$userRoot = $rootFolder->getUserFolder($user)->getParent();
+
+		try {
+			/** @var Folder $trashRoot */
+			$trashRoot = $userRoot->get('files_trashbin');
+		} catch (NotFoundException|NotPermittedException) {
+			return 0;
+		}
+
+		$size = 0;
+
+		if ($timestamp) {
+			$file = static::getTrashFilename($filename, $timestamp);
+		} else {
+			$file = $filename;
+		}
+
+		if ($appManager->isEnabledForUser('files_versions')) {
+			$size += Trashbin::deleteVersions($trashRoot, $file, $filename, $timestamp, $user);
+		}
+
+		try {
+			$node = $userRoot->get('/files_trashbin/files/' . $file);
+		} catch (NotFoundException $e) {
+			if ($timestamp) {
+				self::deleteTrashRow($user, $filename, $timestamp);
+			}
+			return $size;
+		}
+
+		$size += $node->getSize();
+
+		$event = new Events\BeforeNodeDeletedEvent($node);
+		$dispatcher->dispatchTyped($event);
+
+		$node->delete();
+
+		$event = new Events\NodeDeletedEvent($node->getPath());
+		$dispatcher->dispatchTyped($event);
+
+		if ($timestamp) {
+			self::deleteTrashRow($user, $filename, $timestamp);
+		}
+
+		return $size;
+	}
+
+	private static function deleteTrashRow(string $user, string $filename, int $timestamp): void {
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
+		$query->delete('files_trash')
+			->where($query->expr()->eq('user', $query->createNamedParameter($user)))
+			->andWhere($query->expr()->eq('id', $query->createNamedParameter($filename)))
+			->andWhere($query->expr()->eq('timestamp', $query->createNamedParameter($timestamp)));
+		$query->executeStatement();
+	}
+
+	/**
+	 * Delete version files corresponding to a given file from trash bin permanently.
+	 */
+	private static function deleteVersions(Folder $trashRoot, string $file, string $filename, ?int $timestamp, string $user): int|float {
+		if (!Server::get(IAppManager::class)->isEnabledForUser('files_versions')) {
+			return 0;
+		}
+
+		$size = 0;
+		try {
+			$fileVersion = $trashRoot->get('versions/' . $file);
+		} catch (NotFoundException) {
+			$fileVersion = null;
+		}
+
+		if ($fileVersion) {
+			$size += $fileVersion->getSize();
+			$fileVersion->delete();
+		} elseif ($versions = self::getVersionsFromTrash($filename, $timestamp, $user)) {
+			foreach ($versions as $v) {
+				if ($timestamp) {
+					$node = $trashRoot->get('/files_trashbin/versions/' . static::getTrashFilename($filename . '.v' . $v, $timestamp));
+				} else {
+					$node = $trashRoot->get('/files_trashbin/versions/' . $filename . '.v' . $v);
+				}
+
+				$size += $node->getSize();
+				$node->delete();
+			}
+		}
+		return $size;
+	}
+
+	/**
+	 * check to see whether a file exists in trashbin
+	 *
+	 * @param string $filename path to the file
+	 * @param int $timestamp of deletion time
+	 * @return bool true if file exists, otherwise false
+	 */
+	public static function file_exists($filename, $timestamp = null) {
+		$user = self::getUser();
+		$view = new View('/' . $user);
+
+		if ($timestamp) {
+			$filename = static::getTrashFilename($filename, $timestamp);
+		}
+
+		$target = Filesystem::normalizePath('files_trashbin/files/' . $filename);
+		return $view->file_exists($target);
+	}
+
+	/**
+	 * deletes used space for trash bin in db if user was deleted
+	 *
+	 * @param string $uid id of deleted user
+	 * @return bool result of db delete operation
+	 */
+	public static function deleteUser($uid) {
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
+		$query->delete('files_trash')
+			->where($query->expr()->eq('user', $query->createNamedParameter($uid)));
+		return (bool)$query->executeStatement();
+	}
+
+	/**
+	 * Calculate remaining free space for trash bin
+	 *
+	 * @param int|float $trashbinSize current size of the trash bin
+	 * @return int|float available free space for trash bin
+	 */
+	private static function calculateFreeSpace(Folder $userFolder, int|float $trashbinSize, IUser $user): int|float {
+		$configuredTrashbinSize = static::getConfiguredTrashbinSize($user->getUID());
+		if ($configuredTrashbinSize > -1) {
+			return $configuredTrashbinSize - $trashbinSize;
+		}
+
+		$softQuota = true;
+		$quota = $user->getQuota();
+		if ($quota === 'none') {
+			$quota = Filesystem::free_space('/');
+			$softQuota = false;
+			// inf or unknown free space
+			if ($quota < 0) {
+				$quota = PHP_INT_MAX;
+			}
+		} else {
+			$quota = Util::computerFileSize($quota);
+			// invalid quota
+			if ($quota === false) {
+				$quota = PHP_INT_MAX;
+			}
+		}
+
+		// calculate available space for trash bin
+		// subtract size of files and current trash bin size from quota
+		if ($softQuota) {
+			$free = $quota - $userFolder->getSize(false); // remaining free space for user
+			if ($free > 0) {
+				$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $trashbinSize; // how much space can be used for versions
+			} else {
+				$availableSpace = $free - $trashbinSize;
+			}
+		} else {
+			$availableSpace = $quota;
+		}
+
+		return Util::numericToNumber($availableSpace);
+	}
+
+	/**
+	 * Resize trash bin if necessary after a new file was added to Nextcloud
+	 */
+	public static function resizeTrash(Folder $trashRoot, IUser $user): void {
+		$trashBinSize = $trashRoot->getSize();
+
+		$freeSpace = self::calculateFreeSpace($trashRoot->getParent(), $trashBinSize, $user);
+
+		if ($freeSpace < 0) {
+			self::scheduleExpire($user->getUID());
+		}
+	}
+
+	/**
+	 * Clean up the trash bin
+	 */
+	public static function expire(Folder $trashRoot, IUser $user): void {
+		$trashBinSize = $trashRoot->getSize();
+		$availableSpace = self::calculateFreeSpace($trashRoot->getParent(), $trashBinSize, $user);
+
+		$dirContent = Helper::getTrashFiles('/', $user->getUID(), 'mtime');
+
+		// delete all files older then $retention_obligation
+		[$delSize, $count] = self::deleteExpiredFiles($dirContent, $user->getUID());
+
+		$availableSpace += $delSize;
+
+		// delete files from trash until we meet the trash bin size limit again
+		self::deleteFiles(array_slice($dirContent, $count), $user->getUID(), $availableSpace);
+	}
+
+	/**
+	 * @param string $user
+	 */
+	private static function scheduleExpire($user) {
+		// let the admin disable auto expire
+		$expiration = Server::get(Expiration::class);
+		if ($expiration->isEnabled()) {
+			Server::get(IBus::class)->push(new Expire($user));
+		}
+	}
+
+	/**
+	 * if the size limit for the trash bin is reached, we delete the oldest
+	 * files in the trash bin until we meet the limit again
+	 *
+	 * @param array $files
+	 * @param string $user
+	 * @param int|float $availableSpace available disc space
+	 * @return int|float size of deleted files
+	 */
+	protected static function deleteFiles(array $files, string $user, int|float $availableSpace): int|float {
+		$expiration = Server::get(Expiration::class);
+		$size = 0;
+
+		if ($availableSpace <= 0) {
+			$propagator = self::getUserStoragePropagator($user);
+			$propagator?->beginBatch();
+			try {
+				foreach ($files as $file) {
+					if ($availableSpace <= 0 && $expiration->isExpired($file['mtime'], true)) {
+						$tmp = self::delete($file['name'], $user, $file['mtime']);
+						Server::get(LoggerInterface::class)->info(
+							'remove "' . $file['name'] . '" (' . $tmp . 'B) to meet the limit of trash bin size (50% of available quota) for user "{user}"',
+							[
+								'app' => 'files_trashbin',
+								'user' => $user,
+							]
+						);
+						$availableSpace += $tmp;
+						$size += $tmp;
+					} else {
+						break;
+					}
+				}
+			} finally {
+				$propagator?->commitBatch();
+			}
+		}
+		return $size;
+	}
+
+	/**
+	 * delete files older then max storage time
+	 *
+	 * @param array $files list of files sorted by mtime
+	 * @param string $user
+	 * @return array{int|float, int} size of deleted files and number of deleted files
+	 */
+	public static function deleteExpiredFiles($files, $user) {
+		$expiration = Server::get(Expiration::class);
+		$size = 0;
+		$count = 0;
+
+		$propagator = self::getUserStoragePropagator($user);
+		$propagator?->beginBatch();
+		try {
+			foreach ($files as $file) {
+				$timestamp = $file['mtime'];
+				$filename = $file['name'];
+				if (!$expiration->isExpired($timestamp)) {
+					break;
+				}
+
+				try {
+					$size += self::delete($filename, $user, $timestamp);
+					$count++;
+				} catch (NotPermittedException $e) {
+					Server::get(LoggerInterface::class)->warning('Removing "' . $filename . '" from trashbin failed for user "{user}"',
+						[
+							'exception' => $e,
+							'app' => 'files_trashbin',
+							'user' => $user,
+						]
+					);
+				}
+				Server::get(LoggerInterface::class)->info(
+					'Remove "' . $filename . '" from trashbin for user "{user}" because it exceeds max retention obligation term.',
+					[
+						'app' => 'files_trashbin',
+						'user' => $user,
+					],
+				);
+			}
+		} finally {
+			$propagator?->commitBatch();
+		}
+
+		return [$size, $count];
+	}
+
+	private static function getUserStoragePropagator(string $user): ?IPropagator {
+		try {
+			return Server::get(IRootFolder::class)->getUserFolder($user)->getStorage()->getPropagator();
+		} catch (\Exception) {
+			return null;
+		}
+	}
+
+	/**
+	 * recursive copy to copy a whole directory
+	 *
+	 * @param string $source source path, relative to the users files directory
+	 * @param string $destination destination path relative to the users root directory
+	 * @param View $view file view for the users root directory
+	 * @return int|float
+	 * @throws Exceptions\CopyRecursiveException
+	 */
+	private static function copy_recursive($source, $destination, View $view): int|float {
+		$size = 0;
+		if ($view->is_dir($source)) {
+			$view->mkdir($destination);
+			$view->touch($destination, $view->filemtime($source));
+			foreach ($view->getDirectoryContent($source) as $i) {
+				$pathDir = $source . '/' . $i['name'];
+				if ($view->is_dir($pathDir)) {
+					$size += self::copy_recursive($pathDir, $destination . '/' . $i['name'], $view);
+				} else {
+					$size += $view->filesize($pathDir);
+					$result = $view->copy($pathDir, $destination . '/' . $i['name']);
+					if (!$result) {
+						throw new CopyRecursiveException();
+					}
+					$view->touch($destination . '/' . $i['name'], $view->filemtime($pathDir));
+				}
+			}
+		} else {
+			$size += $view->filesize($source);
+			$result = $view->copy($source, $destination);
+			if (!$result) {
+				throw new CopyRecursiveException();
+			}
+			$view->touch($destination, $view->filemtime($source));
+		}
+		return $size;
+	}
+
+	/**
+	 * find all versions which belong to the file we want to restore
+	 *
+	 * @param string $filename name of the file which should be restored
+	 * @param int $timestamp timestamp when the file was deleted
+	 */
+	private static function getVersionsFromTrash($filename, $timestamp, string $user): array {
+		$view = new View('/' . $user . '/files_trashbin/versions');
+		$versions = [];
+
+		/** @var \OC\Files\Storage\Storage $storage */
+		[$storage,] = $view->resolvePath('/');
+
+		$pattern = Server::get(IDBConnection::class)->escapeLikeParameter(basename($filename));
+		if ($timestamp) {
+			// fetch for old versions
+			$escapedTimestamp = Server::get(IDBConnection::class)->escapeLikeParameter((string)$timestamp);
+			$pattern .= '.v%.d' . $escapedTimestamp;
+			$offset = -strlen($escapedTimestamp) - 2;
+		} else {
+			$pattern .= '.v%';
+		}
+
+		// Manually fetch all versions from the file cache to be able to filter them by their parent
+		$cache = $storage->getCache('');
+		$query = new CacheQueryBuilder(
+			Server::get(IDBConnection::class)->getQueryBuilder(),
+			Server::get(IFilesMetadataManager::class),
+		);
+		$normalizedParentPath = ltrim(Filesystem::normalizePath(dirname('files_trashbin/versions/' . $filename)), '/');
+		$parentId = $cache->getId($normalizedParentPath);
+		if ($parentId === -1) {
+			return [];
+		}
+
+		$query->selectFileCache()
+			->whereStorageId($cache->getNumericStorageId())
+			->andWhere($query->expr()->eq('parent', $query->createNamedParameter($parentId)))
+			->andWhere($query->expr()->iLike('name', $query->createNamedParameter($pattern)));
+
+		$result = $query->executeQuery();
+		$entries = $result->fetchAllAssociative();
+		$result->closeCursor();
+
+		/** @var CacheEntry[] $matches */
+		$matches = array_map(function (array $data) {
+			return Cache::cacheEntryFromData($data, Server::get(IMimeTypeLoader::class));
+		}, $entries);
+
+		foreach ($matches as $ma) {
+			if ($timestamp) {
+				$parts = explode('.v', substr($ma['path'], 0, $offset));
+				$versions[] = end($parts);
+			} else {
+				$parts = explode('.v', $ma['path']);
+				$versions[] = end($parts);
+			}
+		}
+
+		return $versions;
+	}
+
+	/**
+	 * find unique extension for restored file if a file with the same name already exists
+	 *
+	 * @param string $location where the file should be restored
+	 * @param string $filename name of the file
+	 * @param View $view filesystem view relative to users root directory
+	 * @return string with unique extension
+	 */
+	private static function getUniqueFilename($location, $filename, View $view) {
+		$ext = pathinfo($filename, PATHINFO_EXTENSION);
+		$name = pathinfo($filename, PATHINFO_FILENAME);
+		$l = Util::getL10N('files_trashbin');
+
+		$location = '/' . trim($location, '/');
+
+		// if extension is not empty we set a dot in front of it
+		if ($ext !== '') {
+			$ext = '.' . $ext;
+		}
+
+		if ($view->file_exists('files' . $location . '/' . $filename)) {
+			$i = 2;
+			$uniqueName = $name . ' (' . $l->t('restored') . ')' . $ext;
+			while ($view->file_exists('files' . $location . '/' . $uniqueName)) {
+				$uniqueName = $name . ' (' . $l->t('restored') . ' ' . $i . ')' . $ext;
+				$i++;
+			}
+
+			return $uniqueName;
+		}
+
+		return $filename;
+	}
+
+	/**
+	 * get current size of trash bin from a given user
+	 *
+	 * @param string $user user who owns the trash bin
+	 * @return int|float trash bin size
+	 */
+	private static function getTrashbinSize(string $user): int|float {
+		$view = new View('/' . $user);
+		$fileInfo = $view->getFileInfo('/files_trashbin');
+		return isset($fileInfo['size']) ? $fileInfo['size'] : 0;
+	}
+
+	/**
+	 * check if trash bin is empty for a given user
+	 *
+	 * @param string $user
+	 * @return bool
+	 */
+	public static function isEmpty($user) {
+		$view = new View('/' . $user . '/files_trashbin');
+		if ($view->is_dir('/files') && $dh = $view->opendir('/files')) {
+			while (($file = readdir($dh)) !== false) {
+				if (!Filesystem::isIgnoredDir($file)) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * @param $path
+	 * @return string
+	 */
+	public static function preview_icon($path) {
+		return Server::get(IURLGenerator::class)->linkToRoute('core_ajax_trashbin_preview', ['x' => 32, 'y' => 32, 'file' => $path]);
+	}
+
+	/**
+	 * Return the filename used in the trash bin
+	 */
+	public static function getTrashFilename(string $filename, int $timestamp): string {
+		$trashFilename = $filename . '.d' . $timestamp;
+		$length = strlen($trashFilename);
+		// oc_filecache `name` column has a limit of 250 chars
+		$maxLength = 250;
+		if ($length > $maxLength) {
+			// truncate at the middle, since the last characters are fairly likely to have meaningful information such as version numbering
+
+			$charsToRemove = $length - $maxLength + 1;
+			$charLength = mb_strlen($trashFilename);
+			$start = mb_substr($trashFilename, 0, intdiv($charLength, 2) - $charsToRemove);
+			$end = mb_substr($trashFilename, intdiv($charLength, 2));
+			return $start . '_' . $end;
+		}
+		return $trashFilename;
+	}
+
+	private static function getNodeForPath(string $user, string $path, string $baseDir = 'files_trashbin/files'): Node {
+		$rootFolder = Server::get(IRootFolder::class);
+		$path = ltrim($path, '/');
+
+		$userFolder = $rootFolder->getUserFolder($user);
+		/** @var Folder $trashFolder */
+		$trashFolder = $userFolder->getParent()->get($baseDir);
+		try {
+			return $trashFolder->get($path);
+		} catch (NotFoundException $ex) {
+		}
+
+		$view = Server::get(View::class);
+		$fullPath = '/' . $user . '/' . $baseDir . '/' . $path;
+
+		if (Filesystem::is_dir($path)) {
+			return new NonExistingFolder($rootFolder, $view, $fullPath);
+		} else {
+			return new NonExistingFile($rootFolder, $view, $fullPath);
+		}
+	}
+
+	/**
+	 * in case the request is authed, and user token is from a federated share
+	 * we use shared_with as initiator of the deletion
+	 */
+	private static function overwriteDeletedBy(string $user) {
+		try {
+			$request = Server::get(IRequest::class);
+			/** @psalm-suppress NoInterfaceProperties */
+			$token = $request->server['PHP_AUTH_USER'] ?? '';
+			if ($token === '') {
+				return $user;
+			}
+
+			$federatedShareProvider = Server::get(FederatedShareProvider::class);
+			$share = $federatedShareProvider->getShareByToken($token);
+
+			return $share->getSharedWith();
+		} catch (NotFoundExceptionInterface|ContainerExceptionInterface|ShareNotFound) {
+		}
+
+		return $user;
+	}
+
+	#[\Override]
+	public function handle(Event $event): void {
+		if ($event instanceof BeforeNodeDeletedEvent) {
+			self::ensureFileScannedHook($event->getNode());
+		}
+	}
+}

@@ -1,0 +1,195 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+namespace Test\User;
+
+use OC\User\AvailabilityCoordinator;
+use OC\User\OutOfOfficeData;
+use OCA\DAV\AppInfo\Application;
+use OCA\DAV\CalDAV\TimezoneService;
+use OCA\DAV\ConfigLexicon;
+use OCA\DAV\Db\Absence;
+use OCA\DAV\Service\AbsenceService;
+use OCP\IAppConfig;
+use OCP\IUser;
+use Test\TestCase;
+
+class AvailabilityCoordinatorTest extends TestCase {
+	private AvailabilityCoordinator $availabilityCoordinator;
+
+	#[\Override]
+	protected function setUp(): void {
+		parent::setUp();
+		$this->availabilityCoordinator = $this->createInstanceWithMocks(AvailabilityCoordinator::class);
+	}
+
+	public function testIsEnabled(): void {
+		$this->getAutoMock(IAppConfig::class)->expects(self::once())
+			->method('getValueBool')
+			->with(Application::APP_ID, ConfigLexicon::HIDE_ABSENCE_SETTINGS)
+			->willReturn(false);
+
+		$isEnabled = $this->availabilityCoordinator->isEnabled();
+
+		self::assertTrue($isEnabled);
+	}
+
+	public function testGetOutOfOfficeDataInEffect(): void {
+		$absence = new Absence();
+		$absence->setId(420);
+		$absence->setUserId('user');
+		$absence->setFirstDay('2023-10-01');
+		$absence->setLastDay('2023-10-08');
+		$absence->setStatus('Vacation');
+		$absence->setMessage('On vacation');
+		$absence->setReplacementUserId('batman');
+		$absence->setReplacementUserDisplayName('Bruce Wayne');
+		$this->getAutoMock(TimezoneService::class)->method('getUserTimezone')->with('user')->willReturn('Europe/Berlin');
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('user');
+
+		$this->getCacheAutoMock('OutOfOfficeData')->expects(self::exactly(2))
+			->method('get')
+			->willReturnOnConsecutiveCalls(null, null);
+		$this->getAutoMock(AbsenceService::class)->expects(self::once())
+			->method('getAbsence')
+			->with($user->getUID())
+			->willReturn($absence);
+
+		$calls = [
+			[$user->getUID() . '_timezone', 'Europe/Berlin', 3600],
+			[$user->getUID(), '{"id":"420","startDate":1696111200,"endDate":1696802340,"shortMessage":"Vacation","message":"On vacation","replacementUserId":"batman","replacementUserDisplayName":"Bruce Wayne"}', 300],
+		];
+		$this->getCacheAutoMock('OutOfOfficeData')->expects(self::exactly(2))
+			->method('set')
+			->willReturnCallback(static function () use (&$calls): void {
+				$expected = array_shift($calls);
+				self::assertEquals($expected, func_get_args());
+			});
+
+		$expected = new OutOfOfficeData(
+			'420',
+			$user,
+			1696111200,
+			1696802340,
+			'Vacation',
+			'On vacation',
+			'batman',
+			'Bruce Wayne',
+		);
+		$actual = $this->availabilityCoordinator->getCurrentOutOfOfficeData($user);
+		self::assertEquals($expected, $actual);
+	}
+
+	public function testGetOutOfOfficeDataCachedAll(): void {
+		$absence = new Absence();
+		$absence->setId(420);
+		$absence->setUserId('user');
+		$absence->setFirstDay('2023-10-01');
+		$absence->setLastDay('2023-10-08');
+		$absence->setStatus('Vacation');
+		$absence->setMessage('On vacation');
+		$absence->setReplacementUserId('batman');
+		$absence->setReplacementUserDisplayName('Bruce Wayne');
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('user');
+
+		$this->getCacheAutoMock('OutOfOfficeData')->expects(self::exactly(2))
+			->method('get')
+			->willReturnOnConsecutiveCalls('UTC', '{"id":"420","startDate":1696118400,"endDate":1696809540,"shortMessage":"Vacation","message":"On vacation","replacementUserId":"batman","replacementUserDisplayName":"Bruce Wayne"}');
+		$this->getAutoMock(AbsenceService::class)->expects(self::never())
+			->method('getAbsence');
+		$this->getCacheAutoMock('OutOfOfficeData')->expects(self::exactly(1))
+			->method('set');
+
+		$expected = new OutOfOfficeData(
+			'420',
+			$user,
+			1696118400,
+			1696809540,
+			'Vacation',
+			'On vacation',
+			'batman',
+			'Bruce Wayne'
+		);
+		$actual = $this->availabilityCoordinator->getCurrentOutOfOfficeData($user);
+		self::assertEquals($expected, $actual);
+	}
+
+	public function testGetOutOfOfficeDataNoData(): void {
+		$absence = new Absence();
+		$absence->setId(420);
+		$absence->setUserId('user');
+		$absence->setFirstDay('2023-10-01');
+		$absence->setLastDay('2023-10-08');
+		$absence->setStatus('Vacation');
+		$absence->setMessage('On vacation');
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('user');
+
+		$this->getCacheAutoMock('OutOfOfficeData')->expects(self::exactly(2))
+			->method('get')
+			->willReturnOnConsecutiveCalls('UTC', null);
+		$this->getAutoMock(AbsenceService::class)->expects(self::once())
+			->method('getAbsence')
+			->willReturn(null);
+		$this->getCacheAutoMock('OutOfOfficeData')->expects(self::never())
+			->method('set');
+
+		$actual = $this->availabilityCoordinator->getCurrentOutOfOfficeData($user);
+		self::assertNull($actual);
+	}
+
+	public function testGetOutOfOfficeDataWithInvalidCachedData(): void {
+		$absence = new Absence();
+		$absence->setId(420);
+		$absence->setUserId('user');
+		$absence->setFirstDay('2023-10-01');
+		$absence->setLastDay('2023-10-08');
+		$absence->setStatus('Vacation');
+		$absence->setMessage('On vacation');
+		$absence->setReplacementUserId('batman');
+		$absence->setReplacementUserDisplayName('Bruce Wayne');
+		$this->getAutoMock(TimezoneService::class)->method('getUserTimezone')->with('user')->willReturn('Europe/Berlin');
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('user');
+
+		$this->getCacheAutoMock('OutOfOfficeData')->expects(self::exactly(2))
+			->method('get')
+			->willReturnOnConsecutiveCalls('UTC', '{"id":"420",}');
+		$this->getAutoMock(AbsenceService::class)->expects(self::once())
+			->method('getAbsence')
+			->with('user')
+			->willReturn($absence);
+		$this->getCacheAutoMock('OutOfOfficeData')->expects(self::once())
+			->method('set')
+			->with('user', '{"id":"420","startDate":1696118400,"endDate":1696809540,"shortMessage":"Vacation","message":"On vacation","replacementUserId":"batman","replacementUserDisplayName":"Bruce Wayne"}', 300);
+
+		$expected = new OutOfOfficeData(
+			'420',
+			$user,
+			1696118400,
+			1696809540,
+			'Vacation',
+			'On vacation',
+			'batman',
+			'Bruce Wayne'
+		);
+		$actual = $this->availabilityCoordinator->getCurrentOutOfOfficeData($user);
+		self::assertEquals($expected, $actual);
+	}
+}

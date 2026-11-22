@@ -1,0 +1,77 @@
+# This workflow is provided via the organization template repository
+#
+# https://github.com/nextcloud/.github
+# https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+#
+# SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+#
+# This is the testsuite running all non-database agnostic unit tests
+
+name: PHPUnit nodb
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  phpunit-nodb:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ['8.3', '8.5']
+
+    name: No DB unit tests (PHP ${{ matrix.php-versions }})
+
+    services:
+      cache:
+        image: ghcr.io/nextcloud/continuous-integration-redis:latest # zizmor: ignore[unpinned-images]
+        ports:
+          - 6379:6379/tcp
+        options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Checkout server
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          submodules: true
+
+      - name: Set up php ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        timeout-minutes: 5
+        with:
+          php-version: ${{ matrix.php-versions }}
+          # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
+          extensions: apcu, bz2, ctype, curl, dom, fileinfo, gd, iconv, imagick, intl, json, libxml, mbstring, openssl, pcntl, pdo_sqlite, posix, redis, session, simplexml, sqlite, xmlreader, xmlwriter, zip, zlib
+          coverage: none
+          ini-file: development
+          # Required for tests that use pcntl
+          ini-values: disable_functions=""
+        env:
+          fail-fast: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up dependencies
+        run: composer i
+
+      - name: Set up Nextcloud
+        run: |
+          mkdir data
+          cp tests/redis.config.php config/
+          cp tests/preseed-config.php config/config.php
+          ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
+          NC_debug=true ./occ testing:prepare-ci
+          php -f tests/enable_all.php
+
+      - name: PHPUnit nodb testsuite
+        run: composer run test -- --exclude-group DB --exclude-group SLOWDB --exclude-group Memcached --exclude-group PRIMARY-swift --exclude-group PRIMARY-s3 --exclude-group PRIMARY-azure --log-junit junit.xml
+
+      - name: Print logs
+        if: always()
+        run: |
+          cat data/nextcloud.log

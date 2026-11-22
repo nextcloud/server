@@ -1,0 +1,97 @@
+# This workflow is provided via the organization template repository
+#
+# https://github.com/nextcloud/.github
+# https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+#
+# SPDX-FileCopyrightText: 2022-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
+name: PHPUnit OCI
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  phpunit-oci:
+    runs-on: ubuntu-latest
+
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - oracle-versions: '18'
+            php-versions: '8.3'
+          - oracle-versions: '23'
+            php-versions: '8.5'
+
+    name: Oracle ${{ matrix.oracle-versions }} (PHP ${{ matrix.php-versions }}) - database tests
+
+    services:
+      cache:
+        image: ghcr.io/nextcloud/continuous-integration-redis:latest # zizmor: ignore[unpinned-images]
+        ports:
+          - 6379:6379/tcp
+        options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+      oracle:
+        image: ghcr.io/gvenzl/oracle-${{ matrix.oracle-versions < 23 && 'xe' || 'free'  }}:${{ matrix.oracle-versions }}
+
+        # Provide passwords and other environment variables to container
+        env:
+          ORACLE_PASSWORD: oracle
+
+        # Forward Oracle port
+        ports:
+          - 1521:1521
+
+        # Provide healthcheck script options for startup
+        options: >-
+          --health-cmd healthcheck.sh
+          --health-interval 20s
+          --health-timeout 10s
+          --health-retries 10
+
+    steps:
+      - name: Checkout server
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          submodules: true
+
+      - name: Set up php ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        timeout-minutes: 5
+        with:
+          php-version: ${{ matrix.php-versions }}
+          # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, oci8
+          coverage: none
+          ini-file: development
+          ini-values: disable_functions=""
+        env:
+          fail-fast: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up dependencies
+        run: composer i
+
+      - name: Set up Nextcloud
+        run: |
+          mkdir data
+          cp tests/redis.config.php config/
+          cp tests/preseed-config.php config/config.php
+          ./occ maintenance:install --verbose --database=oci --database-name=${{ matrix.oracle-versions < 23 && 'XE' || 'FREE'  }} --database-host=127.0.0.1 --database-port=1521 --database-user=system --database-pass=oracle --admin-user admin --admin-pass admin
+          NC_debug=true ./occ testing:prepare-ci
+          php -f tests/enable_all.php
+
+      - name: PHPUnit
+        run: composer run test:db -- --log-junit junit.xml
+
+      - name: Run repair steps
+        run: |
+          ./occ maintenance:repair --include-expensive

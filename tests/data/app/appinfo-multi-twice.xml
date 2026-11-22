@@ -1,0 +1,202 @@
+<?xml version="1.0"?>
+<!--
+ - SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>multi_twice</id>
+	<name>Multi Twice</name>
+	<summary>Every repeatable element is used exactly twice.</summary>
+	<description>Fixture that exercises the list normalization path.</description>
+	<version>1.0.0</version>
+	<licence>agpl</licence>
+	<licence>mit</licence>
+	<author>Jane Doe</author>
+	<author>John Doe</author>
+	<types>
+		<filesystem/>
+		<logging/>
+	</types>
+	<documentation>
+		<user>https://example.test/multi-twice/user</user>
+		<admin>https://example.test/multi-twice/admin</admin>
+		<developer>https://example.test/multi-twice/developer</developer>
+	</documentation>
+	<category>monitoring</category>
+	<category>social</category>
+	<website>https://example.test/multi-twice</website>
+	<discussion>https://example.test/multi-twice/discussion</discussion>
+	<bugs>https://example.test/multi-twice/issues</bugs>
+	<repository type="git">https://example.test/multi-twice.git</repository>
+	<screenshot>https://example.test/multi-twice-1.png</screenshot>
+	<screenshot>https://example.test/multi-twice-2.png</screenshot>
+	<donation>https://example.test/donate/1</donation>
+	<donation>https://example.test/donate/2</donation>
+	<dependencies>
+		<php min-version="8.2"/>
+		<database min-version="1.0">sqlite</database>
+		<database min-version="1.0">mysql</database>
+		<command>awk</command>
+		<command>grep</command>
+		<lib min-version="1.0">curl</lib>
+		<lib min-version="1.0">intl</lib>
+		<owncloud min-version="1.0" max-version="2.0"/>
+		<nextcloud min-version="30.0" max-version="31.0"/>
+		<architecture>x86_64</architecture>
+		<architecture>aarch64</architecture>
+		<backend>caldav</backend>
+		<backend>caldav</backend>
+	</dependencies>
+	<background-jobs>
+		<job>OCA\MultiTwice\BackgroundJob\CleanupOne</job>
+		<job>OCA\MultiTwice\BackgroundJob\CleanupTwo</job>
+	</background-jobs>
+	<repair-steps>
+		<pre-migration>
+			<step>OCA\MultiTwice\RepairStep\PreMigrationOne</step>
+			<step>OCA\MultiTwice\RepairStep\PreMigrationTwo</step>
+		</pre-migration>
+		<post-migration>
+			<step>OCA\MultiTwice\RepairStep\PostMigrationOne</step>
+			<step>OCA\MultiTwice\RepairStep\PostMigrationTwo</step>
+		</post-migration>
+		<live-migration>
+			<step>OCA\MultiTwice\RepairStep\LiveMigrationOne</step>
+			<step>OCA\MultiTwice\RepairStep\LiveMigrationTwo</step>
+		</live-migration>
+		<install>
+			<step>OCA\MultiTwice\RepairStep\InstallOne</step>
+			<step>OCA\MultiTwice\RepairStep\InstallTwo</step>
+		</install>
+		<uninstall>
+			<step>OCA\MultiTwice\RepairStep\UninstallOne</step>
+			<step>OCA\MultiTwice\RepairStep\UninstallTwo</step>
+		</uninstall>
+	</repair-steps>
+	<two-factor-providers>
+		<provider>OCA\MultiTwice\TwoFactor\ProviderOne</provider>
+		<provider>OCA\MultiTwice\TwoFactor\ProviderTwo</provider>
+	</two-factor-providers>
+	<commands>
+		<command>OCA\MultiTwice\Command\MigrateOne</command>
+		<command>OCA\MultiTwice\Command\MigrateTwo</command>
+	</commands>
+	<settings>
+		<admin>OCA\MultiTwice\Settings\AdminOne</admin>
+		<admin>OCA\MultiTwice\Settings\AdminTwo</admin>
+		<admin-section>OCA\MultiTwice\Settings\AdminSectionOne</admin-section>
+		<admin-section>OCA\MultiTwice\Settings\AdminSectionTwo</admin-section>
+		<personal>OCA\MultiTwice\Settings\PersonalOne</personal>
+		<personal>OCA\MultiTwice\Settings\PersonalTwo</personal>
+		<personal-section>OCA\MultiTwice\Settings\PersonalSectionOne</personal-section>
+		<personal-section>OCA\MultiTwice\Settings\PersonalSectionTwo</personal-section>
+		<admin-delegation>OCA\MultiTwice\Settings\AdminDelegationOne</admin-delegation>
+		<admin-delegation>OCA\MultiTwice\Settings\AdminDelegationTwo</admin-delegation>
+		<admin-delegation-section>OCA\MultiTwice\Settings\AdminDelegationSectionOne</admin-delegation-section>
+		<admin-delegation-section>OCA\MultiTwice\Settings\AdminDelegationSectionTwo</admin-delegation-section>
+	</settings>
+	<activity>
+		<settings>
+			<setting>OCA\MultiTwice\Activity\SettingOne</setting>
+			<setting>OCA\MultiTwice\Activity\SettingTwo</setting>
+		</settings>
+		<filters>
+			<filter>OCA\MultiTwice\Activity\FilterOne</filter>
+			<filter>OCA\MultiTwice\Activity\FilterTwo</filter>
+		</filters>
+		<providers>
+			<provider>OCA\MultiTwice\Activity\ProviderOne</provider>
+			<provider>OCA\MultiTwice\Activity\ProviderTwo</provider>
+		</providers>
+	</activity>
+	<dashboard>
+		<widget>OCA\MultiTwice\Dashboard\WidgetOne</widget>
+		<widget>OCA\MultiTwice\Dashboard\WidgetTwo</widget>
+	</dashboard>
+	<fulltextsearch>
+		<platform>OCA\MultiTwice\Search\PlatformOne</platform>
+		<platform>OCA\MultiTwice\Search\PlatformTwo</platform>
+		<provider>OCA\MultiTwice\Search\ProviderOne</provider>
+		<provider>OCA\MultiTwice\Search\ProviderTwo</provider>
+	</fulltextsearch>
+	<navigations>
+		<navigation>
+			<name>Multi Twice One</name>
+			<route>multi.twice.one</route>
+			<icon>multi-twice-1.svg</icon>
+			<order>1</order>
+		</navigation>
+		<navigation>
+			<name>Multi Twice Two</name>
+			<route>multi.twice.two</route>
+			<icon>multi-twice-2.svg</icon>
+			<order>2</order>
+		</navigation>
+	</navigations>
+	<contactsmenu>
+		<provider>OCA\MultiTwice\ContactsMenu\Provider</provider>
+	</contactsmenu>
+	<collaboration>
+		<plugins>
+			<plugin type="collaborator-search">OCA\MultiTwice\Collaboration\PluginOne</plugin>
+			<plugin type="autocomplete-sort">OCA\MultiTwice\Collaboration\PluginTwo</plugin>
+		</plugins>
+	</collaboration>
+	<openmetrics>
+		<exporter>OCA\MultiTwice\OpenMetrics\ExporterOne</exporter>
+		<exporter>OCA\MultiTwice\OpenMetrics\ExporterTwo</exporter>
+	</openmetrics>
+	<sabre>
+		<collections>
+			<collection>OCA\MultiTwice\Sabre\CollectionOne</collection>
+			<collection>OCA\MultiTwice\Sabre\CollectionTwo</collection>
+		</collections>
+		<plugins>
+			<plugin>OCA\MultiTwice\Sabre\PluginOne</plugin>
+			<plugin>OCA\MultiTwice\Sabre\PluginTwo</plugin>
+		</plugins>
+		<address-book-plugins>
+			<plugin>OCA\MultiTwice\Sabre\AddressBookPluginOne</plugin>
+			<plugin>OCA\MultiTwice\Sabre\AddressBookPluginTwo</plugin>
+		</address-book-plugins>
+		<calendar-plugins>
+			<plugin>OCA\MultiTwice\Sabre\CalendarPluginOne</plugin>
+			<plugin>OCA\MultiTwice\Sabre\CalendarPluginTwo</plugin>
+		</calendar-plugins>
+	</sabre>
+	<trash>
+		<backend for="files">OCA\MultiTwice\Trash\BackendOne</backend>
+		<backend for="files">OCA\MultiTwice\Trash\BackendTwo</backend>
+	</trash>
+	<versions>
+		<backend for="files">OCA\MultiTwice\Versions\BackendOne</backend>
+		<backend for="files">OCA\MultiTwice\Versions\BackendTwo</backend>
+	</versions>
+	<external-app>
+		<docker-install>
+			<registry>registry.example.test</registry>
+			<image>multi-twice</image>
+			<image-tag>2.0.0</image-tag>
+		</docker-install>
+		<scopes>
+			<value>scope-one</value>
+			<value>scope-two</value>
+		</scopes>
+		<system>true</system>
+		<environment-variables>
+			<variable>
+				<name>MULTI_TWICE_ONE</name>
+				<display-name>Multi Twice One</display-name>
+				<description>First variable</description>
+				<default>one</default>
+			</variable>
+			<variable>
+				<name>MULTI_TWICE_TWO</name>
+				<display-name>Multi Twice Two</display-name>
+				<description>Second variable</description>
+				<default>two</default>
+			</variable>
+		</environment-variables>
+	</external-app>
+</info>

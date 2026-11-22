@@ -1,0 +1,103 @@
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2012-2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+.versionsTabView .clear-float {
+	clear: both;
+}
+
+.versionsTabView li {
+	width: 100%;
+	cursor: default;
+	height: 56px;
+	float: left;
+	border-bottom: 0;
+}
+
+.versionsTabView li:last-child {
+	border-bottom: none;
+}
+
+.versionsTabView a,
+.versionsTabView div > span {
+	vertical-align: middle;
+	opacity: .5;
+}
+
+.versionsTabView li a{
+	padding: 19px 10px 7px;
+}
+
+.versionsTabView a:hover,
+.versionsTabView a:focus {
+	opacity: 1;
+}
+
+.versionsTabView .preview-container {
+	display: inline-block;
+  vertical-align: top;
+}
+
+.versionsTabView img {
+	cursor: pointer;
+	padding-inline-end: 4px;
+}
+
+.versionsTabView img.preview {
+	position: relative;
+	top: 6px;
+	inset-inline-start: 10px;
+	border: 1px solid var(--color-border-dark);		
+	cursor: default;
+	padding-inline-end: 0;
+}
+
+.versionsTabView .version-container {
+	display: inline-block;
+}
+
+.versionsTabView .versiondate {
+	min-width: 100px;
+	vertical-align: super;
+}
+
+.versionsTabView .version-details {
+	text-align: start;
+}
+
+.versionsTabView .version-details > span {
+	padding: 0 10px;
+}
+
+.versionsTabView .revertVersion {
+	cursor: pointer;
+	float: right;
+	margin-inline-end: 0;
+}
+
+.versionsTabView li.active .downloadVersion {
+	opacity: 1;
+}
+
+.versionsTabView li.active .version-details .size {
+	color: var(--color-main-text);
+	opacity: 1;
+}
+
+.versionsTabView li.active {
+	background-color: var(--color-primary-light);
+	border-radius: 16px;
+}
+
+.versionsTabView li.active a.revertVersion {
+ 	opacity: 1;
+}
+
+.version-container {
+	padding-inline-start: 5px;
+}
+
+.version-details {
+	margin-top: -7px;
+}

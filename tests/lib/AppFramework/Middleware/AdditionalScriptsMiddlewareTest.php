@@ -1,0 +1,103 @@
+<?php
+
+declare(strict_types=1);
+/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+namespace Test\AppFramework\Middleware;
+
+use OC\AppFramework\Middleware\AdditionalScriptsMiddleware;
+use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
+use OCP\AppFramework\Http\Response;
+use OCP\AppFramework\Http\StandaloneTemplateResponse;
+use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\PublicShareController;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IUserSession;
+
+class AdditionalScriptsMiddlewareTest extends \Test\TestCase {
+	/** @var Controller */
+	private $controller;
+
+	/** @var AdditionalScriptsMiddleware */
+	private $middleWare;
+
+	#[\Override]
+	protected function setUp(): void {
+		parent::setUp();
+		$this->middleWare = $this->createInstanceWithMocks(AdditionalScriptsMiddleware::class);
+
+		$this->controller = $this->createMock(Controller::class);
+	}
+
+	public function testNoTemplateResponse(): void {
+		$this->getAutoMock(IUserSession::class)->expects($this->never())
+			->method($this->anything());
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->never())
+			->method($this->anything());
+
+		$this->middleWare->afterController($this->controller, 'myMethod', $this->createMock(Response::class));
+	}
+
+	public function testPublicShareController(): void {
+		$this->getAutoMock(IUserSession::class)->expects($this->never())
+			->method($this->anything());
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->never())
+			->method($this->anything());
+
+		$this->middleWare->afterController($this->createMock(PublicShareController::class), 'myMethod', $this->createMock(Response::class));
+	}
+
+	public function testStandaloneTemplateResponse(): void {
+		$this->getAutoMock(IUserSession::class)->expects($this->never())
+			->method($this->anything());
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->once())
+			->method('dispatchTyped')
+			->willReturnCallback(function ($event): void {
+				if ($event instanceof BeforeTemplateRenderedEvent && $event->isLoggedIn() === false) {
+					return;
+				}
+
+				$this->fail('Wrong event dispatched');
+			});
+
+		$this->middleWare->afterController($this->controller, 'myMethod', $this->createMock(StandaloneTemplateResponse::class));
+	}
+
+	public function testTemplateResponseNotLoggedIn(): void {
+		$this->getAutoMock(IUserSession::class)->method('isLoggedIn')
+			->willReturn(false);
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->once())
+			->method('dispatchTyped')
+			->willReturnCallback(function ($event): void {
+				if ($event instanceof BeforeTemplateRenderedEvent && $event->isLoggedIn() === false) {
+					return;
+				}
+
+				$this->fail('Wrong event dispatched');
+			});
+
+		$this->middleWare->afterController($this->controller, 'myMethod', $this->createMock(TemplateResponse::class));
+	}
+
+	public function testTemplateResponseLoggedIn(): void {
+		$events = [];
+
+		$this->getAutoMock(IUserSession::class)->method('isLoggedIn')
+			->willReturn(true);
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->once())
+			->method('dispatchTyped')
+			->willReturnCallback(function ($event): void {
+				if ($event instanceof BeforeTemplateRenderedEvent && $event->isLoggedIn() === true) {
+					return;
+				}
+
+				$this->fail('Wrong event dispatched');
+			});
+
+		$this->middleWare->afterController($this->controller, 'myMethod', $this->createMock(TemplateResponse::class));
+	}
+}

@@ -1,0 +1,94 @@
+# This workflow is provided via the organization template repository
+#
+# https://github.com/nextcloud/.github
+# https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+#
+# SPDX-FileCopyrightText: 2022-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
+name: PHPUnit PostgreSQL
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  phpunit-pgsql:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - postgres-versions: '14'
+            php-versions: '8.3'
+          - postgres-versions: '18'
+            php-versions: '8.5'
+
+    name: PostgreSQL ${{ matrix.postgres-versions }} (PHP ${{ matrix.php-versions }}) - database tests
+
+    services:
+      cache:
+        image: ghcr.io/nextcloud/continuous-integration-redis:latest # zizmor: ignore[unpinned-images]
+        ports:
+          - 6379:6379/tcp
+        options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+      postgres:
+        image: ghcr.io/nextcloud/continuous-integration-postgres-${{ matrix.postgres-versions }}:latest # zizmor: ignore[unpinned-images]
+        ports:
+          - 4444:5432/tcp
+        env:
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: rootpassword
+          POSTGRES_DB: nextcloud
+        options: --mount type=tmpfs,destination=/var/lib/postgresql --health-cmd pg_isready --health-interval 5s --health-timeout 2s --health-retries 5
+
+    steps:
+      - name: Checkout server
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          submodules: true
+
+      - name: Set up php ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        timeout-minutes: 5
+        with:
+          php-version: ${{ matrix.php-versions }}
+          # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, pgsql, pdo_pgsql
+          coverage: none
+          ini-file: development
+          ini-values: disable_functions=""
+        env:
+          fail-fast: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up dependencies
+        run: composer i
+
+      - name: Set up Nextcloud
+        env:
+          DB_PORT: 4444
+        run: |
+          mkdir data
+          cp tests/redis.config.php config/
+          cp tests/preseed-config.php config/config.php
+          ./occ maintenance:install --verbose --database=pgsql --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
+          NC_debug=true ./occ testing:prepare-ci
+          php -f tests/enable_all.php
+
+      - name: PHPUnit database tests
+        run: composer run test:db -- --log-junit junit.xml
+
+      - name: Run repair steps
+        run: |
+          ./occ maintenance:repair --include-expensive
+
+      - name: Print logs
+        if: always()
+        run: |
+          cat data/nextcloud.log

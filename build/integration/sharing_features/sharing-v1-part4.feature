@@ -1,0 +1,656 @@
+# SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+Feature: sharing
+  Background:
+    Given using api version "1"
+    Given using new dav path
+
+# See sharing-v1-part3.feature
+
+Scenario: Creating a new share of a file shows size and mtime
+    Given user "user0" exists
+    And user "user1" exists
+    And As an "user0"
+    And parameter "shareapi_default_permissions" of app "core" is set to "7"
+    When creating a share with
+      | path | welcome.txt |
+      | shareWith | user1 |
+      | shareType | 0 |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Getting info of last share
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Share fields of last share match with
+      | item_size | A_NUMBER |
+      | item_mtime | A_NUMBER |
+
+Scenario: Creating a new share of a file you own shows the file permissions
+    Given user "user0" exists
+    And user "user1" exists
+    And As an "user0"
+    And parameter "shareapi_default_permissions" of app "core" is set to "7"
+    When creating a share with
+      | path | welcome.txt |
+      | shareWith | user1 |
+      | shareType | 0 |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Getting info of last share
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Share fields of last share match with
+      | item_permissions | 27 |
+
+Scenario: Receiving a share of a file gives no create permission
+    Given user "user0" exists
+    And user "user1" exists
+    And As an "user0"
+    And parameter "shareapi_default_permissions" of app "core" is set to "31"
+    And file "welcome.txt" of user "user0" is shared with user "user1"
+    And sending "GET" to "/apps/files_sharing/api/v1/shares"
+    And share 0 is returned with
+      | path | /welcome.txt |
+      | permissions | 19 |
+      | item_permissions | 27 |
+    When As an "user1"
+    And user "user1" accepts last share
+    And sending "GET" to "/apps/files_sharing/api/v1/shares?shared_with_me=true"
+    Then the list of returned shares has 1 shares
+    And share 0 is returned with
+      | path | /welcome (2).txt |
+      | permissions | 19 |
+      | item_permissions | 27 |
+
+Scenario: Receiving a share of a folder gives create permission
+    Given user "user0" exists
+    And user "user1" exists
+    And As an "user0"
+    And parameter "shareapi_default_permissions" of app "core" is set to "31"
+    And file "PARENT/CHILD" of user "user0" is shared with user "user1"
+    And sending "GET" to "/apps/files_sharing/api/v1/shares"
+    And share 0 is returned with
+      | path | /PARENT/CHILD |
+      | permissions | 31 |
+      | item_permissions | 31 |
+    When As an "user1"
+    And user "user1" accepts last share
+    And sending "GET" to "/apps/files_sharing/api/v1/shares?shared_with_me=true"
+    Then the list of returned shares has 1 shares
+    And share 0 is returned with
+      | path | /CHILD |
+      | permissions | 31 |
+      | item_permissions | 31 |
+
+# User can remove itself from a share
+Scenario: Receiving a share of a file without delete permission gives delete permission anyway
+    Given user "user0" exists
+    And user "user1" exists
+    And As an "user0"
+    And parameter "shareapi_default_permissions" of app "core" is set to "23"
+    And file "welcome.txt" of user "user0" is shared with user "user1"
+    And sending "GET" to "/apps/files_sharing/api/v1/shares"
+    And share 0 is returned with
+      | path | /welcome.txt |
+      | permissions | 19 |
+      | item_permissions | 27 |
+    When As an "user1"
+    And user "user1" accepts last share
+    And sending "GET" to "/apps/files_sharing/api/v1/shares?shared_with_me=true"
+    Then the list of returned shares has 1 shares
+    And share 0 is returned with
+      | path | /welcome (2).txt |
+      | permissions | 19 |
+      | item_permissions | 27 |
+
+Scenario: Receiving a share of a file without delete permission gives delete permission anyway
+    Given user "user0" exists
+    And user "user1" exists
+    And As an "user0"
+    And group "group1" exists
+    And user "user1" belongs to group "group1"
+    And parameter "shareapi_default_permissions" of app "core" is set to "23"
+    And file "welcome.txt" of user "user0" is shared with group "group1"
+    And sending "GET" to "/apps/files_sharing/api/v1/shares"
+    And share 0 is returned with
+      | path | /welcome.txt |
+      | permissions | 19 |
+      | item_permissions | 27 |
+    When As an "user1"
+    And user "user1" accepts last share
+    And sending "GET" to "/apps/files_sharing/api/v1/shares?shared_with_me=true"
+    Then the list of returned shares has 1 shares
+    And share 0 is returned with
+      | path | /welcome (2).txt |
+      | permissions | 19 |
+      | item_permissions | 27 |
+
+# This is a regression test as in the past creating a file drop required creating with permissions=5
+# and then afterwards update the share to permissions=4
+Scenario: Directly create link share with CREATE only permissions (file drop)
+    Given user "user0" exists
+    And As an "user0"
+    And user "user0" created a folder "/TMP"
+    When creating a share with
+      | path        | TMP |
+      | shareType   |   3 |
+      | permissions |   4 |
+    And Getting info of last share
+    Then Share fields of last share match with
+      | uid_file_owner | user0 |
+      | share_type     |     3 |
+      | permissions    |     4 |
+
+Scenario: Directly create email share with CREATE only permissions (file drop)
+  Given user "user0" exists
+  And As an "user0"
+  And user "user0" created a folder "/TMP"
+  When creating a share with
+    | path        |               TMP |
+    | shareType   |                 4 |
+    | shareWith   | j.doe@example.com |
+    | permissions |                 4 |
+  And Getting info of last share
+  Then Share fields of last share match with
+    | uid_file_owner | user0 |
+    | share_type     |     4 |
+    | permissions    |     4 |
+
+# This ensures the legacy behavior of sharing v1 is kept
+Scenario: publicUpload overrides permissions
+    Given user "user0" exists
+    And As an "user0"
+    And parameter "outgoing_server2server_share_enabled" of app "files_sharing" is set to "no"
+    And user "user0" created a folder "/TMP"
+    When creating a share with
+      | path         |  TMP |
+      | shareType    |    3 |
+      | permissions  |    4 |
+      | publicUpload | true |
+    And Getting info of last share
+    Then Share fields of last share match with
+      | uid_file_owner | user0 |
+      | share_type     |     3 |
+      | permissions    |    15 |
+    When creating a share with
+      | path         |   TMP |
+      | shareType    |     3 |
+      | permissions  |     4 |
+      | publicUpload | false |
+    And Getting info of last share
+    Then Share fields of last share match with
+      | uid_file_owner | user0 |
+      | share_type     |     3 |
+      | permissions    |     1 |
+
+Scenario: Cannot copy files from share without share permission into other share
+    Given user "user0" exists
+    Given user "user1" exists
+    Given user "user2" exists
+    And As an "user0"
+    And user "user0" created a folder "/share"
+    When creating a share with
+      | path        | share |
+      | shareType   |     0 |
+      | shareWith   | user1 |
+      | permissions |    7 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    And User "user0" uploads file with content "test" to "/share/test.txt"
+    And As an "user1"
+    And user "user1" created a folder "/re-share"
+    When creating a share with
+      | path        | re-share |
+      | shareType   |        0 |
+      | shareWith   |    user2 |
+      | permissions |       31 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    When User "user1" copies file "/share/test.txt" to "/re-share/copytest.txt"
+    Then the HTTP status code should be "403"
+
+Scenario: Cannot move files from share without share permission into other share
+    Given user "user0" exists
+    Given user "user1" exists
+    Given user "user2" exists
+    And As an "user0"
+    And user "user0" created a folder "/share"
+    When creating a share with
+      | path        | share |
+      | shareType   |     0 |
+      | shareWith   | user1 |
+      | permissions |    7 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    And User "user0" uploads file with content "test" to "/share/test.txt"
+    And As an "user1"
+    And user "user1" created a folder "/re-share"
+    When creating a share with
+      | path        | re-share |
+      | shareType   |        0 |
+      | shareWith   |    user2 |
+      | permissions |       31 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    When User "user1" moves file "/share/test.txt" to "/re-share/movetest.txt"
+    Then the HTTP status code should be "403"
+
+	Scenario: Can move files from share without share permission but with delete permissions into other share
+		Given user "user0" exists
+		Given user "user1" exists
+		Given user "user2" exists
+		And As an "user0"
+		And user "user0" created a folder "/share"
+		When creating a share with
+			| path        | share |
+			| shareType   |     0 |
+			| shareWith   | user1 |
+			| permissions |    15 |
+		Then the HTTP status code should be "200"
+		And the OCS status code should be "100"
+		And User "user0" uploads file with content "test" to "/share/test.txt"
+		And As an "user1"
+		And user "user1" created a folder "/re-share"
+		When creating a share with
+			| path        | re-share |
+			| shareType   |        0 |
+			| shareWith   |    user2 |
+			| permissions |       31 |
+		Then the HTTP status code should be "200"
+		And the OCS status code should be "100"
+		When User "user1" moves file "/share/test.txt" to "/re-share/movetest.txt"
+		Then the HTTP status code should be "201"
+
+Scenario: Cannot move folder containing share without share permission into other share
+    Given user "user0" exists
+    Given user "user1" exists
+    Given user "user2" exists
+    And As an "user0"
+    And user "user0" created a folder "/share"
+    When creating a share with
+      | path        | share |
+      | shareType   |     0 |
+      | shareWith   | user1 |
+      | permissions |    7 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    And User "user0" uploads file with content "test" to "/share/test.txt"
+    And As an "user1"
+    And user "user1" created a folder "/contains-share"
+    When User "user1" moves file "/share" to "/contains-share/share"
+    Then the HTTP status code should be "201"
+    And user "user1" created a folder "/re-share"
+    When creating a share with
+      | path        | re-share |
+      | shareType   |        0 |
+      | shareWith   |    user2 |
+      | permissions |       31 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    When User "user1" moves file "/contains-share" to "/re-share/movetest"
+    Then the HTTP status code should be "403"
+
+Scenario: Can copy file between shares if share permissions
+    Given user "user0" exists
+    Given user "user1" exists
+    Given user "user2" exists
+    And As an "user0"
+    And user "user0" created a folder "/share"
+    When creating a share with
+      | path        | share |
+      | shareType   |     0 |
+      | shareWith   | user1 |
+      | permissions |    31 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    And User "user0" uploads file with content "test" to "/share/test.txt"
+    And As an "user1"
+    And user "user1" created a folder "/re-share"
+    When creating a share with
+      | path        | re-share |
+      | shareType   |        0 |
+      | shareWith   |    user2 |
+      | permissions |       31 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    When User "user1" copies file "/share/test.txt" to "/re-share/movetest.txt"
+    Then the HTTP status code should be "201"
+
+Scenario: Cannot copy files from share without share permission into subfolder of other share
+    Given user "user0" exists
+    Given user "user1" exists
+    Given user "user2" exists
+    And As an "user0"
+    And user "user0" created a folder "/share"
+    When creating a share with
+      | path        | share |
+      | shareType   |     0 |
+      | shareWith   | user1 |
+      | permissions |     7 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    And User "user0" uploads file with content "test" to "/share/test.txt"
+    And As an "user1"
+    And user "user1" created a folder "/re-share"
+    And user "user1" created a folder "/re-share/subfolder"
+    When creating a share with
+      | path        | re-share |
+      | shareType   |        0 |
+      | shareWith   |    user2 |
+      | permissions |       31 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    When User "user1" copies file "/share/test.txt" to "/re-share/subfolder/copytest.txt"
+    Then the HTTP status code should be "403"
+
+Scenario: Cannot move files from share without share permission into subfolder of other share
+    Given user "user0" exists
+    Given user "user1" exists
+    Given user "user2" exists
+    And As an "user0"
+    And user "user0" created a folder "/share"
+    When creating a share with
+      | path        | share |
+      | shareType   |     0 |
+      | shareWith   | user1 |
+      | permissions |     7 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    And User "user0" uploads file with content "test" to "/share/test.txt"
+    And As an "user1"
+    And user "user1" created a folder "/re-share"
+    And user "user1" created a folder "/re-share/subfolder"
+    When creating a share with
+      | path        | re-share |
+      | shareType   |        0 |
+      | shareWith   |    user2 |
+      | permissions |       31 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    When User "user1" moves file "/share/test.txt" to "/re-share/subfolder/movetest.txt"
+    Then the HTTP status code should be "403"
+
+Scenario: Cannot move folder containing share without share permission into subfolder of other share
+    Given user "user0" exists
+    Given user "user1" exists
+    Given user "user2" exists
+    And As an "user0"
+    And user "user0" created a folder "/share"
+    When creating a share with
+      | path        | share |
+      | shareType   |     0 |
+      | shareWith   | user1 |
+      | permissions |     7 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    And User "user0" uploads file with content "test" to "/share/test.txt"
+    And As an "user1"
+    And user "user1" created a folder "/contains-share"
+    When User "user1" moves file "/share" to "/contains-share/share"
+    Then the HTTP status code should be "201"
+    And user "user1" created a folder "/re-share"
+    And user "user1" created a folder "/re-share/subfolder"
+    When creating a share with
+      | path        | re-share |
+      | shareType   |        0 |
+      | shareWith   |    user2 |
+      | permissions |       31 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    When User "user1" moves file "/contains-share" to "/re-share/subfolder/movetest"
+    Then the HTTP status code should be "403"
+
+Scenario: Can copy file between shares into subfolder if share permissions
+    Given user "user0" exists
+    Given user "user1" exists
+    Given user "user2" exists
+    And As an "user0"
+    And user "user0" created a folder "/share"
+    When creating a share with
+      | path        | share |
+      | shareType   |     0 |
+      | shareWith   | user1 |
+      | permissions |    31 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    And User "user0" uploads file with content "test" to "/share/test.txt"
+    And As an "user1"
+    And user "user1" created a folder "/re-share"
+    And user "user1" created a folder "/re-share/subfolder"
+    When creating a share with
+      | path        | re-share |
+      | shareType   |        0 |
+      | shareWith   |    user2 |
+      | permissions |       31 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    When User "user1" copies file "/share/test.txt" to "/re-share/subfolder/copytest.txt"
+    Then the HTTP status code should be "201"
+
+Scenario: Owner without sharing permission can move and copy files within their own share
+    Given user "user0" exists
+    Given user "user1" exists
+    And group "nosharing" exists
+    And user "user0" belongs to group "nosharing"
+    And As an "user0"
+    And user "user0" created a folder "/share"
+    And user "user0" created a folder "/share/a"
+    And user "user0" created a folder "/share/b"
+    And User "user0" uploads file with content "test" to "/share/a/test.txt"
+    When creating a share with
+      | path        | share |
+      | shareType   |     0 |
+      | shareWith   | user1 |
+      | permissions |    15 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    And parameter "shareapi_exclude_groups" of app "core" is set to "yes"
+    And parameter "shareapi_exclude_groups_list" of app "core" is set to "nosharing"
+    When User "user0" copies file "/share/a/test.txt" to "/share/b/copytest.txt"
+    Then the HTTP status code should be "201"
+    When User "user0" moves file "/share/a/test.txt" to "/share/b/test.txt"
+    Then the HTTP status code should be "201"
+
+Scenario: Owner without sharing permission cannot move files into their own share
+    Given user "user0" exists
+    Given user "user1" exists
+    And group "nosharing" exists
+    And user "user0" belongs to group "nosharing"
+    And As an "user0"
+    And user "user0" created a folder "/share"
+    And user "user0" created a folder "/not-shared"
+    And User "user0" uploads file with content "test" to "/not-shared/test.txt"
+    When creating a share with
+      | path        | share |
+      | shareType   |     0 |
+      | shareWith   | user1 |
+      | permissions |    15 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    And parameter "shareapi_exclude_groups" of app "core" is set to "yes"
+    And parameter "shareapi_exclude_groups_list" of app "core" is set to "nosharing"
+    When User "user0" moves file "/not-shared/test.txt" to "/share/test.txt"
+    Then the HTTP status code should be "403"
+
+Scenario: Owner without sharing permission cannot move files within their own share into a re-shared subfolder
+    Given user "user0" exists
+    Given user "user1" exists
+    Given user "user2" exists
+    And group "nosharing" exists
+    And user "user0" belongs to group "nosharing"
+    And As an "user0"
+    And user "user0" created a folder "/share"
+    And user "user0" created a folder "/share/a"
+    And user "user0" created a folder "/share/b"
+    And User "user0" uploads file with content "test" to "/share/a/test.txt"
+    When creating a share with
+      | path        | share |
+      | shareType   |     0 |
+      | shareWith   | user1 |
+      | permissions |    31 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    And As an "user1"
+    When creating a share with
+      | path        | share/b |
+      | shareType   |       0 |
+      | shareWith   |   user2 |
+      | permissions |      31 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    And As an "user0"
+    And parameter "shareapi_exclude_groups" of app "core" is set to "yes"
+    And parameter "shareapi_exclude_groups_list" of app "core" is set to "nosharing"
+    When User "user0" moves file "/share/a/test.txt" to "/share/b/test.txt"
+    Then the HTTP status code should be "403"
+
+Scenario: Group deletes removes mount without marking
+	Given As an "admin"
+	And user "user0" exists
+	And user "user1" exists
+	And group "group0" exists
+	And user "user0" belongs to group "group0"
+	And file "textfile0.txt" of user "user1" is shared with group "group0"
+	And As an "user0"
+	Then Share mounts for "user0" match
+		| /user0/files/textfile0 (2).txt/ |
+	And group "group0" does not exist
+	Then Share mounts for "user0" are empty
+
+Scenario: Group deletes removes mount with marking
+	Given As an "admin"
+	And parameter "update_cutoff_time" of app "files_sharing" is set to "0"
+	And user "user0" exists
+	And user "user1" exists
+	And group "group0" exists
+	And user "user0" belongs to group "group0"
+	And file "textfile0.txt" of user "user1" is shared with group "group0"
+	And As an "user0"
+	Then Share mounts for "user0" are empty
+	When Connecting to dav endpoint
+	Then Share mounts for "user0" match
+		| /user0/files/textfile0 (2).txt/ |
+	And group "group0" does not exist
+	Then Share mounts for "user0" match
+		| /user0/files/textfile0 (2).txt/ |
+	When Connecting to dav endpoint
+	Then Share mounts for "user0" are empty
+
+Scenario: User share mount without marking
+	Given As an "admin"
+	And user "user0" exists
+	And user "user1" exists
+	And file "textfile0.txt" of user "user1" is shared with user "user0"
+	And As an "user0"
+	Then Share mounts for "user0" match
+		| /user0/files/textfile0 (2).txt/ |
+	When Deleting last share
+	Then Share mounts for "user0" are empty
+
+Scenario: User share mount with marking
+	Given As an "admin"
+	And parameter "update_cutoff_time" of app "files_sharing" is set to "0"
+	And user "user0" exists
+	And user "user1" exists
+	And file "textfile0.txt" of user "user1" is shared with user "user0"
+	And As an "user0"
+	Then Share mounts for "user0" are empty
+	When Connecting to dav endpoint
+	Then Share mounts for "user0" match
+		| /user0/files/textfile0 (2).txt/ |
+	When Deleting last share
+	Then Share mounts for "user0" match
+		| /user0/files/textfile0 (2).txt/ |
+	When Connecting to dav endpoint
+	Then Share mounts for "user0" are empty
+
+Scenario: User added/removed to group share without marking
+	Given As an "admin"
+	And user "user0" exists
+	And user "user1" exists
+	And group "group0" exists
+	And file "textfile0.txt" of user "user1" is shared with group "group0"
+	And As an "user0"
+	Then Share mounts for "user0" are empty
+	When user "user0" belongs to group "group0"
+	Then Share mounts for "user0" match
+		| /user0/files/textfile0 (2).txt/ |
+	When As an "admin"
+	Then sending "DELETE" to "/cloud/users/user0/groups" with
+		| groupid | group0 |
+	Then As an "user0"
+	And Share mounts for "user0" are empty
+
+Scenario: User added/removed to group share with marking
+	Given As an "admin"
+	And parameter "update_cutoff_time" of app "files_sharing" is set to "0"
+	And user "user0" exists
+	And user "user1" exists
+	And group "group0" exists
+	And file "textfile0.txt" of user "user1" is shared with group "group0"
+	And As an "user0"
+	When user "user0" belongs to group "group0"
+	Then Share mounts for "user0" are empty
+	When Connecting to dav endpoint
+	Then Share mounts for "user0" match
+		| /user0/files/textfile0 (2).txt/ |
+	When As an "admin"
+	Then sending "DELETE" to "/cloud/users/user0/groups" with
+		| groupid | group0 |
+	Then As an "user0"
+	And Share mounts for "user0" match
+		| /user0/files/textfile0 (2).txt/ |
+	When Connecting to dav endpoint
+	Then Share mounts for "user0" are empty
+
+  Scenario: Share moved without marking
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And file "textfile0.txt" of user "user1" is shared with user "user0"
+    And As an "user0"
+    Then Share mounts for "user0" match
+      | /user0/files/textfile0 (2).txt/ |
+    When User "user0" moves file "/textfile0 (2).txt" to "/target.txt"
+    Then Share mounts for "user0" match
+      | /user0/files/target.txt/ |
+
+  # The initiator reaches the folder through a read-only path as well, which is found first
+  # by id. The share permission of the other path still allows creating the share.
+  Scenario: Creating a link share of a folder that is also reachable without share permission
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user0" created a folder "/parent"
+    And user "user0" created a folder "/parent/z-child"
+    And folder "/parent" of user "user0" is shared with user "user1" with permissions 31
+    And user "user1" accepts last share
+    And folder "/parent/z-child" of user "user0" is shared with user "user1" with permissions 1
+    And user "user1" accepts last share
+    When as "user1" creating a share with
+      | path | parent/z-child |
+      | shareType | 3 |
+      | permissions | 1 |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+
+  # Renaming the parent folder moves the share mount through Updater::renameChildren,
+  # which passes a mount point instead of a path. Mount points carry a trailing slash,
+  # which used to end up in the share target.
+  Scenario: Renaming a folder that contains a received share keeps the share target normalized
+    Given user "user0" exists
+    And user "user1" exists
+    And User "user0" uploads file with content "content" to "/moved-share.txt"
+    And file "/moved-share.txt" of user "user0" is shared with user "user1" with permissions 19
+    And user "user1" accepts last share
+    And user "user1" created a folder "/received"
+    And User "user1" moves file "/moved-share.txt" to "/received/moved-share.txt"
+    Then the HTTP status code should be "201"
+    When User "user1" moves file "/received" to "/archive"
+    Then the HTTP status code should be "201"
+    And As an "user1"
+    And Getting info of last share
+    And the OCS status code should be "100"
+    And Share fields of last share match with
+      | file_target | /archive/moved-share.txt |
+    And user "user1" should see following elements
+      | /archive/moved-share.txt |

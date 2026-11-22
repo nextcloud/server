@@ -1,0 +1,28 @@
+OC.L10N.register(
+    "profile",
+    {
+    "View profile" : "Vis profil",
+    "Profile picker" : "Profilvælger",
+    "Profile" : "Profil",
+    "This application provides the profile" : "Denne app stiller profilen til rådighed",
+    "Provides a customizable user profile interface." : "Leverer en brugerflade til brugerprofiler, der kan tilpasses.",
+    "Searching …" : "Søger …",
+    "Not found" : "Ikke fundet",
+    "Search for a user profile" : "Søg efter en brugerprofil",
+    "Search for a user profile. Start typing" : "Søg efter en brugerprofil. Begynd at skrive",
+    "Insert selected user profile link" : "Indsæt link til den valgte brugerprofil",
+    "Insert" : "Indsæt",
+    "You & {user}" : "Dig og {user}",
+    "You have not added any info yet" : "Du har ikke tilføjet nogen oplysninger endnu",
+    "{user} has not added any info yet" : "{user} har ikke tilføjet nogen oplysninger endnu",
+    "Error opening the user status modal, try hard refreshing the page" : "Fejl ved åbning af dialogen for brugerstatus. Prøv at genindlæse siden helt",
+    "Edit profile" : "Rediger profil",
+    "The headline and about sections will show up here" : "Afsnittene Overskrift og Om vises her",
+    "Profile not found" : "Profilen blev ikke fundet",
+    "The profile does not exist or is unavailable." : "Profilen findes ikke eller er ikke tilgængelig.",
+    "Back to %s" : "Tilbage til %s",
+    "Provides a customisable user profile interface." : "Leverer en brugerdefinerbar brugerprofil grænseflade.",
+    "Edit Profile" : "Redigér profil",
+    "The profile does not exist." : "Profilen eksisterer ikke."
+},
+"nplurals=2; plural=(n != 1);");

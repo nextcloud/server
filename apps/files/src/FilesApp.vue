@@ -1,0 +1,23 @@
+<!--
+ - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+ -->
+<template>
+	<NcContent appName="files">
+		<FilesNavigation v-if="!isPublic" />
+		<RouterView />
+		<FilesSidebar v-if="!isPublic" />
+	</NcContent>
+</template>
+
+<script setup lang="ts">
+import { isPublicShare } from '@nextcloud/sharing/public'
+import NcContent from '@nextcloud/vue/components/NcContent'
+import FilesNavigation from './views/FilesNavigation.vue'
+import FilesSidebar from './views/FilesSidebar.vue'
+import { useHotKeys } from './composables/useHotKeys.ts'
+
+useHotKeys()
+
+const isPublic = isPublicShare()
+</script>

@@ -1,0 +1,78 @@
+<?php
+
+declare(strict_types=1);
+/**
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+namespace OCA\Files\Service;
+
+use OCP\Files\Node;
+use OCP\FilesMetadata\Exceptions\FilesMetadataNotFoundException;
+use OCP\FilesMetadata\IFilesMetadataManager;
+
+class LivePhotosService {
+	public function __construct(
+		private IFilesMetadataManager $filesMetadataManager,
+	) {
+	}
+
+	/**
+	 * Get the associated live photo for a given file id
+	 */
+	public function getLivePhotoPeerId(Node $file): ?int {
+		$peer = $this->getLivePhotoPeerIdUnchecked($file);
+		if ($peer === null) {
+			return null;
+		}
+
+		$peerOfPeer = $this->getLivePhotoPeerIdsUnchecked([$peer])[$peer] ?? null;
+		if ($peerOfPeer === $file->getId()) {
+			// the peer relationship is only valid if it's mutual
+			return $peer;
+		} else {
+			return null;
+		}
+	}
+
+	private function getLivePhotoPeerIdUnchecked(Node $file): ?int {
+		try {
+			$metadata = $this->filesMetadataManager->getMetadataForNode($file);
+		} catch (FilesMetadataNotFoundException $ex) {
+			return null;
+		}
+
+		if (!$metadata->hasKey('files-live-photo')) {
+			return null;
+		}
+
+		return (int)$metadata->getString('files-live-photo');
+	}
+
+	/**
+	 * Get the associated live photo for multiple file ids
+	 * @param int[] $fileIds
+	 * @return array<int, int>
+	 */
+	public function getLivePhotoPeerIds(array $fileIds): array {
+		$peersIds = $this->getLivePhotoPeerIdsUnchecked($fileIds);
+		$peersOfPeers = $this->getLivePhotoPeerIdsUnchecked($peersIds);
+
+		// the peer relationship is only valid if it's mutual
+		return array_filter($peersIds, fn (int $peerId, int $fileId) => ($peersOfPeers[$peerId] ?? null) === $fileId, ARRAY_FILTER_USE_BOTH);
+	}
+
+	private function getLivePhotoPeerIdsUnchecked(array $fileIds): array {
+		$metadata = $this->filesMetadataManager->getMetadataForFiles($fileIds);
+		$peersIds = [];
+		foreach ($metadata as $fileId => $item) {
+			if (!$item->hasKey('files-live-photo')) {
+				continue;
+			}
+
+			$peersIds[$fileId] = (int)$item->getString('files-live-photo');
+		}
+		return $peersIds;
+	}
+}

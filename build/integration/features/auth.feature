@@ -1,0 +1,221 @@
+# SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+# SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+# SPDX-License-Identifier: AGPL-3.0-only
+Feature: auth
+
+	Background:
+		Given user "user0" exists
+		Given a new restricted client token is added
+		Given a new unrestricted client token is added
+		Given the cookie jar is reset
+
+	# FILES APP
+	Scenario: access files app anonymously
+		When requesting "/index.php/apps/files" with "GET"
+		Then the HTTP status code should be "401"
+
+	Scenario: access files app with basic auth
+		When requesting "/index.php/apps/files" with "GET" using basic auth
+		Then the HTTP status code should be "200"
+
+	Scenario: access files app with unrestricted basic token auth
+		When requesting "/index.php/apps/files" with "GET" using unrestricted basic token auth
+		Then the HTTP status code should be "200"
+		Then requesting "/remote.php/files/welcome.txt" with "GET" using browser session
+		Then the HTTP status code should be "200"
+
+	Scenario: access files app with restricted basic token auth
+		When requesting "/index.php/apps/files" with "GET" using restricted basic token auth
+		Then the HTTP status code should be "200"
+		Then requesting "/remote.php/files/welcome.txt" with "GET" using browser session
+		Then the HTTP status code should be "404"
+
+	Scenario: access files app with an unrestricted client token
+		When requesting "/index.php/apps/files" with "GET" using an unrestricted client token
+		Then the HTTP status code should be "200"
+
+	Scenario: access files app with browser session
+		Given a new browser session is started
+		When requesting "/index.php/apps/files" with "GET" using browser session
+		Then the HTTP status code should be "200"
+
+	# WebDAV
+	Scenario: using WebDAV anonymously
+		When requesting "/remote.php/webdav" with "PROPFIND"
+		Then the HTTP status code should be "401"
+
+	Scenario: using WebDAV with basic auth
+		When requesting "/remote.php/webdav" with "PROPFIND" using basic auth
+		Then the HTTP status code should be "207"
+
+	Scenario: using WebDAV with unrestricted basic token auth
+		When requesting "/remote.php/webdav" with "PROPFIND" using unrestricted basic token auth
+		Then the HTTP status code should be "207"
+
+	Scenario: using WebDAV with restricted basic token auth
+		When requesting "/remote.php/webdav" with "PROPFIND" using restricted basic token auth
+		Then the HTTP status code should be "207"
+
+	Scenario: using old WebDAV endpoint with unrestricted client token
+		When requesting "/remote.php/webdav" with "PROPFIND" using an unrestricted client token
+		Then the HTTP status code should be "207"
+
+	Scenario: using new WebDAV endpoint with unrestricted client token
+		When requesting "/remote.php/dav/" with "PROPFIND" using an unrestricted client token
+		Then the HTTP status code should be "207"
+
+	Scenario: using WebDAV with browser session
+		Given a new browser session is started
+		When requesting "/remote.php/webdav" with "PROPFIND" using browser session
+		Then the HTTP status code should be "207"
+
+	# OCS
+	Scenario: using OCS anonymously
+		When requesting "/ocs/v1.php/apps/files_sharing/api/v1/remote_shares" with "GET"
+		Then the OCS status code should be "997"
+
+	Scenario: using OCS with basic auth
+		When requesting "/ocs/v1.php/apps/files_sharing/api/v1/remote_shares" with "GET" using basic auth
+		Then the OCS status code should be "100"
+
+	Scenario: using OCS with token auth
+		When requesting "/ocs/v1.php/apps/files_sharing/api/v1/remote_shares" with "GET" using unrestricted basic token auth
+		Then the OCS status code should be "100"
+
+	Scenario: using OCS with an unrestricted client token
+		When requesting "/ocs/v1.php/apps/files_sharing/api/v1/remote_shares" with "GET" using an unrestricted client token
+		Then the OCS status code should be "100"
+
+	Scenario: using OCS with browser session
+		Given a new browser session is started
+		When requesting "/ocs/v1.php/apps/files_sharing/api/v1/remote_shares" with "GET" using browser session
+		Then the OCS status code should be "100"
+
+	# REMEMBER ME
+	Scenario: remember login
+		Given a new remembered browser session is started
+		When the session cookie expires
+		And requesting "/index.php/apps/files" with "GET" using browser session
+		Then the HTTP status code should be "200"
+
+	# AUTH TOKENS
+	Scenario: Creating an auth token with regular auth token should not work
+		When requesting "/index.php/apps/files" with "GET" using restricted basic token auth
+		Then the HTTP status code should be "200"
+		When the CSRF token is extracted from the previous response
+		When a new unrestricted client token is added using restricted basic token auth
+		Then the HTTP status code should be "403"
+
+	Scenario: Creating a restricted auth token with regular login should work
+		When a new restricted client token is added
+		Then the HTTP status code should be "200"
+
+	Scenario: Creating an unrestricted auth token with regular login should work
+		When a new unrestricted client token is added
+		Then the HTTP status code should be "200"
+
+	# SCOPED TOKENS
+	Scenario: a files token reaches the files OCS API
+		Given a new client token limited to "files:files:read files:files:write" is added
+		When requesting "/ocs/v2.php/apps/files_sharing/api/v1/shares" with "GET" using scoped basic token auth
+		Then the HTTP status code should be "200"
+
+	Scenario: a files token is refused on capabilities
+		Given a new client token limited to "files:files:read files:files:write" is added
+		When requesting "/ocs/v2.php/cloud/capabilities" with "GET" using scoped basic token auth
+		Then the HTTP status code should be "403"
+
+	Scenario: a files token without files_sharing:shares:write cannot create shares
+		Given a new client token limited to "files:files:read files:files:write" is added
+		When requesting "/ocs/v2.php/apps/files_sharing/api/v1/shares" with "POST" using scoped basic token auth
+		Then the HTTP status code should be "403"
+
+	Scenario: a files token is refused on unified search
+		Given a new client token limited to "files:files:read files:files:write" is added
+		When requesting "/ocs/v2.php/search/providers" with "GET" using scoped basic token auth
+		Then the HTTP status code should be "403"
+
+	Scenario: a files token with search reaches unified search
+		Given a new client token limited to "files:files:read files:files:write core:search:read" is added
+		When requesting "/ocs/v2.php/search/providers" with "GET" using scoped basic token auth
+		Then the HTTP status code should be "200"
+
+	Scenario: a files token with people lookup reaches the hovercard
+		Given a new client token limited to "files:files:read files:files:write core:people:read" is added
+		When requesting "/ocs/v2.php/hovercard/v1/user0" with "GET" using scoped basic token auth
+		Then the HTTP status code should be "200"
+
+	Scenario: a dashboard token reaches the dashboard API
+		Given a new client token limited to "dashboard" is added
+		When requesting "/ocs/v2.php/apps/dashboard/api/v1/widgets" with "GET" using scoped basic token auth
+		Then the HTTP status code should be "200"
+
+	Scenario: a dashboard token reads no files
+		Given a new client token limited to "dashboard" is added
+		When requesting "/ocs/v2.php/apps/files_sharing/api/v1/shares" with "GET" using scoped basic token auth
+		Then the HTTP status code should be "403"
+
+	Scenario: a files token gets no page render
+		Given a new client token limited to "files:files:read files:files:write" is added
+		When requesting "/index.php/apps/files" with "GET" using scoped basic token auth
+		Then the HTTP status code should be "403"
+
+	Scenario: a files token reaches files over DAV
+		Given a new client token limited to "files:files:read files:files:write files:dav:read files:dav:write" is added
+		When requesting "/remote.php/dav/files/user0/" with "PROPFIND" using scoped basic token auth
+		Then the HTTP status code should be "207"
+
+	Scenario: a files token reads no calendars over DAV
+		Given a new client token limited to "files:files:read files:files:write" is added
+		When requesting "/remote.php/dav/calendars/user0/" with "PROPFIND" using scoped basic token auth
+		Then the HTTP status code should be "403"
+
+	Scenario: a files token reaches files over legacy WebDAV
+		Given a new client token limited to "files:files:read files:files:write files:dav:read files:dav:write" is added
+		When requesting "/remote.php/webdav/" with "PROPFIND" using scoped basic token auth
+		Then the HTTP status code should be "207"
+
+	Scenario: a files token reads no calendars over legacy CalDAV
+		Given a new client token limited to "files:files:read files:files:write" is added
+		When requesting "/remote.php/caldav/calendars/user0/" with "PROPFIND" using scoped basic token auth
+		Then the HTTP status code should be "403"
+
+	Scenario: a calendar token reaches calendars over legacy CalDAV
+		Given a new client token limited to "dav:calendar:read dav:calendar:write" is added
+		When requesting "/remote.php/caldav/calendars/user0/" with "PROPFIND" using scoped basic token auth
+		Then the HTTP status code should be "207"
+
+	Scenario: a calendar token reaches calendars over DAV
+		Given a new client token limited to "dav:calendar:read dav:calendar:write" is added
+		When requesting "/remote.php/dav/calendars/user0/" with "PROPFIND" using scoped basic token auth
+		Then the HTTP status code should be "207"
+
+	Scenario: a calendar token reads no files over DAV
+		Given a new client token limited to "dav:calendar:read dav:calendar:write" is added
+		When requesting "/remote.php/dav/files/user0/" with "PROPFIND" using scoped basic token auth
+		Then the HTTP status code should be "403"
+
+	Scenario: a calendar token reads no files over legacy WebDAV
+		Given a new client token limited to "dav:calendar:read dav:calendar:write" is added
+		When requesting "/remote.php/webdav/" with "PROPFIND" using scoped basic token auth
+		Then the HTTP status code should be "403"
+
+	Scenario: a calendar token cannot list the trash
+		Given a new client token limited to "dav:calendar:read dav:calendar:write" is added
+		When requesting "/remote.php/dav/trashbin/user0/trash/" with "PROPFIND" using scoped basic token auth
+		Then the HTTP status code should be "403"
+
+	Scenario: a files token without DAV reads no files over DAV
+		Given a new client token limited to "files:files:read files:files:write" is added
+		When requesting "/remote.php/dav/files/user0/" with "PROPFIND" using scoped basic token auth
+		Then the HTTP status code should be "403"
+
+	Scenario: a files token reads no trash without the trash scope
+		Given a new client token limited to "files:files:read files:files:write files:dav:read files:dav:write" is added
+		When requesting "/remote.php/dav/trashbin/user0/trash/" with "PROPFIND" using scoped basic token auth
+		Then the HTTP status code should be "403"
+
+	Scenario: a files token with the trash scope reads the trash
+		Given a new client token limited to "files:files:read files:files:write files:dav:read files:dav:write files_trashbin:dav:read" is added
+		When requesting "/remote.php/dav/trashbin/user0/trash/" with "PROPFIND" using scoped basic token auth
+		Then the HTTP status code should be "207"

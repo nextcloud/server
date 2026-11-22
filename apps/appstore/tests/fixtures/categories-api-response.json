@@ -1,0 +1,62 @@
+[
+	{
+		"displayName": "AI",
+		"id": "ai"
+	},
+	{
+		"displayName": "Customization",
+		"id": "customization"
+	},
+	{
+		"displayName": "Dashboard",
+		"id": "dashboard"
+	},
+	{
+		"displayName": "Files",
+		"id": "files"
+	},
+	{
+		"displayName": "Games",
+		"id": "games"
+	},
+	{
+		"displayName": "Integration",
+		"id": "integration"
+	},
+	{
+		"displayName": "Monitoring",
+		"id": "monitoring"
+	},
+	{
+		"displayName": "Multimedia",
+		"id": "multimedia"
+	},
+	{
+		"displayName": "Office & text",
+		"id": "office"
+	},
+	{
+		"displayName": "Organization",
+		"id": "organization"
+	},
+	{
+		"displayName": "Search",
+		"id": "search"
+	},
+	{
+		"displayName": "Security",
+		"id": "security"
+	},
+	{
+		"displayName": "Social & communication",
+		"id": "social"
+	},
+	{
+		"displayName": "Tools",
+		"id": "tools"
+	},
+	{
+		"displayName": "Flow",
+		"id": "workflow"
+	}
+]

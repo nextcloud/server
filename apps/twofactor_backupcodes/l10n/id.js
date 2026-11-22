@@ -1,0 +1,25 @@
+OC.L10N.register(
+    "twofactor_backupcodes",
+    {
+    "You created two-factor backup codes for your account" : "Anda membuat kode cadangan autentikasi dua faktor untuk akun Anda",
+    "Second-factor backup codes" : "Kode cadangan faktor kedua",
+    "Generate backup codes" : "Buat kode cadangan",
+    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Anda mengaktifkan autentikasi dua faktor tetapi belum membuat kode cadangan. Kode ini diperlukan untuk memulihkan akses ke akun Anda jika Anda kehilangan faktor kedua Anda.",
+    "Backup code" : "Kode cadangan",
+    "Use backup code" : "Gunakan kode cadangan",
+    "Two factor backup codes" : "Kode cadangan autentikasi dua faktor",
+    "A two-factor auth backup codes provider" : "Penyedia kode cadangan autentikasi dua faktor",
+    "An error occurred while generating your backup codes" : "Terjadi kesalahan saat membuat kode cadangan Anda",
+    "Backup codes have been generated. {used} of {total} codes have been used." : "Kode cadangan telah dibuat. {used} dari {total} kode telah digunakan.",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Ini adalah kode cadangan Anda. Harap simpan dan/atau cetak karena Anda tidak akan dapat membaca kode tersebut lagi nanti.",
+    "List of backup codes" : "Daftar kode cadangan",
+    "Regenerate backup codes" : "Buat ulang kode cadangan",
+    "Print backup codes" : "Cetak kode cadangan",
+    "Save backup codes" : "Simpan kode cadangan",
+    "If you regenerate backup codes, you automatically invalidate old codes." : "Jika Anda membuat ulang kode cadangan, Anda secara otomatis membatalkan kode lama.",
+    "{name} backup codes" : "Kode cadangan {name}",
+    "Unable to open a new tab for printing" : "Tidak dapat membuka tab baru untuk mencetak",
+    "Use one of the backup codes you saved when setting up two-factor authentication." : "Gunakan salah satu kode cadangan yang Anda simpan saat mengatur autentikasi dua faktor.",
+    "Submit" : "Kirim"
+},
+"nplurals=1; plural=0;");

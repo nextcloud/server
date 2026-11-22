@@ -1,0 +1,26 @@
+{ "translations": {
+    "Dashboard" : "Πίνακας ελέγχου",
+    "Dashboard app" : "Εφαρμογή Πίνακα Ελέγχου",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Ξεκινήστε την ημέρα σας ενημερωμένοι\n\nΟ Πίνακας Ελέγχου του Nextcloud είναι το σημείο έναρξης της ημέρας σας, δίνοντάς σας μια επισκόπηση των επερχόμενων ραντεβού σας, επειγόντων email, μηνυμάτων συνομιλίας, εισερχόμενων αιτημάτων, τελευταίων tweets και πολλά άλλα! Οι χρήστες μπορούν να προσθέτουν τα widgets που προτιμούν και να αλλάζουν το φόντο σύμφωνα με τις προτιμήσεις τους.",
+    "Weather" : "Καιρός",
+    "Status" : "Κατάσταση",
+    "Good morning" : "Καλημέρα",
+    "Good morning, {name}" : "Καλημέρα, {name}",
+    "Good afternoon" : "Καλό απόγευμα",
+    "Good afternoon, {name}" : "Καλό απόγευμα, {name}",
+    "Good evening" : "Καλό βράδυ",
+    "Good evening, {name}" : "Καλό βράδυ, {name}",
+    "Hello" : "Γειά",
+    "Hello, {name}" : "Γειά, {name}",
+    "Happy birthday 🥳🤩🎂🎉" : "Χρόνια πολλά 🥳🤩🎂🎉",
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "Χρόνια πολλά, {name} 🥳🤩🎂🎉",
+    "Customize" : "Προσαρμογή",
+    "Edit widgets" : "Επεξεργασία μικροεφαρμογών",
+    "Get more widgets from the App Store" : "Λάβετε περισσότερες μικροεφαρμογές από το App Store",
+    "Weather service" : "Υπηρεσία καιρού",
+    "For your privacy, the weather data is requested by your {productName} server on your behalf so the weather service receives no personal information." : "Για το απόρρητό σας, τα δεδομένα καιρού ζητούνται από τον διακομιστή {productName} εκ μέρους σας, ώστε η υπηρεσία καιρού να μην λαμβάνει προσωπικές πληροφορίες.",
+    "Weather data from Met.no" : "Δεδομένα καιρού από το Met.no",
+    "geocoding with Nominatim" : "γεωκωδικοποίηση με Nominatim",
+    "elevation data from OpenTopoData" : "δεδομένα υψομέτρου από OpenTopoData"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

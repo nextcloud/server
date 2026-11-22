@@ -1,0 +1,373 @@
+<!--
+  - SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<template>
+	<NcListItem
+		class="version"
+		:forceDisplayActions="true"
+		:actions-aria-label="t('files_versions', 'Actions for version from {versionHumanExplicitDate}', { versionHumanExplicitDate })"
+		:data-files-versions-version="version.fileVersion"
+		:href="downloadURL"
+		@click="click">
+		<!-- Icon -->
+		<template #icon>
+			<div v-if="!(loadPreview || previewLoaded)" class="version__image" />
+			<img
+				v-else-if="version.previewUrl && !previewErrored"
+				:src="version.previewUrl"
+				alt=""
+				decoding="async"
+				fetchpriority="low"
+				loading="lazy"
+				class="version__image"
+				@load="previewLoaded = true"
+				@error="previewErrored = true">
+			<div
+				v-else
+				class="version__image">
+				<ImageOffOutline :size="20" />
+			</div>
+		</template>
+
+		<!-- author -->
+		<template #name>
+			<div class="version__info">
+				<div
+					v-if="versionLabel"
+					class="version__info__label"
+					data-cy-files-version-label
+					:title="versionLabel">
+					{{ versionLabel }}
+				</div>
+				<div
+					v-if="versionAuthor"
+					class="version__info"
+					data-cy-files-version-author-name>
+					<span v-if="versionLabel">•</span>
+					<NcAvatar
+						class="avatar"
+						:user="version.author ?? undefined"
+						:size="20"
+						disableMenu
+						disableTooltip
+						hideStatus />
+					<div
+						class="version__info__author_name"
+						:title="versionAuthor">
+						{{ versionAuthor }}
+					</div>
+				</div>
+			</div>
+		</template>
+
+		<!-- Version file size as subline -->
+		<template #subname>
+			<div class="version__info version__info__subline">
+				<NcDateTime
+					class="version__info__date"
+					relativeTime="short"
+					:timestamp="version.mtime" />
+				<!-- Separate dot to improve alignment -->
+				<span>•</span>
+				<span>{{ humanReadableSize }}</span>
+			</div>
+		</template>
+
+		<!-- Actions -->
+		<template #actions>
+			<NcActionButton
+				v-if="enableLabeling && hasUpdatePermissions"
+				data-cy-files-versions-version-action="label"
+				:closeAfterClick="true"
+				@click="labelUpdate">
+				<template #icon>
+					<Pencil :size="22" />
+				</template>
+				{{ version.label === '' ? t('files_versions', 'Name this version') : t('files_versions', 'Edit version name') }}
+			</NcActionButton>
+			<NcActionButton
+				v-if="!isCurrent && canView && canCompare"
+				data-cy-files-versions-version-action="compare"
+				:closeAfterClick="true"
+				@click="compareVersion">
+				<template #icon>
+					<FileCompare :size="22" />
+				</template>
+				{{ t('files_versions', 'Compare to current version') }}
+			</NcActionButton>
+			<NcActionButton
+				v-if="!isCurrent && hasUpdatePermissions"
+				data-cy-files-versions-version-action="restore"
+				:closeAfterClick="true"
+				@click="restoreVersion">
+				<template #icon>
+					<BackupRestore :size="22" />
+				</template>
+				{{ t('files_versions', 'Restore version') }}
+			</NcActionButton>
+			<NcActionLink
+				v-if="isDownloadable"
+				data-cy-files-versions-version-action="download"
+				:href="downloadURL"
+				:closeAfterClick="true"
+				:download="downloadURL">
+				<template #icon>
+					<Download :size="22" />
+				</template>
+				{{ t('files_versions', 'Download version') }}
+			</NcActionLink>
+			<NcActionButton
+				v-if="!isCurrent && enableDeletion && hasDeletePermissions"
+				data-cy-files-versions-version-action="delete"
+				:closeAfterClick="true"
+				@click="deleteVersion">
+				<template #icon>
+					<Delete :size="22" />
+				</template>
+				{{ t('files_versions', 'Delete version') }}
+			</NcActionButton>
+		</template>
+	</NcListItem>
+</template>
+
+<script lang="ts" setup>
+import type { INode } from '@nextcloud/files'
+import type { Version } from '../utils/versions.ts'
+
+import { getCurrentUser } from '@nextcloud/auth'
+import { formatFileSize, Permission } from '@nextcloud/files'
+import { loadState } from '@nextcloud/initial-state'
+import { getCanonicalLocale, t } from '@nextcloud/l10n'
+import { getRootUrl } from '@nextcloud/router'
+import { computed, nextTick, ref } from 'vue'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActionLink from '@nextcloud/vue/components/NcActionLink'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcDateTime from '@nextcloud/vue/components/NcDateTime'
+import NcListItem from '@nextcloud/vue/components/NcListItem'
+import BackupRestore from 'vue-material-design-icons/BackupRestore.vue'
+import FileCompare from 'vue-material-design-icons/FileCompare.vue'
+import ImageOffOutline from 'vue-material-design-icons/ImageOffOutline.vue'
+import Pencil from 'vue-material-design-icons/PencilOutline.vue'
+import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
+import Download from 'vue-material-design-icons/TrayArrowDown.vue'
+
+const props = defineProps<{
+	version: Version
+	node: INode
+	isCurrent: boolean
+	isFirstVersion: boolean
+	loadPreview: boolean
+	canView: boolean
+	canCompare: boolean
+}>()
+
+const emit = defineEmits<{
+	click: [version: Version]
+	compare: [version: Version]
+	restore: [version: Version]
+	delete: [version: Version]
+	labelUpdateRequest: []
+}>()
+
+const previewLoaded = ref(false)
+const previewErrored = ref(false)
+const capabilities = ref(loadState('core', 'capabilities', { files: { version_labeling: false, version_deletion: false } }))
+
+const humanReadableSize = computed(() => {
+	return formatFileSize(props.version.size)
+})
+
+const versionLabel = computed(() => {
+	const label = props.version.label ?? ''
+
+	if (props.isCurrent) {
+		if (label === '') {
+			return t('files_versions', 'Current version')
+		} else {
+			return `${label} (${t('files_versions', 'Current version')})`
+		}
+	}
+
+	if (props.isFirstVersion && label === '') {
+		return t('files_versions', 'Initial version')
+	}
+
+	return label
+})
+
+const versionAuthor = computed(() => {
+	if (!props.version.author || !props.version.authorName) {
+		return ''
+	}
+
+	if (props.version.author === getCurrentUser()?.uid) {
+		return t('files_versions', 'You')
+	}
+
+	return props.version.authorName ?? props.version.author
+})
+
+const versionHumanExplicitDate = computed(() => {
+	return new Date(props.version.mtime).toLocaleString(
+		[getCanonicalLocale(), getCanonicalLocale().split('-')[0]!],
+		{
+			timeStyle: 'long',
+			dateStyle: 'long',
+		},
+	)
+})
+
+const downloadURL = computed(() => {
+	if (props.isCurrent) {
+		return props.node.source
+	} else {
+		return getRootUrl() + props.version.url
+	}
+})
+
+const enableLabeling = computed(() => {
+	return capabilities.value.files.version_labeling === true
+})
+
+const enableDeletion = computed(() => {
+	return capabilities.value.files.version_deletion === true
+})
+
+const hasDeletePermissions = computed(() => {
+	return hasPermission(props.node, Permission.DELETE)
+})
+
+const hasUpdatePermissions = computed(() => {
+	return hasPermission(props.node, Permission.UPDATE)
+})
+
+const isDownloadable = computed(() => {
+	if ((props.node.permissions & Permission.READ) === 0) {
+		return false
+	}
+
+	// If the mount type is a share, ensure it got download permissions.
+	if (props.node.attributes['mount-type'] === 'shared' && props.node.attributes['share-attributes']) {
+		const downloadAttribute = JSON.parse(props.node.attributes['share-attributes'])
+			.find((attribute) => attribute.scope === 'permissions' && attribute.key === 'download') || {}
+		// If the download attribute is set to false, the file is not downloadable
+		if (downloadAttribute?.value === false) {
+			return false
+		}
+	}
+
+	return true
+})
+
+/**
+ * Label update request
+ */
+function labelUpdate() {
+	emit('labelUpdateRequest')
+}
+
+/**
+ * Restore version
+ */
+function restoreVersion() {
+	emit('restore', props.version)
+}
+
+/**
+ * Delete version
+ */
+async function deleteVersion() {
+	// Let @nc-vue properly remove the popover before we delete the version.
+	// This prevents @nc-vue from throwing a error.
+	await nextTick()
+	await nextTick()
+	emit('delete', props.version)
+}
+
+/**
+ * Handle click on the version entry
+ *
+ * @param event - The click event
+ */
+function click(event: MouseEvent) {
+	if (props.canView) {
+		event.preventDefault()
+	}
+
+	emit('click', props.version)
+}
+
+/**
+ * If the user can compare, emit the compare event
+ */
+function compareVersion() {
+	if (!props.canView) {
+		throw new Error('Cannot compare version of this file')
+	}
+	emit('compare', props.version)
+}
+
+/**
+ * Check if the current user has the given permission on the node
+ *
+ * @param node - The node to check
+ * @param permission - The permission to check
+ */
+function hasPermission(node: INode, permission: number): boolean {
+	return (node.permissions & permission) !== 0
+}
+</script>
+
+<style scoped lang="scss">
+.version {
+	display: flex;
+	flex-direction: row;
+
+	&__info {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 0.5rem;
+		color: var(--color-main-text);
+		font-weight: 500;
+		overflow: hidden;
+
+		&__label {
+			font-weight: 700;
+			// Fix overflow on narrow screens
+			overflow: hidden;
+			text-overflow: ellipsis;
+			min-width: 110px;
+		}
+
+		&__author_name {
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		&__date {
+			// Fix overflow on narrow screens
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		&__subline {
+			color: var(--color-text-maxcontrast)
+		}
+	}
+
+	&__image {
+		width: 3rem;
+		height: 3rem;
+		border: 1px solid var(--color-border);
+		border-radius: var(--border-radius-large);
+
+		// Useful to display no preview icon.
+		display: flex;
+		justify-content: center;
+		color: var(--color-main-text);
+	}
+}
+</style>

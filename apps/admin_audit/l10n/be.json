@@ -1,0 +1,5 @@
+{ "translations": {
+    "Auditing / Logging" : "Аўдыт / Журнал",
+    "Provides logging abilities for Nextcloud such as logging file accesses or otherwise sensitive actions." : "Прадастаўляе магчымасці вядзення журнала дзенняў для Nextcloud, такіх як доступ да файлаў або іншых канфідэнцыйных дзеянняў."
+},"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
+}

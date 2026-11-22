@@ -1,0 +1,222 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+namespace OCA\TwoFactorBackupCodes\Tests\Unit\Service;
+
+use OCA\TwoFactorBackupCodes\Db\BackupCode;
+use OCA\TwoFactorBackupCodes\Db\BackupCodeMapper;
+use OCA\TwoFactorBackupCodes\Event\CodesGenerated;
+use OCA\TwoFactorBackupCodes\Service\BackupCodeStorage;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IUser;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
+use OCP\Security\IHasher;
+use OCP\Security\ISecureRandom;
+use PHPUnit\Framework\MockObject\MockObject;
+use Test\TestCase;
+
+class BackupCodeStorageTest extends TestCase {
+	private BackupCodeMapper&MockObject $mapper;
+	private ISecureRandom&MockObject $random;
+	private IHasher&MockObject $hasher;
+	private IEventDispatcher&MockObject $eventDispatcher;
+	private BackupCodeStorage $storage;
+
+	protected function setUp(): void {
+		parent::setUp();
+
+		$this->mapper = $this->createMock(BackupCodeMapper::class);
+		$this->random = $this->createMock(ISecureRandom::class);
+		$this->hasher = $this->createMock(IHasher::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+
+		$this->storage = new BackupCodeStorage($this->mapper, $this->random, $this->hasher, $this->eventDispatcher);
+	}
+
+	public function testCreateCodes(): void {
+		$user = $this->createMock(IUser::class);
+		$number = 5;
+		$user->method('getUID')->willReturn('fritz');
+		$this->random->expects($this->exactly($number))
+			->method('generate')
+			->with(16, ISecureRandom::CHAR_HUMAN_READABLE)
+			->willReturn('CODEABCDEF');
+		$this->hasher->expects($this->exactly($number))
+			->method('hash')
+			->with('CODEABCDEF')
+			->willReturn('HASHEDCODE');
+		$row = new BackupCode();
+		$row->userId = 'fritz';
+		$row->code = 'HASHEDCODE';
+		$row->used = 0;
+		$this->mapper->expects($this->exactly($number))
+			->method('insert')
+			->with($this->equalTo($row));
+		$events = [];
+		$this->eventDispatcher->expects($this->exactly(2))
+			->method('dispatchTyped')
+			->willReturnCallback(function ($event) use (&$events): void {
+				$events[] = $event;
+			});
+
+		$codes = $this->storage->createCodes($user, $number);
+		$this->assertEquals(new CodesGenerated($user), $events[0]);
+		$this->assertInstanceOf(CriticalActionPerformedEvent::class, $events[1]);
+		$this->assertSame('twofactor_backupcodes.codes.generated', $events[1]->getOperation());
+		$this->assertSame(['userId' => 'fritz'], $events[1]->getParameters());
+		$this->assertSame('Two-factor backup codes were generated for user "%s"', $events[1]->getLogMessage());
+		$this->assertCount($number, $codes);
+		foreach ($codes as $code) {
+			$this->assertEquals('CODEABCDEF', $code);
+		}
+	}
+
+	public function testHasBackupCodes(): void {
+		$user = $this->createMock(IUser::class);
+
+		$this->mapper->expects($this->once())
+			->method('findOneByUser')
+			->with($user)
+			->willReturnCallback(function () {
+				return new BackupCode();
+			});
+
+		$this->assertTrue($this->storage->hasBackupCodes($user));
+	}
+
+	public function testHasBackupCodesNoCodes(): void {
+		$user = $this->createMock(IUser::class);
+
+		$this->mapper->expects($this->once())
+			->method('findOneByUser')
+			->with($user)
+			->willReturn(null);
+
+		$this->assertFalse($this->storage->hasBackupCodes($user));
+	}
+
+	public function testGetBackupCodeState(): void {
+		$user = $this->createMock(IUser::class);
+
+		$code1 = new BackupCode();
+		$code1->used = 1;
+		$code2 = new BackupCode();
+		$code2->used = 0;
+
+		$this->mapper->expects($this->once())
+			->method('findByUser')
+			->with($user)
+			->willReturnCallback(function () use ($code1, $code2) {
+				yield $code1;
+				yield $code2;
+			});
+
+		$expected = [
+			'enabled' => true,
+			'total' => 2,
+			'used' => 1,
+		];
+		$this->assertEquals($expected, $this->storage->getBackupCodesState($user));
+	}
+
+	public function testGetBackupCodeDisabled(): void {
+		$user = $this->createMock(IUser::class);
+
+		$this->mapper->expects($this->once())
+			->method('findByUser')
+			->with($user)
+			->willReturnCallback(function () {
+				if (false) {
+					yield true;
+				}
+			});
+
+		$expected = [
+			'enabled' => false,
+			'total' => 0,
+			'used' => 0,
+		];
+		$this->assertEquals($expected, $this->storage->getBackupCodesState($user));
+	}
+
+	public function testValidateCode(): void {
+		$user = $this->createMock(IUser::class);
+		$code = new BackupCode();
+		$code->used = 0;
+		$code->code = 'HASHEDVALUE';
+
+		$this->mapper->expects($this->once())
+			->method('findByUser')
+			->with($user)
+			->willReturnCallback(function () use ($code) {
+				yield $code;
+			});
+		$this->hasher->expects($this->once())
+			->method('verify')
+			->with('CHALLENGE', 'HASHEDVALUE', $this->anything())
+			->willReturn(true);
+		$this->mapper->expects($this->once())
+			->method('markUsedIfUnused')
+			->with($code)
+			->willReturn(1);
+
+		$this->assertTrue($this->storage->validateCode($user, 'CHALLENGE'));
+	}
+
+	public function testValidateUsedCode(): void {
+		$user = $this->createMock(IUser::class);
+		$code = new BackupCode();
+		$code->used = 1;
+		$code->code = 'HASHEDVALUE';
+
+		$this->mapper->expects($this->once())
+			->method('findByUser')
+			->with($user)
+			->willReturnCallback(function () use ($code) {
+				yield $code;
+			});
+		$this->hasher->expects($this->never())
+			->method('verify');
+		$this->mapper->expects($this->never())
+			->method('update');
+
+		$this->assertFalse($this->storage->validateCode($user, 'CHALLENGE'));
+	}
+
+	public function testValidateCodeWithWrongHash(): void {
+		$user = $this->createMock(IUser::class);
+		$code = new BackupCode();
+		$code->used = 0;
+		$code->code = 'HASHEDVALUE';
+
+		$this->mapper->expects($this->once())
+			->method('findByUser')
+			->with($user)
+			->willReturnCallback(function () use ($code) {
+				yield $code;
+			});
+		$this->hasher->expects($this->once())
+			->method('verify')
+			->with('CHALLENGE', 'HASHEDVALUE')
+			->willReturn(false);
+		$this->mapper->expects($this->never())
+			->method('update');
+
+		$this->assertFalse($this->storage->validateCode($user, 'CHALLENGE'));
+	}
+
+	public function testDeleteCodes(): void {
+		$user = $this->createMock(IUser::class);
+		$this->mapper->expects($this->once())
+			->method('deleteByUser')
+			->with($user);
+
+		$this->storage->deleteCodes($user);
+	}
+}

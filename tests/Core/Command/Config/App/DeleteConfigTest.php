@@ -1,0 +1,141 @@
+<?php
+
+declare(strict_types=1);
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+namespace Tests\Core\Command\Config\App;
+
+use OC\Core\Command\Config\App\DeleteConfig;
+use OCP\Config\BeforeAppConfigDeletedEvent;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IAppConfig;
+use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Test\TestCase;
+
+class DeleteConfigTest extends TestCase {
+	protected InputInterface&MockObject $consoleInput;
+	protected OutputInterface&MockObject $consoleOutput;
+	protected Command $command;
+
+	#[\Override]
+	protected function setUp(): void {
+		parent::setUp();
+		$this->consoleInput = $this->createMock(InputInterface::class);
+		$this->consoleOutput = $this->createMock(OutputInterface::class);
+
+		$this->command = $this->createInstanceWithMocks(DeleteConfig::class);
+	}
+
+	public static function dataDelete(): array {
+		return [
+			[
+				'name',
+				true,
+				true,
+				0,
+				'info',
+			],
+			[
+				'name',
+				true,
+				false,
+				0,
+				'info',
+			],
+			[
+				'name',
+				false,
+				false,
+				0,
+				'info',
+			],
+			[
+				'name',
+				false,
+				true,
+				1,
+				'error',
+			],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataDelete')]
+	public function testDelete(string $configName, bool $configExists, bool $checkIfExists, int $expectedReturn, string $expectedMessage): void {
+		$this->getAutoMock(IAppConfig::class)->expects(($checkIfExists) ? $this->once() : $this->never())
+			->method('getKeys')
+			->with('app-name')
+			->willReturn($configExists ? [$configName] : []);
+
+		$this->getAutoMock(IAppConfig::class)->expects(($expectedReturn === 0) ? $this->once() : $this->never())
+			->method('deleteKey')
+			->with('app-name', $configName);
+
+		$this->consoleInput->expects($this->exactly(2))
+			->method('getArgument')
+			->willReturnMap([
+				['app', 'app-name'],
+				['name', $configName],
+			]);
+		$this->consoleInput->method('hasParameterOption')
+			->with('--error-if-not-exists')
+			->willReturn($checkIfExists);
+
+		$this->consoleOutput->method('writeln')
+			->with($this->stringContains($expectedMessage));
+
+		$this->assertSame($expectedReturn, self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]));
+	}
+
+	public function testDeleteRejected(): void {
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->once())
+			->method('dispatchTyped')
+			->willReturnCallback(function (BeforeAppConfigDeletedEvent $event): void {
+				$this->assertSame('app-name', $event->getAppId());
+				$this->assertSame('name', $event->getConfigKey());
+				$event->setValid(false);
+			});
+		$this->getAutoMock(IAppConfig::class)->expects($this->never())
+			->method('deleteKey');
+
+		$this->consoleInput->method('getArgument')
+			->willReturnMap([
+				['app', 'app-name'],
+				['name', 'name'],
+			]);
+		$this->consoleOutput->expects($this->once())
+			->method('writeln')
+			->with($this->stringContains('error'));
+
+		$this->assertSame(1, self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]));
+	}
+
+	public function testDeleteRejectedForced(): void {
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->once())
+			->method('dispatchTyped')
+			->willReturnCallback(function (BeforeAppConfigDeletedEvent $event): void {
+				$event->setValid(false);
+			});
+		$this->getAutoMock(IAppConfig::class)->expects($this->once())
+			->method('deleteKey')
+			->with('app-name', 'name');
+
+		$this->consoleInput->method('getArgument')
+			->willReturnMap([
+				['app', 'app-name'],
+				['name', 'name'],
+			]);
+		$this->consoleInput->method('getOption')
+			->willReturnMap([
+				['force', true],
+			]);
+
+		$this->assertSame(0, self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]));
+	}
+}

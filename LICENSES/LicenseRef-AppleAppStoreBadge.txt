@@ -1,0 +1,46 @@
+App Store Badges
+
+Include App Store badges in all digital and printed marketing materials as a clear call to action to get your app. App Store badges are available in 40 localizations to help you reach a broader audience. Versions are available for the App Store for iPhone and iPad, the Mac App Store, and Apple TV.
+
+
+Preferred Badges
+
+Use the preferred black badge in all marketing communications promoting your app. The gray border surrounding the black badge is part of the badge artwork and should not be modified. Whenever one or more badges for other app platforms appear in the layout, use the preferred black badge. Place the App Store badge first in the lineup of badges.
+
+
+Legal Requirements
+Trademark Symbols
+
+In communications distributed only in the United States, the appropriate symbol (™, ℠, or ®) must follow each Apple trademark the first time it is mentioned in body copy. Do not use trademark symbols on products, product documentation, or other product communications that will be distributed outside the United States.
+
+For example, use Apple Watch®, iPhone®, iPad®, iPod touch®, Apple TV®, App Store®, Mac App Store℠, Mac®, MacBook Pro®, MacBook Air®, and iMac®.
+
+Don’t add symbols to headline copy or to the App Store badge artwork provided by Apple.
+
+For the correct trademark symbols, refer to the Apple Trademark List.
+Credit Lines
+
+Use the appropriate credit lines in all communications worldwide, listing all the Apple trademarks and products included in your communication and advertising. Include the credit lines only once in your communication or website, and place the credit lines wherever you provide legal notification. Follow standard practices for the placement of legal copy, such as creating additional screens or providing interactive links. When the App Store badge is used, credit both Apple and the Apple Logo.
+
+Refer to the Apple Trademark List for the correct trademark symbol, spelling of the trademark, and generic term to use with the trademark. Generally, the symbol appears at the right shoulder of the trademark (except the Apple Logo, where the logo appears at the right foot).
+
+Use the following formats for distribution within the United States only:
+
+______ and ______ are registered trademarks of Apple Inc.
+
+______ and ______ are trademarks of Apple Inc.
+
+For distribution outside the United States, use one of the following international credit notices:
+
+______ and______ are trademarks of Apple Inc., registered in the U.S. and other countries.
+
+______ and______ are trademarks of Apple Inc.
+
+A translation of the legal notice and credit lines (but not the trademarks) can be used in materials distributed outside the U.S.
+
+For more information on using Apple trademarks, see Using Apple Trademarks and Copyrights.
+Association with Apple
+
+Your app screen images, Mac, Apple Watch, iPhone, iPad, iPod touch, and Apple TV product images, or photographs thereof cannot be used in any manner that falsely suggests an association with Apple or is likely to reduce, diminish, or damage the goodwill, value, or reputation associated with the App Store, the Mac App Store, iPhone, iPad, iPod touch, Apple Watch, Apple TV, or Apple itself.
+
+see https://developer.apple.com/app-store/marketing/guidelines/

@@ -1,0 +1,46 @@
+<?php
+
+/**
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+declare(strict_types=1);
+
+namespace OCA\Sharing\Command;
+
+use NCU\Sharing\Permission\ISharePermissionType;
+use NCU\Sharing\Permission\SharePermission;
+use NCU\Sharing\Share;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
+final class UpdateSharePermission extends SharingBase {
+	#[\Override]
+	public function configure(): void {
+		$this
+			->setName('sharing:update-share-permission')
+			->setDescription('Update a permission of a share.')
+			->addArgument('id', InputArgument::REQUIRED, 'Share ID')
+			->addArgument('class', InputArgument::REQUIRED, 'Permission class')
+			->addArgument('enabled', InputArgument::REQUIRED, 'Permission enabled. Only takes "true" or "false".');
+		parent::configure();
+	}
+
+	#[\Override]
+	public function execute(InputInterface $input, OutputInterface $output): int {
+		/** @var string $id */
+		$id = $input->getArgument('id');
+		/** @var class-string<ISharePermissionType> $class */
+		$class = $input->getArgument('class');
+		/** @var string $enabled */
+		$enabled = $input->getArgument('enabled');
+		$enabled = $enabled === 'true';
+
+		return $this->wrapExecution($input, $output, function () use ($id, $class, $enabled): Share {
+			$share = $this->manager->getShare($this->accessContext, $id);
+			return $this->manager->updateSharePermission($this->accessContext, $share, new SharePermission($class, $enabled));
+		});
+	}
+}

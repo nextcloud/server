@@ -1,0 +1,325 @@
+{
+    "id": "multi_twice",
+    "name": "Multi Twice",
+    "summary": "Every repeatable element is used exactly twice.",
+    "description": "Fixture that exercises the list normalization path.",
+    "version": "1.0.0",
+    "licence": [
+        "agpl",
+        "mit"
+    ],
+    "author": [
+        "Jane Doe",
+        "John Doe"
+    ],
+    "types": [
+        "filesystem",
+        "logging"
+    ],
+    "documentation": {
+        "user": "https://example.test/multi-twice/user",
+        "admin": "https://example.test/multi-twice/admin",
+        "developer": "https://example.test/multi-twice/developer"
+    },
+    "category": [
+        "monitoring",
+        "social"
+    ],
+    "website": "https://example.test/multi-twice",
+    "discussion": "https://example.test/multi-twice/discussion",
+    "bugs": "https://example.test/multi-twice/issues",
+    "repository": {
+        "@attributes": {
+            "type": "git"
+        },
+        "@value": "https://example.test/multi-twice.git"
+    },
+    "screenshot": [
+        "https://example.test/multi-twice-1.png",
+        "https://example.test/multi-twice-2.png"
+    ],
+    "donation": [
+        "https://example.test/donate/1",
+        "https://example.test/donate/2"
+    ],
+    "dependencies": {
+        "php": {
+            "@attributes": {
+                "min-version": "8.2"
+            }
+        },
+        "database": [
+            {
+                "@attributes": {
+                    "min-version": "1.0"
+                },
+                "@value": "sqlite"
+            },
+            {
+                "@attributes": {
+                    "min-version": "1.0"
+                },
+                "@value": "mysql"
+            }
+        ],
+        "command": [
+            "awk",
+            "grep"
+        ],
+        "lib": [
+            {
+                "@attributes": {
+                    "min-version": "1.0"
+                },
+                "@value": "curl"
+            },
+            {
+                "@attributes": {
+                    "min-version": "1.0"
+                },
+                "@value": "intl"
+            }
+        ],
+        "owncloud": {
+            "@attributes": {
+                "min-version": "1.0",
+                "max-version": "2.0"
+            }
+        },
+        "nextcloud": {
+            "@attributes": {
+                "min-version": "30.0",
+                "max-version": "31.0"
+            }
+        },
+        "architecture": [
+            "x86_64",
+            "aarch64"
+        ],
+        "backend": [
+            "caldav",
+            "caldav"
+        ]
+    },
+    "background-jobs": [
+        "OCA\\MultiTwice\\BackgroundJob\\CleanupOne",
+        "OCA\\MultiTwice\\BackgroundJob\\CleanupTwo"
+    ],
+    "repair-steps": {
+        "pre-migration": [
+            "OCA\\MultiTwice\\RepairStep\\PreMigrationOne",
+            "OCA\\MultiTwice\\RepairStep\\PreMigrationTwo"
+        ],
+        "post-migration": [
+            "OCA\\MultiTwice\\RepairStep\\PostMigrationOne",
+            "OCA\\MultiTwice\\RepairStep\\PostMigrationTwo"
+        ],
+        "live-migration": [
+            "OCA\\MultiTwice\\RepairStep\\LiveMigrationOne",
+            "OCA\\MultiTwice\\RepairStep\\LiveMigrationTwo"
+        ],
+        "install": [
+            "OCA\\MultiTwice\\RepairStep\\InstallOne",
+            "OCA\\MultiTwice\\RepairStep\\InstallTwo"
+        ],
+        "uninstall": [
+            "OCA\\MultiTwice\\RepairStep\\UninstallOne",
+            "OCA\\MultiTwice\\RepairStep\\UninstallTwo"
+        ]
+    },
+    "two-factor-providers": [
+        "OCA\\MultiTwice\\TwoFactor\\ProviderOne",
+        "OCA\\MultiTwice\\TwoFactor\\ProviderTwo"
+    ],
+    "commands": [
+        "OCA\\MultiTwice\\Command\\MigrateOne",
+        "OCA\\MultiTwice\\Command\\MigrateTwo"
+    ],
+    "settings": {
+        "admin": [
+            "OCA\\MultiTwice\\Settings\\AdminOne",
+            "OCA\\MultiTwice\\Settings\\AdminTwo"
+        ],
+        "admin-section": [
+            "OCA\\MultiTwice\\Settings\\AdminSectionOne",
+            "OCA\\MultiTwice\\Settings\\AdminSectionTwo"
+        ],
+        "personal": [
+            "OCA\\MultiTwice\\Settings\\PersonalOne",
+            "OCA\\MultiTwice\\Settings\\PersonalTwo"
+        ],
+        "personal-section": [
+            "OCA\\MultiTwice\\Settings\\PersonalSectionOne",
+            "OCA\\MultiTwice\\Settings\\PersonalSectionTwo"
+        ],
+        "admin-delegation": [
+            "OCA\\MultiTwice\\Settings\\AdminDelegationOne",
+            "OCA\\MultiTwice\\Settings\\AdminDelegationTwo"
+        ],
+        "admin-delegation-section": [
+            "OCA\\MultiTwice\\Settings\\AdminDelegationSectionOne",
+            "OCA\\MultiTwice\\Settings\\AdminDelegationSectionTwo"
+        ]
+    },
+    "activity": {
+        "settings": [
+            "OCA\\MultiTwice\\Activity\\SettingOne",
+            "OCA\\MultiTwice\\Activity\\SettingTwo"
+        ],
+        "filters": [
+            "OCA\\MultiTwice\\Activity\\FilterOne",
+            "OCA\\MultiTwice\\Activity\\FilterTwo"
+        ],
+        "providers": [
+            "OCA\\MultiTwice\\Activity\\ProviderOne",
+            "OCA\\MultiTwice\\Activity\\ProviderTwo"
+        ]
+    },
+    "dashboard": {
+        "widget": [
+            "OCA\\MultiTwice\\Dashboard\\WidgetOne",
+            "OCA\\MultiTwice\\Dashboard\\WidgetTwo"
+        ]
+    },
+    "fulltextsearch": {
+        "platform": [
+            "OCA\\MultiTwice\\Search\\PlatformOne",
+            "OCA\\MultiTwice\\Search\\PlatformTwo"
+        ],
+        "provider": [
+            "OCA\\MultiTwice\\Search\\ProviderOne",
+            "OCA\\MultiTwice\\Search\\ProviderTwo"
+        ]
+    },
+    "navigations": {
+        "navigation": [
+            {
+                "name": "Multi Twice One",
+                "route": "multi.twice.one",
+                "icon": "multi-twice-1.svg",
+                "order": "1"
+            },
+            {
+                "name": "Multi Twice Two",
+                "route": "multi.twice.two",
+                "icon": "multi-twice-2.svg",
+                "order": "2"
+            }
+        ]
+    },
+    "contactsmenu": {
+        "provider": "OCA\\MultiTwice\\ContactsMenu\\Provider"
+    },
+    "collaboration": {
+        "plugins": [
+            {
+                "@attributes": {
+                    "type": "collaborator-search"
+                },
+                "@value": "OCA\\MultiTwice\\Collaboration\\PluginOne"
+            },
+            {
+                "@attributes": {
+                    "type": "autocomplete-sort"
+                },
+                "@value": "OCA\\MultiTwice\\Collaboration\\PluginTwo"
+            }
+        ]
+    },
+    "openmetrics": {
+        "exporter": [
+            "OCA\\MultiTwice\\OpenMetrics\\ExporterOne",
+            "OCA\\MultiTwice\\OpenMetrics\\ExporterTwo"
+        ]
+    },
+    "sabre": {
+        "collections": {
+            "collection": [
+                "OCA\\MultiTwice\\Sabre\\CollectionOne",
+                "OCA\\MultiTwice\\Sabre\\CollectionTwo"
+            ]
+        },
+        "plugins": {
+            "plugin": [
+                "OCA\\MultiTwice\\Sabre\\PluginOne",
+                "OCA\\MultiTwice\\Sabre\\PluginTwo"
+            ]
+        },
+        "address-book-plugins": {
+            "plugin": [
+                "OCA\\MultiTwice\\Sabre\\AddressBookPluginOne",
+                "OCA\\MultiTwice\\Sabre\\AddressBookPluginTwo"
+            ]
+        },
+        "calendar-plugins": {
+            "plugin": [
+                "OCA\\MultiTwice\\Sabre\\CalendarPluginOne",
+                "OCA\\MultiTwice\\Sabre\\CalendarPluginTwo"
+            ]
+        }
+    },
+    "trash": {
+        "backend": [
+            {
+                "@attributes": {
+                    "for": "files"
+                },
+                "@value": "OCA\\MultiTwice\\Trash\\BackendOne"
+            },
+            {
+                "@attributes": {
+                    "for": "files"
+                },
+                "@value": "OCA\\MultiTwice\\Trash\\BackendTwo"
+            }
+        ]
+    },
+    "versions": {
+        "backend": [
+            {
+                "@attributes": {
+                    "for": "files"
+                },
+                "@value": "OCA\\MultiTwice\\Versions\\BackendOne"
+            },
+            {
+                "@attributes": {
+                    "for": "files"
+                },
+                "@value": "OCA\\MultiTwice\\Versions\\BackendTwo"
+            }
+        ]
+    },
+    "external-app": {
+        "docker-install": {
+            "registry": "registry.example.test",
+            "image": "multi-twice",
+            "image-tag": "2.0.0"
+        },
+        "scopes": {
+            "value": [
+                "scope-one",
+                "scope-two"
+            ]
+        },
+        "system": "true",
+        "environment-variables": {
+            "variable": [
+                {
+                    "name": "MULTI_TWICE_ONE",
+                    "display-name": "Multi Twice One",
+                    "description": "First variable",
+                    "default": "one"
+                },
+                {
+                    "name": "MULTI_TWICE_TWO",
+                    "display-name": "Multi Twice Two",
+                    "description": "Second variable",
+                    "default": "two"
+                }
+            ]
+        }
+    },
+    "remote": [],
+    "public": []
+}

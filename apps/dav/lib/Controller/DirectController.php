@@ -1,0 +1,118 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+namespace OCA\DAV\Controller;
+
+use NCU\AppFramework\Http\Attribute\TokenScope;
+use OCA\DAV\Db\Direct;
+use OCA\DAV\Db\DirectMapper;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCS\OCSBadRequestException;
+use OCP\AppFramework\OCS\OCSForbiddenException;
+use OCP\AppFramework\OCS\OCSNotFoundException;
+use OCP\AppFramework\OCSController;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\BeforeDirectFileDownloadEvent;
+use OCP\Files\File;
+use OCP\Files\IUserFolder;
+use OCP\IRequest;
+use OCP\IURLGenerator;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
+use OCP\Security\ISecureRandom;
+use OCP\Share\IManager;
+
+class DirectController extends OCSController {
+
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private IUserFolder $userFolder,
+		private string $userId,
+		private DirectMapper $mapper,
+		private ISecureRandom $random,
+		private ITimeFactory $timeFactory,
+		private IURLGenerator $urlGenerator,
+		private IEventDispatcher $eventDispatcher,
+		private IManager $shareManager,
+	) {
+		parent::__construct($appName, $request);
+	}
+
+	/**
+	 * Get a direct link to a file
+	 *
+	 * @param int $fileId ID of the file
+	 * @param int $expirationTime Duration until the link expires
+	 * @return DataResponse<Http::STATUS_OK, array{url: string}, array{}>
+	 * @throws OCSNotFoundException File not found
+	 * @throws OCSBadRequestException Getting direct link is not possible
+	 * @throws OCSForbiddenException Missing permissions to get direct link
+	 *
+	 * 200: Direct link returned
+	 */
+	#[NoAdminRequired]
+	// Not OCA\Files_Sharing\TokenScopes::SHARES_WRITE: files_sharing can be disabled, and its classes don't load then
+	#[TokenScope(scope: 'files_sharing:shares:write')]
+	public function getUrl(int $fileId, int $expirationTime = 60 * 60 * 8): DataResponse {
+		if (!$this->shareManager->shareApiAllowLinks()) {
+			throw new OCSForbiddenException('Creating direct links is disabled');
+		}
+
+		$file = $this->userFolder->getFirstNodeById($fileId);
+
+		if (!$file) {
+			throw new OCSNotFoundException();
+		}
+
+		if ($expirationTime <= 0 || $expirationTime > (60 * 60 * 24)) {
+			throw new OCSBadRequestException('Expiration time should be greater than 0 and less than or equal to ' . (60 * 60 * 24));
+		}
+
+		if (!($file instanceof File)) {
+			throw new OCSBadRequestException('Direct download only works for files');
+		}
+
+		$event = new BeforeDirectFileDownloadEvent($this->userFolder->getRelativePath($file->getPath()));
+		$this->eventDispatcher->dispatchTyped($event);
+
+		if ($event->isSuccessful() === false) {
+			throw new OCSForbiddenException('Permission denied to download file');
+		}
+
+		//TODO: at some point we should use the directdownlaod function of storages
+		$direct = new Direct();
+		$direct->setUserId($this->userId);
+		$direct->setFileId($fileId);
+
+		$token = $this->random->generate(60, ISecureRandom::CHAR_ALPHANUMERIC);
+		$direct->setToken($token);
+		$direct->setExpiration($this->timeFactory->getTime() + $expirationTime);
+
+		$this->mapper->insert($direct);
+
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Direct download link for file "%s" was created, valid for %s seconds',
+			[
+				'fileId' => $fileId,
+				'expirationTime' => $expirationTime,
+			],
+			false,
+			'dav.direct_link.created',
+		));
+
+		$url = $this->urlGenerator->getAbsoluteURL('remote.php/direct/' . $token);
+
+		return new DataResponse([
+			'url' => $url,
+		]);
+	}
+}
