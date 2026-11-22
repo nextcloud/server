@@ -96,4 +96,41 @@ class ImportServiceTest extends \Test\TestCase {
 			$this->assertSame(ImportDisposition::Created, $event->disposition);
 		}
 	}
+
+	public function testImportTextWithoutUID(): void {
+		// cards without a UID surround a card with a numeric UID that PHP casts to an integer array key
+		$stream = fopen('php://memory', 'r+');
+		fwrite($stream,
+			"BEGIN:VCARD\r\nVERSION:3.0\r\nFN:Erika Mustermann\r\nN:Mustermann;Erika;;;\r\nEND:VCARD\r\n"
+			. "BEGIN:VCARD\r\nVERSION:3.0\r\nUID:0\r\nFN:Numeric Contact\r\nN:Contact;Numeric;;;\r\nEND:VCARD\r\n"
+			. "BEGIN:VCARD\r\nVERSION:3.0\r\nFN:Max Mustermann\r\nN:Mustermann;Max;;;\r\nEND:VCARD\r\n"
+		);
+		rewind($stream);
+		$options = new ContactsImportOptions();
+		$options->setCounts(true);
+
+		$this->addressBook->method('getKey')->willReturn('1');
+		$this->backend->method('getCardByUID')->willReturn(null);
+
+		$cards = [];
+		$this->backend->expects($this->exactly(3))
+			->method('createCard')
+			->willReturnCallback(function (int $addressBookId, string $uri, string $data) use (&$cards): string {
+				$cards[] = Reader::read($data);
+				return 'etag';
+			});
+
+		$result = iterator_to_array($this->service->import($stream, $this->addressBook, $options), false);
+
+		$this->assertCount(4, $result);
+		$this->assertInstanceOf(ImportCountEvent::class, $result[0]);
+		$this->assertSame(3, $result[0]->vcard);
+		$this->assertSame(['Erika Mustermann', 'Numeric Contact', 'Max Mustermann'], array_map(fn ($card) => (string)$card->FN, $cards));
+		$this->assertSame('0', (string)$cards[1]->UID);
+		$this->assertCount(3, array_unique(array_map(fn ($card) => (string)$card->UID, $cards)));
+		foreach (array_slice($result, 1) as $event) {
+			$this->assertInstanceOf(ImportObjectEvent::class, $event);
+			$this->assertSame(ImportDisposition::Created, $event->disposition);
+		}
+	}
 }
