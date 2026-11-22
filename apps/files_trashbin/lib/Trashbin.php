@@ -18,6 +18,7 @@ use OC\Files\View;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Trashbin\Command\Expire;
 use OCA\Files_Trashbin\Events\BeforeNodeRestoredEvent;
+use OCA\Files_Trashbin\Events\NodeDeletedEvent;
 use OCA\Files_Trashbin\Events\NodeRestoredEvent;
 use OCA\Files_Trashbin\Exceptions\CopyRecursiveException;
 use OCA\Files_Versions\Storage;
@@ -31,7 +32,6 @@ use OCP\EventDispatcher\IEventListener;
 use OCP\Exceptions\AbortedEventException;
 use OCP\Files\Cache\IPropagator;
 use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
-use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
@@ -705,7 +705,7 @@ class Trashbin implements IEventListener {
 
 		// Single-File Hooks
 		foreach ($trashNodes as $trashNode) {
-			$event = new Events\NodeDeletedEvent($trashNode->getPath());
+			$event = new NodeDeletedEvent($trashNode->getPath());
 			$dispatcher->dispatchTyped($event);
 		}
 
@@ -764,7 +764,7 @@ class Trashbin implements IEventListener {
 
 		$node->delete();
 
-		$event = new Events\NodeDeletedEvent($node->getPath());
+		$event = new NodeDeletedEvent($node->getPath());
 		$dispatcher->dispatchTyped($event);
 
 		if ($timestamp) {
