@@ -42,7 +42,7 @@ class Put {
 			return -1;
 		}
 
-		if ($fileId = $this->objectUtils->objectExistsInDb($object)) {
+		if ($fileId = $this->objectUtils->objectExistsInDb($object, $this->objectUtils->getPrimaryStorageId($objectStore))) {
 			$output->writeln("<error>Warning, object $object belongs to an existing file, overwriting the object contents can lead to unexpected behavior.</error>");
 			$output->writeln("You can use <info>occ files:put $input $fileId</info> to write to the file safely.");
 			$output->writeln('');

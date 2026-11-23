@@ -38,7 +38,7 @@ class Delete {
 			return -1;
 		}
 
-		if ($fileId = $this->objectUtils->objectExistsInDb($object)) {
+		if ($fileId = $this->objectUtils->objectExistsInDb($object, $this->objectUtils->getPrimaryStorageId($objectStore))) {
 			$output->writeln("<error>Warning, object $object belongs to an existing file, deleting the object will lead to unexpected behavior if not replaced</error>");
 			$output->writeln("  Note: use <info>occ files:delete $fileId</info> to delete the file cleanly or <info>occ info:file $fileId</info> for more information about the file");
 			$output->writeln('');

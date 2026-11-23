@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace OCA\Files\Command\Object;
 
+use OC\Files\Cache\Storage;
 use OCP\Console\IOutput;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\ObjectStore\IObjectStore;
@@ -72,9 +73,18 @@ class ObjectUtil {
 	}
 
 	/**
+	 * Get the numeric storage id of the primary object store, if one is configured.
+	 */
+	public function getPrimaryStorageId(IObjectStore $objectStore): ?int {
+		$storageId = Storage::adjustStorageId('object::store:' . $objectStore->getStorageId());
+		$storage = Storage::getStorageById($storageId);
+		return $storage === null ? null : (int)$storage['numeric_id'];
+	}
+
+	/**
 	 * Check if an object is referenced in the database
 	 */
-	public function objectExistsInDb(string $object): int|false {
+	public function objectExistsInDb(string $object, ?int $storageId = null): int|false {
 		if (!str_starts_with($object, 'urn:oid:')) {
 			return false;
 		}
@@ -84,6 +94,9 @@ class ObjectUtil {
 		$query->select('fileid')
 			->from('filecache')
 			->where($query->expr()->eq('fileid', $query->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
+		if ($storageId !== null) {
+			$query->andWhere($query->expr()->eq('storage', $query->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)));
+		}
 		$result = $query->executeQuery();
 
 		if ($result->fetchOne() === false) {

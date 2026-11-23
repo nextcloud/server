@@ -28,6 +28,8 @@ class Orphans {
 
 	private ?IQueryBuilder $query = null;
 
+	private ?int $storageId = null;
+
 	public function __construct(
 		private readonly ObjectUtil $objectUtils,
 		private readonly IDBConnection $connection,
@@ -40,6 +42,9 @@ class Orphans {
 			$this->query->select('fileid')
 				->from('filecache')
 				->where($this->query->expr()->eq('fileid', $this->query->createParameter('file_id')));
+			if ($this->storageId !== null) {
+				$this->query->andWhere($this->query->expr()->eq('storage', $this->query->createParameter('storage_id')));
+			}
 		}
 		return $this->query;
 	}
@@ -60,6 +65,7 @@ class Orphans {
 			$output->writeln('<error>Configured object store does currently not support listing objects</error>');
 			return ExitCode::Failure;
 		}
+		$this->storageId = $this->objectUtils->getPrimaryStorageId($objectStore);
 		$prefixLength = strlen('urn:oid:');
 
 		$objects = $objectStore->listObjects('urn:oid:');
@@ -77,6 +83,9 @@ class Orphans {
 	private function fileIdInDb(int $fileId): bool {
 		$query = $this->getQuery();
 		$query->setParameter('file_id', $fileId, IQueryBuilder::PARAM_INT);
+		if ($this->storageId !== null) {
+			$query->setParameter('storage_id', $this->storageId, IQueryBuilder::PARAM_INT);
+		}
 		$result = $query->executeQuery();
 		return $result->fetchOne() !== false;
 	}
