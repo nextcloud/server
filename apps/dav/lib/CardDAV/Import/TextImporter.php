@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\DAV\CardDAV\Import;
 
 use Exception;
+use Sabre\VObject\UUIDUtil;
 
 class TextImporter {
 
@@ -99,21 +100,14 @@ class TextImporter {
 			}
 			// if component start and end are found, add the component to the structure
 			if ($componentStart !== null && $componentEnd !== null) {
-				if ($componentId !== null) {
-					$this->structure[$componentType][$componentId][] = [
-						$componentType,
-						$componentId,
-						$componentStart,
-						$componentEnd
-					];
-				} else {
-					$this->structure[$componentType][] = [
-						$componentType,
-						$componentId,
-						$componentStart,
-						$componentEnd
-					];
-				}
+				// components without an id get a generated non-numeric key, so they neither share a
+				// bucket nor collide with numeric ids
+				$this->structure[$componentType][$componentId ?? UUIDUtil::getUUID()][] = [
+					$componentType,
+					$componentId,
+					$componentStart,
+					$componentEnd
+				];
 				$componentId = null;
 				$componentType = null;
 				$componentStart = null;

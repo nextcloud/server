@@ -14,9 +14,11 @@ use OCA\DAV\CalDAV\Import\ImportDisposition;
 use OCA\DAV\CalDAV\Import\ImportObjectEvent;
 use OCA\DAV\CalDAV\Import\ImportService;
 use OCP\Calendar\CalendarImportOptions;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
+use Sabre\VObject\Writer;
 
 class ImportServiceTest extends \Test\TestCase {
 
@@ -156,5 +158,60 @@ class ImportServiceTest extends \Test\TestCase {
 		$this->assertInstanceOf(ImportObjectEvent::class, $result[0]);
 		$this->assertSame($longUID, $result[0]->identifier);
 		$this->assertSame(ImportDisposition::Created, $result[0]->disposition);
+	}
+
+	public static function importWithoutUIDProvider(): array {
+		return [
+			'ical' => ['ical'],
+			'xcal' => ['xcal'],
+		];
+	}
+
+	#[DataProvider('importWithoutUIDProvider')]
+	public function testImportWithoutUID(string $format): void {
+		// events without a UID surround an event with a numeric UID that PHP casts to an integer array key
+		$vCalendar = new VCalendar();
+		foreach ([null, '0', null] as $index => $uid) {
+			/** @var VEvent $vEvent */
+			$vEvent = $vCalendar->add('VEVENT', []);
+			if ($uid === null) {
+				$vEvent->remove('UID');
+			} else {
+				$vEvent->UID->setValue($uid);
+			}
+			$vEvent->add('DTSTART', '20240701T080000');
+			$vEvent->add('DTEND', '20240701T090000');
+			$vEvent->add('SUMMARY', 'Test Event ' . $index);
+		}
+		$stream = fopen('php://memory', 'r+');
+		fwrite($stream, $format === 'xcal' ? Writer::writeXml($vCalendar) : $vCalendar->serialize());
+		rewind($stream);
+		$options = new CalendarImportOptions();
+		$options->setFormat($format);
+		$options->setCounts(true);
+		$options->setErrors(CalendarImportOptions::ERROR_CONTINUE);
+
+		$this->calendar->method('getKey')->willReturn('calendar-id-123');
+		$this->calendar->method('getPrincipalUri')->willReturn('principals/users/test-user');
+		$this->backend->method('getCalendarObjectByUID')->willReturn(null);
+		$this->backend->expects($this->once())
+			->method('createCalendarObject')
+			->with(
+				'calendar-id-123',
+				$this->isType('string'),
+				$this->stringContains('SUMMARY:Test Event 1')
+			);
+
+		$result = iterator_to_array($this->service->import($stream, $this->calendar, $options), false);
+
+		$this->assertCount(4, $result);
+		$this->assertInstanceOf(ImportCountEvent::class, $result[0]);
+		$this->assertSame(3, $result[0]->vevent);
+		$this->assertSame(
+			[ImportDisposition::Error, ImportDisposition::Created, ImportDisposition::Error],
+			array_map(fn (ImportObjectEvent $event) => $event->disposition, array_slice($result, 1))
+		);
+		$this->assertSame([null, '0', null], array_map(fn (ImportObjectEvent $event) => $event->identifier, array_slice($result, 1)));
+		$this->assertSame(['One or more objects discovered without a UID'], $result[1]->errors);
 	}
 }
