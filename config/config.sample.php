@@ -386,7 +386,7 @@ $CONFIG = [
 	 *
 	 * Defaults to ``false``
 	 */
-	'davstorage.allow_local_address' => false,
+	'davstorage_allow_local_address' => false,
 
 	/**
 	 * The timeout in seconds for synchronizing address books, e.g., federated system address books (as run by ``occ federation:sync-addressbooks``).

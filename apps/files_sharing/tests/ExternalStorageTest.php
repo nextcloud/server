@@ -123,13 +123,13 @@ class ExternalStorageTest extends \Test\TestCase {
 	public function testDefaultRequestOptionsAllowLocalAddress(?bool $configValue, bool $expected): void {
 		$config = Server::get(IConfig::class);
 		if ($configValue !== null) {
-			$config->setSystemValue('davstorage.allow_local_address', $configValue);
+			$config->setSystemValue('davstorage_allow_local_address', $configValue);
 		}
 
 		try {
 			$options = self::invokePrivate($this->getTestStorage('https://remoteserver'), 'getDefaultRequestOptions');
 		} finally {
-			$config->deleteSystemValue('davstorage.allow_local_address');
+			$config->deleteSystemValue('davstorage_allow_local_address');
 		}
 
 		$this->assertSame($expected, $options['nextcloud']['allow_local_address']);
