@@ -105,7 +105,9 @@ jobs:
 
       - name: Log AppArmor denials
         if: always()
-        run: sudo journalctl -k --no-pager --since "30 minutes ago" -g 'apparmor="DENIED"'
+        run: |
+          sudo journalctl -k --no-pager --quiet --since "30 minutes ago" |
+            awk '/apparmor="DENIED"/ { print; found=1 } END { if (!found) print "No AppArmor denials found." }'
 
       - name: Slowest tests
         if: always()
