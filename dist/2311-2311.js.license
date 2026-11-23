@@ -61,7 +61,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 11.3.0
 	- license: MIT
 - axios
-	- version: 1.20.0
+	- version: 1.21.1
 	- license: MIT
 - css-loader
 	- version: 7.1.5
