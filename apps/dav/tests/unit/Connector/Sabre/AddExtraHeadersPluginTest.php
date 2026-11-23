@@ -58,7 +58,7 @@ class AddExtraHeadersPluginTest extends TestCase {
 		$this->tree->expects($this->once())->method('getNodeForPath')
 			->willThrowException(new NotFound());
 
-		$this->logger->expects($this->once())->method('error');
+		$this->logger->expects($this->once())->method('debug');
 
 		$afterPut($this->request, $this->response);
 	}

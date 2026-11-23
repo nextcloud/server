@@ -51,7 +51,8 @@ class AddExtraHeadersPlugin extends \Sabre\DAV\ServerPlugin {
 		try {
 			$node = $this->server->tree->getNodeForPath($request->getPath());
 		} catch (NotFound) {
-			$this->logger->error("Cannot set extra headers for non-existing file '{$request->getPath()}'");
+			// Expected for file drops: the uploader has no read access to the node it just created
+			$this->logger->debug("Cannot set extra headers for non-existing file '{$request->getPath()}'");
 			return;
 		}
 
