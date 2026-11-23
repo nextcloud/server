@@ -85,8 +85,27 @@ jobs:
       - name: Nextcloud debug information
         run: ./occ app:list && echo "======= System config =======" && ./occ config:list system
 
+      - name: Log Ghostscript and AppArmor configuration
+        run: |
+          cat /etc/os-release
+          uname -r
+          for package in apparmor libapparmor1 ghostscript libgs10; do
+            dpkg-query -W "$package" || echo "$package is not installed"
+          done
+          sudo aa-status || echo "aa-status exited with status $?"
+          for profile in /etc/apparmor.d/gs /etc/apparmor.d/local/gs; do
+            if [ -f "$profile" ]; then
+              echo "=== $profile ==="
+              sudo cat "$profile"
+            fi
+          done
+
       - name: PHPUnit database tests
         run: composer run test:db -- --log-junit junit.xml
+
+      - name: Log AppArmor denials
+        if: always()
+        run: sudo journalctl -k --no-pager --since "30 minutes ago" -g 'apparmor="DENIED"'
 
       - name: Slowest tests
         if: always()
