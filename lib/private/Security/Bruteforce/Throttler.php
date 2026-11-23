@@ -93,6 +93,26 @@ class Throttler implements IThrottler {
 	}
 
 	/**
+	 * Register an attempt, but only once per value of metadata. Its content gets hashed so it’s safe to pass login and password in there
+	 */
+	public function registerUniqueAttempt(
+		string $action,
+		string $ip,
+		#[\SensitiveParameter]
+		string $identifier,
+	): void {
+		$ipAddress = new IpAddress($ip);
+		$maxAgeHours = 48;
+
+		$maxAgeTimestamp = (int)($this->timeFactory->getTime() - 3600 * $maxAgeHours);
+
+		$metadata = ['hash' => hash('xxh32', $identifier)];// hash
+		if ($this->backend->getAttempts($ipAddress->getSubnet(), $maxAgeTimestamp, $action, $metadata) === 0) {
+			$this->registerAttempt($action, $ip, $metadata);
+		}
+	}
+
+	/**
 	 * Check if the IP is whitelisted
 	 */
 	#[\Override]
