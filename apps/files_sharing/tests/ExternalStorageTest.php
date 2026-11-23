@@ -220,15 +220,15 @@ class ExternalStorageTest extends \Test\TestCase {
 
 	public static function shareInfoErrorProvider(): array {
 		return [
-			[401, ForbiddenException::class],
-			[403, ForbiddenException::class],
-			[404, NotFoundException::class],
-			[500, StorageNotAvailableException::class],
+			[401, ForbiddenException::class, 'The remote server denied access to the share'],
+			[403, ForbiddenException::class, 'The remote server denied access to the share'],
+			[404, NotFoundException::class, 'The share was not found on the remote server'],
+			[500, StorageNotAvailableException::class, 'Could not fetch the share info from the remote server'],
 		];
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'shareInfoErrorProvider')]
-	public function testGetShareInfoKeepsRequestExceptionAsPrevious(int $status, string $expectedException): void {
+	public function testGetShareInfoKeepsRequestExceptionAsPrevious(int $status, string $expectedException, string $expectedMessage): void {
 		$requestException = RequestException::create(
 			new Request('POST', 'https://remoteserver/index.php/apps/files_sharing/shareinfo?t=abcdef'),
 			new Response($status),
@@ -250,6 +250,7 @@ class ExternalStorageTest extends \Test\TestCase {
 			$this->fail('Expected ' . $expectedException);
 		} catch (\Exception $e) {
 			$this->assertInstanceOf($expectedException, $e);
+			$this->assertSame($expectedMessage, $e->getMessage());
 			$this->assertSame($requestException, $e->getPrevious());
 		}
 	}
@@ -264,6 +265,7 @@ class ExternalStorageTest extends \Test\TestCase {
 			$storage->getShareInfo();
 			$this->fail('Expected ' . StorageNotAvailableException::class);
 		} catch (StorageNotAvailableException $e) {
+			$this->assertSame('Could not check whether the remote server is a Nextcloud server', $e->getMessage());
 			$this->assertSame($localServerException, $e->getPrevious());
 		}
 	}
