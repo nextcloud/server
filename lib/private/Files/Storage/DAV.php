@@ -226,7 +226,7 @@ class DAV extends Common {
 		$this->eventLogger = Server::get(IEventLogger::class);
 		// This timeout value will be used for the download and upload of files
 		$this->timeout = Server::get(IConfig::class)->getSystemValueInt('davstorage.request_timeout', IClient::DEFAULT_REQUEST_TIMEOUT);
-		$this->allowLocalAddress = Server::get(IConfig::class)->getSystemValueBool('davstorage.allow_local_address', false);
+		$this->allowLocalAddress = Server::get(IConfig::class)->getSystemValueBool('davstorage_allow_local_address', false);
 		$this->mimeTypeDetector = Server::get(IMimeTypeDetector::class);
 		$this->signatureManager = Server::get(ISignatureManager::class);
 		$this->signatoryManager = Server::get(OCMSignatoryManager::class);

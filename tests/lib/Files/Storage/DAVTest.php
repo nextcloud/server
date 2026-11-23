@@ -33,7 +33,7 @@ class DAVTest extends TestCase {
 	}
 
 	protected function tearDown(): void {
-		Server::get(IConfig::class)->deleteSystemValue('davstorage.allow_local_address');
+		Server::get(IConfig::class)->deleteSystemValue('davstorage_allow_local_address');
 		$this->restoreService(IClientService::class);
 		parent::tearDown();
 	}
@@ -59,7 +59,7 @@ class DAVTest extends TestCase {
 	#[DataProvider(methodName: 'allowLocalAddressProvider')]
 	public function testFopenReadPassesAllowLocalAddress(?bool $configValue, bool $expected): void {
 		if ($configValue !== null) {
-			Server::get(IConfig::class)->setSystemValue('davstorage.allow_local_address', $configValue);
+			Server::get(IConfig::class)->setSystemValue('davstorage_allow_local_address', $configValue);
 		}
 
 		$response = $this->createMock(IResponse::class);
@@ -80,7 +80,7 @@ class DAVTest extends TestCase {
 	#[DataProvider(methodName: 'allowLocalAddressProvider')]
 	public function testUploadFilePassesAllowLocalAddress(?bool $configValue, bool $expected): void {
 		if ($configValue !== null) {
-			Server::get(IConfig::class)->setSystemValue('davstorage.allow_local_address', $configValue);
+			Server::get(IConfig::class)->setSystemValue('davstorage_allow_local_address', $configValue);
 		}
 
 		$this->client->expects($this->once())
