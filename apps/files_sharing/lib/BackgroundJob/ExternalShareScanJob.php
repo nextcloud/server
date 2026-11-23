@@ -12,7 +12,9 @@ namespace OCA\Files_Sharing\BackgroundJob;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\QueuedJob;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\IConfig;
+use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -23,6 +25,8 @@ class ExternalShareScanJob extends QueuedJob {
 		private readonly IConfig $config,
 		private readonly IRootFolder $rootFolder,
 		private readonly LoggerInterface $logger,
+		private readonly ISetupManager $setupManager,
+		private readonly IUserManager $userManager,
 		ITimeFactory $time,
 	) {
 		parent::__construct($time);
@@ -39,7 +43,13 @@ class ExternalShareScanJob extends QueuedJob {
 			return;
 		}
 
+		$user = $this->userManager->get($userId);
+		if ($user === null) {
+			return;
+		}
+
 		try {
+			$this->setupManager->setupForUser($user);
 			$this->rootFolder
 				->getUserFolder($userId)
 				->get($path)
