@@ -748,23 +748,25 @@ export default {
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
+		align-items: stretch;
 		list-style-type: none;
 		padding-bottom: 16px;
 	}
 	li {
+		display: flex;
+
 		label {
 			position: relative;
 			display: block;
-			padding: 48px 16px 14px 16px;
+			padding: 48px 12px 14px 12px;
 			margin: 8px;
 			width: 140px;
 			background-color: var(--color-background-hover);
 			border: 2px solid var(--color-main-background);
 			border-radius: var(--border-radius-large);
 			text-align: start;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
+			overflow-wrap: break-word;
+			hyphens: auto;
 
 			img,
 			span {
