@@ -30,8 +30,7 @@ class CacheMountProvider implements IMountProvider {
 		$cacheBaseDir = $this->config->getSystemValueString('cache_path', '');
 		if ($cacheBaseDir !== '') {
 			$cacheDir = rtrim($cacheBaseDir, '/') . '/' . $user->getUID();
-			if (!file_exists($cacheDir)) {
-				mkdir($cacheDir, 0770, true);
+			if (!file_exists($cacheDir . '/uploads')) {
 				mkdir($cacheDir . '/uploads', 0770, true);
 			}
 

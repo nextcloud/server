@@ -13,7 +13,9 @@ use OC\Files\Mount\CacheMountProvider;
 use OC\Files\Storage\StorageFactory;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IConfig;
+use OCP\ITempManager;
 use OCP\IUser;
+use OCP\Server;
 use Test\TestCase;
 
 class CacheMountProviderTestStream {
@@ -71,7 +73,7 @@ class CacheMountProviderTest extends TestCase {
 
 		$this->assertCount(2, $mounts);
 		$this->assertEquals(1, CacheMountProviderTestStream::$statCounter);
-		$this->assertEquals(2, CacheMountProviderTestStream::$mkdirCounter);
+		$this->assertEquals(1, CacheMountProviderTestStream::$mkdirCounter);
 
 		$cacheMountProvider = $mounts[0];
 		$this->assertEquals('/bob/cache/', $cacheMountProvider->getMountPoint());
@@ -86,9 +88,26 @@ class CacheMountProviderTest extends TestCase {
 		$this->assertEquals('local::cachemountprovidertest://cache_path/bob/uploads/', $uploadsStorage->getId());
 
 		$cacheStorage->mkdir('foobar');
-		$this->assertEquals(3, CacheMountProviderTestStream::$mkdirCounter);
+		$this->assertEquals(2, CacheMountProviderTestStream::$mkdirCounter);
 
 		$uploadsStorage->mkdir('foobar');
-		$this->assertEquals(4, CacheMountProviderTestStream::$mkdirCounter);
+		$this->assertEquals(3, CacheMountProviderTestStream::$mkdirCounter);
+	}
+
+	public function testGetMountsForUserCreatesMissingUploadsDir(): void {
+		$cachePath = Server::get(ITempManager::class)->getTemporaryFolder();
+		mkdir($cachePath . '/bob');
+
+		$this->config->method('getSystemValueString')
+			->willReturnMap([
+				['cache_path', '', $cachePath],
+			]);
+		$this->user->method('getUID')
+			->willReturn('bob');
+
+		$provider = new CacheMountProvider($this->config);
+		$provider->getMountsForUser($this->user, $this->storageFactory);
+
+		$this->assertDirectoryExists($cachePath . '/bob/uploads');
 	}
 }
