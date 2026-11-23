@@ -378,6 +378,7 @@ OC.L10N.register(
     "This request is no longer valid. Start a new connection from the app." : "Cette demande n'est plus valide. Lancez une nouvelle connexion depuis l'application.",
     "Could not decline this request. Please try again." : "Impossible de refuser cette demande. Veuillez réessayer.",
     "Request declined" : "Demande refusée",
+    "This request was cancelled without granting access. You can close this window." : "Cette demande a été annulée sans que l'accès ne soit accordé. Vous pouvez fermer cette fenêtre.",
     "Decline" : "Refuser",
     "An app is requesting access to your account. Sign in to review the app details and choose whether to grant access." : "Une application demande l'accès à votre compte. Connectez-vous pour examiner les détails de l'application et choisir s'il faut accorder l'accès.",
     "Security settings" : "Paramètres de sécurité",
