@@ -52,6 +52,21 @@ interface IThrottler {
 	public function registerAttempt(string $action, string $ip, array $metadata = []): void;
 
 	/**
+	 * Register an attempt, but only once per value of identifier+metadata. Its content gets hashed so it’s safe to pass login and password in there
+	 *
+	 * @param array|string $identifier identifier to compare other attempts to. May be an array or a string. If an empty string, an attempt is always registered.
+	 *
+	 * @since 36.0.0
+	 */
+	public function registerUniqueAttempt(
+		string $action,
+		string $ip,
+		#[\SensitiveParameter]
+		array|string $identifier,
+		array $metadata = [],
+	): void;
+
+	/**
 	 * Check if the IP is allowed to bypass the brute force protection
 	 *
 	 * @param string $ip

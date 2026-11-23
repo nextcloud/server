@@ -483,7 +483,7 @@ class Session implements IUserSession, Emitter {
 	private function handleLoginFailed(IThrottler $throttler, int $currentDelay, string $remoteAddress, string $user, ?string $password) {
 		$this->logger->debug("Login failed: '" . $user . "' (Remote IP: '" . $remoteAddress . "')", ['app' => 'core', 'exception' => new \Exception()]);
 
-		$throttler->registerAttempt('login', $remoteAddress, ['user' => $user]);
+		$throttler->registerUniqueAttempt('login', $remoteAddress, $user . ($password ?? ''), ['user' => $user]);
 		$this->dispatcher->dispatchTyped(new LoginFailed($user, $password));
 
 		if ($currentDelay === 0) {
