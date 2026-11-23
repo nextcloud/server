@@ -51,6 +51,21 @@ class JobListTest extends TestCase {
 		);
 	}
 
+	private function createInstanceWithExcludedJobs(array $excludedJobs): void {
+		$this->config = $this->createMock(IConfig::class);
+		$this->config->expects($this->once())
+			->method('getSystemValue')
+			->with('excluded_jobs', [])
+			->willReturn($excludedJobs);
+		$this->instance = new JobList(
+			$this->connection,
+			$this->config,
+			$this->timeFactory,
+			Server::get(LoggerInterface::class),
+			Server::get(ISnowflakeGenerator::class),
+		);
+	}
+
 	protected function clearJobsList(): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('jobs');
@@ -252,9 +267,7 @@ class JobListTest extends TestCase {
 		$this->createTempJob(TestJob::class, 1, 0, 12345);
 		$this->createTempJob(TestParallelAwareJob::class, 2, 0, 12346);
 
-		$this->config->method('getSystemValue')
-			->with('excluded_jobs', [])
-			->willReturn([$excludedClass]);
+		$this->createInstanceWithExcludedJobs([$excludedClass]);
 		$this->timeFactory->expects($this->atLeastOnce())
 			->method('getTime')
 			->willReturn(123456789);
@@ -267,13 +280,13 @@ class JobListTest extends TestCase {
 	public function testGetNextReturnsNullWhenOnlyExcludedJobsAreLeft(): void {
 		$this->createTempJob(TestJob::class, 1, 0, 12345);
 
-		$this->config->method('getSystemValue')
-			->with('excluded_jobs', [])
-			->willReturn([TestJob::class]);
+		$this->createInstanceWithExcludedJobs([TestJob::class]);
 		$this->timeFactory->expects($this->atLeastOnce())
 			->method('getTime')
 			->willReturn(123456789);
 
+		// The config is read once in the constructor, not on every getNext() call
+		$this->assertNull($this->instance->getNext());
 		$this->assertNull($this->instance->getNext());
 	}
 
