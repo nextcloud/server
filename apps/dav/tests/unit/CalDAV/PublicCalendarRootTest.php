@@ -14,6 +14,7 @@ use OCA\DAV\CalDAV\Federation\FederatedCalendarMapper;
 use OCA\DAV\CalDAV\PublicCalendar;
 use OCA\DAV\CalDAV\PublicCalendarRoot;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCA\DAV\DAV\CustomPropertiesService;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
 use OCP\ICacheFactory;
@@ -88,6 +89,7 @@ class PublicCalendarRootTest extends TestCase {
 			$config,
 			$sharingBackend,
 			$this->federatedCalendarMapper,
+			$this->createMock(CustomPropertiesService::class),
 			$this->cacheFactory,
 			false,
 		);

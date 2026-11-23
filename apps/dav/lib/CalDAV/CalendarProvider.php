@@ -47,13 +47,7 @@ class CalendarProvider implements ICalendarProvider {
 
 		$iCalendars = [];
 
-		$additionalProperties = $this->getAdditionalPropertiesForCalendars($calendarInfos);
 		foreach ($calendarInfos as $calendarInfo) {
-			$user = str_replace('principals/users/', '', $calendarInfo['principaluri']);
-			$path = 'calendars/' . $user . '/' . $calendarInfo['uri'];
-
-			$calendarInfo = array_merge($calendarInfo, $additionalProperties[$path] ?? []);
-
 			$calendar = new Calendar($this->calDavBackend, $calendarInfo, $this->l10n, $this->config, $this->logger);
 			$iCalendars[] = new CalendarImpl(
 				$calendar,
