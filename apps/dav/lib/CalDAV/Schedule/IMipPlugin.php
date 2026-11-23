@@ -115,6 +115,10 @@ class IMipPlugin extends SabreIMipPlugin {
 			return;
 		}
 
+		if (strcasecmp($iTipMessage->method, self::METHOD_CANCEL) === 0) {
+			$this->imipService->deleteInvitationTokens($iTipMessage);
+		}
+
 		// don't send out mails for events that already took place
 		$lastOccurrence = $this->imipService->getLastOccurrence($iTipMessage->message);
 		$currentTime = $this->timeFactory->getTime();
@@ -346,7 +350,7 @@ class IMipPlugin extends SabreIMipPlugin {
 	}
 
 	/**
-	 * Profile email addresses are part of the user's calendar-user-address-set
+	 * Verified profile email addresses are part of the user's calendar-user-address-set
 	 * and therefore valid sender addresses next to the system email address.
 	 */
 	private function isAddressOfUser(string $address, IUser $user): bool {
@@ -357,7 +361,8 @@ class IMipPlugin extends SabreIMipPlugin {
 		$emailCollection = $this->accountManager->getAccount($user)
 			->getPropertyCollection(IAccountManager::COLLECTION_EMAIL);
 		foreach ($emailCollection->getProperties() as $property) {
-			if (strcasecmp($property->getValue(), $address) === 0) {
+			if ($property->getLocallyVerified() === IAccountManager::VERIFIED
+				&& strcasecmp($property->getValue(), $address) === 0) {
 				return true;
 			}
 		}

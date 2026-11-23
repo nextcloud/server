@@ -132,18 +132,32 @@ class PrincipalTest extends TestCase {
 			->willReturn($fooAccountPropertyCollection);
 
 		$emailPropertyOne = $this->createMock(IAccountProperty::class);
+		$emailPropertyOne->method('getLocallyVerified')
+			->willReturn(IAccountManager::VERIFIED);
 		$emailPropertyOne->expects($this->once())
 			->method('getValue')
 			->willReturn('alias@nextcloud.com');
 		$emailPropertyTwo = $this->createMock(IAccountProperty::class);
+		$emailPropertyTwo->method('getLocallyVerified')
+			->willReturn(IAccountManager::VERIFIED);
 		$emailPropertyTwo->expects($this->once())
 			->method('getValue')
 			->willReturn('alias2@nextcloud.com');
+		$emailPropertyNotVerified = $this->createMock(IAccountProperty::class);
+		$emailPropertyNotVerified->method('getLocallyVerified')
+			->willReturn(IAccountManager::NOT_VERIFIED);
+		$emailPropertyNotVerified->expects($this->never())
+			->method('getValue');
+		$emailPropertyInProgress = $this->createMock(IAccountProperty::class);
+		$emailPropertyInProgress->method('getLocallyVerified')
+			->willReturn(IAccountManager::VERIFICATION_IN_PROGRESS);
+		$emailPropertyInProgress->expects($this->never())
+			->method('getValue');
 
 		$barAccountPropertyCollection = $this->createMock(IAccountPropertyCollection::class);
 		$barAccountPropertyCollection->expects($this->once())
 			->method('getProperties')
-			->willReturn([$emailPropertyOne, $emailPropertyTwo]);
+			->willReturn([$emailPropertyOne, $emailPropertyNotVerified, $emailPropertyTwo, $emailPropertyInProgress]);
 		$barAccount = $this->createMock(IAccount::class);
 		$barAccount->expects($this->once())
 			->method('getPropertyCollection')
@@ -246,6 +260,59 @@ class PrincipalTest extends TestCase {
 			->method('getUserLanguage')
 			->with($fooUser)
 			->willReturn('de');
+
+		$expectedResponse = [
+			'uri' => 'principals/users/foo',
+			'{DAV:}displayname' => 'foo',
+			'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => 'INDIVIDUAL',
+			'{http://nextcloud.com/ns}language' => 'de',
+			'{http://sabredav.org/ns}email-address' => 'foo@nextcloud.com',
+		];
+		$response = $this->connector->getPrincipalByPath('principals/users/foo');
+		$this->assertSame($expectedResponse, $response);
+	}
+
+	public function testGetPrincipalsByPathWithUnverifiedAdditionalMails(): void {
+		$fooUser = $this->createMock(IUser::class);
+		$fooUser->method('getSystemEMailAddress')
+			->willReturn('foo@nextcloud.com');
+		$fooUser->method('getUID')
+			->willReturn('foo');
+		$fooUser->method('getDisplayName')
+			->willReturn('foo');
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('foo')
+			->willReturn($fooUser);
+
+		$this->languageFactory
+			->method('getUserLanguage')
+			->with($fooUser)
+			->willReturn('de');
+
+		$notVerified = $this->createMock(IAccountProperty::class);
+		$notVerified->method('getLocallyVerified')
+			->willReturn(IAccountManager::NOT_VERIFIED);
+		$notVerified->method('getValue')
+			->willReturn('bar@nextcloud.com');
+		$inProgress = $this->createMock(IAccountProperty::class);
+		$inProgress->method('getLocallyVerified')
+			->willReturn(IAccountManager::VERIFICATION_IN_PROGRESS);
+		$inProgress->method('getValue')
+			->willReturn('baz@nextcloud.com');
+		$collection = $this->createMock(IAccountPropertyCollection::class);
+		$collection->method('getProperties')
+			->willReturn([$notVerified, $inProgress]);
+		$account = $this->createMock(IAccount::class);
+		$account->method('getPropertyCollection')
+			->with(IAccountManager::COLLECTION_EMAIL)
+			->willReturn($collection);
+		$this->accountManager
+			->expects($this->once())
+			->method('getAccount')
+			->with($fooUser)
+			->willReturn($account);
 
 		$expectedResponse = [
 			'uri' => 'principals/users/foo',
