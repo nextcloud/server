@@ -5019,9 +5019,7 @@
                             "defaultBackgroundColor",
                             "inverted",
                             "cacheBuster",
-                            "enabledThemes",
-                            "toastTimeout",
-                            "toastTimeoutValues"
+                            "enabledThemes"
                         ],
                         "properties": {
                             "name": {
@@ -5100,17 +5098,6 @@
                                 "type": "array",
                                 "items": {
                                     "type": "string"
-                                }
-                            },
-                            "toastTimeout": {
-                                "type": "integer",
-                                "format": "int64"
-                            },
-                            "toastTimeoutValues": {
-                                "type": "array",
-                                "items": {
-                                    "type": "integer",
-                                    "format": "int64"
                                 }
                             }
                         }

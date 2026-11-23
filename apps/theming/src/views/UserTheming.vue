@@ -40,7 +40,6 @@
 	</template>
 
 	<UserSectionCompatibility />
-	<UserSectionToastTimeout />
 	<UserSectionAppMenu />
 </template>
 
@@ -57,7 +56,6 @@ import UserSectionAppMenu from '../components/UserSectionAppMenu.vue'
 import UserSectionBackground from '../components/UserSectionBackground.vue'
 import UserSectionCompatibility from '../components/UserSectionCompatibility.vue'
 import UserSectionPrimaryColor from '../components/UserSectionPrimaryColor.vue'
-import UserSectionToastTimeout from '../components/UserSectionToastTimeout.vue'
 import { refreshStyles } from '../utils/refreshStyles.js'
 
 const isUserThemingDisabled = loadState('theming', 'isUserThemingDisabled')
