@@ -61,7 +61,7 @@ class LegacyPublicAuth extends AbstractBasic {
 		try {
 			$share = $this->shareManager->getShareByToken($username);
 		} catch (ShareNotFound $e) {
-			$this->throttler->registerAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress());
+			$this->throttler->registerUniqueAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress(), $username . $password);
 			return false;
 		}
 
@@ -95,12 +95,12 @@ class LegacyPublicAuth extends AbstractBasic {
 					throw new NotAuthenticated('Cannot authenticate over ajax calls');
 				}
 
-				$this->throttler->registerAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress());
+				$this->throttler->registerUniqueAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress(), $username . $password);
 				return false;
 			} elseif ($share->getShareType() === IShare::TYPE_REMOTE) {
 				return true;
 			} else {
-				$this->throttler->registerAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress());
+				$this->throttler->registerUniqueAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress(), $username . $password);
 				return false;
 			}
 		}
