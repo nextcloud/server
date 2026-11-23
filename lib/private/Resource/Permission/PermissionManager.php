@@ -142,13 +142,15 @@ final class PermissionManager implements IPermissionManager {
 
 	#[\Override]
 	public function check(Actor $actor, ResourceReference $resource, ?array $entries = null): EffectivePermissions {
-		return $this->checkAll($actor, [new ResourceAccess($resource, $entries)])[$resource->key()];
+		return $this->checkAll($actor, [ResourceAccess::entries($resource, $entries)])[$resource->key()];
 	}
 
 	#[\Override]
 	public function checkAll(Actor $actor, array $accesses): array {
 		$actorKey = $actor->key();
 		$nothing = new EffectivePermissions([]);
+
+		// Collect resources with no detailed or aggregated access information
 		/** @var array<non-empty-string, EffectivePermissions> $results in the order of the accesses */
 		$results = [];
 		$unresolved = [];
@@ -162,25 +164,34 @@ final class PermissionManager implements IPermissionManager {
 			}
 
 			$results[$resourceKey] = $nothing;
-			if ($access->entries === null) {
+			if ($access->entries === null && $access->aggregatedPermissionIds === null) {
 				$unresolved[] = $access->resource;
 			}
 		}
 		$resolved = $unresolved === [] ? [] : $this->accessManager->resolve($actor, $unresolved);
 
+		// Collect computed permissions that have been cached and the misses to compute
 		/** @var array<non-empty-string, ResourceAccess> $misses */
 		$misses = [];
 		$cacheKeys = [];
 		foreach ($accesses as $access) {
 			$resourceKey = $access->resource->key();
-			// No entries are left if the resource type failed, this is not cached as it may succeed on the next check.
-			$entries = $access->entries ?? $resolved[$resourceKey] ?? [];
-			if ($entries === []) {
-				continue;
+			if ($access->aggregatedPermissionIds !== null) {
+				if ($access->aggregatedPermissionIds === []) {
+					continue;
+				}
+				$cacheKeys[$resourceKey] = $actorKey . "\0" . $resourceKey . "\0" . $this->hashAggregated($access->aggregatedPermissionIds);
+			} else {
+				// No entries are left if the resource type failed, this is not cached as it may succeed on the next check.
+				$entries = $access->entries ?? $resolved[$resourceKey] ?? [];
+				if ($entries === []) {
+					continue;
+				}
+
+				$access = ResourceAccess::entries($access->resource, $entries);
+				$cacheKeys[$resourceKey] = $actorKey . "\0" . $resourceKey . "\0" . $this->hashEntries($entries);
 			}
 
-			$access = new ResourceAccess($access->resource, $entries);
-			$cacheKeys[$resourceKey] = $actorKey . "\0" . $resourceKey . "\0" . $this->hashEntries($entries);
 			$cached = $this->cache->get($cacheKeys[$resourceKey]);
 			if ($cached !== null) {
 				$results[$resourceKey] = $cached;
@@ -194,15 +205,36 @@ final class PermissionManager implements IPermissionManager {
 		}
 
 		$restrictions = $this->collectRestrictions($actor, array_values($misses));
+		if ($restrictions === null) {
+			// Not cached: the provider that failed may succeed on the next check.
+			return $results;
+		}
+
+		// Aggregated permissions cannot be restricted for a single recipient, the access entries are needed for that.
+		// Collect resources with aggregate permissions which have per-recipient restrictions and resolve their access entries
+		$toExpand = [];
+		foreach ($misses as $resourceKey => $access) {
+			if ($access->aggregatedPermissionIds !== null && $this->hasRecipientRestrictions($restrictions[$resourceKey] ?? [])) {
+				$toExpand[] = $access->resource;
+			}
+		}
+		$expandedAccessEntries = $toExpand === [] ? [] : $this->accessManager->resolve($actor, $toExpand);
+
 		$applicable = [];
 		foreach ($misses as $resourceKey => $access) {
-			if ($restrictions === null) {
-				// Not cached: the provider that failed may succeed on the next check.
-				continue;
+			$applicable[$access->resource->type] ??= $this->getApplicablePermissionIds($access->resource->type);
+			if ($access->aggregatedPermissionIds === null) {
+				$result = $this->evaluate($access, $applicable[$access->resource->type], $restrictions[$resourceKey] ?? []);
+			} else {
+				$entries = $expandedAccessEntries[$resourceKey] ?? null;
+				$result = $this->evaluateAggregated($access, $entries, $applicable[$access->resource->type], $restrictions[$resourceKey] ?? []);
+				if ($entries === null && array_key_exists($resourceKey, $expandedAccessEntries)) {
+					// Not cached: the resource type that failed may succeed on the next check.
+					$results[$resourceKey] = $result;
+					continue;
+				}
 			}
 
-			$applicable[$access->resource->type] ??= $this->getApplicablePermissionIds($access->resource->type);
-			$result = $this->evaluate($access, $applicable[$access->resource->type], $restrictions[$resourceKey] ?? []);
 			$this->cache->set($cacheKeys[$resourceKey], $result);
 			$results[$resourceKey] = $result;
 		}
@@ -268,19 +300,63 @@ final class PermissionManager implements IPermissionManager {
 	private function evaluate(ResourceAccess $access, array $applicable, array $restrictions): EffectivePermissions {
 		$allowed = [];
 		foreach ($access->entries ?? [] as $entry) {
-			$granted = array_fill_keys($entry->permissionIds, true);
-			$notApplicable = array_diff_key($granted, $applicable);
-			if ($notApplicable !== []) {
-				$this->logger->warning('Ignoring permissions that do not apply to the resource type {type}: {permissions}', ['type' => $access->resource->type, 'permissions' => implode(', ', array_keys($notApplicable))]);
-			}
-
 			$allowed += array_diff_key(
-				array_intersect_key($granted, $applicable),
+				$this->getGrantedPermissionIds($access->resource->type, $entry->permissionIds, $applicable),
 				$restrictions[$this->recipientKey($entry->recipientKind, $entry->recipientId)] ?? [],
 			);
 		}
 
 		return new EffectivePermissions(array_keys(array_diff_key($allowed, $restrictions[''] ?? [])));
+	}
+
+	/**
+	 * Restrictions for a recipient are applied to the access entries of the resource type,
+	 * or to the whole resource if the resource type has no access entries for the actor.
+	 *
+	 * @param ?list<AccessEntry> $entries access entries of the resource type, null if not asked or failed
+	 * @param array<string, true> $applicable permission IDs that apply to the type of the resource
+	 * @param array<string, array<string, true>> $restrictions restricted permission IDs by recipient
+	 */
+	private function evaluateAggregated(ResourceAccess $access, ?array $entries, array $applicable, array $restrictions): EffectivePermissions {
+		$granted = $this->getGrantedPermissionIds($access->resource->type, $access->aggregatedPermissionIds ?? [], $applicable);
+		if (!$this->hasRecipientRestrictions($restrictions)) {
+			return new EffectivePermissions(array_keys(array_diff_key($granted, $restrictions[''] ?? [])));
+		}
+
+		if ($entries === null || $entries === []) {
+			$this->logger->warning('The access to {resource} cannot be split by recipient, the restrictions for recipients apply to the whole resource', ['resource' => $access->resource->key()]);
+			$restricted = [];
+			foreach ($restrictions as $permissionIds) {
+				$restricted += $permissionIds;
+			}
+			return new EffectivePermissions(array_keys(array_diff_key($granted, $restricted)));
+		}
+
+		$allowed = $this->evaluate(ResourceAccess::entries($access->resource, $entries), $applicable, $restrictions);
+		// Never allow more than the aggregated permissions: they can already be lower than the access entries, e.g. on a read-only storage.
+		return new EffectivePermissions(array_keys(array_intersect_key($granted, array_fill_keys($allowed->getAllowedPermissionIds(), true))));
+	}
+
+	/**
+	 * @param list<string> $permissionIds
+	 * @param array<string, true> $applicable permission IDs that apply to the resource type
+	 * @return array<string, true> the permission IDs that apply to the resource type
+	 */
+	private function getGrantedPermissionIds(string $resourceType, array $permissionIds, array $applicable): array {
+		$granted = array_fill_keys($permissionIds, true);
+		$notApplicable = array_diff_key($granted, $applicable);
+		if ($notApplicable !== []) {
+			$this->logger->warning('Ignoring permissions that do not apply to the resource type {type}: {permissions}', ['type' => $resourceType, 'permissions' => implode(', ', array_keys($notApplicable))]);
+		}
+
+		return array_intersect_key($granted, $applicable);
+	}
+
+	/**
+	 * @param array<string, array<string, true>> $restrictions restricted permission IDs by recipient
+	 */
+	private function hasRecipientRestrictions(array $restrictions): bool {
+		return array_diff_key($restrictions, ['' => true]) !== [];
 	}
 
 	/**
@@ -367,5 +443,12 @@ final class PermissionManager implements IPermissionManager {
 			array_map(static fn (AccessEntry $entry): array => [$entry->recipientKind, $entry->recipientId, $entry->permissionIds], $entries),
 			JSON_THROW_ON_ERROR,
 		));
+	}
+
+	/**
+	 * @param non-empty-list<string> $permissionIds
+	 */
+	private function hashAggregated(array $permissionIds): string {
+		return hash('xxh128', json_encode(['aggregated', $permissionIds], JSON_THROW_ON_ERROR));
 	}
 }

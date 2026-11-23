@@ -314,8 +314,8 @@ class PermissionManagerTest extends TestCase {
 
 		$this->expectException(\InvalidArgumentException::class);
 		$this->manager->checkAll($this->alice, [
-			new ResourceAccess(new ResourceReference(self::TABLE, '1')),
-			new ResourceAccess(new ResourceReference(self::TABLE, '1', Principal::user('bob'))),
+			ResourceAccess::entries(new ResourceReference(self::TABLE, '1')),
+			ResourceAccess::entries(new ResourceReference(self::TABLE, '1', Principal::user('bob'))),
 		]);
 	}
 
@@ -432,7 +432,7 @@ class PermissionManagerTest extends TestCase {
 
 		$table = new ResourceReference(self::TABLE, '1');
 		$row = new ResourceReference(self::ROW, '1');
-		$results = $this->manager->checkAll($this->alice, [new ResourceAccess($table), new ResourceAccess($row)]);
+		$results = $this->manager->checkAll($this->alice, [ResourceAccess::entries($table), ResourceAccess::entries($row)]);
 		$this->assertSame([], $results[$table->key()]->getAllowedPermissionIds());
 		$this->assertSame([], $results[$row->key()]->getAllowedPermissionIds());
 		$this->assertFalse($results[$row->key()]->isAllowed(CorePermission::Read->value));
@@ -514,9 +514,9 @@ class PermissionManagerTest extends TestCase {
 		});
 
 		$accesses = [
-			new ResourceAccess(new ResourceReference(self::TABLE, '1')),
-			new ResourceAccess(new ResourceReference(self::ROW, '1')),
-			new ResourceAccess(new ResourceReference(self::ROW, '2'), [
+			ResourceAccess::entries(new ResourceReference(self::TABLE, '1')),
+			ResourceAccess::entries(new ResourceReference(self::ROW, '1')),
+			ResourceAccess::entries(new ResourceReference(self::ROW, '2'), [
 				new AccessEntry(AccessEntry::RECIPIENT_USER, 'alice', [CorePermission::Read->value, CorePermission::Delete->value]),
 			]),
 		];
@@ -543,9 +543,9 @@ class PermissionManagerTest extends TestCase {
 		$this->assertCount(1, $provider->calls);
 
 		// Only the resource that was not checked yet is passed to the provider
-		$this->manager->checkAll($this->alice, [new ResourceAccess($row1), new ResourceAccess($row2)]);
+		$this->manager->checkAll($this->alice, [ResourceAccess::entries($row1), ResourceAccess::entries($row2)]);
 		$this->assertCount(2, $provider->calls);
-		$this->assertEquals([new ResourceAccess($row2, [
+		$this->assertEquals([ResourceAccess::entries($row2, [
 			new AccessEntry(AccessEntry::RECIPIENT_USER, 'alice', [CorePermission::Read->value, CorePermission::Update->value, CorePermission::Delete->value]),
 		])], $provider->calls[1]);
 
@@ -573,10 +573,10 @@ class PermissionManagerTest extends TestCase {
 		$table3 = new ResourceReference(self::TABLE, '3');
 		$row1 = new ResourceReference(self::ROW, '1');
 		$results = $this->manager->checkAll($this->alice, [
-			new ResourceAccess($table1),
-			new ResourceAccess($row1),
-			new ResourceAccess($table2),
-			new ResourceAccess($table3, [new AccessEntry(AccessEntry::RECIPIENT_USER, 'alice', [CorePermission::Update->value])]),
+			ResourceAccess::entries($table1),
+			ResourceAccess::entries($row1),
+			ResourceAccess::entries($table2),
+			ResourceAccess::entries($table3, [new AccessEntry(AccessEntry::RECIPIENT_USER, 'alice', [CorePermission::Update->value])]),
 		]);
 
 		$this->assertSame(['tables:table/1', 'tables:row/1', 'tables:table/2', 'tables:table/3'], array_keys($results));
@@ -629,7 +629,7 @@ class PermissionManagerTest extends TestCase {
 
 		$row = new ResourceReference(self::ROW, '1');
 		$table = new ResourceReference(self::TABLE, '1');
-		$results = $this->manager->checkAll($this->alice, [new ResourceAccess($row), new ResourceAccess(new ResourceReference(self::ROW, '2')), new ResourceAccess($table)]);
+		$results = $this->manager->checkAll($this->alice, [ResourceAccess::entries($row), ResourceAccess::entries(new ResourceReference(self::ROW, '2')), ResourceAccess::entries($table)]);
 		$this->assertSame([], $results[$row->key()]->getAllowedPermissionIds());
 		$this->assertSame([CorePermission::Read->value], $results[$table->key()]->getAllowedPermissionIds());
 
@@ -682,10 +682,147 @@ class PermissionManagerTest extends TestCase {
 		$this->context->registerResourceType('tables', self::ROW);
 
 		$results = $this->manager->checkAll($this->alice, [
-			new ResourceAccess(new ResourceReference(self::ROW, '1')),
-			new ResourceAccess(new ResourceReference(self::ROW, '2')),
+			ResourceAccess::entries(new ResourceReference(self::ROW, '1')),
+			ResourceAccess::entries(new ResourceReference(self::ROW, '2')),
 		]);
 
 		$this->assertSame([CorePermission::Read->value], $results['tables:row/2']->getAllowedPermissionIds());
+	}
+
+	/**
+	 * @param list<string> $expected
+	 * @param list<string> $aggregated
+	 */
+	private function assertAggregatedAllowed(array $expected, ResourceReference $resource, array $aggregated): void {
+		$allowed = $this->manager->checkAll($this->alice, [ResourceAccess::aggregated($resource, $aggregated)])[$resource->key()]->getAllowedPermissionIds();
+		sort($allowed);
+		sort($expected);
+		$this->assertSame($expected, $allowed);
+	}
+
+	/**
+	 * Alice is a visitor of the team sales, which only allows to read.
+	 */
+	private function registerVisitorOfSales(): IRestrictionProvider {
+		$onlyRead = array_values(array_filter(
+			array_column(CorePermission::cases(), 'value'),
+			static fn (string $id): bool => $id !== CorePermission::Read->value,
+		));
+		return $this->registerRestrictionProvider(static function (Actor $actor, array $accesses) use ($onlyRead): \Generator {
+			foreach ($accesses as $access) {
+				yield Restriction::forRecipient($access->resource, AccessEntry::RECIPIENT_TEAM, 'sales', $onlyRead);
+			}
+		});
+	}
+
+	/**
+	 * The table is shared with the team sales and with alice directly.
+	 *
+	 * @return object{calls: list<list<ResourceReference>>}&IResourceType
+	 */
+	private function registerSharedTable(bool &$fail = false): IResourceType {
+		$this->registerCorePermissions();
+		$this->registerPermission('tables', self::EXPORT, CorePermission::Share);
+		return $this->registerResourceType('tables', self::TABLE, [
+			CorePermission::Read->value,
+			CorePermission::DOWNLOAD,
+			CorePermission::Update->value,
+			CorePermission::Share->value,
+			self::EXPORT,
+		], static function (Actor $actor, array $resources) use (&$fail): array {
+			if ($fail) {
+				throw new \RuntimeException('Share storage not available');
+			}
+			return [$resources[0]->key() => [
+				new AccessEntry(AccessEntry::RECIPIENT_TEAM, 'sales', [CorePermission::Read->value, CorePermission::DOWNLOAD, CorePermission::Update->value, self::EXPORT]),
+				new AccessEntry(AccessEntry::RECIPIENT_USER, 'alice', [CorePermission::Read->value, CorePermission::Update->value]),
+			]];
+		});
+	}
+
+	public function testAggregatedPermissionsWithoutRecipientRestrictionsAreNotSplit(): void {
+		$this->registerTables();
+		$provider = $this->registerRestrictionProvider(static fn (Actor $actor, array $accesses): array => [
+			Restriction::forResource($accesses[0]->resource, [CorePermission::Update->value]),
+		]);
+
+		$table = new ResourceReference(self::TABLE, '1');
+		$this->assertAggregatedAllowed([CorePermission::Read->value, CorePermission::Share->value], $table, [CorePermission::Read->value, CorePermission::Update->value, CorePermission::Share->value]);
+		$this->assertEquals([[ResourceAccess::aggregated($table, [CorePermission::Read->value, CorePermission::Update->value, CorePermission::Share->value])]], $provider->calls);
+		$this->assertSame([], $this->instances[self::TABLE]->calls);
+	}
+
+	public function testRecipientRestrictionSplitsAggregatedPermissionsByTheAccessEntries(): void {
+		$tables = $this->registerSharedTable();
+		$this->registerVisitorOfSales();
+
+		// Through the team only read and download as a kind of read are left, the direct share still allows to update
+		$this->assertAggregatedAllowed(
+			[CorePermission::Read->value, CorePermission::DOWNLOAD, CorePermission::Update->value],
+			new ResourceReference(self::TABLE, '1'),
+			[CorePermission::Read->value, CorePermission::DOWNLOAD, CorePermission::Update->value, CorePermission::Share->value, self::EXPORT],
+		);
+		$this->assertCount(1, $tables->calls);
+	}
+
+	public function testResultIsLimitedToTheAggregatedPermissions(): void {
+		$this->registerSharedTable();
+		$this->registerVisitorOfSales();
+
+		$this->assertAggregatedAllowed([CorePermission::Read->value], new ResourceReference(self::TABLE, '1'), [CorePermission::Read->value]);
+	}
+
+	public function testRecipientRestrictionAppliesToTheWholeResourceWithoutAccessEntries(): void {
+		$this->registerTables();
+		$tables = $this->registerResourceType('tables', 'tables:view', [CorePermission::Read->value, CorePermission::Update->value], static fn (): array => []);
+		$this->registerVisitorOfSales();
+		$this->logger->expects($this->once())->method('warning');
+
+		$view = new ResourceReference('tables:view', '1');
+		$this->assertAggregatedAllowed([CorePermission::Read->value], $view, [CorePermission::Read->value, CorePermission::Update->value]);
+		$this->assertAggregatedAllowed([CorePermission::Read->value], $view, [CorePermission::Read->value, CorePermission::Update->value]);
+		$this->assertCount(1, $tables->calls);
+	}
+
+	public function testFailingResourceTypeAppliesRecipientRestrictionToTheWholeResourceAndIsNotCached(): void {
+		$fail = true;
+		$tables = $this->registerSharedTable($fail);
+		$this->registerVisitorOfSales();
+		$this->logger->expects($this->once())->method('error');
+		$this->logger->expects($this->once())->method('warning');
+
+		$table = new ResourceReference(self::TABLE, '1');
+		$aggregated = [CorePermission::Read->value, CorePermission::Update->value];
+		$this->assertAggregatedAllowed([CorePermission::Read->value], $table, $aggregated);
+
+		$fail = false;
+		$this->assertAggregatedAllowed([CorePermission::Read->value, CorePermission::Update->value], $table, $aggregated);
+		$this->assertCount(2, $tables->calls);
+	}
+
+	public function testEmptyAggregatedPermissionsAllowNothing(): void {
+		$this->registerTables();
+		$provider = $this->registerRestrictionProvider(static fn (): array => []);
+
+		$this->assertAggregatedAllowed([], new ResourceReference(self::TABLE, '1'), []);
+		$this->assertSame([], $provider->calls);
+		$this->assertSame([], $this->instances[self::TABLE]->calls);
+	}
+
+	public function testAggregatedResultsAreCachedPerPermissions(): void {
+		$this->registerTables();
+		$provider = $this->registerRestrictionProvider(static fn (): array => []);
+		$row = new ResourceReference(self::ROW, '1');
+
+		$this->assertAggregatedAllowed([CorePermission::Read->value], $row, [CorePermission::Read->value]);
+		$this->assertAggregatedAllowed([CorePermission::Read->value], $row, [CorePermission::Read->value]);
+		$this->assertCount(1, $provider->calls);
+
+		$this->assertAggregatedAllowed([CorePermission::Read->value, CorePermission::Update->value], $row, [CorePermission::Read->value, CorePermission::Update->value]);
+		$this->assertCount(2, $provider->calls);
+
+		// Entries with the same permissions are a different access
+		$this->assertAllowed([CorePermission::Read->value], $row, [new AccessEntry(AccessEntry::RECIPIENT_USER, 'alice', [CorePermission::Read->value])]);
+		$this->assertCount(3, $provider->calls);
 	}
 }
