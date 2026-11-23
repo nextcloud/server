@@ -49,6 +49,7 @@ class DeclarativeSettingsController extends OCSController {
 	 * @throws NotLoggedInException Not logged in or not an admin user
 	 * @throws NotAdminException Not logged in or not an admin user
 	 * @throws OCSBadRequestException Invalid arguments to save value
+	 * @NoSubAdminRequired
 	 *
 	 * 200: Value set successfully
 	 */
@@ -69,6 +70,7 @@ class DeclarativeSettingsController extends OCSController {
 	 * @throws NotLoggedInException Not logged in or not an admin user
 	 * @throws NotAdminException Not logged in or not an admin user
 	 * @throws OCSBadRequestException Invalid arguments to save value
+	 * @NoSubAdminRequired
 	 *
 	 * 200: Value set successfully
 	 */
