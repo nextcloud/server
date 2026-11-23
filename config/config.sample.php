@@ -2311,8 +2311,8 @@ $CONFIG = [
 	/**
 	 * The timeout in seconds for requests made to remote servers when accessing
 	 * federated shares, e.g. fetching the share info or checking whether the
-	 * remote server is reachable. Increase it if big federated shares take longer
-	 * to answer than the default.
+	 * remote server is reachable. Increase it if the remote server is slow to
+	 * answer, e.g. under heavy load.
 	 *
 	 * Defaults to ``10`` seconds.
 	 */
