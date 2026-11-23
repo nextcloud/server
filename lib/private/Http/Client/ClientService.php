@@ -47,6 +47,7 @@ class ClientService implements IClientService {
 		if ($this->config->getSystemValueBool('dns_pinning', true)) {
 			$stack->push($this->dnsPinMiddleware->addDnsPinning());
 		}
+		$stack->push(new BodySizeLimitMiddleware());
 		$stack->push(Middleware::tap(function (RequestInterface $request): void {
 			$this->eventLogger->start('http:request', $request->getMethod() . ' request to ' . $request->getRequestTarget());
 		}, function (): void {
