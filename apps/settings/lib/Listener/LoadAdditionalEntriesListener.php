@@ -47,7 +47,7 @@ class LoadAdditionalEntriesListener implements IEventListener {
 	 * Needed as some entries are dynamic and thus we cannot use the appinfo/info.xml
 	 *
 	 * Registers the following entries:
-	 * - Appearance and accessibility
+	 * - Accessibility & appearance
 	 * - Personal settings (named "Settings" for non-admins)
 	 * - Accounts (only for subadmins)
 	 * - Help & privacy (conditionally enabled based on config)
@@ -67,7 +67,7 @@ class LoadAdditionalEntriesListener implements IEventListener {
 			'id' => 'accessibility_settings',
 			'order' => 2,
 			'href' => $this->urlGenerator->linkToRoute('settings.PersonalSettings.index', ['section' => 'theming']),
-			'name' => $this->l10n->t('Appearance and accessibility'),
+			'name' => $this->l10n->t('Accessibility & appearance'),
 			'icon' => $this->urlGenerator->imagePath('theming', 'accessibility-dark.svg'),
 		]);
 

@@ -19,7 +19,7 @@ userTest.describe('Header: Settings menu – regular user', () => {
 		await expect(accountMenu.entries()).toHaveCount(6)
 		await expect(accountMenu.entry('View profile')).toBeVisible()
 		await expect(accountMenu.entry('Set status')).toBeVisible()
-		await expect(accountMenu.entry('Appearance and accessibility')).toBeVisible()
+		await expect(accountMenu.entry('Accessibility & appearance')).toBeVisible()
 		// Regular users see "Settings" (personal settings shortcut), not the
 		// separate "Personal settings" / "Administration settings" split.
 		await expect(accountMenu.entry('Settings')).toBeVisible()
@@ -48,7 +48,7 @@ adminTest.describe('Header: Settings menu – admin user', () => {
 		await expect(accountMenu.entries()).toHaveCount(9)
 		await expect(accountMenu.entry('View profile')).toBeVisible()
 		await expect(accountMenu.entry('Set status')).toBeVisible()
-		await expect(accountMenu.entry('Appearance and accessibility')).toBeVisible()
+		await expect(accountMenu.entry('Accessibility & appearance')).toBeVisible()
 		// Admins see the explicit split between personal and admin sections.
 		await expect(accountMenu.entry('Personal settings')).toBeVisible()
 		await expect(accountMenu.entry('Administration settings')).toBeVisible()
