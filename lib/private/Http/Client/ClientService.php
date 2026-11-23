@@ -42,7 +42,7 @@ class ClientService implements IClientService {
 
 	#[\Override]
 	public function newClient(?callable $handler = null): IClient {
-		$clientHandler = $handler ?? new CurlHandler();
+		$clientHandler = $handler ?? new CurlStreamHandler(new CurlHandler());
 		$stack = HandlerStack::create($clientHandler);
 		if ($this->config->getSystemValueBool('dns_pinning', true)) {
 			$stack->push($this->dnsPinMiddleware->addDnsPinning());

@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace OC\Http\Client;
 
+use GuzzleHttp\Psr7\Stream;
+use GuzzleHttp\Psr7\StreamWrapper;
 use OCP\Http\Client\IResponse;
 use Psr\Http\Message\ResponseInterface;
 
@@ -21,9 +23,18 @@ class Response implements IResponse {
 
 	#[\Override]
 	public function getBody() {
-		return $this->stream
-			? $this->response->getBody()->detach()
-			:$this->response->getBody()->getContents();
+		$body = $this->response->getBody();
+		if (!$this->stream) {
+			return $body->getContents();
+		}
+		if (!$body instanceof Stream) {
+			$resource = StreamWrapper::getResource($body);
+			stream_set_chunk_size($resource, 64 * 1024);
+			// Only the resource keeps the body, so closing it ends a streamed transfer
+			$body = new Stream($resource);
+			$this->response = $this->response->withBody($body);
+		}
+		return $body->detach();
 	}
 
 	#[\Override]

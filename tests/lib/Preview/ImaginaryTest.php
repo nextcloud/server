@@ -92,6 +92,7 @@ class ImaginaryTest extends TestCase {
 			->willReturnCallback(function (string $url, array $options) use ($jpeg, $expectAutorotate, $response): IResponse {
 				$operations = array_column(json_decode($options['query']['operations'], true), 'operation');
 				$this->assertSame($expectAutorotate ? ['autorotate', 'fit'] : ['fit'], $operations);
+				$this->assertIsResource($options['sink']);
 
 				// Read from the start, like the HTTP client does
 				$body = $options['body'];

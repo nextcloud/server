@@ -2106,6 +2106,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Hooks\\PublicEmitter' => __DIR__ . '/../../..' . '/lib/private/Hooks/PublicEmitter.php',
         'OC\\Http\\Client\\Client' => __DIR__ . '/../../..' . '/lib/private/Http/Client/Client.php',
         'OC\\Http\\Client\\ClientService' => __DIR__ . '/../../..' . '/lib/private/Http/Client/ClientService.php',
+        'OC\\Http\\Client\\CurlStreamBody' => __DIR__ . '/../../..' . '/lib/private/Http/Client/CurlStreamBody.php',
+        'OC\\Http\\Client\\CurlStreamHandler' => __DIR__ . '/../../..' . '/lib/private/Http/Client/CurlStreamHandler.php',
         'OC\\Http\\Client\\DnsPinMiddleware' => __DIR__ . '/../../..' . '/lib/private/Http/Client/DnsPinMiddleware.php',
         'OC\\Http\\Client\\GuzzlePromiseAdapter' => __DIR__ . '/../../..' . '/lib/private/Http/Client/GuzzlePromiseAdapter.php',
         'OC\\Http\\Client\\NegativeDnsCache' => __DIR__ . '/../../..' . '/lib/private/Http/Client/NegativeDnsCache.php',

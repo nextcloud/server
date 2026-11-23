@@ -8,7 +8,10 @@
 
 namespace Test\Http\Client;
 
+use GuzzleHttp\Psr7\BufferStream;
+use GuzzleHttp\Psr7\FnStream;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
+use GuzzleHttp\Psr7\Stream;
 use GuzzleHttp\Psr7\Utils;
 use OC\Http\Client\Response;
 
@@ -28,6 +31,49 @@ class ResponseTest extends \Test\TestCase {
 	public function testGetBody(): void {
 		$response = new Response($this->guzzleResponse->withBody(Utils::streamFor('MyResponse')));
 		$this->assertSame('MyResponse', $response->getBody());
+	}
+
+	public function testGetBodyAsStreamReturnsTheResourceOfTheBody(): void {
+		$resource = fopen('php://temp', 'r+');
+		$response = new Response($this->guzzleResponse->withBody(new Stream($resource)), true);
+
+		$body = $response->getBody();
+
+		$this->assertSame($resource, $body);
+	}
+
+	public function testGetBodyAsStreamWrapsBodiesWithoutResource(): void {
+		$buffer = new BufferStream();
+		$buffer->write('MyResponse');
+		$response = new Response($this->guzzleResponse->withBody($buffer), true);
+
+		$body = $response->getBody();
+
+		$this->assertIsResource($body);
+		$this->assertSame('MyResponse', stream_get_contents($body));
+	}
+
+	public function testGetBodyAsStreamReturnsNullOnTheSecondCall(): void {
+		$response = new Response($this->guzzleResponse->withBody(new BufferStream()), true);
+		$response->getBody();
+
+		$body = $response->getBody();
+
+		$this->assertNull($body);
+	}
+
+	public function testClosingTheStreamResourceClosesTheBody(): void {
+		$closed = false;
+		$response = new Response($this->guzzleResponse->withBody(FnStream::decorate(Utils::streamFor('MyResponse'), [
+			'close' => static function () use (&$closed): void {
+				$closed = true;
+			},
+		])), true);
+		$body = $response->getBody();
+
+		fclose($body);
+
+		$this->assertTrue($closed);
 	}
 
 	public function testGetStatusCode(): void {

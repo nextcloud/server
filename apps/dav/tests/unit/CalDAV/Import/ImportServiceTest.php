@@ -7,6 +7,9 @@
 
 namespace OCA\DAV\Tests\unit\CalDAV\Import;
 
+use GuzzleHttp\Psr7\FnStream;
+use GuzzleHttp\Psr7\StreamWrapper;
+use GuzzleHttp\Psr7\Utils;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarImpl;
 use OCA\DAV\CalDAV\Import\ImportCountEvent;
@@ -14,9 +17,12 @@ use OCA\DAV\CalDAV\Import\ImportDisposition;
 use OCA\DAV\CalDAV\Import\ImportObjectEvent;
 use OCA\DAV\CalDAV\Import\ImportService;
 use OCP\Calendar\CalendarImportOptions;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
+use Sabre\VObject\Reader;
+use Sabre\VObject\Writer;
 
 class ImportServiceTest extends \Test\TestCase {
 
@@ -156,5 +162,103 @@ class ImportServiceTest extends \Test\TestCase {
 		$this->assertInstanceOf(ImportObjectEvent::class, $result[0]);
 		$this->assertSame($longUID, $result[0]->identifier);
 		$this->assertSame(ImportDisposition::Created, $result[0]->disposition);
+	}
+
+	public static function dataProviderFormats(): array {
+		$vCalendar = new VCalendar();
+		/** @var VEvent $vEvent */
+		$vEvent = $vCalendar->add('VEVENT', []);
+		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
+		$vEvent->add('DTSTART', '20240701T080000');
+		$vEvent->add('SUMMARY', 'Event');
+		$vEvent->add('DESCRIPTION', 'Description');
+
+		return [
+			'ical' => ['ical', $vCalendar->serialize()],
+			'xcal' => ['xcal', Writer::writeXml($vCalendar)],
+		];
+	}
+
+	#[DataProvider('dataProviderFormats')]
+	public function testImportFromAStreamWithSingleByteReads(string $format, string $data): void {
+		// Arrange
+		// a slow network stream where every read returns a single byte, some of them "0"
+		$source = Utils::streamFor($data);
+		$stream = StreamWrapper::getResource(FnStream::decorate($source, [
+			'read' => static fn (int $length): string => $source->read(1),
+		]));
+		$options = new CalendarImportOptions();
+		$options->setFormat($format);
+		$this->calendar->method('getKey')
+			->willReturn('calendar-id-123');
+		$this->calendar->method('getPrincipalUri')
+			->willReturn('principals/users/test-user');
+		$this->backend->method('getCalendarObjectByUID')
+			->willReturn(null);
+		$this->backend->expects($this->once())
+			->method('createCalendarObject')
+			->with('calendar-id-123', $this->isType('string'), $this->callback(
+				static fn (string $object): bool => Reader::read($object)->VEVENT->DESCRIPTION->getValue() === 'Description'
+			));
+
+		// Act
+		$result = iterator_to_array($this->service->import($stream, $this->calendar, $options), false);
+
+		// Assert
+		$this->assertCount(1, $result);
+		$this->assertSame(ImportDisposition::Created, $result[0]->disposition);
+	}
+
+	public function testImportOfAnEmptyXmlSourceCreatesNothing(): void {
+		// Arrange
+		$options = new CalendarImportOptions();
+		$options->setFormat('xcal');
+		$this->backend->expects($this->never())
+			->method('createCalendarObject');
+
+		// Act
+		$result = iterator_to_array($this->service->import(fopen('php://temp', 'r+'), $this->calendar, $options), false);
+
+		// Assert
+		$this->assertSame([], $result);
+	}
+
+	public function testImportRejectsTruncatedXmlFromAStreamThatEndsLate(): void {
+		// Arrange
+		$vCalendar = new VCalendar();
+		/** @var VEvent $vEvent */
+		$vEvent = $vCalendar->add('VEVENT', []);
+		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
+		$vEvent->add('DTSTART', '20240701T080000');
+		$xml = Writer::writeXml($vCalendar);
+		$source = Utils::streamFor(substr($xml, 0, intdiv(strlen($xml), 2)));
+		// like a network stream, the end is only noticed by the read after the last data
+		$ended = false;
+		$stream = StreamWrapper::getResource(FnStream::decorate($source, [
+			'read' => static function (int $length) use ($source, &$ended): string {
+				$data = $source->read($length);
+				$ended = $data === '';
+				return $data;
+			},
+			'eof' => static function () use (&$ended): bool {
+				return $ended;
+			},
+		]));
+		$options = new CalendarImportOptions();
+		$options->setFormat('xcal');
+
+		// Act
+		try {
+			iterator_to_array($this->service->import($stream, $this->calendar, $options), false);
+			$message = 'imported';
+		} catch (\Exception $e) {
+			$message = $e->getMessage();
+		} finally {
+			// The XML parser also records its error as libxml error
+			libxml_clear_errors();
+		}
+
+		// Assert
+		$this->assertStringContainsString(' At line: ', $message);
 	}
 }

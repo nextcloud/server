@@ -265,16 +265,6 @@
       <code><![CDATA[$vObject->VTIMEZONE]]></code>
     </UndefinedMagicPropertyFetch>
   </file>
-  <file src="apps/dav/lib/CalDAV/Import/TextImporter.php">
-    <FalsableReturnStatement>
-      <code><![CDATA[fread($this->source, $end - $start)]]></code>
-    </FalsableReturnStatement>
-  </file>
-  <file src="apps/dav/lib/CalDAV/Import/XmlImporter.php">
-    <FalsableReturnStatement>
-      <code><![CDATA[fread($this->source, $end - $start)]]></code>
-    </FalsableReturnStatement>
-  </file>
   <file src="apps/dav/lib/CalDAV/Plugin.php">
     <ImplementedReturnTypeMismatch>
       <code><![CDATA[string|null]]></code>

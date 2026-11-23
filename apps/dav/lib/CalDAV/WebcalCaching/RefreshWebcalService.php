@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\CalDAV\WebcalCaching;
 
+use GuzzleHttp\Exception\TransferException;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Import\ImportService;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -160,6 +161,8 @@ class RefreshWebcalService {
 			}
 		} catch (ParseException $ex) {
 			$this->logger->error('Subscription {subscriptionId} could not be refreshed due to a parsing error', ['exception' => $ex, 'subscriptionId' => $subscription['id']]);
+		} catch (TransferException $ex) {
+			$this->logger->warning('Subscription {subscriptionId} could not be refreshed due to a network error', ['exception' => $ex, 'subscriptionId' => $subscription['id']]);
 		} finally {
 			// Close the data stream to free resources
 			if (is_resource($data)) {
