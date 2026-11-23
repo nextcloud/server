@@ -5,7 +5,7 @@ SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 
 This file is generated from multiple sources. Included packages:
 - marked
-	- version: 18.2.0
+	- version: 18.2.1
 	- license: MIT
 - nextcloud
 	- version: 1.0.0
