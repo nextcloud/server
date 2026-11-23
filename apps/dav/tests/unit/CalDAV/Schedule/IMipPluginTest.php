@@ -72,6 +72,8 @@ class IMipPluginTest extends TestCase {
 	private IAccountManager&MockObject $accountManager;
 
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->mailMessage = $this->createMock(IMessage::class);
 		$this->mailMessage->method('setFrom')->willReturn($this->mailMessage);
 		$this->mailMessage->method('setReplyTo')->willReturn($this->mailMessage);
@@ -215,6 +217,8 @@ class IMipPluginTest extends TestCase {
 			}
 		}
 		$this->plugin->setVCalendar($oldVCalendar);
+		$this->service->expects(self::never())
+			->method('deleteInvitationTokens');
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
 			->willReturn(1496912700);
@@ -648,6 +652,9 @@ class IMipPluginTest extends TestCase {
 			}
 		}
 		$this->service->expects(self::once())
+			->method('deleteInvitationTokens')
+			->with($message);
+		$this->service->expects(self::once())
 			->method('getLastOccurrence')
 			->willReturn(1496912700);
 		$this->config->expects(self::exactly(2))
@@ -699,6 +706,34 @@ class IMipPluginTest extends TestCase {
 			->willReturn([]);
 		$this->plugin->schedule($message);
 		$this->assertEquals('1.1', $message->getScheduleStatus());
+	}
+
+	public function testCancelForPastEventDeletesInvitationTokens(): void {
+		$message = new Message();
+		$message->method = 'CANCEL';
+		$message->message = new VCalendar();
+		$message->message->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 3,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+		]);
+		$message->message->VEVENT->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$message->message->VEVENT->add('ATTENDEE', 'mailto:boromir@tra.it.or');
+		$message->sender = 'mailto:gandalf@wiz.ard';
+		$message->recipient = 'mailto:boromir@tra.it.or';
+		$message->significantChange = true;
+
+		$this->service->expects(self::once())
+			->method('deleteInvitationTokens')
+			->with($message);
+		$this->service->expects(self::once())
+			->method('getLastOccurrence')
+			->willReturn(1451606400);
+		$this->mailer->expects(self::never())
+			->method('send');
+
+		$this->plugin->schedule($message);
 	}
 
 	public function testEmailValidationFailed(): void {
@@ -1316,6 +1351,7 @@ class IMipPluginTest extends TestCase {
 
 		$aliasProperty = $this->createMock(IAccountProperty::class);
 		$aliasProperty->method('getValue')->willReturn('Shared@Corp.example');
+		$aliasProperty->method('getLocallyVerified')->willReturn(IAccountManager::VERIFIED);
 		$emailCollection = $this->createMock(IAccountPropertyCollection::class);
 		$emailCollection->method('getProperties')->willReturn([$aliasProperty]);
 		$account = $this->createMock(IAccount::class);
@@ -1330,6 +1366,35 @@ class IMipPluginTest extends TestCase {
 		self::assertSame('Carl Session', $result['senderName']);
 		if (!$viaMailProvider) {
 			self::assertSame(['shared@corp.example' => 'Carl Session'], $result['replyTo']);
+		}
+	}
+
+	/**
+	 * Unverified profile email aliases must not be recognized as the session user's address.
+	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'transportProvider')]
+	public function testSenderNameIgnoresUnverifiedAliasAddress(bool $viaMailProvider): void {
+		$this->user->method('getUID')->willReturn('carl');
+		$this->user->method('getDisplayName')->willReturn('Carl Session');
+		$this->user->method('getEMailAddress')->willReturn('carl@example.com');
+
+		$aliasProperty = $this->createMock(IAccountProperty::class);
+		$aliasProperty->method('getValue')->willReturn('Shared@Corp.example');
+		$aliasProperty->method('getLocallyVerified')->willReturn(IAccountManager::VERIFICATION_IN_PROGRESS);
+		$emailCollection = $this->createMock(IAccountPropertyCollection::class);
+		$emailCollection->method('getProperties')->willReturn([$aliasProperty]);
+		$account = $this->createMock(IAccount::class);
+		$account->method('getPropertyCollection')
+			->with(IAccountManager::COLLECTION_EMAIL)
+			->willReturn($emailCollection);
+		$this->accountManager->method('getAccount')->with($this->user)->willReturn($account);
+
+		$result = $this->scheduleWithoutSenderName('shared@corp.example', 'frodo@hobb.it', $viaMailProvider);
+
+		self::assertSame(['Instance Name 123'], array_values($result['from']));
+		self::assertNull($result['senderName']);
+		if (!$viaMailProvider) {
+			self::assertSame(['shared@corp.example'], $result['replyTo']);
 		}
 	}
 

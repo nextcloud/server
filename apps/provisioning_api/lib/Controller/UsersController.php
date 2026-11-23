@@ -930,13 +930,18 @@ class UsersController extends AUserDataOCSController {
 			case IAccountManager::COLLECTION_EMAIL:
 				$userAccount = $this->accountManager->getAccount($targetUser);
 				$mailCollection = $userAccount->getPropertyCollection(IAccountManager::COLLECTION_EMAIL);
-				$mailCollection->removePropertyByValue($key);
 				if ($value !== '') {
 					$value = mb_strtolower(trim($value));
+					if ($value !== $key && $mailCollection->getPropertyByValue($value)) {
+						throw new OCSException('', 101);
+					}
+				}
+				$mailCollection->removePropertyByValue($key);
+				if ($value !== '') {
 					$mailCollection->addPropertyWithDefaults($value);
-					$property = $mailCollection->getPropertyByValue($key);
-					if ($isAdminOrSubadmin && $property) {
-						// admin set mails are auto-verified
+					$property = $mailCollection->getPropertyByValue($value);
+					if ($isAdminOrSubadmin && $property && $targetUser->getUID() !== $currentLoggedInUser->getUID()) {
+						// mails set by an admin for another user are auto-verified
 						$property->setLocallyVerified(IAccountManager::VERIFIED);
 					}
 				}

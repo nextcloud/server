@@ -12,6 +12,7 @@ use OC\URLGenerator;
 use OCA\DAV\CalDAV\EventReader;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Config\IUserConfig;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -1276,6 +1277,35 @@ class IMipService {
 			->executeStatement();
 
 		return $token;
+	}
+
+	/**
+	 * Delete the invitation tokens a CANCEL message revokes: all tokens of the
+	 * recipient for the event if the series is cancelled, otherwise only those
+	 * for the cancelled occurrences
+	 */
+	public function deleteInvitationTokens(Message $iTipMessage): void {
+		$recurrenceIds = [];
+		foreach ($this->eventInstances($iTipMessage->message) as $vEvent) {
+			if (!isset($vEvent->{'RECURRENCE-ID'})) {
+				$recurrenceIds = null;
+				break;
+			}
+			$recurrenceIds[] = $vEvent->{'RECURRENCE-ID'}->serialize();
+		}
+		if ($recurrenceIds === []) {
+			return;
+		}
+
+		$query = $this->db->getQueryBuilder();
+		$query->delete('calendar_invitations')
+			->where($query->expr()->eq('uid', $query->createNamedParameter($iTipMessage->uid)))
+			->andWhere($query->expr()->eq('attendee', $query->createNamedParameter($iTipMessage->recipient)))
+			->andWhere($query->expr()->eq('organizer', $query->createNamedParameter($iTipMessage->sender)));
+		if ($recurrenceIds !== null) {
+			$query->andWhere($query->expr()->in('recurrenceid', $query->createNamedParameter($recurrenceIds, IQueryBuilder::PARAM_STR_ARRAY)));
+		}
+		$query->executeStatement();
 	}
 
 	/**
