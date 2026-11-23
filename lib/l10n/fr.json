@@ -515,7 +515,6 @@
     "Only %1$s are valid values: %2$s" : "Seules les valeurs %1$s sont valides. Valeur fournie : %2$s",
     "Need at least %1$s characters: %2$s" : "Au moins %1$s caractères sont requis. Valeur fournie : %2$s",
     "Provide %1$s characters at most: %2$s" : "Indiquez au maximum %1$s caractères. Valeur fournie : %2$s",
-    "Dot files are not allowed" : "Les noms « . » et « .. » ne sont pas autorisés",
     "Help & privacy" : "Aide & confidentialité",
     "Appearance and accessibility" : "Apparence et accessibilité",
     "Apps" : "Applications",

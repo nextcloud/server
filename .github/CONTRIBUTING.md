@@ -41,11 +41,11 @@ Nextcloud allows contributions made with the help of AI tools. You are the autho
 
 * **Disclosure:** Declare AI tool use in the PR description and add an `Assisted-by: AGENT_NAME:MODEL_VERSION` git trailer to each affected commit.
 
-* **Accountability:** You must be able to explain, defend, and modify every line you submit. If a reviewer asks why something works a certain way, "the AI wrote it" is not an answer.
+* **Accountability:** You are responsible for every line you submit, however it was produced. If a reviewer asks why something works a certain way, "the AI wrote it" is not an answer.
 
-* **Communication:** PR descriptions, review comments, and issue reports must be written in your own words. This applies throughout the review process - passing reviewer feedback to an AI and posting whatever comes out is not acceptable.
+* **Communication:** PR descriptions, review comments, issue reports, and answers to reviewers may be drafted with AI, but they must be written for human readers: plain, concise, and disclosed. If a pull request shows neither understanding nor quality, maintainers may ask for a rewrite first and close it if nothing improves.
 
-* **Quality:** AI output must be quality assured by the human, i.e. reviewed, cleaned up, and tested before submission. New features must be tested on a live instance by you, not by an agent. Code that has never been executed, or that shifts debugging work onto maintainers, will not be accepted.
+* **Quality:** AI output must be quality assured by the human, i.e. reviewed, cleaned up, and tested before submission. Every pull request that changes runtime behavior must be validated on a live instance; an agent may help with that testing, but you test the change yourself as well. Code that has never been executed, or that shifts debugging work onto maintainers, will not be accepted.
 
 * **Licensing:** Ensure AI-generated code contains no material incompatible with the license of the repository you are contributing to.
 

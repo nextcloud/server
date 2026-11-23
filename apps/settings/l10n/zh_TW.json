@@ -524,6 +524,8 @@
     "Edit access for {name}" : "編輯 {name} 的存取權",
     "Create new app password" : "建立新的應用程式密碼",
     "App name" : "應用程式名稱",
+    "Most apps need this for attachments and other file features." : "大部分的應用程式都需要此功能來支援附件與其他檔案功能。",
+    "Choose at least one option" : "選擇至少一個選項",
     "Access" : "存取",
     "Everything you can do, including your settings and any admin rights you have." : "您所能進行的所有操作，包括您的設定以及您擁有的任何管理員權限。",
     "All access" : "所有存取權",

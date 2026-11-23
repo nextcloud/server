@@ -526,6 +526,7 @@ OC.L10N.register(
     "Edit access for {name}" : "Изменить доступ для «{name}»",
     "Create new app password" : "Создать пароль приложения",
     "App name" : "Название приложения",
+    "Most apps need this for attachments and other file features." : "Большинству приложений это нужно для вложений и других функций работы с файлами.",
     "Choose at least one option" : "Выберите хотя бы один вариант",
     "Access" : "Доступ",
     "Everything you can do, including your settings and any admin rights you have." : "Всё, что можете вы сами, включая ваши параметры и права администратора, если они у вас есть.",

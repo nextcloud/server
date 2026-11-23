@@ -416,6 +416,7 @@
     "Share not found" : "找不到分享",
     "Back to %s" : "回到 %s",
     "Add to your Nextcloud" : "新增到您的 Nextcloud",
+    "Cannot share with a disabled account." : "無法與已停用的帳號分享。",
     "Group sharing is disabled by the administrator" : "群組分享已被管理員停用",
     "Public link sharing is disabled by the administrator" : "公開連結分享已被管理員停用",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "後端不允許 %2$s 類型的分享，因此 %1$s 分享失敗",

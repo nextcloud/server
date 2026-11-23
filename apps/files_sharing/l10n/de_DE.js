@@ -418,6 +418,7 @@ OC.L10N.register(
     "Share not found" : "Freigabe nicht gefunden",
     "Back to %s" : "Zurück zu %s",
     "Add to your Nextcloud" : "Zu Ihrer Nextcloud hinzufügen",
+    "Cannot share with a disabled account." : "Kann nicht mit einem deaktivierten Konto geteilt werden.",
     "Group sharing is disabled by the administrator" : "Die Gruppenfreigabe ist durch die Administration deaktiviert",
     "Public link sharing is disabled by the administrator" : "Die öffentliche Freigabe von Links ist durch die Administration deaktiviert",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Freigabe von %1$s fehlgeschlagen, da das Backend die Freigabe vom Typ %2$s nicht erlaubt",
