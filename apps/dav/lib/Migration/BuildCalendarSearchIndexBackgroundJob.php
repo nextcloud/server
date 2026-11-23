@@ -60,7 +60,7 @@ class BuildCalendarSearchIndexBackgroundJob extends QueuedJob {
 	 */
 	private function buildIndex(int $offset, int $stopAt): int {
 		$query = $this->db->getQueryBuilder();
-		$query->select(['id', 'calendarid', 'uri', 'calendardata'])
+		$query->select(['id', 'calendarid', 'calendartype', 'uri', 'calendardata'])
 			->from('calendarobjects')
 			->where($query->expr()->lte('id', $query->createNamedParameter($stopAt)))
 			->andWhere($query->expr()->gt('id', $query->createNamedParameter($offset)))
@@ -76,7 +76,7 @@ class BuildCalendarSearchIndexBackgroundJob extends QueuedJob {
 				$calendarData = stream_get_contents($calendarData);
 			}
 
-			$this->calDavBackend->updateProperties($row['calendarid'], $row['uri'], $calendarData);
+			$this->calDavBackend->updateProperties($row['calendarid'], $row['uri'], $calendarData, (int)$row['calendartype']);
 		}
 
 		return $offset;
