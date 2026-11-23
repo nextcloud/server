@@ -73,6 +73,19 @@ jobs:
           sudo apt-get install -y ghostscript
           composer i
 
+      - name: Allow Ghostscript to read the PostScript test fixture
+        if: runner.environment == 'github-hosted'
+        run: |
+          if [ -f /etc/apparmor.d/gs ]; then
+            rule='owner /dev/shm/oc_tmp_*/files/testimage.eps r,'
+            sudo mkdir -p /etc/apparmor.d/local
+            sudo touch /etc/apparmor.d/local/gs
+            if ! sudo grep -Fxq "$rule" /etc/apparmor.d/local/gs; then
+              echo "$rule" | sudo tee -a /etc/apparmor.d/local/gs > /dev/null
+            fi
+            sudo apparmor_parser -r /etc/apparmor.d/gs
+          fi
+
       - name: Set up Nextcloud
         run: |
           mkdir data
