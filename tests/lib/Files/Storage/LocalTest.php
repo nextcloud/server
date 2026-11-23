@@ -165,15 +165,15 @@ class LocalTest extends Storage {
 		$margin = 1024 * 1024;
 
 		$config = Server::get(IConfig::class);
-		$oldValue = $config->getSystemValue('localstorage.min_free_space', 100 * 1024 * 1024);
+		$oldValue = $config->getSystemValue('localstorage__min_free_space', 100 * 1024 * 1024);
 		try {
-			$config->setSystemValue('localstorage.min_free_space', 0);
+			$config->setSystemValue('localstorage__min_free_space', 0);
 			$baseline = (new Local(['datadir' => $this->tmpDir]))->free_space('');
 
-			$config->setSystemValue('localstorage.min_free_space', $margin);
+			$config->setSystemValue('localstorage__min_free_space', $margin);
 			$reported = (new Local(['datadir' => $this->tmpDir]))->free_space('');
 		} finally {
-			$config->setSystemValue('localstorage.min_free_space', $oldValue);
+			$config->setSystemValue('localstorage__min_free_space', $oldValue);
 		}
 
 		// the reported free space must be reduced by (about) the margin;
@@ -187,14 +187,14 @@ class LocalTest extends Storage {
 		}
 
 		$config = Server::get(IConfig::class);
-		$oldValue = $config->getSystemValue('localstorage.min_free_space', 100 * 1024 * 1024);
+		$oldValue = $config->getSystemValue('localstorage__min_free_space', 100 * 1024 * 1024);
 		// a margin larger than any plausible disk forces the clamp to 0
-		$config->setSystemValue('localstorage.min_free_space', PHP_INT_MAX);
+		$config->setSystemValue('localstorage__min_free_space', PHP_INT_MAX);
 		try {
 			$storage = new Local(['datadir' => $this->tmpDir]);
 			$reported = $storage->free_space('');
 		} finally {
-			$config->setSystemValue('localstorage.min_free_space', $oldValue);
+			$config->setSystemValue('localstorage__min_free_space', $oldValue);
 		}
 
 		$this->assertSame(0, $reported);

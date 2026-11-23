@@ -76,7 +76,7 @@ class Local extends Common {
 		// the storage cannot starve the database, temp files or logs and render
 		// the instance unrecoverable. Reported free space is reduced by this
 		// margin, so uploads are blocked before the disk is actually full.
-		$this->minFreeSpace = max(0, (int)$this->config->getSystemValue('localstorage.min_free_space', 100 * 1024 * 1024));
+		$this->minFreeSpace = max(0, (int)$this->config->getSystemValue('localstorage__min_free_space', 100 * 1024 * 1024));
 
 		if (isset($parameters['isExternal']) && $parameters['isExternal'] && !$this->stat('')) {
 			// data dir not accessible or available, can happen when using an external storage of type Local
