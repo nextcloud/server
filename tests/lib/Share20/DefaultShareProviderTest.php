@@ -21,6 +21,7 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\IUserFolder;
+use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroup;
@@ -127,6 +128,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->logger,
 			$this->shareManager,
 			$this->config,
+			Server::get(IMountManager::class),
 		);
 	}
 
@@ -2634,6 +2636,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->logger,
 			$this->shareManager,
 			$this->config,
+			Server::get(IMountManager::class),
 		);
 
 		$password = md5(time());
@@ -2736,6 +2739,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->logger,
 			$this->shareManager,
 			$this->config,
+			Server::get(IMountManager::class),
 		);
 
 		$u1 = $userManager->createUser('testShare1', 'test');
@@ -2840,6 +2844,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->logger,
 			$this->shareManager,
 			$this->config,
+			Server::get(IMountManager::class),
 		);
 
 		$u1 = $userManager->createUser('testShare1', 'test');
