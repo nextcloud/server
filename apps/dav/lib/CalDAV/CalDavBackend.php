@@ -956,7 +956,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$calendarData = $this->getCalendarById($calendarId);
 				$shares = $this->getShares($calendarId);
 
-				$this->purgeCalendarInvitations($calendarId);
+				if ($calendarData !== null) {
+					$this->purgeCalendarInvitations($calendarId, $calendarData['principaluri']);
+				}
 
 				$qbDeleteCalendarObjectProps = $this->db->getQueryBuilder();
 				$qbDeleteCalendarObjectProps->delete($this->dbObjectPropertiesTable)
@@ -1796,11 +1798,11 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 				$this->purgeProperties($calendarId, $data['id']);
 
-				$this->purgeObjectInvitations($data['uid']);
-
 				if ($calendarType === self::CALENDAR_TYPE_CALENDAR) {
 					$calendarRow = $this->getCalendarById($calendarId);
 					$shares = $this->getShares($calendarId);
+
+					$this->purgeObjectInvitations($data['uid'], $calendarRow['principaluri']);
 
 					$this->dispatcher->dispatchTyped(new CalendarObjectDeletedEvent($calendarId, $calendarRow, $shares, $data));
 					$this->logCalendarObjectAuditEvent('deleted', $calendarId, $calendarRow, $data, 'dav.calendar_object.deleted');
@@ -4091,20 +4093,27 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @since 31.0.0
 	 *
 	 * @param int $calendarId
+	 * @param string $principalUri owner of the calendar
 	 *
 	 * @return void
 	 */
-	protected function purgeCalendarInvitations(int $calendarId): void {
+	protected function purgeCalendarInvitations(int $calendarId, string $principalUri): void {
+		$organizer = $this->getInvitationsOrganizer($principalUri);
+		if ($organizer === null) {
+			return;
+		}
 		// select all calendar object uid's
 		$cmd = $this->db->getQueryBuilder();
 		$cmd->select('uid')
 			->from($this->dbObjectsTable)
-			->where($cmd->expr()->eq('calendarid', $cmd->createNamedParameter($calendarId)));
+			->where($cmd->expr()->eq('calendarid', $cmd->createNamedParameter($calendarId)))
+			->andWhere($cmd->expr()->eq('calendartype', $cmd->createNamedParameter(self::CALENDAR_TYPE_CALENDAR)));
 		$allIds = $cmd->executeQuery()->fetchFirstColumn();
-		// delete all links that match object uid's
+		// delete all links that match object uid's and were sent by the calendar owner
 		$cmd = $this->db->getQueryBuilder();
 		$cmd->delete($this->dbObjectInvitationsTable)
-			->where($cmd->expr()->in('uid', $cmd->createParameter('uids'), IQueryBuilder::PARAM_STR_ARRAY));
+			->where($cmd->expr()->in('uid', $cmd->createParameter('uids'), IQueryBuilder::PARAM_STR_ARRAY))
+			->andWhere($cmd->expr()->eq('organizer', $cmd->createNamedParameter($organizer, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
 		foreach (array_chunk($allIds, 1000) as $chunkIds) {
 			$cmd->setParameter('uids', $chunkIds, IQueryBuilder::PARAM_STR_ARRAY);
 			$cmd->executeStatement();
@@ -4117,14 +4126,36 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @since 31.0.0
 	 *
 	 * @param string $eventId UID of the event
+	 * @param string $principalUri owner of the calendar the event is deleted from
 	 *
 	 * @return void
 	 */
-	protected function purgeObjectInvitations(string $eventId): void {
+	protected function purgeObjectInvitations(string $eventId, string $principalUri): void {
+		$organizer = $this->getInvitationsOrganizer($principalUri);
+		if ($organizer === null) {
+			return;
+		}
 		$cmd = $this->db->getQueryBuilder();
 		$cmd->delete($this->dbObjectInvitationsTable)
-			->where($cmd->expr()->eq('uid', $cmd->createNamedParameter($eventId, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
+			->where($cmd->expr()->eq('uid', $cmd->createNamedParameter($eventId, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR))
+			->andWhere($cmd->expr()->eq('organizer', $cmd->createNamedParameter($organizer, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
 		$cmd->executeStatement();
+	}
+
+	/**
+	 * UIDs are shared by every attendee's copy of an event, so invitations are attributed
+	 * by organizer. Like Principal::findByUri(), an address of several accounts belongs to none.
+	 */
+	private function getInvitationsOrganizer(string $principalUri): ?string {
+		$principalInformation = $this->principalBackend->getPrincipalPropertiesByPath($principalUri, [
+			'{http://sabredav.org/ns}email-address',
+		]);
+		$email = $principalInformation['{http://sabredav.org/ns}email-address'] ?? null;
+		if ($email === null || count($this->userManager->getByEmail($email)) !== 1) {
+			return null;
+		}
+		// the iTip broker stores the normalized, lower-cased mailto: address
+		return 'mailto:' . strtolower($email);
 	}
 
 	public function unshare(IShareable $shareable, string $principal): void {

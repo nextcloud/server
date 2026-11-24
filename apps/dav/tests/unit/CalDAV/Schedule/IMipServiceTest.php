@@ -26,6 +26,7 @@ use OCP\Mail\EMailDetailsRow;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
@@ -33,6 +34,7 @@ use Sabre\VObject\ITip\Message;
 use Sabre\VObject\Property\ICalendar\DateTime;
 use Test\TestCase;
 
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class IMipServiceTest extends TestCase {
 	private URLGenerator&MockObject $urlGenerator;
 	private IUserConfig&MockObject $userConfig;
@@ -3057,5 +3059,84 @@ class IMipServiceTest extends TestCase {
 		);
 
 		$this->assertSame($template, $result);
+	}
+
+	public static function deleteInvitationTokensProvider(): array {
+		return [
+			'series cancelled' => [false, ['other-attendee', 'other-organizer', 'other-uid']],
+			'occurrence cancelled' => [true, ['series', 'other-occurrence', 'other-attendee', 'other-organizer', 'other-uid']],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'deleteInvitationTokensProvider')]
+	public function testDeleteInvitationTokens(bool $occurrenceOnly, array $expectedRemaining): void {
+		$db = Server::get(IDBConnection::class);
+		$l10nFactory = $this->createMock(IFactory::class);
+		$l10nFactory->method('get')->willReturn($this->l10n);
+		$service = new IMipService(
+			$this->urlGenerator,
+			$db,
+			$this->random,
+			$l10nFactory,
+			$this->timeFactory,
+			$this->userManager,
+			$this->userConfig,
+			$this->appConfig,
+			$this->mailer,
+		);
+		$uid = 'imip-service-test-' . $this->getUniqueID();
+		$organizer = 'mailto:organizer@testing.com';
+		$attendee = 'mailto:attendee1@testing.com';
+
+		$vCalendar = new VCalendar();
+		$series = $vCalendar->add('VEVENT', ['UID' => $uid, 'DTSTART' => '20240701T080000Z', 'RRULE' => 'FREQ=DAILY']);
+		$occurrence = $vCalendar->add('VEVENT', ['UID' => $uid, 'DTSTART' => '20240702T090000Z', 'RECURRENCE-ID' => '20240702T080000Z']);
+		$otherOccurrence = $vCalendar->add('VEVENT', ['UID' => $uid, 'DTSTART' => '20240703T090000Z', 'RECURRENCE-ID' => '20240703T080000Z']);
+		$otherEvent = (new VCalendar())->add('VEVENT', ['UID' => $uid . '-other', 'DTSTART' => '20240701T080000Z']);
+
+		$tokens = ['series', 'occurrence', 'other-occurrence', 'other-attendee', 'other-organizer', 'other-uid'];
+		$this->random->method('generate')->willReturnOnConsecutiveCalls(...array_map(fn (string $token) => $uid . $token, $tokens));
+		$invitations = [
+			[$organizer, $attendee, $series],
+			[$organizer, $attendee, $occurrence],
+			[$organizer, $attendee, $otherOccurrence],
+			[$organizer, 'mailto:attendee2@testing.com', $series],
+			['mailto:organizer2@testing.com', $attendee, $series],
+			[$organizer, $attendee, $otherEvent],
+		];
+		foreach ($invitations as [$sender, $recipient, $vEvent]) {
+			$message = new Message();
+			$message->sender = $sender;
+			$message->recipient = $recipient;
+			$message->sequence = 1;
+			$service->createInvitationToken($message, $vEvent, 2000000000);
+		}
+
+		$cancel = new Message();
+		$cancel->method = 'CANCEL';
+		$cancel->uid = $uid;
+		$cancel->sender = $organizer;
+		$cancel->recipient = $attendee;
+		$cancel->message = new VCalendar();
+		if (!$occurrenceOnly) {
+			$cancel->message->add(clone $series);
+		}
+		$cancel->message->add(clone $occurrence);
+		$service->deleteInvitationTokens($cancel);
+
+		$query = $db->getQueryBuilder();
+		$query->select('token')
+			->from('calendar_invitations')
+			->where($query->expr()->like('token', $query->createNamedParameter($db->escapeLikeParameter($uid) . '%')));
+		$remaining = array_map(fn (string $token) => substr($token, strlen($uid)), $query->executeQuery()->fetchFirstColumn());
+
+		$query = $db->getQueryBuilder();
+		$query->delete('calendar_invitations')
+			->where($query->expr()->like('token', $query->createNamedParameter($db->escapeLikeParameter($uid) . '%')))
+			->executeStatement();
+
+		sort($remaining);
+		sort($expectedRemaining);
+		$this->assertSame($expectedRemaining, $remaining);
 	}
 }

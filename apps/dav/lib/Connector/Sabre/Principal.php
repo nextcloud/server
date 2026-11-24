@@ -15,7 +15,6 @@ use OCA\Circles\Model\Circle;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Traits\PrincipalProxyTrait;
 use OCP\Accounts\IAccountManager;
-use OCP\Accounts\IAccountProperty;
 use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\App\IAppManager;
 use OCP\Constants;
@@ -515,7 +514,13 @@ class Principal implements BackendInterface {
 
 		if ($wantsProperty('{DAV:}alternate-URI-set')) {
 			$account = $this->accountManager->getAccount($user);
-			$alternativeEmails = array_map(static fn (IAccountProperty $property) => 'mailto:' . $property->getValue(), $account->getPropertyCollection(IAccountManager::COLLECTION_EMAIL)->getProperties());
+			$alternativeEmails = [];
+			foreach ($account->getPropertyCollection(IAccountManager::COLLECTION_EMAIL)->getProperties() as $property) {
+				// Additional addresses only identify the user once they have been verified
+				if ($property->getLocallyVerified() === IAccountManager::VERIFIED) {
+					$alternativeEmails[] = 'mailto:' . $property->getValue();
+				}
+			}
 			if (!empty($alternativeEmails)) {
 				$principal['{DAV:}alternate-URI-set'] = $alternativeEmails;
 			}

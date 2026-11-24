@@ -13,6 +13,7 @@ use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\Events\CalendarShareUpdatedEvent;
 use OCA\DAV\Listener\CalendarContactInteractionListener;
 use OCP\Calendar\Events\CalendarObjectCreatedEvent;
+use OCP\Calendar\Events\CalendarObjectUpdatedEvent;
 use OCP\Contacts\Events\ContactInteractedWithEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -66,8 +67,8 @@ class CalendarContactInteractionListenerTest extends TestCase {
 	}
 
 	public function testParseInvalidData(): void {
-		$event = new CalendarObjectCreatedEvent(123, [], [], ['calendardata' => 'BEGIN:FOO']);
-		$user = $this->createMock(IUser::class);
+		$event = new CalendarObjectCreatedEvent(123, ['principaluri' => 'principals/users/alice'], [], ['calendardata' => 'BEGIN:FOO']);
+		$user = $this->createConfiguredMock(IUser::class, ['getUID' => 'alice']);
 		$this->userSession->expects(self::once())->method('getUser')->willReturn($user);
 		$this->eventDispatcher->expects(self::never())->method('dispatchTyped');
 		$this->logger->expects(self::once())->method('warning');
@@ -76,7 +77,7 @@ class CalendarContactInteractionListenerTest extends TestCase {
 	}
 
 	public function testParseCalendarEventWithInvalidEmail(): void {
-		$event = new CalendarObjectCreatedEvent(123, [], [], ['calendardata' => <<<EVENT
+		$event = new CalendarObjectCreatedEvent(123, ['principaluri' => 'principals/users/alice'], [], ['calendardata' => <<<EVENT
 BEGIN:VCALENDAR
 VERSION:2.0
 CALSCALE:GREGORIAN
@@ -114,7 +115,7 @@ DESCRIPTION:test
 END:VEVENT
 END:VCALENDAR
 EVENT]);
-		$user = $this->createMock(IUser::class);
+		$user = $this->createConfiguredMock(IUser::class, ['getUID' => 'alice']);
 		$this->userSession->expects(self::once())->method('getUser')->willReturn($user);
 		$this->eventDispatcher->expects(self::never())->method('dispatchTyped');
 		$this->logger->expects(self::never())->method('warning');
@@ -123,7 +124,7 @@ EVENT]);
 	}
 
 	public function testParseCalendarEvent(): void {
-		$event = new CalendarObjectCreatedEvent(123, [], [], ['calendardata' => <<<EVENT
+		$event = new CalendarObjectCreatedEvent(123, ['principaluri' => 'principals/users/alice'], [], ['calendardata' => <<<EVENT
 BEGIN:VCALENDAR
 VERSION:2.0
 CALSCALE:GREGORIAN
@@ -161,7 +162,7 @@ DESCRIPTION:test
 END:VEVENT
 END:VCALENDAR
 EVENT]);
-		$user = $this->createMock(IUser::class);
+		$user = $this->createConfiguredMock(IUser::class, ['getUID' => 'alice']);
 		$this->userSession->expects(self::once())->method('getUser')->willReturn($user);
 		$this->eventDispatcher->expects(self::once())
 			->method('dispatchTyped')
@@ -169,5 +170,107 @@ EVENT]);
 		$this->logger->expects(self::never())->method('warning');
 
 		$this->listener->handle($event);
+	}
+
+	private const EVENT_WITH_ATTENDEE = <<<EVENT
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//IDN nextcloud.com//Calendar app 2.1.3//EN
+BEGIN:VEVENT
+DTSTAMP:20210203T130231Z
+UID:b74a0c8e-93b0-447f-aed5-b679b19e874a
+DTSTART:20210202T103000Z
+DTEND:20210202T133000Z
+SUMMARY:tes
+ORGANIZER;CN=bob:mailto:bob@domain.tld
+ATTENDEE;CN=user@domain.tld;CUTYPE=INDIVIDUAL;PARTSTAT=NEEDS-ACTION;
+ ROLE=REQ-PARTICIPANT;RSVP=FALSE:mailto:user@domain.tld
+END:VEVENT
+END:VCALENDAR
+EVENT;
+
+	public static function ownCalendarDataProvider(): array {
+		return [
+			'created' => [CalendarObjectCreatedEvent::class, 'principals/users/alice'],
+			'updated' => [CalendarObjectUpdatedEvent::class, 'principals/users/alice'],
+			'created, legacy endpoint' => [CalendarObjectCreatedEvent::class, 'principals/alice'],
+			'updated, legacy endpoint' => [CalendarObjectUpdatedEvent::class, 'principals/alice'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('ownCalendarDataProvider')]
+	public function testEmitsForOwnCalendar(string $eventClass, string $principalUri): void {
+		$event = $this->createObjectEvent($eventClass, ['principaluri' => $principalUri]);
+		$user = $this->createConfiguredMock(IUser::class, ['getUID' => 'alice']);
+		$this->userSession->expects(self::once())->method('getUser')->willReturn($user);
+		$this->principalConnector->method('getPrincipalPrefix')->willReturn('principals');
+		$this->principalConnector->expects(self::once())
+			->method('findByUri')
+			->with('principal:principals/users/carol', 'principals')
+			->willReturn('principals/users/carol');
+		$dispatched = [];
+		$this->eventDispatcher->expects(self::exactly(2))
+			->method('dispatchTyped')
+			->willReturnCallback(function (ContactInteractedWithEvent $e) use (&$dispatched): void {
+				$dispatched[] = $e;
+			});
+
+		$this->listener->handle($event);
+
+		self::assertEquals([
+			(new ContactInteractedWithEvent($user))->setUid('carol'),
+			(new ContactInteractedWithEvent($user))->setEmail('user@domain.tld'),
+		], $dispatched);
+	}
+
+	public static function foreignCalendarDataProvider(): array {
+		return [
+			'created, no principaluri' => [CalendarObjectCreatedEvent::class, []],
+			'created, other user' => [CalendarObjectCreatedEvent::class, ['principaluri' => 'principals/users/bob']],
+			'updated, other user' => [CalendarObjectUpdatedEvent::class, ['principaluri' => 'principals/users/bob']],
+			'created, other user, legacy endpoint' => [CalendarObjectCreatedEvent::class, ['principaluri' => 'principals/bob']],
+			'created, user id prefix' => [CalendarObjectCreatedEvent::class, ['principaluri' => 'principals/users/alice2']],
+			'created, room' => [CalendarObjectCreatedEvent::class, ['principaluri' => 'principals/calendar-rooms/alice']],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('foreignCalendarDataProvider')]
+	public function testDoesNotEmitForForeignCalendar(string $eventClass, array $calendarData): void {
+		$event = $this->createObjectEvent($eventClass, $calendarData);
+		$user = $this->createConfiguredMock(IUser::class, ['getUID' => 'alice']);
+		$this->userSession->expects(self::once())->method('getUser')->willReturn($user);
+		$this->principalConnector->expects(self::never())->method('findByUri');
+		$this->eventDispatcher->expects(self::never())->method('dispatchTyped');
+
+		$this->listener->handle($event);
+	}
+
+	public function testEmitsForAddedShares(): void {
+		$event = new CalendarShareUpdatedEvent(123, ['principaluri' => 'principals/users/alice'], [], [
+			['href' => 'principal:principals/users/carol', 'commonName' => '', 'readOnly' => true],
+		], []);
+		$user = $this->createConfiguredMock(IUser::class, ['getUID' => 'alice']);
+		$this->userSession->expects(self::once())->method('getUser')->willReturn($user);
+		$this->principalConnector->method('getPrincipalPrefix')->willReturn('principals');
+		$this->principalConnector->expects(self::once())
+			->method('findByUri')
+			->with('principal:principals/users/carol', 'principals')
+			->willReturn('principals/users/carol');
+		$this->eventDispatcher->expects(self::once())
+			->method('dispatchTyped')
+			->with(self::equalTo((new ContactInteractedWithEvent($user))->setUid('carol')));
+
+		$this->listener->handle($event);
+	}
+
+	private function createObjectEvent(string $eventClass, array $calendarData): CalendarObjectCreatedEvent|CalendarObjectUpdatedEvent {
+		$shares = [
+			['href' => 'principal:principals/users/carol', 'commonName' => '', 'status' => 1, 'readOnly' => true, '{http://owncloud.org/ns}principal' => 'principals/users/carol', '{http://owncloud.org/ns}group-share' => false],
+		];
+		$objectData = ['calendardata' => self::EVENT_WITH_ATTENDEE];
+		if ($eventClass === CalendarObjectUpdatedEvent::class) {
+			return new CalendarObjectUpdatedEvent(123, $calendarData, $shares, $objectData);
+		}
+		return new CalendarObjectCreatedEvent(123, $calendarData, $shares, $objectData);
 	}
 }

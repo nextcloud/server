@@ -3628,6 +3628,86 @@ class UsersControllerTest extends TestCase {
 		$this->api->editUserMultiValue('targetuser', IAccountManager::COLLECTION_EMAIL, 'old@example.com', '');
 	}
 
+	public static function dataEditUserMultiValueAddEmailVerification(): array {
+		return [
+			'user adds own address' => ['bob', 'bob', false, '', 'alice@example.com', false],
+			'user re-adds own address' => ['bob', 'bob', false, 'alice@example.com', 'alice@example.com', false],
+			'admin adds own address' => ['admin', 'admin', true, '', 'admin2@example.com', false],
+			'admin adds address for other user' => ['admin', 'bob', true, '', 'bob2@example.com', true],
+			'admin replaces address for other user' => ['admin', 'bob', true, 'old@example.com', 'bob2@example.com', true],
+			'subadmin adds address for user in their group' => ['subadmin', 'bob', false, '', 'bob2@example.com', true],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataEditUserMultiValueAddEmailVerification')]
+	public function testEditUserMultiValueAddEmailVerification(string $currentUid, string $targetUid, bool $isAdmin, string $key, string $value, bool $expectVerified): void {
+		$currentUser = $this->createMock(IUser::class);
+		$currentUser->method('getUID')->willReturn($currentUid);
+		$this->userSession->method('getUser')->willReturn($currentUser);
+
+		$targetUser = $currentUid === $targetUid ? $currentUser : $this->createMock(IUser::class);
+		$targetUser->method('getUID')->willReturn($targetUid);
+		$targetUser->method('canEditProperty')->willReturn(true);
+		$this->userManager->method('get')->with($targetUid)->willReturn($targetUser);
+
+		$this->groupManager->method('isAdmin')->willReturnCallback(fn (string $uid): bool => $isAdmin && $uid === $currentUid);
+		$this->groupManager->method('isDelegatedAdmin')->willReturn(false);
+		$subAdmin = $this->createMock(ISubAdmin::class);
+		$subAdmin->method('isUserAccessible')->willReturnCallback(fn (IUser $a, IUser $b): bool => $a->getUID() === $b->getUID() || $a->getUID() === 'subadmin');
+		$this->groupManager->method('getSubAdmin')->willReturn($subAdmin);
+
+		$property = $this->createMock(IAccountProperty::class);
+		$property->expects($expectVerified ? $this->once() : $this->never())
+			->method('setLocallyVerified')
+			->with(IAccountManager::VERIFIED);
+		$collection = $this->createMock(IAccountPropertyCollection::class);
+		$collection->expects($this->once())->method('removePropertyByValue')->with($key);
+		$added = false;
+		$collection->expects($this->once())->method('addPropertyWithDefaults')->with($value)
+			->willReturnCallback(function () use (&$added, $collection) {
+				$added = true;
+				return $collection;
+			});
+		$collection->method('getPropertyByValue')->willReturnCallback(function (string $v) use (&$added, $value, $property) {
+			return $added && $v === $value ? $property : null;
+		});
+		$account = $this->createMock(IAccount::class);
+		$account->method('getPropertyCollection')->willReturn($collection);
+		$this->accountManager->method('getAccount')->willReturn($account);
+		$this->accountManager->expects($this->once())->method('updateAccount')->with($account);
+
+		$this->api->editUserMultiValue($targetUid, IAccountManager::COLLECTION_EMAIL, $key, $value);
+	}
+
+	public function testEditUserMultiValueRejectsExistingAddress(): void {
+		$currentUser = $this->createMock(IUser::class);
+		$currentUser->method('getUID')->willReturn('admin');
+		$this->userSession->method('getUser')->willReturn($currentUser);
+
+		$targetUser = $this->createMock(IUser::class);
+		$targetUser->method('getUID')->willReturn('bob');
+		$this->userManager->method('get')->with('bob')->willReturn($targetUser);
+
+		$this->groupManager->method('isAdmin')->willReturnCallback(fn (string $uid): bool => $uid === 'admin');
+		$this->groupManager->method('isDelegatedAdmin')->willReturn(false);
+		$this->groupManager->method('getSubAdmin')->willReturn($this->createMock(ISubAdmin::class));
+
+		$collection = $this->createMock(IAccountPropertyCollection::class);
+		$collection->method('getPropertyByValue')
+			->with('existing@example.com')
+			->willReturn($this->createMock(IAccountProperty::class));
+		$collection->expects($this->never())->method('removePropertyByValue');
+		$collection->expects($this->never())->method('addPropertyWithDefaults');
+		$account = $this->createMock(IAccount::class);
+		$account->method('getPropertyCollection')->willReturn($collection);
+		$this->accountManager->method('getAccount')->willReturn($account);
+		$this->accountManager->expects($this->never())->method('updateAccount');
+
+		$this->expectException(OCSException::class);
+		$this->expectExceptionCode(101);
+		$this->api->editUserMultiValue('bob', IAccountManager::COLLECTION_EMAIL, 'old@example.com', 'Existing@example.com ');
+	}
+
 	public function testEditUserPasswordByAdminIsNotAuditedAsAccountUpdate(): void {
 		$loggedInUser = $this->createMock(IUser::class);
 		$loggedInUser->method('getUID')->willReturn('admin');
