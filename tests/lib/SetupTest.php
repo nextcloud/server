@@ -131,12 +131,8 @@ class SetupTest extends \Test\TestCase {
 		$this->setupClass->getSupportedDatabases();
 	}
 
-	/**
-	 * @param $url
-	 * @param $expected
-	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('findWebRootProvider')]
-	public function testFindWebRootCli($url, $expected): void {
+	public function testFindWebRootCli(string $url, string|false $expected): void {
 		$cliState = \OC::$CLI;
 
 		$this->config
@@ -146,7 +142,7 @@ class SetupTest extends \Test\TestCase {
 		\OC::$CLI = true;
 
 		try {
-			$webRoot = self::invokePrivate($this->setupClass, 'findWebRoot', [$this->config]);
+			$webRoot = self::invokePrivate(Setup::class, 'findWebRoot', [$this->config]);
 		} catch (\InvalidArgumentException $e) {
 			$webRoot = false;
 		}
