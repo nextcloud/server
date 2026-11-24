@@ -11,7 +11,10 @@ namespace Test\Files\Storage\Wrapper;
 use OC\Files\Cache\Storage as StorageCache;
 use OC\Files\Storage\Temporary;
 use OC\Files\Storage\Wrapper\Availability;
+use OCP\Files\StorageAuthException;
 use OCP\Files\StorageNotAvailableException;
+use OCP\IConfig;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class AvailabilityTest extends \Test\TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject|StorageCache */
@@ -155,6 +158,71 @@ class AvailabilityTest extends \Test\TestCase {
 			->method('setAvailability');
 
 		$this->wrapper->mkdir('foobar');
+	}
+
+	public static function dataUnavailableDuration(): array {
+		return [
+			'not available' => [new StorageNotAvailableException(), 1800, Availability::RECHECK_TTL_SEC],
+			'auth, default delay' => [new StorageAuthException(), 1800, 1800],
+			'auth, custom delay' => [new StorageAuthException(), 3600, 3600],
+			'auth, delay below TTL' => [new StorageAuthException(), 60, Availability::RECHECK_TTL_SEC],
+		];
+	}
+
+	/**
+	 * A failing call keeps the storage unavailable for exactly the expected duration
+	 */
+	#[DataProvider('dataUnavailableDuration')]
+	public function testUnavailableDuration(StorageNotAvailableException $exception, int $authDelay, int $expectedDuration): void {
+		$config = $this->createMock(IConfig::class);
+		$config->method('getSystemValueInt')
+			->with('external_storage.auth_availability_delay', 1800)
+			->willReturn($authDelay);
+		$wrapper = new Availability(['storage' => $this->storage, 'config' => $config]);
+
+		$this->storage->method('getAvailability')
+			->willReturn(['available' => true, 'last_checked' => 0]);
+		$this->storage->method('mkdir')
+			->willThrowException($exception);
+
+		$delay = null;
+		$this->storageCache->expects($this->once())
+			->method('setAvailability')
+			->willReturnCallback(function (bool $isAvailable, int $passedDelay) use (&$delay): void {
+				$this->assertFalse($isAvailable);
+				$delay = $passedDelay;
+			});
+
+		$failedAt = time();
+		try {
+			$wrapper->mkdir('foobar');
+			$this->fail('Expected exception was not thrown');
+		} catch (StorageNotAvailableException $e) {
+			$this->assertSame($exception, $e);
+		}
+
+		// Storage\Cache::setAvailability() stores time() + $delay as last_checked
+		$lastChecked = $failedAt + $delay;
+		$margin = 5;
+		$this->assertFalse(
+			$this->shouldRecheckAfter($lastChecked, $failedAt, $expectedDuration - $margin),
+			'storage must stay unavailable until the expected duration has passed'
+		);
+		$this->assertTrue(
+			$this->shouldRecheckAfter($lastChecked, $failedAt, $expectedDuration + $margin),
+			'storage must be rechecked once the expected duration has passed'
+		);
+	}
+
+	/**
+	 * Evaluates shouldRecheck() as if $elapsed seconds had passed since $failedAt
+	 */
+	private function shouldRecheckAfter(int $lastChecked, int $failedAt, int $elapsed): bool {
+		$alreadyElapsed = time() - $failedAt;
+		return Availability::shouldRecheck([
+			'available' => false,
+			'last_checked' => $lastChecked - $elapsed + $alreadyElapsed,
+		]);
 	}
 
 	public function testUnavailableMultiple(): void {
