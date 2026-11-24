@@ -175,16 +175,24 @@ class GroupPrincipalBackend implements BackendInterface {
 			return [];
 		}
 
-		// If sharing is restricted to group members only,
-		// return only members that have groups in common
-		$restrictGroups = false;
-		if ($this->shareManager->shareWithGroupMembersOnly()) {
+		// Same rules as the share dialog's group search (GroupPlugin)
+		$shareWithGroupMembersOnly = $this->shareManager->shareWithGroupMembersOnly();
+		$allowEnumeration = $this->shareManager->allowEnumeration();
+		$limitEnumerationToGroups = $this->shareManager->limitEnumerationToGroups();
+
+		$userGroupIds = [];
+		if ($shareWithGroupMembersOnly || $limitEnumerationToGroups) {
 			$user = $this->userSession->getUser();
 			if (!$user) {
 				return [];
 			}
 
-			$restrictGroups = $this->groupManager->getUserGroupIds($user);
+			$userGroupIds = $this->groupManager->getUserGroupIds($user);
+		}
+
+		$restrictGroups = false;
+		if ($shareWithGroupMembersOnly) {
+			$restrictGroups = array_diff($userGroupIds, $this->shareManager->shareWithGroupMembersOnlyExcludeGroupsList());
 		}
 
 		$searchLimit = $this->config->getSystemValueInt('sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT);
@@ -195,8 +203,9 @@ class GroupPrincipalBackend implements BackendInterface {
 			switch ($prop) {
 				case '{DAV:}displayname':
 					$groups = $this->groupManager->search($value, $searchLimit);
+					$lowerSearch = strtolower($value);
 
-					$results[] = array_reduce($groups, function (array $carry, IGroup $group) use ($restrictGroups) {
+					$results[] = array_reduce($groups, function (array $carry, IGroup $group) use ($restrictGroups, $allowEnumeration, $limitEnumerationToGroups, $userGroupIds, $lowerSearch) {
 						if ($group->hideFromCollaboration()) {
 							return $carry;
 						}
@@ -207,6 +216,14 @@ class GroupPrincipalBackend implements BackendInterface {
 							if (!\in_array($gid, $restrictGroups, true)) {
 								return $carry;
 							}
+						}
+
+						$isGidMatch = strtolower($gid) === $lowerSearch;
+						if (!$allowEnumeration && !$isGidMatch && strtolower($group->getDisplayName()) !== $lowerSearch) {
+							return $carry;
+						}
+						if ($limitEnumerationToGroups && !$isGidMatch && !\in_array($gid, $userGroupIds, true)) {
+							return $carry;
 						}
 
 						$carry[] = self::PRINCIPAL_PREFIX . '/' . urlencode($gid);

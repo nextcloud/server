@@ -376,6 +376,43 @@ class CustomPropertiesBackendTest extends TestCase {
 		];
 	}
 
+	public static function dataPropPatchWithForeignOrMissingCalendar(): array {
+		return [
+			'other user\'s calendar' => ['calendars/alice/personal/'],
+			'missing calendar' => ['calendars/alice/missing/'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataPropPatchWithForeignOrMissingCalendar')]
+	public function testPropPatchWithForeignOrMissingCalendar(string $href): void {
+		$path = 'principals/users/' . $this->user->getUID();
+
+		$this->tree->method('getNodeForPath')
+			->willReturnCallback(function (string $uri) {
+				if ($uri !== 'calendars/alice/personal/') {
+					throw new NotFound("Node with name 'missing' could not be found");
+				}
+				$node = $this->createMock(Calendar::class);
+				$node->method('getOwner')->willReturn('principals/users/alice');
+				return $node;
+			});
+		$this->defaultCalendarValidator->expects(self::never())
+			->method('validateScheduleDefaultCalendar');
+
+		$propPatch = new PropPatch([
+			'{urn:ietf:params:xml:ns:caldav}schedule-default-calendar-URL' => new Href($href),
+		]);
+		$this->backend->propPatch($path, $propPatch);
+
+		$this->expectException(\Sabre\DAV\Exception::class);
+		$this->expectExceptionMessage('No such calendar');
+		try {
+			$propPatch->commit();
+		} finally {
+			$this->assertEquals([], $this->getProps($this->user->getUID(), $path));
+		}
+	}
+
 	public function testPropPatchWithUnsuitableCalendar(): void {
 		$path = 'principals/users/' . $this->user->getUID();
 

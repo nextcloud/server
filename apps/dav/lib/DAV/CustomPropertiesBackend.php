@@ -25,6 +25,7 @@ use OCP\IUser;
 use Override;
 use Sabre\CalDAV\Schedule\Inbox;
 use Sabre\DAV\Exception as DavException;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropertyStorage\Backend\BackendInterface;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
@@ -344,7 +345,11 @@ class CustomPropertiesBackend implements BackendInterface {
 				}
 
 				// $path is the principal here as this prop is only set on principals
-				$node = $this->tree->getNodeForPath($href);
+				try {
+					$node = $this->tree->getNodeForPath($href);
+				} catch (NotFound) {
+					throw new DavException('No such calendar');
+				}
 				if (!($node instanceof Calendar) || $node->getOwner() !== $path) {
 					throw new DavException('No such calendar');
 				}
