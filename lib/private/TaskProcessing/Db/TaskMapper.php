@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace OC\TaskProcessing\Db;
 
+use Doctrine\DBAL\Platforms\MariaDb1060Platform;
+use Doctrine\DBAL\Platforms\MySQL80Platform;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\Entity;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
@@ -97,6 +99,8 @@ class TaskMapper extends QBMapper {
 	 *   - Oracle cannot combine a row-limiting clause with FOR UPDATE: the LIMIT is
 	 *     emulated with a ROWNUM sub-select, and selecting FOR UPDATE from that derived
 	 *     view raises ORA-02014.
+	 * MySQL < 8.0 and MariaDB < 10.6 lack SKIP LOCKED as well and take the same
+	 * fallback, see {@see mysqlSupportsSkipLocked()}.
 	 * The fallback is still safe because the UPDATE ... WHERE status = SCHEDULED is itself
 	 * atomic (SQLite additionally serialises writers).
 	 *
@@ -115,8 +119,28 @@ class TaskMapper extends QBMapper {
 		if ($provider === IDBConnection::PLATFORM_SQLITE || $provider === IDBConnection::PLATFORM_ORACLE) {
 			return $this->claimWithBoundedRetry($taskTypes);
 		}
+		// Older MySQL/MariaDB servers lack SKIP LOCKED too, see mysqlSupportsSkipLocked().
+		if ($provider === IDBConnection::PLATFORM_MYSQL && !$this->mysqlSupportsSkipLocked()) {
+			return $this->claimWithBoundedRetry($taskTypes);
+		}
 
 		return $this->claimWithSkipLocked($taskTypes);
+	}
+
+	/**
+	 * Whether the MySQL/MariaDB server can execute SELECT ... FOR UPDATE SKIP LOCKED.
+	 *
+	 * MySQL < 8.0 and MariaDB < 10.6 have no SKIP LOCKED. Doctrine DBAL maps them to
+	 * MySQL57Platform / MariaDb1052Platform (or older), whose SELECT builder has no SKIP
+	 * LOCKED clause: building the claim query on them throws
+	 * "Operation 'SKIP LOCKED' is not supported by platform", so every claim would fail
+	 * and no task would be processed at all. Nextcloud 32 only warns about these server
+	 * versions (e.g. MariaDB 10.3 on Ubuntu 20.04, 10.5 on Debian 11), so they still have
+	 * to work. They use the bounded lock-and-retry claim instead.
+	 */
+	private function mysqlSupportsSkipLocked(): bool {
+		$platform = $this->db->getDatabasePlatform();
+		return $platform instanceof MariaDb1060Platform || $platform instanceof MySQL80Platform;
 	}
 
 	/**
