@@ -665,6 +665,34 @@ class TipBrokerTest extends TestCase {
 		$this->assertFalse(isset($result->VEVENT->ATTENDEE[0]['RSVP']));
 	}
 
+	public function testProcessMessageReplyMatchesAttendeeCaseInsensitively(): void {
+		$existingCalendar = clone $this->vCalendar1a;
+		$existingCalendar->VEVENT->ATTENDEE[0]->setValue('mailto:Attendee1@Example.Org');
+		$reply = new Message();
+		$reply->uid = $existingCalendar->VEVENT->UID->getValue();
+		$reply->component = 'VEVENT';
+		$reply->sender = 'mailto:attendee1@example.org';
+		$reply->senderName = 'Attendee One';
+		$reply->sequence = 1;
+		$reply->message = new VCalendar();
+		/** @var \Sabre\VObject\Component\VEvent $replyEvent */
+		$replyEvent = $reply->message->add('VEVENT', []);
+		$replyEvent->add('UID', $reply->uid);
+		$replyEvent->add('ATTENDEE', $reply->sender, [
+			'PARTSTAT' => 'ACCEPTED',
+		]);
+		$replyEvent->add('REQUEST-STATUS', '2.0;Success');
+
+		$result = $this->invokePrivate($this->broker, 'processMessageReply', [$reply, $existingCalendar]);
+
+		$this->assertSame($existingCalendar, $result);
+		$this->assertCount(1, $result->VEVENT->ATTENDEE);
+		$this->assertEquals('mailto:Attendee1@Example.Org', $result->VEVENT->ATTENDEE[0]->getValue());
+		$this->assertEquals('ACCEPTED', $result->VEVENT->ATTENDEE[0]['PARTSTAT']->getValue());
+		$this->assertEquals('2.0', $result->VEVENT->ATTENDEE[0]['SCHEDULE-STATUS']->getValue());
+		$this->assertFalse(isset($result->VEVENT->ATTENDEE[0]['RSVP']));
+	}
+
 	public function testProcessMessageReplyAllowsInvitationForwarding(): void {
 		$existingCalendar = clone $this->vCalendar1a;
 		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, 'TRUE');
