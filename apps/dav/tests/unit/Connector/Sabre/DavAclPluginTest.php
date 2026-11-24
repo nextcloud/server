@@ -11,21 +11,30 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\CalendarHome;
+use OCA\DAV\CalDAV\Principal\Collection;
 use OCA\DAV\CardDAV\AddressBook;
 use OCA\DAV\CardDAV\UserAddressBooks;
+use OCA\DAV\Connector\LegacyDAVACL;
 use OCA\DAV\Connector\Sabre\DavAclPlugin;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\CalDAV\CalendarObject;
+use Sabre\CalDAV\Principal\Collection as LegacyPrincipalCollection;
 use Sabre\CalDAV\Xml\Request\CalendarMultiGetReport;
 use Sabre\CardDAV\Card;
 use Sabre\CardDAV\Xml\Request\AddressBookMultiGetReport;
+use Sabre\DAV\Auth\Plugin as AuthPlugin;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
 use Sabre\DAV\INode;
 use Sabre\DAV\IProperties;
 use Sabre\DAV\Server;
+use Sabre\DAV\SimpleCollection;
 use Sabre\DAV\Tree;
+use Sabre\DAV\Xml\Property\Href;
+use Sabre\DAVACL\PrincipalBackend\BackendInterface;
+use Sabre\DAVACL\PrincipalCollection;
 use Sabre\HTTP\Request;
 use Sabre\HTTP\Response;
 use Test\TestCase;
@@ -33,6 +42,11 @@ use Test\TestCase;
 class DavAclPluginTest extends TestCase {
 	private const ALICE = 'principals/users/alice';
 	private const BOB = 'principals/users/bob';
+	private const MEMBERSHIP_PROPERTIES = [
+		'{DAV:}group-membership',
+		'{http://calendarserver.org/ns/}calendar-proxy-read-for',
+		'{http://calendarserver.org/ns/}calendar-proxy-write-for',
+	];
 
 	/** @var array<string, INode> */
 	private array $nodes = [];
@@ -40,6 +54,8 @@ class DavAclPluginTest extends TestCase {
 	private array $nodeExistsCalls = [];
 	private Server $server;
 	private array $defaultSupportedPrivilegeSet;
+	private BackendInterface&MockObject $principalBackend;
+	private AuthPlugin&MockObject $authPlugin;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -91,6 +107,17 @@ class DavAclPluginTest extends TestCase {
 
 		$this->server = new Server($tree);
 		$this->server->setBaseUri('/remote.php/dav/');
+
+		$this->principalBackend = $this->createMock(BackendInterface::class);
+		$this->principalBackend->method('getPrincipalByPath')
+			->willReturnCallback(static fn (string $path) => ['uri' => $path]);
+		$this->principalBackend->method('getGroupMembership')
+			->willReturnCallback(static fn (string $path) => $path === 'principals/users/bob'
+				? ['principals/groups/finance', 'principals/users/alice/calendar-proxy-write']
+				: []);
+
+		$this->authPlugin = $this->createMock(AuthPlugin::class);
+		$this->authPlugin->method('getPluginName')->willReturn('auth');
 	}
 
 	private function collection(string $name): ICollection {
@@ -423,5 +450,94 @@ class DavAclPluginTest extends TestCase {
 		$plugin = $this->createPlugin(self::BOB);
 
 		$plugin->beforeMethod($this->request('GET', 'files/alice/secret.txt'), new Response());
+	}
+
+	private function createServer(DavAclPlugin $aclPlugin): Server {
+		$server = new Server(new SimpleCollection('root', [
+			new SimpleCollection('principals', [
+				new Collection($this->principalBackend, 'principals/users'),
+				new PrincipalCollection($this->principalBackend, 'principals/groups'),
+			]),
+		]));
+		$server->addPlugin($this->authPlugin);
+		$server->addPlugin($aclPlugin);
+		return $server;
+	}
+
+	public function testPrincipalReadsOwnMembership(): void {
+		$this->authPlugin->method('getCurrentPrincipal')->willReturn('principals/users/bob');
+		$server = $this->createServer(new DavAclPlugin());
+
+		$result = $server->getPropertiesForPath('principals/users/bob', self::MEMBERSHIP_PROPERTIES);
+
+		$this->assertArrayNotHasKey(403, $result[0]);
+		/** @var Href $membership */
+		$membership = $result[0][200]['{DAV:}group-membership'];
+		$this->assertEquals([
+			'principals/groups/finance/',
+			'principals/users/alice/calendar-proxy-write/',
+		], $membership->getHrefs());
+	}
+
+	public function testMembershipOfOtherPrincipalIsForbidden(): void {
+		$this->authPlugin->method('getCurrentPrincipal')->willReturn('principals/users/carol');
+		$server = $this->createServer(new DavAclPlugin());
+
+		$result = $server->getPropertiesForPath('principals/users/bob', self::MEMBERSHIP_PROPERTIES);
+
+		$this->assertEmpty($result[0][200]);
+		$this->assertEqualsCanonicalizing(self::MEMBERSHIP_PROPERTIES, array_keys($result[0][403]));
+	}
+
+	public function testMembershipIsForbiddenWithoutCurrentPrincipal(): void {
+		$this->authPlugin->method('getCurrentPrincipal')->willReturn(null);
+		$server = $this->createServer(new DavAclPlugin());
+
+		$propFind = new \Sabre\DAV\PropFind('principals/users/bob', self::MEMBERSHIP_PROPERTIES);
+		$node = $server->tree->getNodeForPath('principals/users/bob');
+		$server->getPlugin('acl')->propFind($propFind, $node);
+
+		foreach (self::MEMBERSHIP_PROPERTIES as $property) {
+			$this->assertSame(403, $propFind->getStatus($property));
+		}
+	}
+
+	public function testOtherPropertiesOfOtherPrincipalStayReadable(): void {
+		$this->authPlugin->method('getCurrentPrincipal')->willReturn('principals/users/carol');
+		$server = $this->createServer(new DavAclPlugin());
+
+		$result = $server->getPropertiesForPath('principals/users/bob', ['{DAV:}principal-URL']);
+
+		$this->assertArrayHasKey('{DAV:}principal-URL', $result[0][200]);
+		$this->assertArrayNotHasKey(403, $result[0]);
+	}
+
+	public function testAllPropDoesNotIncludeMembershipOfOtherPrincipal(): void {
+		$this->authPlugin->method('getCurrentPrincipal')->willReturn('principals/users/carol');
+		$server = $this->createServer(new DavAclPlugin());
+
+		$result = $server->getPropertiesForPath('principals/users/bob', []);
+
+		$this->assertArrayNotHasKey('{DAV:}group-membership', $result[0][200]);
+		$this->assertArrayNotHasKey(403, $result[0]);
+	}
+
+	private function createLegacyServer(): Server {
+		$server = new Server(new SimpleCollection('root', [
+			new LegacyPrincipalCollection($this->principalBackend, 'principals'),
+		]));
+		$server->addPlugin($this->authPlugin);
+		$server->addPlugin(new LegacyDAVACL());
+		return $server;
+	}
+
+	public function testLegacyPrincipalReadsOwnMembership(): void {
+		$this->authPlugin->method('getCurrentPrincipal')->willReturn('principals/bob');
+		$server = $this->createLegacyServer();
+
+		$result = $server->getPropertiesForPath('principals/bob', self::MEMBERSHIP_PROPERTIES);
+
+		$this->assertArrayNotHasKey(403, $result[0]);
+		$this->assertArrayHasKey('{DAV:}group-membership', $result[0][200]);
 	}
 }

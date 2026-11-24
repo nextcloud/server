@@ -22,6 +22,7 @@ use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
 use Sabre\DAVACL\IACL;
+use Sabre\DAVACL\IPrincipal;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
@@ -34,6 +35,16 @@ use Sabre\HTTP\ResponseInterface;
  * @package OCA\DAV\Connector\Sabre
  */
 class DavAclPlugin extends \Sabre\DAVACL\Plugin {
+	/**
+	 * Group memberships and calendar delegations of a principal. They are
+	 * only served to the principal itself.
+	 */
+	private const MEMBERSHIP_PROPERTIES = [
+		'{DAV:}group-membership',
+		'{http://calendarserver.org/ns/}calendar-proxy-read-for',
+		'{http://calendarserver.org/ns/}calendar-proxy-write-for',
+	];
+
 	public function __construct() {
 		$this->hideNodesFromListings = true;
 		$this->allowUnauthenticatedAccess = false;
@@ -81,6 +92,14 @@ class DavAclPlugin extends \Sabre\DAVACL\Plugin {
 			if ($readPermissions === false && $writePermissions === false) {
 				$this->checkPrivileges($path, '{DAV:}read', self::R_PARENT, true);
 				$this->checkPrivileges($path, '{DAV:}write', self::R_PARENT, true);
+			}
+		}
+
+		if ($node instanceof IPrincipal && $node->getPrincipalUrl() !== $this->getCurrentUserPrincipal()) {
+			foreach (self::MEMBERSHIP_PROPERTIES as $property) {
+				if ($propFind->getStatus($property) === 404) {
+					$propFind->set($property, null, 403);
+				}
 			}
 		}
 
