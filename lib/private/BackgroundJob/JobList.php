@@ -36,6 +36,9 @@ class JobList implements IJobList {
 	/** @var array<string, string> */
 	protected array $alreadyVisitedParallelBlocked = [];
 
+	/** @var list<string> */
+	private array $excludedJobClasses;
+
 	public function __construct(
 		protected readonly IDBConnection $connection,
 		protected readonly IConfig $config,
@@ -43,6 +46,10 @@ class JobList implements IJobList {
 		protected readonly LoggerInterface $logger,
 		protected readonly ISnowflakeGenerator $snowflakeGenerator,
 	) {
+		$excludedJobClasses = $this->config->getSystemValue('excluded_jobs', []);
+		$this->excludedJobClasses = is_array($excludedJobClasses)
+			? array_values(array_map(static fn ($class): string => ltrim((string)$class, '\\'), $excludedJobClasses))
+			: [];
 	}
 
 	#[Override]
@@ -193,6 +200,10 @@ class JobList implements IJobList {
 				$orClasses[] = $query->expr()->eq('class', $query->createNamedParameter($jobClass, IQueryBuilder::PARAM_STR));
 			}
 			$query->andWhere($query->expr()->orX(...$orClasses));
+		}
+
+		if (!empty($this->excludedJobClasses)) {
+			$query->andWhere($query->expr()->notIn('class', $query->createNamedParameter($this->excludedJobClasses, IQueryBuilder::PARAM_STR_ARRAY)));
 		}
 
 		$result = $query->executeQuery();
