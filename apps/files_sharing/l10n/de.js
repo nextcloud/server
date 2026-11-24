@@ -393,7 +393,7 @@ OC.L10N.register(
     "Public share" : "Öffentliche Freigabe",
     "Publicly shared files." : "Öffentlich geteilte Dateien.",
     "No files" : "Keine Dateien",
-    "Files and folders shared with you will show up here" : "Freigegebene Dateien und Ordner werden hier angezeigt werden",
+    "Files and folders shared with you will show up here" : "Mit dir geteilte Dateien und Ordner werden hier angezeigt",
     "To upload files to {folder}, you need to provide your name first." : "Um Dateien nach {folder} hochzuladen, musst du zunächst deinen Namen angeben.",
     "Upload files to {folder}" : "Dateien hochladen nach {folder}",
     "Please confirm your name to upload files to {folder}" : "Bitte bestätige deinen Namen, um Dateien nach {folder} hochzuladen",
