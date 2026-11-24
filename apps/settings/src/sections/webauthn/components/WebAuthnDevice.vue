@@ -4,9 +4,11 @@
 -->
 
 <script setup lang="ts">
+import { mdiUsb } from '@mdi/js'
 import { t } from '@nextcloud/l10n'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 
 defineProps<{
 	/** Name the user gave the device, if any */
@@ -21,7 +23,7 @@ defineEmits<{
 
 <template>
 	<li class="webauthn-device">
-		<span class="icon-webauthn-device" />
+		<NcIconSvgWrapper :path="mdiUsb" />
 		{{ name || t('settings', 'Unnamed device') }}
 		<NcActions :forceMenu="true">
 			<NcActionButton icon="icon-delete" @click="$emit('delete')">
@@ -35,12 +37,6 @@ defineEmits<{
 	.webauthn-device {
 		line-height: 300%;
 		display: flex;
-	}
-
-	.icon-webauthn-device {
-		display: inline-block;
-		background-size: 100%;
-		padding: 3px;
-		margin: 3px;
+		align-items: center;
 	}
 </style>
