@@ -69,8 +69,6 @@ class XmlImporter {
 				);
 			}
 		}
-		//Free up the parser
-		xml_parser_free($parser);
 	}
 
 	/**
