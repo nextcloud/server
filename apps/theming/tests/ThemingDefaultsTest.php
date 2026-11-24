@@ -16,7 +16,6 @@ use OCA\Theming\Util;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\Config\IUserConfig;
-use OCP\Files\NotFoundException;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IL10N;
@@ -620,10 +619,8 @@ class ThemingDefaultsTest extends TestCase {
 	}
 
 	private function getLogoHelper($withName, $useSvg) {
-		$this->imageManager->expects($this->any())
-			->method('getImage')
-			->with('logo')
-			->willThrowException(new NotFoundException());
+		$this->imageManager->expects($this->never())
+			->method('getImage');
 		$this->appConfig
 			->expects($this->once())
 			->method('getAppValueString')
