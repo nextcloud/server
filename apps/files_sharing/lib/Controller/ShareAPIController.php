@@ -266,7 +266,7 @@ class ShareAPIController extends OCSController {
 		}
 
 		$userHasEnoughPermissions = ($node->getPermissions() & $share->getPermissions()) === $share->getPermissions();
-		$token = $userHasEnoughPermissions && $this->canEditShare($share) ? $share->getToken() : null;
+		$token = $userHasEnoughPermissions ? $share->getToken() : null;
 
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			$sharedWith = $this->userManager->get($share->getSharedWith());
