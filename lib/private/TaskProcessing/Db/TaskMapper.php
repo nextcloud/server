@@ -130,7 +130,7 @@ class TaskMapper extends QBMapper {
 		$this->db->beginTransaction();
 		try {
 			$qb = $this->db->getQueryBuilder();
-			$qb->select(Task::COLUMNS)
+			$qb->select(Task::$columns)
 				->from($this->tableName)
 				->where($qb->expr()->eq('status', $qb->createPositionalParameter(\OCP\TaskProcessing\Task::STATUS_SCHEDULED, IQueryBuilder::PARAM_INT)))
 				->orderBy('last_updated', 'ASC')
