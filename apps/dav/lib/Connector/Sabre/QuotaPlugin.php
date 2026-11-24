@@ -87,8 +87,17 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 			$destinationPath = $this->server->calculateUri($destinationUri);
 			$quotaPath = $this->getPathForDestination($destinationPath);
 
-			if ($quotaPath && is_numeric($totalLength)) {
-				return $this->checkQuota($quotaPath, Util::numericToNumber($totalLength));
+			if ($quotaPath) {
+				if (is_numeric($totalLength)) {
+					return $this->checkQuota($quotaPath, Util::numericToNumber($totalLength));
+				}
+				// Without a total length each chunk is checked on its own. Already
+				// uploaded chunks are included as they are stored outside of the
+				// user's home storage and are not part of the used space.
+				$contentLength = $request->getHeader('Content-Length');
+				if (is_numeric($contentLength)) {
+					return $this->checkQuota($quotaPath, Util::numericToNumber($contentLength) + $parent->getSize());
+				}
 			}
 			// If quota cannot be checked, allow by default
 			// NOTE: We can still check during assembly.
