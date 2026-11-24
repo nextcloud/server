@@ -393,6 +393,8 @@ OC.L10N.register(
     "Decline" : "Recusar",
     "Security settings" : "Configurações de segurança",
     "Continue" : "Continuar",
+    "Back to sign in" : "Voltar ao login",
+    "Use an existing app password" : "Usar uma senha de aplicativo existente",
     "More actions" : "Mais ações",
     "User menu" : "Menu do usuário",
     "Your guest name: {user}" : "Seu nome de visitante: {user}",
