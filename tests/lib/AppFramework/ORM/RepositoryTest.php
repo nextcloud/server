@@ -255,6 +255,16 @@ final class Order {
 	public ?Merchant $merchant = null;
 }
 
+#[Entity(name: 'repository_binary')]
+final class BinaryValue {
+	#[Id]
+	#[Column(name: 'id', type: ColumnType::Bigint)]
+	public ?int $id = null;
+
+	#[Column(name: 'value', type: ColumnType::Binary, length: 64)]
+	public string $value;
+}
+
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class RepositoryTest extends TestCase {
 	/** @var list<class-string> */
@@ -269,6 +279,7 @@ class RepositoryTest extends TestCase {
 		Merchant::class,
 		Order::class,
 		EnumOrder::class,
+		BinaryValue::class,
 	];
 
 	public static function setUpBeforeClass(): void {
@@ -915,5 +926,50 @@ class RepositoryTest extends TestCase {
 		$this->expectExceptionMessage("cannot hold a(n) int-backed enum's value");
 
 		Server::get(EntityManager::class)->getEntityInfo(EnumColumnTypeMismatch::class);
+	}
+
+	public function testBinaryColumnRoundTrip(): void {
+		$repo = $this->getRepository(BinaryValue::class);
+
+		// Raw hash bytes are not valid UTF-8
+		$binaryValue = new BinaryValue();
+		$binaryValue->value = hash('sha512', 'round-trip', true);
+		$repo->insert($binaryValue);
+		$this->assertNotNull($binaryValue->id);
+
+		$saved = $repo->findOneBy(['id' => $binaryValue->id]);
+		$this->assertSame($binaryValue->value, $saved->value);
+
+		$repo->delete($saved);
+	}
+
+	public function testFindByBinaryCriteria(): void {
+		$repo = $this->getRepository(BinaryValue::class);
+
+		$first = new BinaryValue();
+		$first->value = hash('sha512', 'first', true);
+		$repo->insert($first);
+
+		$second = new BinaryValue();
+		$second->value = hash('sha512', 'second', true);
+		$repo->insert($second);
+
+		$found = $repo->findOneBy(['value' => $first->value]);
+		$this->assertSame($first->id, $found->id);
+
+		$repo->delete($first);
+		$repo->delete($second);
+	}
+
+	public function testDeleteByBinaryCriteria(): void {
+		$repo = $this->getRepository(BinaryValue::class);
+
+		$binaryValue = new BinaryValue();
+		$binaryValue->value = hash('sha512', 'delete-by', true);
+		$repo->insert($binaryValue);
+
+		$repo->deleteBy(['value' => $binaryValue->value]);
+
+		$this->assertCount(0, iterator_to_array($repo->findBy(['id' => $binaryValue->id])));
 	}
 }
