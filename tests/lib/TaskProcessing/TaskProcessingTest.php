@@ -1477,8 +1477,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		// inside one PHPUnit process, but the structural guarantee is the same: once a
 		// task is claimed it is RUNNING (no longer SCHEDULED), so a second claim can
 		// never return it again. Under real concurrency, FOR UPDATE SKIP LOCKED enforces
-		// the same property by skipping rows another transaction has locked; that path
-		// is additionally validated live on nc-ai.
+		// the same property by skipping rows another transaction has locked.
 		$this->registerTextToTextProvider();
 
 		$taskA = new Task(TextToText::ID, ['input' => 'A'], 'test', null);
@@ -1588,5 +1587,23 @@ class TaskProcessingTest extends \Test\TestCase {
 
 		self::assertSame(0, $affected, 'lockTask must not claim a task that is no longer SCHEDULED');
 		self::assertEquals(Task::STATUS_SUCCESSFUL, $this->manager->getTask($id)->getStatus());
+	}
+
+	public function testManagerLockTaskSetsStartedAtOnInMemoryTask(): void {
+		$this->registerTextToTextProvider();
+
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$this->manager->scheduleTask($task);
+		self::assertNull($task->getStartedAt());
+
+		$before = time();
+		self::assertTrue($this->manager->lockTask($task));
+		$after = time();
+
+		// The in-memory task reflects the claim, like the persisted row does.
+		self::assertEquals(Task::STATUS_RUNNING, $task->getStatus());
+		self::assertNotNull($task->getStartedAt());
+		self::assertGreaterThanOrEqual($before, $task->getStartedAt());
+		self::assertLessThanOrEqual($after, $task->getStartedAt());
 	}
 }

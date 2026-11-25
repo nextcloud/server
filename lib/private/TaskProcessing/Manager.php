@@ -1399,6 +1399,7 @@ class Manager implements IManager {
 			return false;
 		}
 		$task->setStatus(Task::STATUS_RUNNING);
+		$task->setStartedAt(time());
 		return true;
 	}
 
