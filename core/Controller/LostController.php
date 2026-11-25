@@ -167,8 +167,15 @@ class LostController extends Controller {
 		try {
 			$this->sendEmail($user);
 		} catch (ResetPasswordException $e) {
-			// Ignore the error since we do not want to leak this info
-			$this->logger->warning('Could not send password reset email: ' . $e->getMessage());
+			// Keep the response identical so callers cannot infer whether an account exists.
+			if ($e->getCode() === ResetPasswordException::AMBIGUOUS_EMAIL) {
+				$this->logger->debug(
+					'Password reset email not sent: the email lookup matched multiple enabled accounts.',
+					['email' => $user],
+				);
+			} else {
+				$this->logger->warning('Could not send password reset email: ' . $e->getMessage());
+			}
 		} catch (Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 		}
@@ -312,8 +319,14 @@ class LostController extends Controller {
 			return $user->isEnabled();
 		});
 
-		if (count($users) === 1) {
+		$matchCount = count($users);
+		if ($matchCount === 1) {
 			return reset($users);
+		}
+
+		// This only covers the fallback; an earlier lookup may already have resolved an alias.
+		if ($matchCount > 1) {
+			throw new ResetPasswordException('Multiple enabled accounts match the email address', ResetPasswordException::AMBIGUOUS_EMAIL);
 		}
 
 		throw new ResetPasswordException('Could not find user ' . $input);
