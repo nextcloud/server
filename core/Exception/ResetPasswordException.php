@@ -10,4 +10,5 @@ declare(strict_types=1);
 namespace OC\Core\Exception;
 
 class ResetPasswordException extends \Exception {
+	public const AMBIGUOUS_EMAIL = 1;
 }
