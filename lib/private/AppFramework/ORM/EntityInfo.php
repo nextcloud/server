@@ -145,6 +145,16 @@ final class EntityInfo {
 		return $idProperties[0];
 	}
 
+	public function getPropertyAttributes(string $property): ?PropertyAttributes {
+		foreach ($this->propertiesAttributes as $propertyAttributes) {
+			if ($propertyAttributes->property->getName() === $property) {
+				return $propertyAttributes;
+			}
+		}
+
+		return null;
+	}
+
 	/**
 	 * Checks that mappedBy actually points at the owning side of the relation, so a typo
 	 * fails loudly at construction time instead of silently resolving to null forever.

@@ -315,11 +315,13 @@ final class EntityManager {
 	}
 
 	/**
+	 * @internal Only for unit tests.
+	 *
 	 * @param class-string $entityClass
 	 */
-	public function dropTable(string $entityClass, string $prefix): void {
+	public function dropTable(string $entityClass): void {
 		$entityInfo = $this->getEntityInfo($entityClass);
-		$this->connection->dropTable($prefix . $entityInfo->tableName);
+		$this->connection->dropTable($entityInfo->tableName);
 	}
 
 	private function createProperty(EntityInfo $entityInfo, PropertyAttributes $attributes, ITable $table): void {
