@@ -10,10 +10,10 @@ declare(strict_types=1);
 namespace Tests\Core\Command\TaskProcessing;
 
 use OC\Core\Command\TaskProcessing\WorkerCommand;
+use OC\TaskProcessing\Manager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IAppConfig;
 use OCP\TaskProcessing\Exception\Exception;
-use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\ISynchronousProvider;
 use OCP\TaskProcessing\Task;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\NullOutput;
 use Test\TestCase;
 
 class WorkerCommandTest extends TestCase {
-	private IManager&MockObject $manager;
+	private Manager&MockObject $manager;
 	private LoggerInterface&MockObject $logger;
 	private IAppConfig&MockObject $appConfig;
 	private ITimeFactory&MockObject $timeFactory;
@@ -32,7 +32,7 @@ class WorkerCommandTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->manager = $this->createMock(IManager::class);
+		$this->manager = $this->createMock(Manager::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);

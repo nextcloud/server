@@ -1213,7 +1213,22 @@ class Manager implements IManager {
 		}
 	}
 
-	#[\Override]
+	/**
+	 * Atomically claim the oldest scheduled task of the given task types and mark it RUNNING.
+	 *
+	 * Unlike {@see getNextScheduledTask} (which only fetches) this both selects and
+	 * locks the task in one step, so concurrent workers never claim the same task.
+	 * On databases supporting it this uses SELECT ... FOR UPDATE SKIP LOCKED; on
+	 * SQLite it falls back to a bounded lock-and-retry. The task is only ever
+	 * transitioned SCHEDULED -> RUNNING; it is never marked FAILED by claiming.
+	 *
+	 * Not part of {@see IManager} on stable32 because public interfaces must not
+	 * gain methods in a patch release.
+	 *
+	 * @param list<string> $taskTypeIds When non-empty, only tasks of these task type IDs are considered.
+	 * @return Task|null The claimed task (status RUNNING), or null if nothing could be claimed.
+	 * @throws \OCP\TaskProcessing\Exception\Exception If the query failed
+	 */
 	public function claimNextScheduledTask(array $taskTypeIds = []): ?Task {
 		try {
 			$taskEntity = $this->taskMapper->claimOldestScheduledTask($taskTypeIds);

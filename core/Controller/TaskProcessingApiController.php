@@ -12,6 +12,7 @@ namespace OC\Core\Controller;
 
 use OC\Core\ResponseDefinitions;
 use OC\Files\SimpleFS\SimpleFile;
+use OC\TaskProcessing\Manager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\ExAppRequired;
@@ -34,7 +35,6 @@ use OCP\TaskProcessing\Exception\NotFoundException;
 use OCP\TaskProcessing\Exception\PreConditionNotMetException;
 use OCP\TaskProcessing\Exception\UnauthorizedException;
 use OCP\TaskProcessing\Exception\ValidationException;
-use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\ShapeEnumValue;
 use OCP\TaskProcessing\Task;
 use RuntimeException;
@@ -48,7 +48,7 @@ class TaskProcessingApiController extends OCSController {
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		private IManager $taskProcessingManager,
+		private Manager $taskProcessingManager,
 		private IL10N $l,
 		private ?string $userId,
 		private IRootFolder $rootFolder,

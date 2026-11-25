@@ -6,12 +6,12 @@
  */
 namespace OC\TaskProcessing;
 
+use OC\TaskProcessing\Manager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\QueuedJob;
 use OCP\TaskProcessing\Exception\Exception;
 use OCP\TaskProcessing\Exception\NotFoundException;
-use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\ISynchronousProvider;
 use OCP\TaskProcessing\Task;
 use Psr\Log\LoggerInterface;
@@ -19,7 +19,7 @@ use Psr\Log\LoggerInterface;
 class SynchronousBackgroundJob extends QueuedJob {
 	public function __construct(
 		ITimeFactory $timeFactory,
-		private readonly IManager $taskProcessingManager,
+		private readonly Manager $taskProcessingManager,
 		private readonly IJobList $jobList,
 		private readonly LoggerInterface $logger,
 	) {

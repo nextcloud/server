@@ -10,10 +10,10 @@ namespace OC\Core\Command\TaskProcessing;
 
 use OC\Core\Command\Base;
 use OC\Core\Command\InterruptedException;
+use OC\TaskProcessing\Manager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IAppConfig;
 use OCP\TaskProcessing\Exception\Exception;
-use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\ISynchronousProvider;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class WorkerCommand extends Base {
 	public function __construct(
-		private readonly IManager $taskProcessingManager,
+		private readonly Manager $taskProcessingManager,
 		private readonly LoggerInterface $logger,
 		private readonly IAppConfig $appConfig,
 		private readonly ITimeFactory $timeFactory,
