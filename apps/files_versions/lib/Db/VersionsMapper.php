@@ -90,7 +90,7 @@ class VersionsMapper extends QBMapper {
 				->where($filesIdsSelect->expr()->eq('storage', $filesIdsSelect->createNamedParameter($storageId, IQueryBuilder::PARAM_STR)))
 				->andWhere($filesIdsSelect->expr()->like('path', $filesIdsSelect->createNamedParameter('files' . ($path ? '/' . $this->db->escapeLikeParameter($path) : '') . '/%', IQueryBuilder::PARAM_STR)))
 				->andWhere($filesIdsSelect->expr()->gt('fileid', $filesIdsSelect->createParameter('offset')))
-				->setMaxResults(1000)
+				->setMaxResults(999)
 				->orderBy('fileid', 'ASC');
 
 			$filesIdsSelect->setParameter('offset', $offset, IQueryBuilder::PARAM_INT);

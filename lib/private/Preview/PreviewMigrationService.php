@@ -201,7 +201,7 @@ class PreviewMigrationService {
 		// Deepest first, so that a parent is empty once its children are gone.
 		krsort($folderIdsByDepth);
 		foreach ($folderIdsByDepth as $folderIds) {
-			foreach (array_chunk($folderIds, 1000) as $chunk) {
+			foreach (array_chunk($folderIds, 999) as $chunk) {
 				$qb = $this->connection->getQueryBuilder();
 				$qb->selectDistinct('parent')
 					->from('filecache')
@@ -219,7 +219,7 @@ class PreviewMigrationService {
 	 */
 	private function getSourceFiles(array $fileIds): array {
 		$sources = [];
-		foreach (array_chunk(array_values(array_unique($fileIds)), 1000) as $chunk) {
+		foreach (array_chunk(array_values(array_unique($fileIds)), 999) as $chunk) {
 			$qb = $this->connection->getQueryBuilder();
 			$qb->select('fileid', 'storage', 'etag', 'mimetype')
 				->from('filecache')
@@ -313,7 +313,7 @@ class PreviewMigrationService {
 			return;
 		}
 
-		foreach (array_chunk($fileIds, 1000) as $chunk) {
+		foreach (array_chunk($fileIds, 999) as $chunk) {
 			$qb = $this->connection->getQueryBuilder();
 			$qb->delete('filecache')
 				->where($qb->expr()->in('fileid', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)))

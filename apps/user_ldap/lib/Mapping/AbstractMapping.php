@@ -276,13 +276,13 @@ abstract class AbstractMapping {
 	 */
 	public function getListOfIdsByDn(array $fdns): array {
 		$totalDBParamLimit = 65000;
-		$sliceSize = 1000;
+		$sliceSize = 999;
 		// SQLite's variable limit is very low; Oracle's OCI8 driver has high per-bind overhead,
 		// making large parameter lists (65k) extremely slow — use smaller batches for both.
 		$maxSlices = match ($this->dbc->getDatabaseProvider()) {
 			IDBConnection::PLATFORM_SQLITE => 9,
 			IDBConnection::PLATFORM_ORACLE => 5,
-			default => $totalDBParamLimit / $sliceSize,
+			default => intdiv($totalDBParamLimit, $sliceSize),
 		};
 		$results = [];
 
@@ -291,7 +291,7 @@ abstract class AbstractMapping {
 		$fdnsSlice = count($fdns) > $sliceSize ? array_slice($fdns, 0, $sliceSize) : $fdns;
 		$qb = $this->prepareListOfIdsQuery($fdnsSlice);
 
-		while (isset($fdnsSlice[999])) {
+		while (isset($fdnsSlice[$sliceSize - 1])) {
 			// Oracle does not allow more than 1000 values in the IN list,
 			// but allows slicing
 			$slice++;

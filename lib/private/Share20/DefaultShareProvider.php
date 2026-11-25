@@ -980,8 +980,8 @@ class DefaultShareProvider implements
 
 			$start = 0;
 			while (true) {
-				$groups = array_slice($allGroups, $start, 1000);
-				$start += 1000;
+				$groups = array_slice($allGroups, $start, 999);
+				$start += 999;
 
 				if ($groups === []) {
 					break;

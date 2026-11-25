@@ -126,7 +126,7 @@ interface IQueryBuilder {
 	 *
 	 * Mostly useful as magic value to give to array_chunk
 	 */
-	public const MAX_IN_PARAMETERS = 1000;
+	public const MAX_IN_PARAMETERS = 999;
 
 	/**
 	 * Enable/disable automatic prefixing of table names with the oc_ prefix

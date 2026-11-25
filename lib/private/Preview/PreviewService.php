@@ -56,7 +56,7 @@ class PreviewService {
 			$qb->select('id', 'file_id', 'storage_id')
 				->from($this->previewMapper->getTableName(), 'p1')
 				->innerJoin('p1', $qb->createFunction('(' . $maxQb->getSQL() . ')'), 'p2', $qb->expr()->eq('p1.id', 'p2.max_id'))
-				->setMaxResults(1000);
+				->setMaxResults(999);
 
 			$result = $qb->executeQuery();
 
