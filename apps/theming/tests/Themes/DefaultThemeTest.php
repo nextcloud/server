@@ -115,7 +115,7 @@ class DefaultThemeTest extends AccessibleThemeTestCase {
 	}
 
 	public function testGetTitle(): void {
-		$this->assertEquals('System default theme', $this->theme->getTitle());
+		$this->assertEquals('Automatic (system)', $this->theme->getTitle());
 	}
 
 	public function testGetEnableLabel(): void {

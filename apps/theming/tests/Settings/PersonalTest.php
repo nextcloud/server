@@ -13,7 +13,6 @@ use OCA\Theming\ITheme;
 use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\Service\ThemesService;
 use OCA\Theming\Settings\Personal;
-use OCA\Theming\Themes\DarkHighContrastTheme;
 use OCA\Theming\Themes\DarkTheme;
 use OCA\Theming\Themes\DefaultTheme;
 use OCA\Theming\Themes\DyslexiaFont;
@@ -75,12 +74,14 @@ class PersonalTest extends TestCase {
 				'default',
 				'light',
 				'dark',
-				'light-highcontrast',
-				'dark-highcontrast',
+				'highcontrast',
 				'opendyslexic',
 			]],
 			['dark', [
+				'default',
+				'light',
 				'dark',
+				'highcontrast',
 				'opendyslexic',
 			]],
 		];
@@ -186,18 +187,7 @@ class PersonalTest extends TestCase {
 				$appManager,
 				null,
 			),
-			'light-highcontrast' => new HighContrastTheme(
-				$util,
-				$themingDefaults,
-				$userSession,
-				$urlGenerator,
-				$imageManager,
-				$config,
-				$l10n,
-				$appManager,
-				null,
-			),
-			'dark-highcontrast' => new DarkHighContrastTheme(
+			'highcontrast' => new HighContrastTheme(
 				$util,
 				$themingDefaults,
 				$userSession,

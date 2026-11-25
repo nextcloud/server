@@ -8,7 +8,6 @@
 namespace OCA\Theming\Settings;
 
 use OCA\Theming\AppInfo\Application;
-use OCA\Theming\ITheme;
 use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\Service\ThemesService;
 use OCA\Theming\ThemingDefaults;
@@ -45,12 +44,6 @@ class Personal implements ISettings {
 				'enabled' => $this->themesService->isEnabled($theme),
 			];
 		}, $this->themesService->getThemes());
-
-		if ($enforcedTheme !== '') {
-			$themes = array_filter($themes, function ($theme) use ($enforcedTheme) {
-				return $theme['type'] !== ITheme::TYPE_THEME || $theme['id'] === $enforcedTheme;
-			});
-		}
 
 		// Get the default entry enforced by admin
 		$forcedDefaultEntry = $this->navigationManager->getDefaultEntryIdForUser(null, false);

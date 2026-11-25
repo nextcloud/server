@@ -8,7 +8,7 @@ import { createRandomUser, login } from '@nextcloud/e2e-test-server/playwright'
 import { expect, test } from '@playwright/test'
 import { resolve } from 'node:path'
 
-const themesToTest = ['light', 'dark', 'light-highcontrast', 'dark-highcontrast']
+const themesToTest = ['light', 'dark', 'highcontrast']
 
 const testCases = {
 	'Main text': {

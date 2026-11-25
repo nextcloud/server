@@ -12,7 +12,6 @@ use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ITheme;
 use OCA\Theming\Service\ThemesService;
-use OCA\Theming\Themes\DarkHighContrastTheme;
 use OCA\Theming\Themes\DarkTheme;
 use OCA\Theming\Themes\DefaultTheme;
 use OCA\Theming\Themes\DyslexiaFont;
@@ -70,11 +69,10 @@ class ThemesServiceTest extends TestCase {
 
 	public function testGetThemes(): void {
 		$expected = [
-			'default',
 			'light',
+			'default',
 			'dark',
-			'light-highcontrast',
-			'dark-highcontrast',
+			'highcontrast',
 			'opendyslexic',
 			'reduced-motion',
 		];
@@ -90,11 +88,26 @@ class ThemesServiceTest extends TestCase {
 			->method('error');
 
 		$expected = [
+			'light',
 			'default',
 			'dark',
+			'highcontrast',
+			'opendyslexic',
+			'reduced-motion',
 		];
 
 		$this->assertEquals($expected, array_keys($this->themesService->getThemes()));
+	}
+
+	public function testGetInjectableThemesEnforced(): void {
+		$this->config->expects($this->once())
+			->method('getSystemValueString')
+			->with('enforce_theme', '')
+			->willReturn('light');
+		$this->logger->expects($this->never())
+			->method('error');
+
+		$this->assertEquals(['default', 'dark', 'light'], array_keys($this->themesService->getInjectableThemes()));
 	}
 
 	public function testGetThemesEnforcedInvalid(): void {
@@ -107,11 +120,10 @@ class ThemesServiceTest extends TestCase {
 			->with('Enforced theme not found', ['theme' => 'invalid']);
 
 		$expected = [
-			'default',
 			'light',
+			'default',
 			'dark',
-			'light-highcontrast',
-			'dark-highcontrast',
+			'highcontrast',
 			'opendyslexic',
 			'reduced-motion',
 		];
@@ -125,7 +137,7 @@ class ThemesServiceTest extends TestCase {
 			['dark', ['default'], ['dark']],
 			['dark', ['dark'], ['dark']],
 			['opendyslexic', ['dark'], ['dark', 'opendyslexic']],
-			['dark', ['light-highcontrast', 'opendyslexic'], ['opendyslexic', 'dark']],
+			['dark', ['highcontrast', 'opendyslexic'], ['highcontrast', 'opendyslexic', 'dark']],
 		];
 	}
 
@@ -157,7 +169,7 @@ class ThemesServiceTest extends TestCase {
 			['dark', ['default'], ['default']],
 			['dark', ['dark'], []],
 			['opendyslexic', ['dark', 'opendyslexic'], ['dark'], ],
-			['light-highcontrast', ['opendyslexic'], ['opendyslexic']],
+			['highcontrast', ['opendyslexic'], ['opendyslexic']],
 		];
 	}
 
@@ -189,7 +201,7 @@ class ThemesServiceTest extends TestCase {
 			['dark', [], false],
 			['dark', ['dark'], true],
 			['opendyslexic', ['dark', 'opendyslexic'], true],
-			['light-highcontrast', ['opendyslexic'], false],
+			['highcontrast', ['opendyslexic'], false],
 		];
 	}
 
@@ -236,18 +248,8 @@ class ThemesServiceTest extends TestCase {
 	}
 
 	public function testGetEnabledThemesEnforced(): void {
-		$user = $this->createMock(IUser::class);
-		$this->userSession->expects($this->any())
-			->method('getUser')
-			->willReturn($user);
-		$user->expects($this->any())
-			->method('getUID')
-			->willReturn('user');
-
-		$this->config->expects($this->once())
-			->method('getUserValue')
-			->with('user', Application::APP_ID, 'enabled-themes', '["default"]')
-			->willReturn(json_encode([]));
+		$this->config->expects($this->never())
+			->method('getUserValue');
 		$this->config->expects($this->once())
 			->method('getSystemValueString')
 			->with('enforce_theme', '')
@@ -328,18 +330,7 @@ class ThemesServiceTest extends TestCase {
 				$appManager,
 				null,
 			),
-			'light-highcontrast' => new HighContrastTheme(
-				$util,
-				$this->themingDefaults,
-				$this->userSession,
-				$urlGenerator,
-				$imageManager,
-				$this->config,
-				$l10n,
-				$appManager,
-				null,
-			),
-			'dark-highcontrast' => new DarkHighContrastTheme(
+			'highcontrast' => new HighContrastTheme(
 				$util,
 				$this->themingDefaults,
 				$this->userSession,

@@ -9,7 +9,6 @@ namespace OCA\Theming\Service;
 
 use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ITheme;
-use OCA\Theming\Themes\DarkHighContrastTheme;
 use OCA\Theming\Themes\DarkTheme;
 use OCA\Theming\Themes\DefaultTheme;
 use OCA\Theming\Themes\DyslexiaFont;
@@ -33,18 +32,16 @@ class ThemesService {
 		LightTheme $lightTheme,
 		private DarkTheme $darkTheme,
 		HighContrastTheme $highContrastTheme,
-		DarkHighContrastTheme $darkHighContrastTheme,
 		DyslexiaFont $dyslexiaFont,
 		ReducedMotion $motionSickness,
 	) {
 
 		// Register themes
 		$this->themesProviders = [
-			$defaultTheme->getId() => $defaultTheme,
 			$lightTheme->getId() => $lightTheme,
+			$defaultTheme->getId() => $defaultTheme,
 			$darkTheme->getId() => $darkTheme,
 			$highContrastTheme->getId() => $highContrastTheme,
-			$darkHighContrastTheme->getId() => $darkHighContrastTheme,
 			$dyslexiaFont->getId() => $dyslexiaFont,
 			$motionSickness->getId() => $motionSickness,
 		];
@@ -56,6 +53,24 @@ class ThemesService {
 	 * @return ITheme[]
 	 */
 	public function getThemes(): array {
+		$enforcedTheme = $this->config->getSystemValueString('enforce_theme', '');
+		if ($enforcedTheme !== '' && !isset($this->themesProviders[$enforcedTheme])) {
+			$this->logger->error('Enforced theme not found', ['theme' => $enforcedTheme]);
+		}
+
+		return $this->themesProviders;
+	}
+
+	/**
+	 * Themes whose stylesheets are included on the page.
+	 *
+	 * When a theme is enforced, only the default theme, the dark theme, and the
+	 * enforced theme are included. The enforced theme comes last so its variables
+	 * take effect while another theme attribute is still present.
+	 *
+	 * @return ITheme[]
+	 */
+	public function getInjectableThemes(): array {
 		// Enforced theme if configured
 		$enforcedTheme = $this->config->getSystemValueString('enforce_theme', '');
 		if ($enforcedTheme !== '') {
@@ -148,19 +163,17 @@ class ThemesService {
 	 */
 	public function getEnabledThemes() {
 		$enforcedTheme = $this->config->getSystemValueString('enforce_theme', '');
+		if ($enforcedTheme !== '') {
+			return [$enforcedTheme];
+		}
+
 		$user = $this->userSession->getUser();
 		if ($user === null) {
-			if ($enforcedTheme !== '') {
-				return [$enforcedTheme];
-			}
 			return [];
 		}
 
 		/** @var list<string> */
 		$enabledThemes = json_decode($this->config->getUserValue($user->getUID(), Application::APP_ID, 'enabled-themes', '["default"]'));
-		if ($enforcedTheme !== '') {
-			return array_merge([$enforcedTheme], $enabledThemes);
-		}
 
 		try {
 			return $enabledThemes;
