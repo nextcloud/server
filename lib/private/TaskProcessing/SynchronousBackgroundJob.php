@@ -6,7 +6,6 @@
  */
 namespace OC\TaskProcessing;
 
-use OC\TaskProcessing\Manager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\QueuedJob;
