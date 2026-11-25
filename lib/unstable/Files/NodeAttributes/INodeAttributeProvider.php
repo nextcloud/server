@@ -19,9 +19,10 @@ use OCP\Files\Node;
  * properties, e.g. `{http://nextcloud.org/ns}has-preview`.
  *
  * `preload()` is called with all the nodes of a response before `getAttributes()`
- * is called once per node. A node is only preloaded once per request for the
- * same context and attributes. Load everything needed in `preload()`:
- * `getAttributes()` must not query per node.
+ * is called once per node. Within a WebDAV request a node is only preloaded once
+ * for the same context and attributes, each serialization preloads again to read
+ * fresh values. Load everything needed in `preload()`: `getAttributes()` must not
+ * query per node. The local name `etag` is reserved.
  *
  * @experimental 36.0.0
  */

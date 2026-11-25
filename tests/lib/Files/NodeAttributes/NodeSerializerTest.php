@@ -35,6 +35,7 @@ class NodeSerializerTest extends TestCase {
 	private IRootFolder&MockObject $rootFolder;
 	private NodeSerializer $serializer;
 	private IUser&MockObject $user;
+	private LoggerInterface&MockObject $logger;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -51,7 +52,8 @@ class NodeSerializerTest extends TestCase {
 		$userFolder->method('getPath')->willReturn('/alice/files');
 		$this->rootFolder->method('getUserFolder')->with('alice')->willReturn($userFolder);
 
-		$this->serializer = new NodeSerializer($this->registry, $this->rootFolder, $urlGenerator, $this->createMock(LoggerInterface::class));
+		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->serializer = new NodeSerializer($this->registry, $this->rootFolder, $urlGenerator, $this->logger);
 	}
 
 	private function node(string $class, int $id, string $path, string $mime = 'text/plain', bool $owned = true): Node&MockObject {
@@ -165,9 +167,28 @@ class NodeSerializerTest extends TestCase {
 		self::assertNull($result[0]['owner']);
 	}
 
+	public function testEachSerializationReloadsTheAttributes(): void {
+		$file = $this->node(File::class, 11, '/alice/files/cat.jpg');
+		$this->registry->method('getAttributeNames')->willReturn([self::HAS_PREVIEW]);
+		$this->registry->expects(self::exactly(2))->method('resetPreloaded');
+		$this->registry->expects(self::exactly(2))->method('preload');
+
+		$context = NodeAttributeContext::forUser($this->user);
+		$this->serializer->serialize($context, [$file]);
+		$this->serializer->serialize($context, [$file]);
+	}
+
+	public function testUnknownAttributesAreLogged(): void {
+		$file = $this->node(File::class, 11, '/alice/files/cat.jpg');
+		$this->registry->method('getAttributeNames')->willReturn([self::HAS_PREVIEW]);
+		$this->logger->expects(self::once())->method('warning')->with(self::stringContains('has-preview'));
+
+		$this->serializer->serialize(NodeAttributeContext::forUser($this->user), [$file], ['has-preview', self::HAS_PREVIEW]);
+	}
+
 	public function testOnlyRequestedAttributes(): void {
 		$file = $this->node(File::class, 11, '/alice/files/cat.jpg');
-		$this->registry->expects(self::never())->method('getAttributeNames');
+		$this->registry->method('getAttributeNames')->willReturn([self::HAS_PREVIEW, self::SHARE_TYPES]);
 		$this->registry->expects(self::once())
 			->method('getAttributes')
 			->with(self::isInstanceOf(NodeAttributeContext::class), $file, [self::HAS_PREVIEW])

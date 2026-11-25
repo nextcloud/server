@@ -32,7 +32,17 @@ class NodeSerializer implements INodeSerializer {
 
 	#[\Override]
 	public function serialize(NodeAttributeContext $context, array $nodes, ?array $attributes = null): array {
-		$attributes ??= $this->registry->getAttributeNames();
+		if ($attributes === null) {
+			$attributes = $this->registry->getAttributeNames();
+		} else {
+			$unknown = array_diff($attributes, $this->registry->getAttributeNames());
+			if ($unknown !== []) {
+				$this->logger->warning('Unknown node attributes are skipped, attributes are in Clark notation: ' . implode(', ', $unknown));
+			}
+		}
+
+		// Read fresh values: the state may have changed since an earlier serialization in this process
+		$this->registry->resetPreloaded($context);
 		$this->registry->preload($context, $nodes, $attributes);
 
 		[$root, $rootPath, $remoteUrl] = $this->getRoot($context);

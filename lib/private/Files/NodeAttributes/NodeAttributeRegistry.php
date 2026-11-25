@@ -23,6 +23,9 @@ use Throwable;
  * Maps the registered attributes to their providers, loading providers only when needed
  */
 class NodeAttributeRegistry implements INodeAttributeRegistry {
+	/** Names the serializer fills itself, providers cannot use them */
+	private const RESERVED_LOCAL_NAMES = ['etag'];
+
 	/** @var array<string, NodeAttributeProviderRegistration>|null registration by attribute in Clark notation */
 	private ?array $registrations = null;
 
@@ -101,6 +104,13 @@ class NodeAttributeRegistry implements INodeAttributeRegistry {
 		}
 	}
 
+	/**
+	 * Forget which nodes were preloaded for this context, so the next preload reads them again
+	 */
+	public function resetPreloaded(NodeAttributeContext $context): void {
+		unset($this->preloaded[$this->getContextKey($context)]);
+	}
+
 	#[\Override]
 	public function getAttributes(NodeAttributeContext $context, Node $node, array $attributes): array {
 		$values = [];
@@ -147,6 +157,12 @@ class NodeAttributeRegistry implements INodeAttributeRegistry {
 		foreach ($context->getNodeAttributeProviders() as $registration) {
 			foreach ($registration->getAttributes() as $attribute) {
 				$localName = self::getLocalName($attribute);
+				if (in_array($localName, self::RESERVED_LOCAL_NAMES, true)) {
+					$this->logger->error('Node attribute ' . $attribute . ' of ' . $registration->getService() . ' is ignored, the name ' . $localName . ' is reserved', [
+						'app' => $registration->getAppId(),
+					]);
+					continue;
+				}
 				// Attributes are keyed by local name in the serialized nodes, so they must be unique
 				if (isset($localNames[$localName])) {
 					$this->logger->error('Node attribute ' . $attribute . ' of ' . $registration->getService() . ' is ignored, ' . $localNames[$localName] . ' already uses the name ' . $localName, [

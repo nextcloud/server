@@ -321,7 +321,8 @@ interface IRegistrationContext {
 	/**
 	 * Register a provider of file and folder attributes, served over WebDAV
 	 * and by the node serializer alike.
-	 * `\NCU\Files\NodeAttributes\INodeAttributeProvider` is currently experimental and may still change.
+	 * `\NCU\Files\NodeAttributes\INodeAttributeProvider` is currently experimental,
+	 * this method may change along with it until the interface is stable.
 	 *
 	 * @param string $class
 	 * @psalm-param class-string<\NCU\Files\NodeAttributes\INodeAttributeProvider> $class

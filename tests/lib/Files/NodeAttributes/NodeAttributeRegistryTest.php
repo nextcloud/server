@@ -181,6 +181,28 @@ class NodeAttributeRegistryTest extends TestCase {
 		);
 	}
 
+	public function testCoreNamesCannotBeRegistered(): void {
+		$this->register(['EtagProvider' => ['{http://example.com/ns}etag', self::HAS_PREVIEW]]);
+		$this->logger->expects(self::once())->method('error');
+
+		self::assertSame([self::HAS_PREVIEW], $this->registry->getAttributeNames());
+	}
+
+	public function testResetPreloadedLoadsNodesAgain(): void {
+		$this->register(['PreviewProvider' => [self::HAS_PREVIEW]]);
+		$provider = $this->createMock(INodeAttributeProvider::class);
+		$this->container->method('get')->willReturn($provider);
+		$context = NodeAttributeContext::forUser($this->createMock(IUser::class));
+		$node = $this->createMock(Node::class);
+		$node->method('getId')->willReturn(1);
+		$provider->expects(self::exactly(2))->method('preload');
+
+		$this->registry->preload($context, [$node], [self::HAS_PREVIEW]);
+		$this->registry->preload($context, [$node], [self::HAS_PREVIEW]);
+		$this->registry->resetPreloaded($context);
+		$this->registry->preload($context, [$node], [self::HAS_PREVIEW]);
+	}
+
 	public function testNothingRegisteredBeforeAppsAreLoaded(): void {
 		$coordinator = $this->createMock(Coordinator::class);
 		$coordinator->method('getRegistrationContext')->willReturnOnConsecutiveCalls(null, $this->context);
