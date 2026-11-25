@@ -142,12 +142,16 @@ class Database extends ABackend implements
 		return $result ? true : false;
 	}
 
-	private function updatePassword(string $uid, string $passwordHash): bool {
+	private function updatePassword(string $uid, string $passwordHash, ?string $expectedHash = null): bool {
+
 		$dbConn = $this->getDbConnection();
 		$query = $dbConn->getQueryBuilder();
 		$query->update($this->table)
 			->set('password', $query->createNamedParameter($passwordHash))
 			->where($query->expr()->eq('uid_lower', $query->createNamedParameter(mb_strtolower($uid))));
+		if ($expectedHash !== null) {
+			$query->andWhere($query->expr()->eq('password', $query->createNamedParameter($expectedHash)));
+		}
 		$result = $query->executeStatement();
 
 		return $result ? true : false;
@@ -362,10 +366,18 @@ class Database extends ABackend implements
 			$storedHash = $this->cache[$loginName]['password'];
 			$newHash = '';
 			if (Server::get(IHasher::class)->verify($password, $storedHash, $newHash)) {
+				$uid = (string)$this->cache[$loginName]['uid'];
 				if (!empty($newHash)) {
-					$this->updatePassword($loginName, $newHash);
+					$updated = $this->updatePassword($uid, $newHash, $storedHash);
+					$this->cache->clear();
+					if (!$updated) {
+						Server::get(LoggerInterface::class)->warning(
+							'Password rehash was not saved; the stored hash may have changed',
+							['app' => 'core', 'uid' => $uid],
+						);
+					}
 				}
-				return (string)$this->cache[$loginName]['uid'];
+				return $uid;
 			}
 		}
 
