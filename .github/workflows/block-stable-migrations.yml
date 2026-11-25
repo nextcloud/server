@@ -1,0 +1,54 @@
+# SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
+name: Block migrations on stable branches
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: block-stable-migrations-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  changes:
+    # Only run on stableXX branches
+    if: startsWith(github.base_ref, 'stable')
+    runs-on: ubuntu-latest-low
+    outputs:
+      migrations: ${{ steps.changes.outputs.migrations }}
+      migrations_files: ${{ steps.changes.outputs.migrations_files }}
+    steps:
+      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
+        id: changes
+        continue-on-error: true
+        with:
+          list-files: shell
+          filters: |
+            migrations:
+              - added: 'core/Migrations/Version*.php'
+              - added: '**/lib/Migration/Version*.php'
+
+  summary:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest-low
+    needs: changes
+
+    if: always()
+
+    name: block-stable-migrations-summary
+
+    steps:
+      - name: Summary status
+        if: startsWith(github.base_ref, 'stable') && needs.changes.outputs.migrations != 'false'
+        env:
+          MIGRATIONS: ${{ needs.changes.outputs.migrations_files }}
+        run: |
+          echo "Migrations must not be added to $GITHUB_BASE_REF:"
+          echo "${MIGRATIONS:-could not determine the changed files}"
+          exit 1
