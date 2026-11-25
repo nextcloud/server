@@ -565,7 +565,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		if ($dh = opendir($dataDir)) {
 			while (($file = readdir($dh)) !== false) {
 				if (!isset($knownEntries[$file])) {
-					self::tearDownAfterClassCleanStrayDataUnlinkDir($dataDir . '/' . $file);
+					if (is_dir($dataDir . '/' . $file)) {
+						self::tearDownAfterClassCleanStrayDataUnlinkDir($dataDir . '/' . $file);
+					} else {
+						@unlink($dataDir . '/' . $file);
+					}
 				}
 			}
 			closedir($dh);
