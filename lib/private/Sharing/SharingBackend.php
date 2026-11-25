@@ -102,7 +102,7 @@ final readonly class SharingBackend implements ISharingBackend {
 
 		$ids = array_map(static fn (string|int $id): string => (string)$id, $ids);
 
-		foreach (array_chunk($ids, 1000) as $chunk) {
+		foreach (array_chunk($ids, IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
 			$qb = $this->connection->getQueryBuilder();
 			$qb
 				->delete('sharing_share')
@@ -515,7 +515,7 @@ final readonly class SharingBackend implements ISharingBackend {
 			->executeStatement();
 
 		$permissionPresetCompatiblePermissionTypeClasses = $this->registry->getPermissionPresetCompatiblePermissionTypeClasses()[$permissionPresetClass];
-		foreach (array_chunk($permissionPresetCompatiblePermissionTypeClasses, 1000) as $chunk) {
+		foreach (array_chunk($permissionPresetCompatiblePermissionTypeClasses, IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
 			$chunkIds = array_map($this->classMapper->getClassId(...), $chunk);
 			// Some permissions might not be compatible with the share, just ignore it and update the ones that are present.
 			$qb = $this->connection->getQueryBuilder();
@@ -617,7 +617,7 @@ final readonly class SharingBackend implements ISharingBackend {
 	public function setLastUpdated(array $ids, \DateTimeImmutable $lastUpdated): void {
 		$this->assertInTransaction();
 
-		foreach (array_chunk($ids, 1000) as $chunk) {
+		foreach (array_chunk($ids, IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
 			$qb = $this->connection->getQueryBuilder();
 
 			$rowCount = $qb
@@ -816,7 +816,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		}
 
 		/** @var list<list<array-key>> $chunks */
-		$chunks = array_chunk(array_keys($shares), 1000);
+		$chunks = array_chunk(array_keys($shares), IQueryBuilder::MAX_IN_PARAMETERS);
 
 		if ($accessContext->currentUser instanceof IUser) {
 			foreach ($chunks as $chunk) {
@@ -853,7 +853,7 @@ final readonly class SharingBackend implements ISharingBackend {
 				}
 
 				/** @var list<list<array-key>> $chunks */
-				$chunks = array_chunk(array_keys($shares), 1000);
+				$chunks = array_chunk(array_keys($shares), IQueryBuilder::MAX_IN_PARAMETERS);
 			}
 		}
 
@@ -991,7 +991,7 @@ final readonly class SharingBackend implements ISharingBackend {
 
 		/** @var array<array-key, array<array-key, array<class-string<ISharePermissionType>, SharePermission>>> $shareRecipientPermissions */
 		$shareRecipientPermissions = [];
-		foreach (array_chunk($recipientIds, 1000) as $chunk) {
+		foreach (array_chunk($recipientIds, IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
 			$qb = $this->connection->getQueryBuilder();
 			$result = $qb
 				->select(
@@ -1084,7 +1084,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		}
 
 		/** @var list<list<array-key>> $chunks */
-		$chunks = array_chunk(array_keys($shares), 1000);
+		$chunks = array_chunk(array_keys($shares), IQueryBuilder::MAX_IN_PARAMETERS);
 
 		$registryPropertyTypes = $this->registry->getPropertyTypes();
 		$registryPropertyTypeCompatibleSourceTypeClasses = $this->registry->getPropertyTypeCompatibleSourceTypeClasses();

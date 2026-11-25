@@ -13,6 +13,7 @@ use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OC\Preview\Storage\StorageFactory;
 use OCP\DB\Exception;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\NotPermittedException;
 use OCP\IDBConnection;
 
@@ -56,7 +57,7 @@ class PreviewService {
 			$qb->select('id', 'file_id', 'storage_id')
 				->from($this->previewMapper->getTableName(), 'p1')
 				->innerJoin('p1', $qb->createFunction('(' . $maxQb->getSQL() . ')'), 'p2', $qb->expr()->eq('p1.id', 'p2.max_id'))
-				->setMaxResults(1000);
+				->setMaxResults(IQueryBuilder::MAX_IN_PARAMETERS);
 
 			$result = $qb->executeQuery();
 

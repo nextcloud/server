@@ -124,9 +124,12 @@ interface IQueryBuilder {
 	 * @since 35.0.0 Indicates how many parameters can be passed to a IN query
 	 * with Oracle database server.
 	 *
+	 * Kept below 1000, as MariaDB converts IN lists of 1000 or more values
+	 * into subqueries (in_predicate_conversion_threshold).
+	 *
 	 * Mostly useful as magic value to give to array_chunk
 	 */
-	public const MAX_IN_PARAMETERS = 1000;
+	public const MAX_IN_PARAMETERS = 999;
 
 	/**
 	 * Enable/disable automatic prefixing of table names with the oc_ prefix

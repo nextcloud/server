@@ -24,7 +24,7 @@ class DeleteOrphanedSharesJob extends TimedJob {
 
 	use TTransactional;
 
-	private const int CHUNK_SIZE = 1000;
+	private const int CHUNK_SIZE = IQueryBuilder::MAX_IN_PARAMETERS;
 
 	private const int INTERVAL = 24 * 60 * 60;
 

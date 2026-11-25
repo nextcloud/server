@@ -4114,7 +4114,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$cmd->delete($this->dbObjectInvitationsTable)
 			->where($cmd->expr()->in('uid', $cmd->createParameter('uids'), IQueryBuilder::PARAM_STR_ARRAY))
 			->andWhere($cmd->expr()->eq('organizer', $cmd->createNamedParameter($organizer, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
-		foreach (array_chunk($allIds, 1000) as $chunkIds) {
+		foreach (array_chunk($allIds, IQueryBuilder::MAX_IN_PARAMETERS) as $chunkIds) {
 			$cmd->setParameter('uids', $chunkIds, IQueryBuilder::PARAM_STR_ARRAY);
 			$cmd->executeStatement();
 		}
