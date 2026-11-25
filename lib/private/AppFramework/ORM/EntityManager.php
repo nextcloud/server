@@ -265,6 +265,7 @@ final class EntityManager {
 			ColumnType::Integer, ColumnType::Smallint, ColumnType::Bigint => IQueryBuilder::PARAM_INT,
 			ColumnType::Boolean => IQueryBuilder::PARAM_BOOL,
 			ColumnType::Blob => IQueryBuilder::PARAM_LOB,
+			ColumnType::Binary => IQueryBuilder::PARAM_BINARY,
 			ColumnType::Date, ColumnType::Datetime => IQueryBuilder::PARAM_DATETIME_MUTABLE,
 			ColumnType::DatetimeTz => IQueryBuilder::PARAM_DATETIME_TZ_MUTABLE,
 			ColumnType::DateImmutable => IQueryBuilder::PARAM_DATE_IMMUTABLE,
