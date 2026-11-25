@@ -217,5 +217,11 @@ class AddMissingIndicesListener implements IEventListener {
 			'unique_category_per_user',
 			['uid', 'type', 'category']
 		);
+
+		$event->addMissingIndex(
+			'taskprocessing_tasks',
+			'taskp_status_type_upd',
+			['status', 'type', 'last_updated']
+		);
 	}
 }
