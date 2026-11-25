@@ -15,7 +15,7 @@ OC.L10N.register(
     "Original location" : "Özgün konum",
     "Deleted by" : "Silen",
     "Deleted" : "Silindi",
-    "few seconds ago" : "bir kaç saniye önce",
+    "few seconds ago" : "birkaç saniye önce",
     "A long time ago" : "Uzun süre önce",
     "Unknown" : "Bilinmiyor",
     "All files" : "Tüm dosyalar",

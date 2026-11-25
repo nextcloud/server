@@ -209,7 +209,6 @@
     "A valid password must be provided" : "Se debe proporcionar una contraseña válida",
     "The Login is already being used" : "El usuario ya está en uso",
     "Could not create account" : "No se pudo crear la cuenta",
-    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Sólo los siguientes caracteres están permitidos en un nombre de usuario: \"a-z\", \"A-Z\", \"0-9\", espacios y \"_.@-'\"",
     "A valid Login must be provided" : "Se debe proporcionar un usuario válido",
     "Login contains whitespace at the beginning or at the end" : "El usuario contiene espacios en blanco al inicio o al final",
     "Login must not consist of dots only" : "El usuario no debe consistir sólo de puntos",
@@ -371,6 +370,7 @@
     "Public upload is not allowed" : "No se permite la subida pública de archivos",
     "Sharing is disabled" : "Compartir está deshabilitado",
     "Sharing is disabled for you" : "No estás habilitado para compartir",
+    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Sólo los siguientes caracteres están permitidos en un nombre de usuario: \"a-z\", \"A-Z\", \"0-9\", espacios y \"_.@-'\"",
     "Application is not enabled" : "La aplicación está deshabilitada",
     "Authentication error" : "Error de autenticación",
     "Token expired. Please reload page." : "La ficha ha expirado. Por favor recarga la página."

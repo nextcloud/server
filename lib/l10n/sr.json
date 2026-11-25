@@ -243,7 +243,6 @@
     "A valid password must be provided" : "Морате унети исправну лозинку",
     "The Login is already being used" : "Ово име за пријаву се већ користи",
     "Could not create account" : "Налог није могао да се креира ",
-    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "У имену за пријаву су дозвољени само следећи карактери: „a-z”, „A-Z”, „0-9”, размаци и „_.@-'",
     "A valid Login must be provided" : "Морате да унесете исправно име за пријаву",
     "Login contains whitespace at the beginning or at the end" : "Име за пријаву садржи белине на почетку или на крају",
     "Login must not consist of dots only" : "Име за пријаву не може да се састоји само од тачака",
@@ -467,6 +466,7 @@
     "Public upload is not allowed" : "Није дозвољено јавно отпремање",
     "Sharing is disabled" : "Дељење је искључено",
     "Sharing is disabled for you" : "Дељење је за вас искључено",
+    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "У имену за пријаву су дозвољени само следећи карактери: „a-z”, „A-Z”, „0-9”, размаци и „_.@-'",
     "Application is not enabled" : "Апликација није укључена",
     "Authentication error" : "Грешка при провери идентитета",
     "Token expired. Please reload page." : "Жетон је истекао. Поново учитајте страницу."

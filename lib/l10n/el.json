@@ -256,7 +256,6 @@
     "A valid password must be provided" : "Πρέπει να δοθεί έγκυρο συνθηματικό",
     "The Login is already being used" : "Το όνομα χρήστη χρησιμοποιείται ήδη",
     "Could not create account" : "Αδυναμία δημιουργίας λογαριασμού",
-    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Μόνο οι ακόλουθοι χαρακτήρες επιτρέπονται σε ένα Login: \"a-z\", \"A-Z\", \"0-9\", κενά και \"_.@-'\"",
     "A valid Login must be provided" : "Πρέπει να παρέχεται ένα έγκυρο όνομα χρήστη",
     "Login contains whitespace at the beginning or at the end" : "Το ονομα χρήστη περιέχει κενά στην αρχή ή στο τέλος",
     "Login must not consist of dots only" : "Το όνομα χρήστη δεν πρέπει να αποτελείται μόνο από τελείες",
@@ -512,6 +511,7 @@
     "Public upload is not allowed" : "Η δημόσια μεταφόρτωση δεν επιτρέπεται",
     "Sharing is disabled" : "Ο διαμοιρασμός είναι απενεργοποιημένος",
     "Sharing is disabled for you" : "Ο διαμοιρασμός είναι απενεργοποιημένος για εσάς",
+    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Μόνο οι ακόλουθοι χαρακτήρες επιτρέπονται σε ένα Login: \"a-z\", \"A-Z\", \"0-9\", κενά και \"_.@-'\"",
     "Application is not enabled" : "Δεν ενεργοποιήθηκε η εφαρμογή",
     "Authentication error" : "Σφάλμα πιστοποίησης",
     "Token expired. Please reload page." : "Το αναγνωριστικό έληξε. Παρακαλούμε φορτώστε ξανά την σελίδα."
