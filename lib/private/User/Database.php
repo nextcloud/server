@@ -31,6 +31,7 @@ use OCP\User\Backend\ISearchKnownUsersBackend;
 use OCP\User\Backend\ISetDisplayNameBackend;
 use OCP\User\Backend\ISetPasswordBackend;
 use Override;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class for user management in a SQL Database (e.g. MySQL, SQLite)
@@ -347,14 +348,11 @@ class Database extends ABackend implements
 	}
 
 	/**
-	 * Check if the password is correct
+	 * Verify a password without logging in the user. May update the stored hash.
 	 *
 	 * @param string $loginName The login name
 	 * @param string $password The password
-	 * @return string
-	 *
-	 * Check if the password is correct without logging in the user
-	 * returns the user id or false
+	 * @return string|false The user ID on success, or false on failure
 	 */
 	#[\Override]
 	public function checkPassword(string $loginName, string $password) {
@@ -375,17 +373,18 @@ class Database extends ABackend implements
 	}
 
 	/**
-	 * Load an user in the cache
+	 * Load a user by username, or optionally email, caching hits and misses.
 	 *
 	 * @param string $loginName the username or email
-	 * @return boolean true if user was found, false otherwise
+	 * @param bool $tryEmail whether to try email if the username is not found
+	 * @return bool true if a user was found, false otherwise
 	 */
 	private function loadUser(string $loginName, bool $tryEmail = true): bool {
 		if (isset($this->cache[$loginName])) {
 			return $this->cache[$loginName] !== false;
 		}
 
-		//guests $uid could be NULL or ''
+		// Avoid a database lookup for an empty login name (historically seen on guest requests).
 		if ($loginName === '') {
 			$this->cache[$loginName] = false;
 			return false;
@@ -399,12 +398,23 @@ class Database extends ABackend implements
 				$qb->expr()->eq(
 					'uid_lower', $qb->createNamedParameter(mb_strtolower($loginName))
 				)
-			);
+			)
+			->setMaxResults(2);
 		$result = $qb->executeQuery();
 		$row = $result->fetchAssociative();
+		// Normally UIDs are unique case-insensitively, but concurrent creation or stale cache entries can violate that.
+		$duplicate = $row !== false && $result->fetchAssociative() !== false;
 		$result->closeCursor();
 
-		// "uid" is primary key, so there can only be a single result
+		// Unexpected/unlikely but problematic since an arbitrary/non-deterministic account would be otherwise selected.
+		if ($duplicate) {
+			Server::get(LoggerInterface::class)->error(
+				'Multiple users have the same case-insensitive UID',
+				['app' => 'core', 'loginName' => $loginName],
+			);
+			throw new \RuntimeException('Ambiguous user ID');
+		}
+
 		if ($row !== false) {
 			$this->cache[$loginName] = [
 				'uid' => (string)$row['uid'],
@@ -414,25 +424,22 @@ class Database extends ABackend implements
 			return true;
 		}
 
-		// Not found by UID so we try also for email, load uid for email.
 		if ($tryEmail) {
-			/** @var string|null $uid Psalm does not get the type correct here */
-			[$uid] = [...$this->config->getUsersForUserValue('settings', 'email', mb_strtolower($loginName)), null];
+			$uidsFromEmail = $this->config->getUsersForUserValue('settings', 'email', mb_strtolower($loginName));
+			// Preserve first-match behavior.
+			// FIXME: Result ordering is unspecified so matching is technically, currently, non-deterministic.
+			$uidFromEmail = $uidsFromEmail[0] ?? null;
 
-			// If found, try loading it
-			if ($uid !== null && $uid !== $loginName) {
-				$result = $this->loadUser($uid, false);
-				if ($result) {
-					// Also add cache result for the email
-					$this->cache[$loginName] = $this->cache[$uid];
-					// Set a reference to the uid cache entry for also delete email entry on user delete
-					$this->cache[$uid]['email'] = $loginName;
+			if ($uidFromEmail !== null && $uidFromEmail !== $loginName) {
+				if ($this->loadUser($uidFromEmail, false)) {
+					$this->cache[$loginName] = $this->cache[$uidFromEmail];
+					// Record the email cache key for invalidation on user deletion.
+					$this->cache[$uidFromEmail]['email'] = $loginName;
 					return true;
 				}
 			}
 		}
 
-		// Not found by uid nor email, so cache as not existing
 		$this->cache[$loginName] = false;
 		return false;
 	}
