@@ -364,6 +364,7 @@ class Database extends ABackend implements
 
 		if ($found && is_array($this->cache[$loginName])) {
 			$storedHash = $this->cache[$loginName]['password'];
+
 			$newHash = '';
 			if (Server::get(IHasher::class)->verify($password, $storedHash, $newHash)) {
 				$uid = (string)$this->cache[$loginName]['uid'];
@@ -372,12 +373,27 @@ class Database extends ABackend implements
 					$this->cache->clear();
 					if (!$updated) {
 						Server::get(LoggerInterface::class)->warning(
-							'Password rehash was not saved; the stored hash may have changed',
+							'Password rehash was not saved; the stored hash may have changed via another request.',
 							['app' => 'core', 'uid' => $uid],
 						);
 					}
 				}
+				$ambiguousEmail = $this->cache[$loginName]['ambiguousEmail'] ?? false;
+				if ($ambiguousEmail) {
+					Server::get(LoggerInterface::class)->warning(
+						'Local password verified after an email lookup matched multiple accounts.',
+						['userId' => $uid],
+					);
+				}
 				return $uid;
+			}
+
+			// Failed checks are unauthenticated; keep this diagnostic out of routine logs.
+			if ($ambiguousEmail) {
+				Server::get(LoggerInterface::class)->debug(
+					'Local password check failed after an email lookup matched multiple accounts.',
+					['email' => mb_strtolower($loginName)],
+				);
 			}
 		}
 
@@ -445,6 +461,8 @@ class Database extends ABackend implements
 			if ($uidFromEmail !== null && $uidFromEmail !== $loginName) {
 				if ($this->loadUser($uidFromEmail, false)) {
 					$this->cache[$loginName] = $this->cache[$uidFromEmail];
+					// Record this on the alias so later password checks can log even on a cache hit.
+					$this->cache[$loginName]['ambiguousEmail'] = count($uidsFromEmail) > 1;
 					// Record the email cache key for invalidation on user deletion.
 					$this->cache[$uidFromEmail]['email'] = $loginName;
 					return true;
