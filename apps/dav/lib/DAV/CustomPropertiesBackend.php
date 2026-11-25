@@ -25,6 +25,8 @@ use OCP\IUser;
 use Override;
 use Sabre\CalDAV\Schedule\Inbox;
 use Sabre\DAV\Exception as DavException;
+use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\INode;
 use Sabre\DAV\PropertyStorage\Backend\BackendInterface;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
@@ -33,6 +35,7 @@ use Sabre\DAV\Tree;
 use Sabre\DAV\Xml\Property\Complex;
 use Sabre\DAV\Xml\Property\Href;
 use Sabre\DAV\Xml\Property\LocalHref;
+use Sabre\DAVACL\IACL;
 use Sabre\Xml\ParseException;
 use Sabre\Xml\Service as XmlService;
 use function array_intersect;
@@ -258,7 +261,7 @@ class CustomPropertiesBackend implements BackendInterface {
 
 		// First fetch the published properties (set by another user), then get the ones set by
 		// the current user. If both are set then the latter as priority.
-		foreach ($this->getPublishedProperties($path, $requestedProps) as $propName => $propValue) {
+		foreach ($this->getPublishedProperties($path, $node, $requestedProps) as $propName => $propValue) {
 			try {
 				$this->validateProperty($path, $propName, $propValue);
 			} catch (DavException $e) {
@@ -344,7 +347,11 @@ class CustomPropertiesBackend implements BackendInterface {
 				}
 
 				// $path is the principal here as this prop is only set on principals
-				$node = $this->tree->getNodeForPath($href);
+				try {
+					$node = $this->tree->getNodeForPath($href);
+				} catch (NotFound) {
+					throw new DavException('No such calendar');
+				}
 				if (!($node instanceof Calendar) || $node->getOwner() !== $path) {
 					throw new DavException('No such calendar');
 				}
@@ -355,12 +362,14 @@ class CustomPropertiesBackend implements BackendInterface {
 	}
 
 	/**
+	 * Returns the published properties of the given path that were set by the user owning the node
+	 *
 	 * @param string[] $requestedProperties
 	 *
 	 * @return array<string, mixed|Complex|Href|string>
 	 * @throws \OCP\DB\Exception
 	 */
-	private function getPublishedProperties(string $path, array $requestedProperties): array {
+	private function getPublishedProperties(string $path, INode $node, array $requestedProperties): array {
 		$allowedProps = array_intersect(self::PUBLISHED_READ_ONLY_PROPERTIES, $requestedProperties);
 
 		if (empty($allowedProps)) {
@@ -371,10 +380,21 @@ class CustomPropertiesBackend implements BackendInterface {
 			return $this->publishedCache[$path];
 		}
 
+		// The legacy webdav endpoint keys properties relative to the home folder, so a path
+		// alone may also match rows of another user's folder with the same name.
+		$owner = $node instanceof IACL ? $node->getOwner() : null;
+		if ($owner === null || !str_starts_with($owner, 'principals/users/')) {
+			$this->publishedCache[$path] = [];
+			return [];
+		}
+		$ownerUid = substr($owner, strlen('principals/users/'));
+
 		$qb = $this->connection->getQueryBuilder();
 		$qb->select('*')
 			->from(self::TABLE_NAME)
-			->where($qb->expr()->eq('propertypath', $qb->createNamedParameter($path)));
+			->where($qb->expr()->eq('userid', $qb->createNamedParameter($ownerUid)))
+			->andWhere($qb->expr()->eq('propertypath', $qb->createNamedParameter($path)))
+			->andWhere($qb->expr()->in('propertyname', $qb->createNamedParameter(self::PUBLISHED_READ_ONLY_PROPERTIES, IQueryBuilder::PARAM_STR_ARRAY)));
 		$result = $qb->executeQuery();
 		$props = [];
 		while ($row = $result->fetchAssociative()) {
@@ -469,8 +489,10 @@ class CustomPropertiesBackend implements BackendInterface {
 		$paths = array_unique($paths);
 
 		$propsByPath = array_fill_keys(array_values($paths), []);
-		$properties = $this->propertyMapper->findPropertiesByPaths($paths, $allowedProps);
 		foreach ($properties as $property) {
+			if (!in_array($property->getPropertyname(), self::PUBLISHED_READ_ONLY_PROPERTIES, true)) {
+				continue;
+			}
 			$propsByPath[$property->getPropertypath()][$property->getPropertyname()] = $this->decodeValueFromDatabase($property->getPropertyvalue(), $property->getValuetype());
 		}
 		$this->publishedCache = array_merge($this->publishedCache, $propsByPath);

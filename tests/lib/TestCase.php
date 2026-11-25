@@ -389,12 +389,10 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	/**
 	 * Allows us to test private methods/properties
 	 *
-	 * @param $object
-	 * @param $methodName
-	 * @param array $parameters
+	 * @param object|class-string $object
 	 * @return mixed
 	 */
-	protected static function invokePrivate($object, $methodName, array $parameters = []) {
+	protected static function invokePrivate($object, string $methodName, array $parameters = []) {
 		if (is_string($object)) {
 			$className = $object;
 		} else {

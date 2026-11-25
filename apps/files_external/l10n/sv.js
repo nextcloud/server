@@ -50,7 +50,7 @@ OC.L10N.register(
     "Region" : "Region",
     "Storage Class" : "Lagringsklass",
     "Use HTTPS" : "Använd HTTPS",
-    "Use Path Style (https://example.com/bucket)" : "Använd sökvägsstil (https://example.com/bucket)",
+    "Use Path Style (https://example.com/bucket)" : "Använd sökvägsstil (https://exempel.se/bucket)",
     "Use Legacy S3 signing (v2)" : "Använd äldre S3-signering (v2)",
     "Enable multipart copy" : "Aktivera flerdelad kopiering",
     "Enable Direct Downloads (presigned URLs)" : "Aktivera direktnedladdningar (förauktoriserade URL:er)",

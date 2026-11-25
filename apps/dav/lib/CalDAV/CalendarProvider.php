@@ -18,6 +18,20 @@ use OCP\IL10N;
 use Psr\Log\LoggerInterface;
 
 class CalendarProvider implements ICalendarProvider {
+	/**
+	 * Properties a user may store for their own view of a calendar. Everything
+	 * else, in particular what access decisions are based on (read-only,
+	 * owner-principal, ...), only comes from the backend.
+	 */
+	private const USER_PROPERTIES = [
+		'{DAV:}displayname',
+		'{urn:ietf:params:xml:ns:caldav}calendar-description',
+		'{urn:ietf:params:xml:ns:caldav}calendar-timezone',
+		'{http://apple.com/ns/ical/}calendar-order',
+		'{http://apple.com/ns/ical/}calendar-color',
+		'{http://nextcloud.com/ns}disable-alarm-notifications',
+		'{http://owncloud.org/ns}calendar-enabled',
+	];
 
 	public function __construct(
 		private CalDavBackend $calDavBackend,
@@ -98,7 +112,7 @@ class CalendarProvider implements ICalendarProvider {
 
 		$list = [];
 		foreach ($properties as $property) {
-			if ($property instanceof Property) {
+			if ($property instanceof Property && in_array($property->getPropertyname(), self::USER_PROPERTIES, true)) {
 				if (!isset($list[$property->getPropertypath()])) {
 					$list[$property->getPropertypath()] = [];
 				}

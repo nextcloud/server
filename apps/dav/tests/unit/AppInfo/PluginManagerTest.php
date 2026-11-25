@@ -89,6 +89,7 @@ class PluginManagerTest extends TestCase {
 		$dummyCollection2 = $this->createMock(Collection::class);
 		$dummy2Collection1 = $this->createMock(Collection::class);
 		$dummyCollection1->method('getName')->willReturn('one');
+		$dummyCollection2->method('getName')->willReturn('bar');
 		$dummy2Collection1->method('getName')->willReturn('two');
 
 		$server->method('get')

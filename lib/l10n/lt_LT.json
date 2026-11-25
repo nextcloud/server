@@ -259,7 +259,6 @@
     "A valid password must be provided" : "Slaptažodis turi būti tinkamas",
     "The Login is already being used" : "Toks prisijungimas jau yra naudojamas",
     "Could not create account" : "Nepavyko sukurti paskyros",
-    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Vartotojo vardui sudaryti leistini tik šie simboliai: „a–z“, „A–Z“, „0–9“, tarpeliai ir „_.@–“",
     "A valid Login must be provided" : "Reikia įvesti galiojantį prisijungimą",
     "Login contains whitespace at the beginning or at the end" : "Prisijungimo įvardinimas turi tarpų pradžioje arba pabaigoje",
     "Login must not consist of dots only" : "Prisijungimo įvardinimas negali būti sudarytas vien iš taškų",
@@ -532,6 +531,7 @@
     "Public upload is not allowed" : "Viešas įkėlimas yra daudžiamas",
     "Sharing is disabled" : "Bendrinimas yra išjungtas",
     "Sharing is disabled for you" : "Jums dalijimosi funkcija išjungta",
+    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Vartotojo vardui sudaryti leistini tik šie simboliai: „a–z“, „A–Z“, „0–9“, tarpeliai ir „_.@–“",
     "Application is not enabled" : "Programa neįjungta",
     "Authentication error" : "Tapatybės nustatymo klaida",
     "Token expired. Please reload page." : "Žymuo nebegalioja. Įkelkite puslapį iš naujo."

@@ -1841,6 +1841,19 @@ $CONFIG = [
 	'maintenance_window_start' => 1,
 
 	/**
+	 * Background job classes that are never picked up by cron, webcron, AJAX
+	 * or ``occ background-job:worker``. The jobs stay registered and can still
+	 * be run manually with ``occ background-job:execute``.
+	 *
+	 * Use the fully qualified class names as listed by ``occ background-job:list``.
+	 *
+	 * Defaults to an empty array
+	 */
+	'excluded_jobs' => [
+		'OCA\\Files\\BackgroundJob\\DeleteOrphanedItems',
+	],
+
+	/**
 	 * Log all LDAP requests into a file
 	 *
 	 * Warning: This heavily decreases the performance of the server and is only
@@ -2350,6 +2363,16 @@ $CONFIG = [
 	 * Allow self-signed certificates for federated shares
 	 */
 	'sharing.federation.allowSelfSignedCertificates' => false,
+
+	/**
+	 * The timeout in seconds for requests made to remote servers when accessing
+	 * federated shares, e.g. fetching the share info or checking whether the
+	 * remote server is reachable. Increase it if the remote server is slow to
+	 * answer, e.g. under heavy load.
+	 *
+	 * Defaults to ``10`` seconds.
+	 */
+	'sharing.federation.request_timeout' => 10,
 
 	/**
 	 * Override the ``apiVersion`` advertised in the local OCM discovery document.

@@ -969,7 +969,7 @@ class Access extends LDAPUtility {
 				$carry[] = $item[$attribute][0];
 				return $carry;
 			}, []);
-			return array_unique($list, SORT_LOCALE_STRING);
+			return array_unique($list);
 		}
 	}
 

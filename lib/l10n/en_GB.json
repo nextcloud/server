@@ -263,7 +263,6 @@
     "A valid password must be provided" : "A valid password must be provided",
     "The Login is already being used" : "The Login is already being used",
     "Could not create account" : "Could not create account",
-    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"",
     "A valid Login must be provided" : "A valid Login must be provided",
     "Login contains whitespace at the beginning or at the end" : "Login contains whitespace at the beginning or at the end",
     "Login must not consist of dots only" : "Login must not consist of dots only",
@@ -543,6 +542,7 @@
     "Public upload is not allowed" : "Public upload is not allowed",
     "Sharing is disabled" : "Sharing is disabled",
     "Sharing is disabled for you" : "Sharing is disabled for you",
+    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"",
     "Application is not enabled" : "Application is not enabled",
     "Authentication error" : "Authentication error",
     "Token expired. Please reload page." : "Token expired. Please reload page."

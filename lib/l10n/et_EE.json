@@ -263,7 +263,6 @@
     "A valid password must be provided" : "Sisesta nõuetele vastav salasõna",
     "The Login is already being used" : "See kasutajanimi on juba kasutusel",
     "Could not create account" : "Kasutajakonto loomine ei õnnestunud",
-    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Kasutajanimes on lubatud ainult järgmised tähemärgid: „a-z“, „A-Z“, „0-9“, ja „_.@-'“",
     "A valid Login must be provided" : "Palun sisesta korrektne kasutajanimi",
     "Login contains whitespace at the beginning or at the end" : "Kasutajanime alguses või lõpus on tühik",
     "Login must not consist of dots only" : "Kasutajanimi ei tohi koosneda ainult punktidest",
@@ -543,6 +542,7 @@
     "Public upload is not allowed" : "Avalik üleslaadimine pole lubatud",
     "Sharing is disabled" : "Jagamine pole kasutusel",
     "Sharing is disabled for you" : "Jagamine pole sinu jaoks kasutusel",
+    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Kasutajanimes on lubatud ainult järgmised tähemärgid: „a-z“, „A-Z“, „0-9“, ja „_.@-'“",
     "Application is not enabled" : "Rakendus pole kasutusel",
     "Authentication error" : "Viga autentimisel",
     "Token expired. Please reload page." : "Tunnusluba aegus. Palun laadi leht uuesti."
