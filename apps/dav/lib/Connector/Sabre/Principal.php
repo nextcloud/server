@@ -425,7 +425,7 @@ class Principal implements BackendInterface {
 	/**
 	 * @param string $uri
 	 * @param string $principalPrefix
-	 * @return string
+	 * @return string|null
 	 */
 	#[\Override]
 	public function findByUri($uri, $principalPrefix) {
@@ -444,7 +444,10 @@ class Principal implements BackendInterface {
 				return null;
 			}
 
-			$restrictGroups = $this->groupManager->getUserGroupIds($user);
+			$restrictGroups = array_values(array_diff(
+				$this->groupManager->getUserGroupIds($user),
+				$this->shareManager->shareWithGroupMembersOnlyExcludeGroupsList(),
+			));
 		}
 
 		if (str_starts_with($uri, 'mailto:')) {
@@ -468,9 +471,23 @@ class Principal implements BackendInterface {
 		if (str_starts_with($uri, 'principal:')) {
 			$principal = substr($uri, 10);
 			$principal = $this->getPrincipalByPath($principal);
-			if ($principal !== null) {
-				return $principal['uri'];
+			if ($principal === null) {
+				return null;
 			}
+
+			if ($restrictGroups !== false) {
+				[$prefix, $name] = \Sabre\Uri\split($principal['uri']);
+				if ($prefix === $this->principalPrefix) {
+					$user = $this->userManager->get(urldecode($name));
+					if ($user === null || count(array_intersect($this->groupManager->getUserGroupIds($user), $restrictGroups)) === 0) {
+						return null;
+					}
+				} elseif ($prefix === 'principals/groups' && !in_array(urldecode($name), $restrictGroups, true)) {
+					return null;
+				}
+			}
+
+			return $principal['uri'];
 		}
 
 		return null;

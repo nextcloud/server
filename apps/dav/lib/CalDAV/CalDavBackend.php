@@ -408,7 +408,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				->join('s', 'calendars', 'a', $select->expr()->eq('s.resourceid', 'a.id', IQueryBuilder::PARAM_INT))
 				->where($select->expr()->in('s.principaluri', $select->createNamedParameter($principals, IQueryBuilder::PARAM_STR_ARRAY), IQueryBuilder::PARAM_STR_ARRAY))
 				->andWhere($select->expr()->eq('s.type', $select->createNamedParameter('calendar', IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR))
-				->andWhere($select->expr()->notIn('a.id', $select->createFunction($subSelect->getSQL()), IQueryBuilder::PARAM_INT_ARRAY));
+				->andWhere($select->expr()->notIn('a.id', $select->createFunction($subSelect->getSQL()), IQueryBuilder::PARAM_INT_ARRAY))
+				// calendars in the owner's trash bin are not available to sharees
+				->andWhere($select->expr()->isNull('a.deleted_at'));
 
 			$results = $select->executeQuery();
 
@@ -531,6 +533,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->join('s', 'calendars', 'a', $query->expr()->eq('s.resourceid', 'a.id'))
 			->where($query->expr()->in('s.access', $query->createNamedParameter(self::ACCESS_PUBLIC)))
 			->andWhere($query->expr()->eq('s.type', $query->createNamedParameter('calendar')))
+			->andWhere($query->expr()->isNull('a.deleted_at'))
 			->executeQuery();
 
 		while ($row = $result->fetchAssociative()) {
@@ -589,6 +592,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->where($query->expr()->in('s.access', $query->createNamedParameter(self::ACCESS_PUBLIC)))
 			->andWhere($query->expr()->eq('s.type', $query->createNamedParameter('calendar')))
 			->andWhere($query->expr()->eq('s.publicuri', $query->createNamedParameter($uri)))
+			->andWhere($query->expr()->isNull('a.deleted_at'))
 			->executeQuery();
 
 		$row = $result->fetchAssociative();
@@ -1561,6 +1565,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			if ($existing !== null) {
 				// RFC 4791 no-uid-conflict (409) reporting the existing object's href.
 				throw UidConflict::forCalendar($existing['uri']);
+			}
+			// The URI may still belong to a trashed object, which is not served as a child of the calendar
+			if ($this->getCalendarObject($calendarId, $objectUri, $calendarType) !== null) {
+				throw new Forbidden("A calendar object with URI $objectUri already exists in calendar $calendarId");
 			}
 			// The UID may still belong to a trashed object; delete it and replace it with the new object.
 			$found = $this->findCalendarObjectByUid($calendarId, $extraData['uid'], $calendarType, true);
@@ -2820,6 +2828,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->join('co', 'calendars', 'c', $select->expr()->eq('c.id', 'co.calendarid', IQueryBuilder::PARAM_INT))
 			->andWhere($select->expr()->eq('co.id', $select->createNamedParameter($id, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT))
 			->andWhere($select->expr()->isNotNull('co.deleted_at'))
+			->andWhere($select->expr()->isNull('c.deleted_at'))
 			->orderBy('s.access', 'ASC');
 		$this->applySharedCalendarFilters($select, $principals, $principalUri);
 

@@ -1167,6 +1167,73 @@ class PrincipalTest extends TestCase {
 		];
 	}
 
+	public function testFindByUriWithGroupRestrictionExcludedGroup(): void {
+		$this->shareManager->method('shareApiEnabled')->willReturn(true);
+		$this->shareManager->method('shareWithGroupMembersOnly')->willReturn(true);
+		$this->shareManager->method('shareWithGroupMembersOnlyExcludeGroupsList')->willReturn(['everyone']);
+
+		$user = $this->createMock(IUser::class);
+		$this->userSession->method('getUser')->willReturn($user);
+		$user2 = $this->createMock(IUser::class);
+		$user2->method('getUID')->willReturn('user2');
+		$this->userManager->method('getByEmail')->with('user2@foo.bar')->willReturn([$user2]);
+		$this->groupManager->method('getUserGroupIds')->willReturnMap([
+			[$user, ['group1', 'everyone']],
+			[$user2, ['group2', 'everyone']],
+		]);
+
+		$this->assertNull($this->connector->findByUri('mailto:user2@foo.bar', 'principals/users'));
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'findByUriPrincipalDataProvider')]
+	public function testFindByUriPrincipal(string $uri, bool $groupsOnly, ?string $expects): void {
+		$this->shareManager->method('shareApiEnabled')->willReturn(true);
+		$this->shareManager->method('shareWithGroupMembersOnly')->willReturn($groupsOnly);
+		$this->shareManager->method('shareWithGroupMembersOnlyExcludeGroupsList')->willReturn($groupsOnly ? ['everyone'] : []);
+
+		$currentUser = $this->createMock(IUser::class);
+		$currentUser->method('getUID')->willReturn('user1');
+		$this->userSession->method('getUser')->willReturn($currentUser);
+
+		$users = ['user1' => $currentUser];
+		foreach (['user2', 'user3'] as $uid) {
+			$users[$uid] = $this->createMock(IUser::class);
+			$users[$uid]->method('getUID')->willReturn($uid);
+		}
+		$this->userManager->method('get')->willReturnCallback(fn (string $uid) => $users[$uid] ?? null);
+		$this->groupManager->method('getUserGroupIds')->willReturnCallback(fn (IUser $user) => match ($user->getUID()) {
+			'user1' => ['group1', 'everyone'],
+			'user2' => ['group1', 'everyone'],
+			'user3' => ['group3', 'everyone'],
+		});
+		$this->groupManager->method('get')->willReturnCallback(function (string $gid) {
+			if (!in_array($gid, ['group1', 'group3', 'everyone'], true)) {
+				return null;
+			}
+			$group = $this->createMock(IGroup::class);
+			$group->method('getDisplayName')->willReturn($gid);
+			return $group;
+		});
+
+		$this->assertSame($expects, $this->connector->findByUri($uri, ''));
+	}
+
+	public static function findByUriPrincipalDataProvider(): array {
+		return [
+			['principal:principals/users/user2', false, 'principals/users/user2'],
+			['principal:principals/users/user3', false, 'principals/users/user3'],
+			['principal:principals/users/unknown', false, null],
+			['principal:principals/groups/group3', false, 'principals/groups/group3'],
+			['principal:principals/groups/unknown', false, null],
+			['principal:principals/users/user2', true, 'principals/users/user2'],
+			['principal:principals/users/user3', true, null],
+			['principal:principals/users/unknown', true, null],
+			['principal:principals/groups/group1', true, 'principals/groups/group1'],
+			['principal:principals/groups/group3', true, null],
+			['principal:principals/groups/everyone', true, null],
+		];
+	}
+
 	public function testGetEmailAddressesOfPrincipal(): void {
 		$principal = [
 			'{http://sabredav.org/ns}email-address' => 'bar@company.org',

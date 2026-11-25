@@ -12,11 +12,14 @@ namespace OCA\DAV\Tests\unit\CalDAV;
 use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
+use OCA\DAV\CalDAV\Trashbin\Plugin as TrashbinPlugin;
 use OCA\DAV\Connector\Sabre\DavAclPlugin;
 use OCP\IConfig;
 use OCP\IL10N;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
+use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Server;
 use Sabre\DAV\SimpleCollection;
@@ -96,6 +99,39 @@ class CalendarTest extends TestCase {
 		];
 		$c = new Calendar($backend, $calendarInfo, $this->l10n, $this->config, $this->logger);
 		$c->delete();
+	}
+
+	public function testRestoreOwn(): void {
+		/** @var CalDavBackend&MockObject $backend */
+		$backend = $this->createMock(CalDavBackend::class);
+		$backend->expects($this->once())->method('restoreCalendar')
+			->with(666);
+
+		$calendarInfo = [
+			'{http://owncloud.org/ns}owner-principal' => 'user1',
+			'principaluri' => 'user1',
+			'id' => 666,
+			'uri' => 'cal',
+		];
+		$c = new Calendar($backend, $calendarInfo, $this->l10n, $this->config, $this->logger);
+		$c->restore();
+	}
+
+	public function testRestoreShared(): void {
+		/** @var CalDavBackend&MockObject $backend */
+		$backend = $this->createMock(CalDavBackend::class);
+		$backend->expects($this->never())->method('restoreCalendar');
+
+		$calendarInfo = [
+			'{http://owncloud.org/ns}owner-principal' => 'user1',
+			'principaluri' => 'user2',
+			'id' => 666,
+			'uri' => 'cal',
+		];
+		$c = new Calendar($backend, $calendarInfo, $this->l10n, $this->config, $this->logger);
+
+		$this->expectException(Forbidden::class);
+		$c->restore();
 	}
 
 	public function testDeleteBirthdayCalendar(): void {
@@ -375,6 +411,41 @@ class CalendarTest extends TestCase {
 		$this->assertCount($expectedChildren, $children);
 
 		$this->assertEquals(!$isShared, $c->childExists('event-2'));
+	}
+
+	public static function providesTrashedObjectData(): array {
+		return [
+			'owner' => [false],
+			'sharee' => [true],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesTrashedObjectData')]
+	public function testTrashedObjectIsNotAChild(bool $isShared): void {
+		/** @var CalDavBackend&MockObject $backend */
+		$backend = $this->createMock(CalDavBackend::class);
+		$backend->method('getCalendarObject')
+			->willReturnMap([
+				[666, 'event-0.ics', CalDavBackend::CALENDAR_TYPE_CALENDAR, ['uri' => 'event-0.ics', 'classification' => CalDavBackend::CLASSIFICATION_PUBLIC, TrashbinPlugin::PROPERTY_DELETED_AT => null]],
+				[666, 'event-1-deleted.ics', CalDavBackend::CALENDAR_TYPE_CALENDAR, ['uri' => 'event-1-deleted.ics', 'classification' => CalDavBackend::CLASSIFICATION_PUBLIC, TrashbinPlugin::PROPERTY_DELETED_AT => 1700000000]],
+			]);
+		$backend->method('applyShareAcl')->willReturnArgument(1);
+
+		$calendarInfo = [
+			'principaluri' => 'user2',
+			'id' => 666,
+			'uri' => 'cal',
+		];
+		if ($isShared) {
+			$calendarInfo['{http://owncloud.org/ns}owner-principal'] = 'user1';
+		}
+		$c = new Calendar($backend, $calendarInfo, $this->l10n, $this->config, $this->logger);
+
+		$this->assertTrue($c->childExists('event-0.ics'));
+		$this->assertSame('event-0.ics', $c->getChild('event-0.ics')->getName());
+		$this->assertFalse($c->childExists('event-1-deleted.ics'));
+		$this->expectException(NotFound::class);
+		$c->getChild('event-1-deleted.ics');
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesConfidentialClassificationData')]
