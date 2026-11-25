@@ -29,12 +29,12 @@ afterEach(() => {
 })
 
 function getInputs(wrapper) {
-	const lables = wrapper.findAll('label')
+	const labels = wrapper.findAll('label')
 
-	const firstDayLabel = lables.find((l) => l.text() === 'First day')
+	const firstDayLabel = labels.find((l) => l.text() === 'First day')
 	const firstDayInput = wrapper.get(`#${firstDayLabel.attributes('for')}`)
 
-	const lastDayLabel = lables.find((l) => l.text() === 'Last day (inclusive)')
+	const lastDayLabel = labels.find((l) => l.text() === 'Last day (inclusive)')
 	const lastDayInput = wrapper.get(`#${lastDayLabel.attributes('for')}`)
 
 	return { firstDayInput, lastDayInput }

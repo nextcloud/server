@@ -334,7 +334,7 @@ abstract class Node implements INode {
 	}
 
 	/**
-	 * Returns the DAV Permissions with share and mount infromation stripped.
+	 * Returns the DAV Permissions with share and mount information stripped.
 	 */
 	public function getPublicDavPermissions(): string {
 		return str_replace(['S', 'M'], '', $this->getDavPermissions());
