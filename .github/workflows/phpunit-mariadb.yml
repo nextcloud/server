@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   phpunit-mariadb:
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
 
     strategy:
       fail-fast: false
