@@ -263,7 +263,6 @@
     "A valid password must be provided" : "Es muss ein gültiges Passwort eingegeben werden",
     "The Login is already being used" : "Dieser Anmeldename wird bereits verwendet",
     "Could not create account" : "Konto konnte nicht erstellt werden",
-    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Nur die folgenden Zeichen sind in einem Anmeldenamen erlaubt: \"a-z\", \"A-Z\", \"0-9\", Leerzeichen und \"_.@-'\"",
     "A valid Login must be provided" : "Ein gültiger Anmeldename muss eingegeben werden",
     "Login contains whitespace at the beginning or at the end" : "Anmeldename enthält Leerzeichen am Anfang oder am Ende",
     "Login must not consist of dots only" : "Der Anmeldename darf nicht nur aus Punkten bestehen",
@@ -543,6 +542,7 @@
     "Public upload is not allowed" : "Öffentliches Hochladen ist nicht erlaubt",
     "Sharing is disabled" : "Teilen ist deaktiviert",
     "Sharing is disabled for you" : "Teilen ist für dich deaktiviert",
+    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Nur die folgenden Zeichen sind in einem Anmeldenamen erlaubt: \"a-z\", \"A-Z\", \"0-9\", Leerzeichen und \"_.@-'\"",
     "Application is not enabled" : "Die Anwendung ist nicht aktiviert",
     "Authentication error" : "Authentifizierungsfehler",
     "Token expired. Please reload page." : "Token abgelaufen. Bitte lade die Seite neu."

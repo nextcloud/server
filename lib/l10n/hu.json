@@ -246,7 +246,6 @@
     "A valid password must be provided" : "Érvényes jelszót kell megadnia",
     "The Login is already being used" : "A bejelentkezési név már használatban van",
     "Could not create account" : "Nem sikerült a fiók létrehozása",
-    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Csak a következő karakterek engedélyezettek egy bejelentkezési névben: „a-z”, „A-Z”, „0-9”, szóközök és „_.@-'”",
     "A valid Login must be provided" : "Érvényes bejelentkezési nevet kell megadni",
     "Login contains whitespace at the beginning or at the end" : "A bejelentkezési név szóközt tartalmaz az elején vagy a végén",
     "Login must not consist of dots only" : "A bejelentkezési név nem állhat csak pontokból",
@@ -475,6 +474,7 @@
     "Public upload is not allowed" : "A nyilvános feltöltés nincs engedélyezve",
     "Sharing is disabled" : "A megosztás nincs engedélyezve",
     "Sharing is disabled for you" : "A megosztás nincs engedélyezve Önnek",
+    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Csak a következő karakterek engedélyezettek egy bejelentkezési névben: „a-z”, „A-Z”, „0-9”, szóközök és „_.@-'”",
     "Application is not enabled" : "Az alkalmazás nincs engedélyezve",
     "Authentication error" : "Hitelesítési hiba",
     "Token expired. Please reload page." : "A token lejárt. Frissítse az oldalt."

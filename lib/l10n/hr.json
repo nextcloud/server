@@ -246,7 +246,6 @@
     "A valid password must be provided" : "Nužno je navesti ispravnu zaporku",
     "The Login is already being used" : "Korisničko ime se već koristi",
     "Could not create account" : "Nije moguće stvoriti račun",
-    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "U korisničkom imenu dopušteni su samo sljedeći znakovi: „a – z”, „A – Z”, „0-9”, razmak i „_.@-'”",
     "A valid Login must be provided" : "Nužno je navesti ispravno korisničko ime",
     "Login contains whitespace at the beginning or at the end" : "Korisničko ime sadrži bijeli prostor na početku ili na kraju",
     "Login must not consist of dots only" : "Korisničko ime ne smije se sastojati samo od točkica",
@@ -473,6 +472,7 @@
     "Public upload is not allowed" : "Javno učitavanje nije dopušteno",
     "Sharing is disabled" : "Dijeljenje je onemogućeno",
     "Sharing is disabled for you" : "Dijeljenje je vama onemogućeno",
+    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "U korisničkom imenu dopušteni su samo sljedeći znakovi: „a – z”, „A – Z”, „0-9”, razmak i „_.@-'”",
     "Application is not enabled" : "Aplikacija nije omogućena",
     "Authentication error" : "Pogrešna autentifikacija",
     "Token expired. Please reload page." : "Token je istekao. Ponovno učitajte stranicu."

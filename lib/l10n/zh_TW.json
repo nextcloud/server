@@ -263,7 +263,6 @@
     "A valid password must be provided" : "須提供有效的密碼",
     "The Login is already being used" : "這個帳號已經有人使用了",
     "Could not create account" : "無法建立帳號",
-    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "帳號僅允許以下字元：\"a-z\"、\"A-Z\"、\"0-9\"、空格與 \"_.@-'\"",
     "A valid Login must be provided" : "必須提供有效帳號",
     "Login contains whitespace at the beginning or at the end" : "帳號的開頭或結尾有空白",
     "Login must not consist of dots only" : "帳號不能只包含小數點",
@@ -543,6 +542,7 @@
     "Public upload is not allowed" : "不允許公開上傳",
     "Sharing is disabled" : "已停用分享",
     "Sharing is disabled for you" : "您已停用分享",
+    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "帳號僅允許以下字元：\"a-z\"、\"A-Z\"、\"0-9\"、空格與 \"_.@-'\"",
     "Application is not enabled" : "應用程式未啟用",
     "Authentication error" : "認證錯誤",
     "Token expired. Please reload page." : "代符過期。請重新載入頁面。"

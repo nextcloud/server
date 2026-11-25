@@ -247,7 +247,6 @@
     "A valid password must be provided" : "必须提供合法的密码",
     "The Login is already being used" : "登录名已被使用",
     "Could not create account" : "无法创建帐户",
-    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "登录名中仅允许使用以下字符：\"a-z\", \"A-Z\", \"0-9\", 空格, \"_.@-'\"",
     "A valid Login must be provided" : "必须提供有效的登录名",
     "Login contains whitespace at the beginning or at the end" : "登录名开头或结尾包含空格",
     "Login must not consist of dots only" : "登录名不能仅由点组成",
@@ -482,6 +481,7 @@
     "Public upload is not allowed" : "不允许公开上传",
     "Sharing is disabled" : "共享已禁用",
     "Sharing is disabled for you" : "已为您禁用共享",
+    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "登录名中仅允许使用以下字符：\"a-z\", \"A-Z\", \"0-9\", 空格, \"_.@-'\"",
     "Application is not enabled" : "应用程序未启用",
     "Authentication error" : "认证出错",
     "Token expired. Please reload page." : "Token 过期，请刷新页面。"
