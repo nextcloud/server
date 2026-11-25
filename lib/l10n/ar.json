@@ -243,7 +243,6 @@
     "A valid password must be provided" : "يجب ادخال كلمة مرور صحيحة",
     "The Login is already being used" : "تسجيل الدخول قيد الاستعمال بالفعل",
     "Could not create account" : "تعذّر إنشاء الحساب",
-    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "الأحرف التالية فقط مسموح باستعمالها في مُعرف تسجيل الدخول:  \"a-z\" و , و \"A-Z\"، و \"0-9\", و المسافة، و \"_.@-'\"",
     "A valid Login must be provided" : "يجب إعطاء مُعرف تسجيل الدخول الصحيح",
     "Login contains whitespace at the beginning or at the end" : "مُعرف تسجيل الدخول يحتوي مسافات بيضاء في بدايتها أو في نهايتها",
     "Login must not consist of dots only" : "يجب ألّا يكون مُعرف تسجيل الدخول يحتوي فقط على نُقَطٍ",
@@ -443,6 +442,7 @@
     "Public upload is not allowed" : "الرفع من قِبَل العموم غير مسموح به",
     "Sharing is disabled" : "المشاركة معطلة",
     "Sharing is disabled for you" : "المشاركة معطلة بالنسبة لك",
+    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "الأحرف التالية فقط مسموح باستعمالها في مُعرف تسجيل الدخول:  \"a-z\" و , و \"A-Z\"، و \"0-9\", و المسافة، و \"_.@-'\"",
     "Application is not enabled" : "التطبيق غير مفعّل",
     "Authentication error" : "لم يتم التأكد من الشخصية بنجاح",
     "Token expired. Please reload page." : "انتهت صلاحية الكلمة , يرجى اعادة تحميل الصفحة"

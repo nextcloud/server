@@ -263,7 +263,6 @@
     "A valid password must be provided" : "Uma senha válida deve ser fornecida",
     "The Login is already being used" : "O Login já está sendo usado",
     "Could not create account" : "Não foi possível criar a conta",
-    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Somente os seguintes caracteres são permitidos em um Login: \"a-z\", \"A-Z\", \"0-9\", espaços e \"_.@-'\"",
     "A valid Login must be provided" : "Um Login válido deve ser fornecido",
     "Login contains whitespace at the beginning or at the end" : "O login contém espaços em branco no início ou no final",
     "Login must not consist of dots only" : "O login não deve consistir apenas de pontos",
@@ -543,6 +542,7 @@
     "Public upload is not allowed" : "O upload público não é permitido",
     "Sharing is disabled" : "O compartilhamento está desativado",
     "Sharing is disabled for you" : "O compartilhamento está desativado para você",
+    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Somente os seguintes caracteres são permitidos em um Login: \"a-z\", \"A-Z\", \"0-9\", espaços e \"_.@-'\"",
     "Application is not enabled" : "O aplicativo não está habilitado",
     "Authentication error" : "Erro de autenticação",
     "Token expired. Please reload page." : "O token expirou. Por favor recarregue a página."

@@ -222,7 +222,6 @@
     "Nov." : "Nov.",
     "Dec." : "Dez.",
     "A valid password must be provided" : "Deve ser fornecida uma palavra-passe válida",
-    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Somente os seguintes caracteres são permitidos em um Login: \"a-z\", \"A-Z\", \"0-9\", espaços e \"_.@-'\"",
     "A valid Login must be provided" : "Um Login válido deve ser fornecido",
     "Login contains whitespace at the beginning or at the end" : "O login contém espaços em branco no início ou no final",
     "Login must not consist of dots only" : "O login não deve consistir apenas de pontos",
@@ -424,6 +423,7 @@
     "Link sharing is not allowed" : "O compartilhamento de links não é permitido",
     "Public upload is not allowed" : "O upload público não é permitido",
     "Sharing is disabled" : "O compartilhamento está desativado",
+    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Somente os seguintes caracteres são permitidos em um Login: \"a-z\", \"A-Z\", \"0-9\", espaços e \"_.@-'\"",
     "Application is not enabled" : "A aplicação não está ativada",
     "Authentication error" : "Erro na autenticação",
     "Token expired. Please reload page." : "O token expirou. Por favor recarregue a página."
