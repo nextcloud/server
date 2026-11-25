@@ -8,7 +8,9 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Tests\unit\DAV;
 
+use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
+use OCA\DAV\CalDAV\CalendarHome;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\DAV\CustomPropertiesBackend;
 use OCA\DAV\Db\PropertyMapper;
@@ -16,7 +18,9 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\CalDAV\Schedule\Inbox;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Server;
@@ -154,6 +158,9 @@ class CustomPropertiesBackendTest extends TestCase {
 	}
 
 	public function testPropFindCalendarCall(): void {
+		$this->tree->method('getNodeForPath')
+			->willReturn($this->createMock(Calendar::class));
+
 		$propFind = $this->createMock(PropFind::class);
 		$propFind->method('get404Properties')
 			->with()
@@ -193,6 +200,133 @@ class CustomPropertiesBackendTest extends TestCase {
 
 		$this->backend->propFind('calendars/foo/bar_path_1337_0', $propFind);
 		$this->assertEquals($props, $setProps);
+	}
+
+	public static function propFindPublishedPropertiesProvider(): array {
+		$availability = '{urn:ietf:params:xml:ns:caldav}calendar-availability';
+		return [
+			'set by the owner' => [
+				Inbox::class,
+				'principals/users/owner',
+				['owner' => [$availability => 'owner']],
+				[$availability => 'owner'],
+			],
+			'same path set by another user' => [
+				Inbox::class,
+				'principals/users/owner',
+				['other' => [$availability => 'other']],
+				[],
+			],
+			'set by the owner and another user' => [
+				Inbox::class,
+				'principals/users/owner',
+				['owner' => [$availability => 'owner'], 'other' => [$availability => 'other']],
+				[$availability => 'owner'],
+			],
+			'unpublished property of the owner' => [
+				Inbox::class,
+				'principals/users/owner',
+				['owner' => [$availability => 'owner', '{abc}def' => 'owner']],
+				[$availability => 'owner'],
+			],
+			'owner is not a user' => [
+				Inbox::class,
+				'principals/calendar-rooms/owner',
+				['owner' => [$availability => 'owner']],
+				[],
+			],
+			'node without owner' => [
+				INode::class,
+				null,
+				['owner' => [$availability => 'owner'], 'other' => [$availability => 'other']],
+				[],
+			],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'propFindPublishedPropertiesProvider')]
+	public function testPropFindPublishedProperties(
+		string $nodeClass,
+		?string $owner,
+		array $existingProps,
+		array $returnedProps,
+	): void {
+		$path = 'calendars/owner/inbox';
+		$node = $this->createMock($nodeClass);
+		if ($owner !== null) {
+			$node->method('getOwner')
+				->willReturn($owner);
+		}
+		$this->tree->method('getNodeForPath')
+			->with($path)
+			->willReturn($node);
+		foreach ($existingProps as $user => $props) {
+			$this->insertProps($user, $path, $props);
+		}
+		$propFind = $this->createMock(PropFind::class);
+		$propFind->method('get404Properties')
+			->willReturn([
+				'{urn:ietf:params:xml:ns:caldav}calendar-availability',
+				'{abc}def',
+			]);
+		$propFind->method('getRequestedProperties')
+			->willReturn([
+				'{urn:ietf:params:xml:ns:caldav}calendar-availability',
+				'{abc}def',
+			]);
+		$setProps = [];
+		$propFind->method('set')
+			->willReturnCallback(function ($name, $value, $status) use (&$setProps): void {
+				$setProps[$name] = $value;
+			});
+
+		$this->backend->propFind($path, $propFind);
+
+		$this->assertEquals($returnedProps, $setProps);
+	}
+
+	public function testPropFindCalendarHomeOnlyPublishesPropertiesOfOwner(): void {
+		$availability = '{urn:ietf:params:xml:ns:caldav}calendar-availability';
+		$homePath = 'calendars/dummy_user_42';
+		$inboxPath = 'calendars/dummy_user_42/inbox';
+		$inbox = $this->createMock(Inbox::class);
+		$inbox->method('getOwner')
+			->willReturn('principals/users/dummy_user_42');
+		$inbox->method('getName')
+			->willReturn('inbox');
+		$home = $this->createMock(CalendarHome::class);
+		$home->method('getCalDAVBackend')
+			->willReturn($this->createMock(CalDavBackend::class));
+		$home->method('getChildren')
+			->willReturn([$inbox]);
+		$this->tree->method('getNodeForPath')
+			->willReturnCallback(fn (string $path) => match ($path) {
+				$homePath => $home,
+				$inboxPath => $inbox,
+			});
+		$this->insertProps('other', $inboxPath, [$availability => 'other']);
+		$homePropFind = $this->createMock(PropFind::class);
+		$homePropFind->method('get404Properties')
+			->willReturn([$availability]);
+		$homePropFind->method('getDepth')
+			->willReturn(1);
+		$homePropFind->method('getRequestedProperties')
+			->willReturn([$availability]);
+		$inboxPropFind = $this->createMock(PropFind::class);
+		$inboxPropFind->method('get404Properties')
+			->willReturn([$availability]);
+		$inboxPropFind->method('getRequestedProperties')
+			->willReturn([$availability]);
+		$setProps = [];
+		$inboxPropFind->method('set')
+			->willReturnCallback(function ($name, $value, $status) use (&$setProps): void {
+				$setProps[$name] = $value;
+			});
+
+		$this->backend->propFind($homePath, $homePropFind);
+		$this->backend->propFind($inboxPath, $inboxPropFind);
+
+		$this->assertEquals([], $setProps);
 	}
 
 	public function testPropFindPrincipalCall(): void {
