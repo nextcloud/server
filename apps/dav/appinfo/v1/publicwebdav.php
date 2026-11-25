@@ -5,9 +5,9 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+use NCU\Files\NodeAttributes\INodeAttributeRegistry;
 use NCU\Files\NodeAttributes\NodeAttributeContext;
 use OC\Files\Filesystem;
-use OC\Files\NodeAttributes\NodeAttributeRegistry;
 use OC\Files\Storage\Wrapper\DirPermissionsMask;
 use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\View;
@@ -160,7 +160,7 @@ $server = $serverFactory->createServer(
 		}
 		$filesDropPlugin->setShare($share);
 		$server->addPlugin(new NodeAttributesPlugin(
-			Server::get(NodeAttributeRegistry::class),
+			Server::get(INodeAttributeRegistry::class),
 			static fn (): NodeAttributeContext => NodeAttributeContext::forShare($share),
 		));
 

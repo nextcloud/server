@@ -34,7 +34,6 @@ class NodeSerializer implements INodeSerializer {
 	public function serialize(NodeAttributeContext $context, array $nodes, ?array $attributes = null): array {
 		$attributes ??= $this->registry->getAttributeNames();
 		$this->registry->preload($context, $nodes, $attributes);
-		$groups = $this->registry->getProvidersFor($attributes);
 
 		[$root, $rootPath, $remoteUrl] = $this->getRoot($context);
 		$result = [];
@@ -46,14 +45,8 @@ class NodeSerializer implements INodeSerializer {
 			}
 
 			$data = $this->getNodeData($node, $root, $path, $remoteUrl, $context);
-			foreach ($groups as $group) {
-				$values = $group['provider']->getAttributes($context, $node, $group['attributes']);
-				foreach ($group['attributes'] as $attribute) {
-					if (array_key_exists($attribute, $values)) {
-						$value = $values[$attribute];
-						$data['attributes'][NodeAttributeRegistry::getLocalName($attribute)] = $value instanceof NodeAttributeList ? $value->jsonSerialize() : $value;
-					}
-				}
+			foreach ($this->registry->getAttributes($context, $node, $attributes) as $attribute => $value) {
+				$data['attributes'][NodeAttributeRegistry::getLocalName($attribute)] = $value instanceof NodeAttributeList ? $value->jsonSerialize() : $value;
 			}
 			$result[] = $data;
 		}
@@ -110,17 +103,23 @@ class NodeSerializer implements INodeSerializer {
 	private function getNodeData(Node $node, string $root, string $path, string $remoteUrl, NodeAttributeContext $context): array {
 		$isFolder = $node->getType() === FileInfo::TYPE_FOLDER;
 		$creationTime = $node->getCreationTime();
+		$permissions = $node->getPermissions();
+		$share = $context->getShare();
+		if ($share !== null) {
+			// Public share visitors only get what the share allows
+			$permissions &= $share->getPermissions();
+		}
 
 		return [
 			'id' => $node->getId(),
 			'source' => $remoteUrl . $root . ($path === '/' ? '' : $path),
 			'root' => $root,
-			'owner' => $node->getOwner()?->getUID() ?? $context->getUser()?->getUID(),
+			'owner' => $node->getOwner()?->getUID(),
 			'mime' => $isFolder ? 'httpd/unix-directory' : $node->getMimetype(),
 			'mtime' => $node->getMTime(),
 			'crtime' => $creationTime > 0 ? $creationTime : null,
 			'size' => $node->getSize(),
-			'permissions' => $node->getPermissions(),
+			'permissions' => $permissions,
 			'displayname' => $node->getName(),
 			'type' => $isFolder ? 'folder' : 'file',
 			'attributes' => [

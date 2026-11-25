@@ -10,9 +10,9 @@ declare(strict_types=1);
 namespace OCA\DAV\Connector\Sabre;
 
 use Closure;
+use NCU\Files\NodeAttributes\INodeAttributeRegistry;
 use NCU\Files\NodeAttributes\NodeAttributeContext;
 use NCU\Files\NodeAttributes\NodeAttributeList;
-use OC\Files\NodeAttributes\NodeAttributeRegistry;
 use Sabre\DAV\ICollection;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
@@ -27,7 +27,7 @@ class NodeAttributesPlugin extends ServerPlugin {
 	 * @param Closure(): ?NodeAttributeContext $contextResolver context of the request, null to serve nothing
 	 */
 	public function __construct(
-		private readonly NodeAttributeRegistry $registry,
+		private readonly INodeAttributeRegistry $registry,
 		private readonly Closure $contextResolver,
 	) {
 	}
@@ -93,15 +93,12 @@ class NodeAttributesPlugin extends ServerPlugin {
 		$fileNode = $node->getNode();
 		$this->registry->preload($context, [$fileNode], $attributes);
 
-		foreach ($this->registry->getProvidersFor($attributes) as $group) {
-			$values = $group['provider']->getAttributes($context, $fileNode, $group['attributes']);
-			foreach ($group['attributes'] as $attribute) {
-				if (!isset($values[$attribute])) {
-					continue;
-				}
-				$value = $this->toDavValue($attribute, $values[$attribute]);
-				$propFind->handle($attribute, static fn () => $value);
+		foreach ($this->registry->getAttributes($context, $fileNode, $attributes) as $attribute => $value) {
+			if ($value === null) {
+				continue;
 			}
+			$davValue = $this->toDavValue($attribute, $value);
+			$propFind->handle($attribute, static fn () => $davValue);
 		}
 	}
 

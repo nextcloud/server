@@ -60,6 +60,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'NCU\\Config\\ValueType' => __DIR__ . '/../../..' . '/lib/unstable/Config/ValueType.php',
         'NCU\\Federation\\ISignedCloudFederationProvider' => __DIR__ . '/../../..' . '/lib/unstable/Federation/ISignedCloudFederationProvider.php',
         'NCU\\Files\\NodeAttributes\\INodeAttributeProvider' => __DIR__ . '/../../..' . '/lib/unstable/Files/NodeAttributes/INodeAttributeProvider.php',
+        'NCU\\Files\\NodeAttributes\\INodeAttributeRegistry' => __DIR__ . '/../../..' . '/lib/unstable/Files/NodeAttributes/INodeAttributeRegistry.php',
         'NCU\\Files\\NodeAttributes\\INodeSerializer' => __DIR__ . '/../../..' . '/lib/unstable/Files/NodeAttributes/INodeSerializer.php',
         'NCU\\Files\\NodeAttributes\\NodeAttributeContext' => __DIR__ . '/../../..' . '/lib/unstable/Files/NodeAttributes/NodeAttributeContext.php',
         'NCU\\Files\\NodeAttributes\\NodeAttributeList' => __DIR__ . '/../../..' . '/lib/unstable/Files/NodeAttributes/NodeAttributeList.php',

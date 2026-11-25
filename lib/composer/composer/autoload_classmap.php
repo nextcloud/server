@@ -19,6 +19,7 @@ return array(
     'NCU\\Config\\ValueType' => $baseDir . '/lib/unstable/Config/ValueType.php',
     'NCU\\Federation\\ISignedCloudFederationProvider' => $baseDir . '/lib/unstable/Federation/ISignedCloudFederationProvider.php',
     'NCU\\Files\\NodeAttributes\\INodeAttributeProvider' => $baseDir . '/lib/unstable/Files/NodeAttributes/INodeAttributeProvider.php',
+    'NCU\\Files\\NodeAttributes\\INodeAttributeRegistry' => $baseDir . '/lib/unstable/Files/NodeAttributes/INodeAttributeRegistry.php',
     'NCU\\Files\\NodeAttributes\\INodeSerializer' => $baseDir . '/lib/unstable/Files/NodeAttributes/INodeSerializer.php',
     'NCU\\Files\\NodeAttributes\\NodeAttributeContext' => $baseDir . '/lib/unstable/Files/NodeAttributes/NodeAttributeContext.php',
     'NCU\\Files\\NodeAttributes\\NodeAttributeList' => $baseDir . '/lib/unstable/Files/NodeAttributes/NodeAttributeList.php',

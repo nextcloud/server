@@ -9,11 +9,11 @@ declare(strict_types=1);
 
 namespace Test\Files\NodeAttributes;
 
-use NCU\Files\NodeAttributes\INodeAttributeProvider;
 use NCU\Files\NodeAttributes\NodeAttributeContext;
 use NCU\Files\NodeAttributes\NodeAttributeList;
 use OC\Files\NodeAttributes\NodeAttributeRegistry;
 use OC\Files\NodeAttributes\NodeSerializer;
+use OCP\Constants;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
@@ -54,7 +54,7 @@ class NodeSerializerTest extends TestCase {
 		$this->serializer = new NodeSerializer($this->registry, $this->rootFolder, $urlGenerator, $this->createMock(LoggerInterface::class));
 	}
 
-	private function node(string $class, int $id, string $path, string $mime = 'text/plain'): Node&MockObject {
+	private function node(string $class, int $id, string $path, string $mime = 'text/plain', bool $owned = true): Node&MockObject {
 		$node = $this->createMock($class);
 		$node->method('getId')->willReturn($id);
 		$node->method('getPath')->willReturn($path);
@@ -66,29 +66,25 @@ class NodeSerializerTest extends TestCase {
 		$node->method('getSize')->willReturn(42);
 		$node->method('getPermissions')->willReturn(31);
 		$node->method('getEtag')->willReturn('etag-' . $id);
-		$node->method('getOwner')->willReturn($this->user);
+		$node->method('getOwner')->willReturn($owned ? $this->user : null);
 		return $node;
 	}
 
 	public function testSerializeForUser(): void {
 		$file = $this->node(File::class, 11, '/alice/files/Photos/cat.jpg', 'image/jpeg');
 		$folder = $this->node(Folder::class, 12, '/alice/files/Photos', 'httpd/unix-directory');
-		$provider = $this->createMock(INodeAttributeProvider::class);
 		$this->registry->method('getAttributeNames')->willReturn([self::HAS_PREVIEW, self::SHARE_TYPES]);
-		$this->registry->method('getProvidersFor')
-			->with([self::HAS_PREVIEW, self::SHARE_TYPES])
-			->willReturn([['provider' => $provider, 'attributes' => [self::HAS_PREVIEW, self::SHARE_TYPES]]]);
 
 		// Everything is preloaded at once, before reading any node
 		$this->registry->expects(self::once())
 			->method('preload')
 			->with(self::isInstanceOf(NodeAttributeContext::class), [$file, $folder], [self::HAS_PREVIEW, self::SHARE_TYPES]);
-		$provider->expects(self::never())->method('preload');
-		$provider->method('getAttributes')->willReturnCallback(static fn (NodeAttributeContext $context, Node $node): array => [
-			self::HAS_PREVIEW => $node === $file,
-			self::SHARE_TYPES => new NodeAttributeList('share-type', [0, 3]),
-			'{DAV:}not-requested' => 'ignored',
-		]);
+		$this->registry->method('getAttributes')
+			->with(self::isInstanceOf(NodeAttributeContext::class), self::anything(), [self::HAS_PREVIEW, self::SHARE_TYPES])
+			->willReturnCallback(static fn (NodeAttributeContext $context, Node $node): array => [
+				self::HAS_PREVIEW => $node === $file,
+				self::SHARE_TYPES => new NodeAttributeList('share-type', [0, 3]),
+			]);
 
 		$result = $this->serializer->serialize(NodeAttributeContext::forUser($this->user), [$file, $folder]);
 
@@ -139,7 +135,6 @@ class NodeSerializerTest extends TestCase {
 		$share->method('getToken')->willReturn('AbCdEf');
 		$share->method('getNode')->willReturn($sharedFolder);
 		$this->registry->method('getAttributeNames')->willReturn([]);
-		$this->registry->method('getProvidersFor')->willReturn([]);
 
 		$result = $this->serializer->serialize(NodeAttributeContext::forShare($share), [$sharedFolder, $file]);
 
@@ -148,12 +143,34 @@ class NodeSerializerTest extends TestCase {
 		self::assertSame('https://cloud.example.com/public.php/dav/files/AbCdEf/sub/doc.md', $result[1]['source']);
 	}
 
+	public function testPermissionsAreLimitedByTheShare(): void {
+		$sharedFolder = $this->node(Folder::class, 20, '/bob/files/Shared');
+		$share = $this->createMock(IShare::class);
+		$share->method('getToken')->willReturn('AbCdEf');
+		$share->method('getNode')->willReturn($sharedFolder);
+		$share->method('getPermissions')->willReturn(Constants::PERMISSION_READ);
+		$this->registry->method('getAttributeNames')->willReturn([]);
+
+		$result = $this->serializer->serialize(NodeAttributeContext::forShare($share), [$sharedFolder]);
+
+		self::assertSame(Constants::PERMISSION_READ, $result[0]['permissions']);
+	}
+
+	public function testNodesWithoutOwnerHaveNoOwner(): void {
+		$file = $this->node(File::class, 11, '/alice/files/Group folder/cat.jpg', owned: false);
+		$this->registry->method('getAttributeNames')->willReturn([]);
+
+		$result = $this->serializer->serialize(NodeAttributeContext::forUser($this->user), [$file]);
+
+		self::assertNull($result[0]['owner']);
+	}
+
 	public function testOnlyRequestedAttributes(): void {
 		$file = $this->node(File::class, 11, '/alice/files/cat.jpg');
 		$this->registry->expects(self::never())->method('getAttributeNames');
 		$this->registry->expects(self::once())
-			->method('getProvidersFor')
-			->with([self::HAS_PREVIEW])
+			->method('getAttributes')
+			->with(self::isInstanceOf(NodeAttributeContext::class), $file, [self::HAS_PREVIEW])
 			->willReturn([]);
 
 		$result = $this->serializer->serialize(NodeAttributeContext::forUser($this->user), [$file], [self::HAS_PREVIEW]);
@@ -166,7 +183,6 @@ class NodeSerializerTest extends TestCase {
 		$outside = $this->node(File::class, 12, '/bob/files/cat.jpg');
 		$sibling = $this->node(File::class, 13, '/alice/files_trashbin/files/cat.jpg');
 		$this->registry->method('getAttributeNames')->willReturn([]);
-		$this->registry->method('getProvidersFor')->willReturn([]);
 
 		$result = $this->serializer->serialize(NodeAttributeContext::forUser($this->user), [$inside, $outside, $sibling]);
 

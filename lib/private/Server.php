@@ -1020,6 +1020,7 @@ class Server extends ServerContainer {
 
 		$this->registerAlias(IReferenceManager::class, ReferenceManager::class);
 		$this->registerAlias(\NCU\Files\NodeAttributes\INodeSerializer::class, \OC\Files\NodeAttributes\NodeSerializer::class);
+		$this->registerAlias(\NCU\Files\NodeAttributes\INodeAttributeRegistry::class, \OC\Files\NodeAttributes\NodeAttributeRegistry::class);
 		$this->registerAlias(ITeamManager::class, TeamManager::class);
 
 		$this->registerDeprecatedAlias('SettingsManager', \OC\Settings\Manager::class);

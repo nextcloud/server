@@ -10,9 +10,9 @@ declare(strict_types=1);
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use NCU\Files\NodeAttributes\INodeAttributeProvider;
+use NCU\Files\NodeAttributes\INodeAttributeRegistry;
 use NCU\Files\NodeAttributes\NodeAttributeContext;
 use NCU\Files\NodeAttributes\NodeAttributeList;
-use OC\Files\NodeAttributes\NodeAttributeRegistry;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\Connector\Sabre\NodeAttributeListXml;
@@ -30,7 +30,7 @@ class NodeAttributesPluginTest extends TestCase {
 	private const FAVORITE = '{http://owncloud.org/ns}favorite';
 	private const SHARE_TYPES = '{http://owncloud.org/ns}share-types';
 
-	private NodeAttributeRegistry&MockObject $registry;
+	private INodeAttributeRegistry&MockObject $registry;
 	private INodeAttributeProvider&MockObject $provider;
 	private Server $server;
 	private ?NodeAttributeContext $context;
@@ -39,12 +39,13 @@ class NodeAttributesPluginTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->registry = $this->createMock(NodeAttributeRegistry::class);
+		$this->registry = $this->createMock(INodeAttributeRegistry::class);
 		$this->provider = $this->createMock(INodeAttributeProvider::class);
 		$this->registry->method('getAttributeNames')->willReturn([self::HAS_PREVIEW, self::FAVORITE, self::SHARE_TYPES]);
-		$this->registry->method('getProvidersFor')->willReturnCallback(fn (array $attributes): array => $attributes === []
+		// The registry hands out what the provider returns for the requested attributes
+		$this->registry->method('getAttributes')->willReturnCallback(fn (NodeAttributeContext $context, \OCP\Files\Node $node, array $attributes): array => $attributes === []
 			? []
-			: [['provider' => $this->provider, 'attributes' => array_values($attributes)]]);
+			: array_intersect_key($this->provider->getAttributes($context, $node, $attributes), array_flip($attributes)));
 
 		$user = $this->createMock(IUser::class);
 		$this->context = NodeAttributeContext::forUser($user);

@@ -8,8 +8,8 @@
 
 namespace OCA\DAV\Connector\Sabre;
 
+use NCU\Files\NodeAttributes\INodeAttributeRegistry;
 use NCU\Files\NodeAttributes\NodeAttributeContext;
-use OC\Files\NodeAttributes\NodeAttributeRegistry;
 use OC\Files\View;
 use OC\KnownUser\KnownUserService;
 use OCA\DAV\AppInfo\PluginManager;
@@ -193,7 +193,7 @@ class ServerFactory {
 				if (!$isPublicShare) {
 					// Public shares add their own, with the share as context
 					$server->addPlugin(new NodeAttributesPlugin(
-						\OCP\Server::get(NodeAttributeRegistry::class),
+						\OCP\Server::get(INodeAttributeRegistry::class),
 						fn (): ?NodeAttributeContext => ($user = $this->userSession->getUser()) !== null ? NodeAttributeContext::forUser($user) : null,
 					));
 				}

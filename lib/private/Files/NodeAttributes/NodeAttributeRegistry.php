@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OC\Files\NodeAttributes;
 
 use NCU\Files\NodeAttributes\INodeAttributeProvider;
+use NCU\Files\NodeAttributes\INodeAttributeRegistry;
 use NCU\Files\NodeAttributes\NodeAttributeContext;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Bootstrap\NodeAttributeProviderRegistration;
@@ -21,7 +22,7 @@ use Throwable;
 /**
  * Maps the registered attributes to their providers, loading providers only when needed
  */
-class NodeAttributeRegistry {
+class NodeAttributeRegistry implements INodeAttributeRegistry {
 	/** @var array<string, NodeAttributeProviderRegistration>|null registration by attribute in Clark notation */
 	private ?array $registrations = null;
 
@@ -38,9 +39,7 @@ class NodeAttributeRegistry {
 	) {
 	}
 
-	/**
-	 * @return list<string> the registered attributes in Clark notation
-	 */
+	#[\Override]
 	public function getAttributeNames(): array {
 		return array_keys($this->getRegistrations());
 	}
@@ -72,12 +71,7 @@ class NodeAttributeRegistry {
 		return array_values($groups);
 	}
 
-	/**
-	 * Preload the requested attributes of these nodes, skipping the ones already preloaded for this context
-	 *
-	 * @param list<Node> $nodes
-	 * @param list<string> $attributes in Clark notation
-	 */
+	#[\Override]
 	public function preload(NodeAttributeContext $context, array $nodes, array $attributes): void {
 		$contextKey = $this->getContextKey($context);
 		foreach ($this->getProvidersFor($attributes) as $group) {
@@ -93,13 +87,37 @@ class NodeAttributeRegistry {
 				continue;
 			}
 
-			$group['provider']->preload($context, $missing, $group['attributes']);
+			try {
+				$group['provider']->preload($context, $missing, $group['attributes']);
+			} catch (Throwable $e) {
+				$this->logProviderFailure($group['provider'], $e);
+				continue;
+			}
 			foreach ($group['attributes'] as $attribute) {
 				foreach ($missing as $node) {
 					$this->preloaded[$contextKey][$attribute][$node->getId()] = true;
 				}
 			}
 		}
+	}
+
+	#[\Override]
+	public function getAttributes(NodeAttributeContext $context, Node $node, array $attributes): array {
+		$values = [];
+		foreach ($this->getProvidersFor($attributes) as $group) {
+			try {
+				$provided = $group['provider']->getAttributes($context, $node, $group['attributes']);
+			} catch (Throwable $e) {
+				$this->logProviderFailure($group['provider'], $e);
+				continue;
+			}
+			foreach ($group['attributes'] as $attribute) {
+				if (array_key_exists($attribute, $provided)) {
+					$values[$attribute] = $provided[$attribute];
+				}
+			}
+		}
+		return $values;
 	}
 
 	/**
@@ -142,6 +160,12 @@ class NodeAttributeRegistry {
 			}
 		}
 		return $this->registrations;
+	}
+
+	private function logProviderFailure(INodeAttributeProvider $provider, Throwable $e): void {
+		$this->logger->error('Node attribute provider ' . $provider::class . ' failed: ' . $e->getMessage(), [
+			'exception' => $e,
+		]);
 	}
 
 	private function getContextKey(NodeAttributeContext $context): string {

@@ -154,6 +154,33 @@ class NodeAttributeRegistryTest extends TestCase {
 		self::assertSame([], $this->registry->getProvidersFor([self::HAS_PREVIEW, self::FAVORITE]));
 	}
 
+	public function testFailingProvidersAreSkipped(): void {
+		$this->register(['PreviewProvider' => [self::HAS_PREVIEW], 'TagsProvider' => [self::FAVORITE], 'BrokenProvider' => [self::TAGS]]);
+		$previewProvider = $this->createMock(INodeAttributeProvider::class);
+		$previewProvider->method('getAttributes')->willReturn([self::HAS_PREVIEW => true, '{http://example.com/ns}unrequested' => 'x']);
+		$tagsProvider = $this->createMock(INodeAttributeProvider::class);
+		$tagsProvider->method('preload')->willThrowException(new \RuntimeException('preload failed'));
+		$tagsProvider->method('getAttributes')->willReturn([self::FAVORITE => 1]);
+		$brokenProvider = $this->createMock(INodeAttributeProvider::class);
+		$brokenProvider->method('getAttributes')->willThrowException(new \RuntimeException('getAttributes failed'));
+		$this->container->method('get')->willReturnMap([
+			['PreviewProvider', $previewProvider],
+			['TagsProvider', $tagsProvider],
+			['BrokenProvider', $brokenProvider],
+		]);
+		$this->logger->expects(self::exactly(2))->method('error');
+		$context = NodeAttributeContext::forUser($this->createMock(IUser::class));
+		$node = $this->createMock(Node::class);
+		$node->method('getId')->willReturn(1);
+
+		$this->registry->preload($context, [$node], [self::HAS_PREVIEW, self::FAVORITE, self::TAGS]);
+
+		self::assertSame(
+			[self::HAS_PREVIEW => true, self::FAVORITE => 1],
+			$this->registry->getAttributes($context, $node, [self::HAS_PREVIEW, self::FAVORITE, self::TAGS]),
+		);
+	}
+
 	public function testNothingRegisteredBeforeAppsAreLoaded(): void {
 		$coordinator = $this->createMock(Coordinator::class);
 		$coordinator->method('getRegistrationContext')->willReturnOnConsecutiveCalls(null, $this->context);

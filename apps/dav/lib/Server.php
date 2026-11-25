@@ -8,9 +8,9 @@
 
 namespace OCA\DAV;
 
+use NCU\Files\NodeAttributes\INodeAttributeRegistry;
 use NCU\Files\NodeAttributes\NodeAttributeContext;
 use OC\Files\Filesystem;
-use OC\Files\NodeAttributes\NodeAttributeRegistry;
 use OC\Lockdown\LockdownManager;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\AppInfo\PluginManager;
@@ -347,7 +347,7 @@ class Server {
 					)
 				);
 				$this->server->addPlugin(new NodeAttributesPlugin(
-					\OCP\Server::get(NodeAttributeRegistry::class),
+					\OCP\Server::get(INodeAttributeRegistry::class),
 					static fn (): ?NodeAttributeContext => ($sessionUser = $userSession->getUser()) !== null ? NodeAttributeContext::forUser($sessionUser) : null,
 				));
 
