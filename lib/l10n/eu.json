@@ -248,7 +248,6 @@
     "A valid password must be provided" : "Baliozko pasahitza eman behar da",
     "The Login is already being used" : "Saioa dagoeneko erabilita dago",
     "Could not create account" : "Ezin izan da kontua sortu",
-    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Honako karaktereak bakarrik onartzen dira saioan: \"a-z\", \"A-Z\", \"0-9\", zuriuneak eta \"_.@-'\"",
     "A valid Login must be provided" : "Baliozko saioa eman behar da",
     "Login contains whitespace at the beginning or at the end" : "Saioak zuriuneren bat du hasieran edo amaieran",
     "Login must not consist of dots only" : "Saioa ezin da puntuz osatuta soilik egon",
@@ -477,6 +476,7 @@
     "Public upload is not allowed" : "Igotze publikoa ez da onartzen",
     "Sharing is disabled" : "Partekatzea desgaituta dago",
     "Sharing is disabled for you" : "Partekatzea zuretzat desgaituta dago",
+    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Honako karaktereak bakarrik onartzen dira saioan: \"a-z\", \"A-Z\", \"0-9\", zuriuneak eta \"_.@-'\"",
     "Application is not enabled" : "Aplikazioa ez dago gaituta",
     "Authentication error" : "Autentifikazio errorea",
     "Token expired. Please reload page." : "Tokena iraungitu da. Mesedez birkargatu orria."

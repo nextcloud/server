@@ -263,7 +263,6 @@
     "A valid password must be provided" : "Trebuie furnizată o parolă validă",
     "The Login is already being used" : "Numele de autentificare este deja folosit",
     "Could not create account" : "Contul nu a putut fi creat",
-    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Numele de autentificare poate conține doar următoarele caractere: „a-z”, „A-Z”, „0-9”, spații și „_.@-'”",
     "A valid Login must be provided" : "Trebuie furnizat un nume de autentificare valid",
     "Login contains whitespace at the beginning or at the end" : "Numele de autentificare conține spații la început sau la sfârșit",
     "Login must not consist of dots only" : "Numele de autentificare nu poate fi format doar din puncte",
@@ -543,6 +542,7 @@
     "Public upload is not allowed" : "Încărcarea publică nu este permisă",
     "Sharing is disabled" : "Partajarea este dezactivată",
     "Sharing is disabled for you" : "Partajarea este dezactivată pentru tine",
+    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Numele de autentificare poate conține doar următoarele caractere: „a-z”, „A-Z”, „0-9”, spații și „_.@-'”",
     "Application is not enabled" : "Aplicația nu este activată",
     "Authentication error" : "Eroare la autentificare",
     "Token expired. Please reload page." : "Tokenul a expirat. Reîncarcă pagina."

@@ -247,7 +247,6 @@
     "A valid password must be provided" : "Debe fornecer un contrasinal",
     "The Login is already being used" : "O acceso xa se está a usar",
     "Could not create account" : "Non foi posíbel crear a conta",
-    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Só se permiten os seguintes caracteres nun acceso: «a-z», «A-Z», «0-9», espazos e «_.@-'»",
     "A valid Login must be provided" : "Ten que fornecer un acceso válido",
     "Login contains whitespace at the beginning or at the end" : "O acceso contén espazos en branco ao comezo ou ao final",
     "Login must not consist of dots only" : "O acceso non debe estar composto só por puntos",
@@ -481,6 +480,7 @@
     "Public upload is not allowed" : "Non se permite o envío público",
     "Sharing is disabled" : "A compartición está desactivada",
     "Sharing is disabled for you" : "A compartición está desactivada para Vde.",
+    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Só se permiten os seguintes caracteres nun acceso: «a-z», «A-Z», «0-9», espazos e «_.@-'»",
     "Application is not enabled" : "A aplicación non está activada",
     "Authentication error" : "Produciuse un erro de autenticación",
     "Token expired. Please reload page." : "Testemuño caducado. Recargue a páxina."
