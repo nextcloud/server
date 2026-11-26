@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OC\FilesMetadata\Job;
 
 use OC\FilesMetadata\FilesMetadataManager;
+use OC\User\NoUserException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\QueuedJob;
 use OCP\Files\IRootFolder;
@@ -43,6 +44,7 @@ class UpdateSingleMetadata extends QueuedJob {
 			if ($node) {
 				$this->filesMetadataManager->refreshMetadata($node, IFilesMetadataManager::PROCESS_BACKGROUND);
 			}
+		} catch (NoUserException $e) {
 		} catch (\Exception $e) {
 			$this->logger->warning('issue while running UpdateSingleMetadata', ['exception' => $e, 'userId' => $userId, 'fileId' => $fileId]);
 		}
