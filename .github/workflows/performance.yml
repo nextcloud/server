@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   performance-testing:
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
 
     # Skip entirely on fork PRs so the job result is 'skipped' rather than
     # 'failure'. The profiler action uses github.event.pull_request.head.repo.clone_url
