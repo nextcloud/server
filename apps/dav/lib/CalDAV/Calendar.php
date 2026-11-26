@@ -286,7 +286,7 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 	public function getChild($name) {
 		$obj = $this->caldavBackend->getCalendarObject($this->calendarInfo['id'], $name, $this->getCalendarType());
 
-		if (!$obj) {
+		if (!$obj || isset($obj[TrashbinPlugin::PROPERTY_DELETED_AT])) {
 			throw new NotFound('Calendar object not found');
 		}
 
@@ -330,7 +330,7 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 	#[\Override]
 	public function childExists($name) {
 		$obj = $this->caldavBackend->getCalendarObject($this->calendarInfo['id'], $name, $this->getCalendarType());
-		if (!$obj) {
+		if (!$obj || isset($obj[TrashbinPlugin::PROPERTY_DELETED_AT])) {
 			return false;
 		}
 		if ($obj['classification'] === CalDavBackend::CLASSIFICATION_PRIVATE && $this->isShared()) {
@@ -417,9 +417,13 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 
 	/**
 	 * @inheritDoc
+	 * @throws Forbidden
 	 */
 	#[\Override]
 	public function restore(): void {
+		if ($this->isShared()) {
+			throw new Forbidden('Only the owner can restore a deleted calendar');
+		}
 		$this->caldavBackend->restoreCalendar((int)$this->calendarInfo['id']);
 	}
 

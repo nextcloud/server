@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OC\User\BackgroundJobs;
 
+use OC\Authentication\RememberLogin\RememberLoginTokenMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\IConfig;
@@ -18,6 +19,7 @@ class CleanupLoginTokens extends TimedJob {
 	public function __construct(
 		ITimeFactory $time,
 		private readonly IDBConnection $connection,
+		private readonly RememberLoginTokenMapper $rememberLoginTokenMapper,
 		private readonly IConfig $config,
 	) {
 		parent::__construct($time);
@@ -27,12 +29,17 @@ class CleanupLoginTokens extends TimedJob {
 
 	#[\Override]
 	protected function run($argument): void {
+		$currentTime = $this->time->getTime();
 		$rememberMeMaxAge = $this->config->getSystemValueInt('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
+
+		$this->rememberLoginTokenMapper->deleteOlderThan($currentTime - $rememberMeMaxAge);
+
+		// TODO: remove in Nextcloud 37, after adding a repair step to delete legacy 'login_token' entries from the 'preferences' table
 		$qb = $this->connection->getQueryBuilder();
 		$qb
 			->delete('preferences')
 			->where($qb->expr()->eq('appid', $qb->expr()->literal('login_token')))
-			->andWhere($qb->expr()->lt('configvalue', $qb->createNamedParameter(time() - $rememberMeMaxAge)))
+			->andWhere($qb->expr()->lt('configvalue', $qb->createNamedParameter($currentTime - $rememberMeMaxAge)))
 			->executeStatement();
 	}
 }

@@ -17,14 +17,20 @@ use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarEntity;
+use OCA\DAV\Connector\Sabre\Principal;
+use OCA\DAV\DAV\Sharing\Backend as DavSharingBackend;
 use OCA\DAV\DAV\Sharing\Plugin as SharingPlugin;
+use OCA\DAV\DAV\Sharing\SharingMapper;
 use OCA\DAV\Events\CalendarDeletedEvent;
 use OCA\DAV\Exception\UidConflict;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\IUser;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
+use OCP\Security\ISecureRandom;
 use Psr\Log\NullLogger;
 use Sabre\DAV\Exception\BadRequest;
+use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Xml\Property\Href;
@@ -133,10 +139,6 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 		$this->groupManager->expects($this->any())
 			->method('groupExists')
 			->willReturn(true);
-		$this->principal->expects(self::atLeastOnce())
-			->method('findByUri')
-			->willReturnOnConsecutiveCalls(...$principals);
-
 		$calendarId = $this->createTestCalendar();
 		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
 		$this->assertCount(1, $calendars);
@@ -380,6 +382,29 @@ EOD;
 		$newObject = $this->backend->getCalendarObject($calendarId, $newUri);
 		$this->assertNotNull($newObject);
 		$this->assertEquals($calData, $newObject['calendardata']);
+	}
+
+	public function testCreateCalendarObjectWithSameUriAsObjectInTrashbin(): void {
+		$calendarId = $this->createTestCalendar();
+		$uri = $this->createEvent($calendarId);
+		$this->backend->deleteCalendarObject($calendarId, $uri);
+		$trashbinUri = $uri . '-deleted';
+		$this->assertNotNull($this->backend->getCalendarObject($calendarId, $trashbinUri));
+
+		$calData = <<<'EOD'
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:ownCloud Calendar
+BEGIN:VEVENT
+UID:other-uid
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+END:VEVENT
+END:VCALENDAR
+EOD;
+		$this->expectException(Forbidden::class);
+		$this->backend->createCalendarObject($calendarId, $trashbinUri, $calData);
 	}
 
 	public function testMoveCalendarObjectToCollectionWithSameUID(): void {
@@ -850,6 +875,53 @@ EOD;
 
 		$this->expectException(NotFound::class);
 		$this->backend->getPublicCalendar($publicCalendarURI);
+	}
+
+	public function testCalendarInTrashbinIsOnlyAvailableToOwner(): void {
+		$l10n = $this->createMock(IL10N::class);
+		$config = $this->createMock(IConfig::class);
+		$logger = new NullLogger();
+		$this->userManager->method('userExists')->willReturn(true);
+		$this->principal->method('findByUri')->willReturn(self::UNIT_TEST_USER1);
+
+		$calendarId = $this->createTestCalendar();
+		$calendar = new Calendar($this->backend, $this->backend->getCalendarById($calendarId), $l10n, $config, $logger);
+		$this->backend->updateShares($calendar, [
+			['href' => 'principal:' . self::UNIT_TEST_USER1, 'readOnly' => false],
+		], []);
+		$calendar->setPublishStatus(true);
+		$publicUri = $calendar->getPublishStatus();
+		$remotePrincipal = 'principals/remote-users/' . $this->getUniqueID('remote');
+		$token = $this->getUniqueID('token');
+		(new SharingMapper($this->db))->shareWithToken($calendarId, 'calendar', DavSharingBackend::ACCESS_READ, $remotePrincipal, $token);
+		$objectUri = $this->createEvent($calendarId);
+		$objectId = (int)$this->backend->getCalendarObject($calendarId, $objectUri)['id'];
+		$this->backend->deleteCalendarObject($calendarId, $objectUri);
+
+		$isThisCalendar = static fn (array $c): bool => (int)$c['id'] === $calendarId;
+		$assertAvailableToOthers = function (bool $available) use ($isThisCalendar, $publicUri, $remotePrincipal, $token, $objectId): void {
+			$this->assertCount($available ? 1 : 0, $this->backend->getCalendarsForUser(self::UNIT_TEST_USER1));
+			$this->assertCount($available ? 1 : 0, array_filter($this->backend->getPublicCalendars(), $isThisCalendar));
+			$this->assertCount($available ? 1 : 0, (new SharingMapper($this->db))->getSharedCalendarsForRemoteUser($remotePrincipal, $token));
+			$this->assertSame($available, $this->backend->getDeletedCalendarObjectByIdForPrincipal($objectId, self::UNIT_TEST_USER1) !== null);
+			try {
+				$this->backend->getPublicCalendar($publicUri);
+				$this->assertTrue($available);
+			} catch (NotFound) {
+				$this->assertFalse($available);
+			}
+		};
+
+		$assertAvailableToOthers(true);
+
+		$this->backend->deleteCalendar($calendarId);
+		$ownCalendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
+		$this->assertCount(1, $ownCalendars);
+		$this->assertNotNull($ownCalendars[0]['{http://nextcloud.com/ns}deleted-at']);
+		$assertAvailableToOthers(false);
+
+		$this->backend->restoreCalendar($calendarId);
+		$assertAvailableToOthers(true);
 	}
 
 	public function testSubscriptions(): void {
@@ -1363,6 +1435,91 @@ EOD;
 		$this->assertEquals(null, $this->backend->getCalendarObject($subscriptionId, $uri, CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION));
 	}
 
+	public static function providesPurgeInvitationsData(): array {
+		$all = ['mailto:other@example.org', 'mailto:user@example.org'];
+		$other = ['mailto:other@example.org'];
+		return [
+			'own event' => [CalDavBackend::CALENDAR_TYPE_CALENDAR, false, 'user@example.org', 1, $other],
+			'own event, mixed-case address' => [CalDavBackend::CALENDAR_TYPE_CALENDAR, false, 'User@Example.org', 1, $other],
+			'own calendar' => [CalDavBackend::CALENDAR_TYPE_CALENDAR, true, 'user@example.org', 1, $other],
+			'owner without address' => [CalDavBackend::CALENDAR_TYPE_CALENDAR, false, null, 0, $all],
+			'address claimed by two accounts' => [CalDavBackend::CALENDAR_TYPE_CALENDAR, false, 'user@example.org', 2, $all],
+			'calendar of two accounts with the same address' => [CalDavBackend::CALENDAR_TYPE_CALENDAR, true, 'user@example.org', 2, $all],
+			'cached event of a subscription' => [CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION, false, 'user@example.org', 1, $all],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesPurgeInvitationsData')]
+	public function testPurgeInvitationsOfCalendarOwnerOnly(int $calendarType, bool $deleteCalendar, ?string $ownerEmail, int $usersWithEmail, array $expected): void {
+		$this->userManager->method('getByEmail')
+			->willReturnCallback(fn (string $email) => strtolower($email) === 'user@example.org'
+				? array_fill(0, $usersWithEmail, $this->createMock(IUser::class))
+				: []);
+		$principal = $this->createMock(Principal::class);
+		$principal->method('getPrincipalPropertiesByPath')
+			->willReturn($ownerEmail === null ? [] : ['{http://sabredav.org/ns}email-address' => $ownerEmail]);
+		$backend = new CalDavBackend(
+			$this->db,
+			$principal,
+			$this->userManager,
+			$this->createMock(ISecureRandom::class),
+			new NullLogger(),
+			$this->dispatcher,
+			$this->createMock(IConfig::class),
+			$this->sharingBackend,
+			$this->federatedCalendarMapper,
+			$this->cacheFactory,
+		);
+		$calendarId = $calendarType === CalDavBackend::CALENDAR_TYPE_CALENDAR ? $this->createTestCalendar() : $this->createTestSubscription();
+		$uri = static::getUniqueID('calobj');
+		$uid = static::getUniqueID('uid');
+		$calData = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Nextcloud Calendar
+BEGIN:VEVENT
+UID:$uid
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:Test Event
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+END:VEVENT
+END:VCALENDAR
+EOD;
+		$backend->createCalendarObject($calendarId, $uri, $calData, $calendarType);
+		foreach (['mailto:user@example.org', 'mailto:other@example.org'] as $organizer) {
+			$qb = $this->db->getQueryBuilder();
+			$qb->insert('calendar_invitations')
+				->values([
+					'uid' => $qb->createNamedParameter($uid),
+					'attendee' => $qb->createNamedParameter('mailto:attendee@example.org'),
+					'organizer' => $qb->createNamedParameter($organizer),
+					'token' => $qb->createNamedParameter(static::getUniqueID('token')),
+					'expiration' => $qb->createNamedParameter(time() + 3600),
+				])
+				->executeStatement();
+		}
+
+		if ($deleteCalendar) {
+			$backend->deleteCalendar($calendarId, true);
+		} else {
+			$backend->deleteCalendarObject($calendarId, $uri, $calendarType, true);
+		}
+
+		$qb = $this->db->getQueryBuilder();
+		$organizers = $qb->select('organizer')
+			->from('calendar_invitations')
+			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
+			->orderBy('organizer')
+			->executeQuery()
+			->fetchFirstColumn();
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete('calendar_invitations')
+			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
+			->executeStatement();
+		$this->assertEquals($expected, $organizers);
+	}
+
 	public function testCalendarMovement(): void {
 		$this->backend->createCalendar(self::UNIT_TEST_USER, 'Example', []);
 
@@ -1612,10 +1769,6 @@ EOD;
 		$this->groupManager->expects($this->any())
 			->method('groupExists')
 			->willReturn(true);
-		$this->principal->expects(self::atLeastOnce())
-			->method('findByUri')
-			->willReturn(self::UNIT_TEST_USER);
-
 		$me = self::UNIT_TEST_USER;
 		$sharer = self::UNIT_TEST_USER1;
 		$this->backend->createCalendar($me, 'calendar-uri-me', []);
@@ -2229,12 +2382,6 @@ EOD;
 		$config = $this->createMock(IConfig::class);
 		$logger = new NullLogger();
 
-		$this->principal->expects($this->exactly(2))
-			->method('findByUri')
-			->willReturnMap([
-				[$principalGroup, '', self::UNIT_TEST_GROUP],
-				[$principalUser, '', self::UNIT_TEST_USER],
-			]);
 		$this->groupManager->expects($this->once())
 			->method('groupExists')
 			->willReturn(true);
@@ -2560,10 +2707,6 @@ EOD;
 		$this->groupManager->expects($this->any())
 			->method('groupExists')
 			->willReturn(true);
-		$this->principal->expects(self::atLeastOnce())
-			->method('findByUri')
-			->willReturn(self::UNIT_TEST_USER);
-
 		$me = self::UNIT_TEST_USER;
 		$sharer = self::UNIT_TEST_USER1;
 		$this->backend->createCalendar($me, 'calendar-uri-me', []);

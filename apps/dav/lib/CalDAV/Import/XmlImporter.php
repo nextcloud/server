@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\DAV\CalDAV\Import;
 
 use Exception;
+use Sabre\VObject\UUIDUtil;
 use XMLParser;
 
 class XmlImporter {
@@ -43,7 +44,7 @@ class XmlImporter {
 	/**
 	 * Analyzes the source data and creates a structure of components
 	 */
-	private function analyze() {
+	private function analyze(): void {
 		$this->praseLevel = 0;
 		$this->prasePath = [];
 		$this->componentStart = null;
@@ -54,7 +55,6 @@ class XmlImporter {
 		$this->componentIdProperty = false;
 		// Create the parser and assign tag handlers
 		$parser = xml_parser_create();
-		xml_set_object($parser, $this);
 		xml_set_element_handler($parser, $this->tagStart(...), $this->tagEnd(...));
 		xml_set_default_handler($parser, $this->tagContents(...));
 		// iterate through the source data chuck by chunk to trigger the handlers
@@ -68,8 +68,6 @@ class XmlImporter {
 				);
 			}
 		}
-		//Free up the parser
-		xml_parser_free($parser);
 	}
 
 	/**
@@ -104,23 +102,15 @@ class XmlImporter {
 			$this->componentIdProperty = false;
 		} elseif ($this->componentType === $tag) {
 			$this->componentEnd = xml_get_current_byte_index($parser);
-			if ($this->componentId !== null) {
-				$this->structure[$this->componentType][$this->componentId][] = [
-					$this->componentType,
-					$this->componentId,
-					$this->componentStart,
-					$this->componentEnd,
-					implode('/', $this->prasePath)
-				];
-			} else {
-				$this->structure[$this->componentType][] = [
-					$this->componentType,
-					$this->componentId,
-					$this->componentStart,
-					$this->componentEnd,
-					implode('/', $this->prasePath)
-				];
-			}
+			// components without an id get a generated non-numeric key, so they neither share a
+			// bucket nor collide with numeric ids
+			$this->structure[$this->componentType][$this->componentId ?? UUIDUtil::getUUID()][] = [
+				$this->componentType,
+				$this->componentId,
+				$this->componentStart,
+				$this->componentEnd,
+				implode('/', $this->prasePath)
+			];
 			$this->componentStart = null;
 			$this->componentEnd = null;
 			$this->componentId = null;

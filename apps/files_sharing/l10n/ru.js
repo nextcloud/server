@@ -418,6 +418,7 @@ OC.L10N.register(
     "Share not found" : "Общий ресурс не найден",
     "Back to %s" : "Вернуться к %s",
     "Add to your Nextcloud" : "Добавить в свой Nextcloud",
+    "Cannot share with a disabled account." : "Нельзя поделиться с отключённой учётной записью.",
     "Group sharing is disabled by the administrator" : "Возможность делиться с группами отключена администратором",
     "Public link sharing is disabled by the administrator" : "Возможность предоставления общего доступа созданием общедоступных ссылок отключена администратором",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Не удалось предоставить общий доступ к «%1$s», поскольку механизм удалённого обмена не разрешает публикации типа %2$s",

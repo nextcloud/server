@@ -419,6 +419,19 @@ $CONFIG = [
 	'davstorage.request_timeout' => 30,
 
 	/**
+	 * Allow WebDAV based storages to connect to servers with local addresses
+	 * (e.g., a NAS on the local network). This applies to WebDAV and Nextcloud
+	 * external storages and to the file access of federated shares, without
+	 * allowing local addresses globally as ``allow_local_remote_servers`` does.
+	 *
+	 * Users who can create personal external storages can then make the server
+	 * send requests to hosts on the local network.
+	 *
+	 * Defaults to ``false``
+	 */
+	'davstorage_allow_local_address' => false,
+
+	/**
 	 * The timeout in seconds for synchronizing address books, e.g., federated system address books (as run by ``occ federation:sync-addressbooks``).
 	 *
 	 * Defaults to ``30`` seconds
@@ -1841,6 +1854,19 @@ $CONFIG = [
 	'maintenance_window_start' => 1,
 
 	/**
+	 * Background job classes that are never picked up by cron, webcron, AJAX
+	 * or ``occ background-job:worker``. The jobs stay registered and can still
+	 * be run manually with ``occ background-job:execute``.
+	 *
+	 * Use the fully qualified class names as listed by ``occ background-job:list``.
+	 *
+	 * Defaults to an empty array
+	 */
+	'excluded_jobs' => [
+		'OCA\\Files\\BackgroundJob\\DeleteOrphanedItems',
+	],
+
+	/**
 	 * Log all LDAP requests into a file
 	 *
 	 * Warning: This heavily decreases the performance of the server and is only
@@ -2350,6 +2376,16 @@ $CONFIG = [
 	 * Allow self-signed certificates for federated shares
 	 */
 	'sharing.federation.allowSelfSignedCertificates' => false,
+
+	/**
+	 * The timeout in seconds for requests made to remote servers when accessing
+	 * federated shares, e.g. fetching the share info or checking whether the
+	 * remote server is reachable. Increase it if the remote server is slow to
+	 * answer, e.g. under heavy load.
+	 *
+	 * Defaults to ``10`` seconds.
+	 */
+	'sharing.federation.request_timeout' => 10,
 
 	/**
 	 * Override the ``apiVersion`` advertised in the local OCM discovery document.

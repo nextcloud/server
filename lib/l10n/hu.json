@@ -246,7 +246,6 @@
     "A valid password must be provided" : "Érvényes jelszót kell megadnia",
     "The Login is already being used" : "A bejelentkezési név már használatban van",
     "Could not create account" : "Nem sikerült a fiók létrehozása",
-    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Csak a következő karakterek engedélyezettek egy bejelentkezési névben: „a-z”, „A-Z”, „0-9”, szóközök és „_.@-'”",
     "A valid Login must be provided" : "Érvényes bejelentkezési nevet kell megadni",
     "Login contains whitespace at the beginning or at the end" : "A bejelentkezési név szóközt tartalmaz az elején vagy a végén",
     "Login must not consist of dots only" : "A bejelentkezési név nem állhat csak pontokból",
@@ -447,7 +446,6 @@
     "Generate headline" : "Címsor előállítása",
     "Summarizes text by reducing its length without losing key information." : "Összesíti a szöveget a hosszúság csökkentésével anélkül, hogy a kulcsinformációk elvesznének.",
     "Extracts topics from a text and outputs them separated by commas." : "Kinyeri a témákat a szövegből, és vesszőkkel elválasztva megjeleníti.",
-    "Dot files are not allowed" : "A ponttal kezdődő fájlok nem engedélyezettek",
     "Help & privacy" : "Súgó és adatvédelem",
     "Appearance and accessibility" : "Megjelenés és akadálymentesítés",
     "Apps" : "Alkalmazások",
@@ -461,7 +459,6 @@
     "Sharing backend for %s not found" : "A(z) %s megosztási alrendszere nem található",
     "%1$s shared %2$s with you and wants to add:" : "%1$s megosztotta ezt Önnel: %2$s, és ezt hozzá szeretné adni:",
     "%1$s shared %2$s with you and wants to add" : "%1$s megosztotta ezt Önnel: %2$s, és ezt hozzá szeretné adni",
-    "Share recipient is not a valid circle" : "A megosztás címzettje nem egy érvényes kör",
     "You cannot share your root folder" : "Nem oszthatja meg a gyökérmappáját",
     "You are not allowed to share %s" : "Nincs jogosultsága a(z) %s megosztásához",
     "File shares cannot have create or delete permissions" : "A fájlmegosztások nem rendelkezhetnek létrehozási vagy törlési engedéllyel",
@@ -476,8 +473,10 @@
     "Public upload is not allowed" : "A nyilvános feltöltés nincs engedélyezve",
     "Sharing is disabled" : "A megosztás nincs engedélyezve",
     "Sharing is disabled for you" : "A megosztás nincs engedélyezve Önnek",
+    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Csak a következő karakterek engedélyezettek egy bejelentkezési névben: „a-z”, „A-Z”, „0-9”, szóközök és „_.@-'”",
     "Application is not enabled" : "Az alkalmazás nincs engedélyezve",
     "Authentication error" : "Hitelesítési hiba",
-    "Token expired. Please reload page." : "A token lejárt. Frissítse az oldalt."
+    "Token expired. Please reload page." : "A token lejárt. Frissítse az oldalt.",
+    "Share recipient is not a valid circle" : "A megosztás címzettje nem egy érvényes kör"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

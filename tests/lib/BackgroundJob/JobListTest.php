@@ -51,6 +51,21 @@ class JobListTest extends TestCase {
 		);
 	}
 
+	private function createInstanceWithExcludedJobs(array $excludedJobs): void {
+		$this->config = $this->createMock(IConfig::class);
+		$this->config->expects($this->once())
+			->method('getSystemValue')
+			->with('excluded_jobs', [])
+			->willReturn($excludedJobs);
+		$this->instance = new JobList(
+			$this->connection,
+			$this->config,
+			$this->timeFactory,
+			Server::get(LoggerInterface::class),
+			Server::get(ISnowflakeGenerator::class),
+		);
+	}
+
 	protected function clearJobsList(): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('jobs');
@@ -238,6 +253,41 @@ class JobListTest extends TestCase {
 
 		$this->assertEquals(get_class($job), get_class($nextJob));
 		$this->assertEquals(2, $nextJob->getArgument());
+	}
+
+	public static function excludedJobClassProvider(): array {
+		return [
+			[TestJob::class],
+			['\\' . TestJob::class],
+		];
+	}
+
+	#[DataProvider(methodName: 'excludedJobClassProvider')]
+	public function testGetNextSkipsExcludedJobClasses(string $excludedClass): void {
+		$this->createTempJob(TestJob::class, 1, 0, 12345);
+		$this->createTempJob(TestParallelAwareJob::class, 2, 0, 12346);
+
+		$this->createInstanceWithExcludedJobs([$excludedClass]);
+		$this->timeFactory->expects($this->atLeastOnce())
+			->method('getTime')
+			->willReturn(123456789);
+		$nextJob = $this->instance->getNext();
+
+		$this->assertInstanceOf(TestParallelAwareJob::class, $nextJob);
+		$this->assertEquals(2, $nextJob->getArgument());
+	}
+
+	public function testGetNextReturnsNullWhenOnlyExcludedJobsAreLeft(): void {
+		$this->createTempJob(TestJob::class, 1, 0, 12345);
+
+		$this->createInstanceWithExcludedJobs([TestJob::class]);
+		$this->timeFactory->expects($this->atLeastOnce())
+			->method('getTime')
+			->willReturn(123456789);
+
+		// The config is read once in the constructor, not on every getNext() call
+		$this->assertNull($this->instance->getNext());
+		$this->assertNull($this->instance->getNext());
 	}
 
 	/**

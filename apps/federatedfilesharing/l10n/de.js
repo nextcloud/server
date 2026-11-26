@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Invalid Federated Cloud ID" : "Ungültige Federated-Cloud-ID",
     "Server to server sharing is not enabled on this server" : "Das Server-zu-Server-Teilen ist auf diesem Server nicht aktiviert",
-    "Couldn't establish a federated share." : "Federierte Freigabe konnte nicht erstellt werden.",
+    "Couldn't establish a federated share." : "Federated-Freigabe konnte nicht erstellt werden.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Federierte Freigabe konnte nicht erstellt werden, vielleicht ist das Passwort falsch.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Anfrage für die federierte Freigabe gesendet, du solltest eine Einladung erhalten. Bitte in Deinen Benachrichtigungen nachsehen. ",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Federierte Freigabe konnte nicht aufgebaut werden, da der Zielserver eine zu alte Version verwendet (Nextcloud <=9).",
@@ -14,7 +14,7 @@ OC.L10N.register(
     "File is already shared with %s" : "Datei wird bereits mit %s geteilt",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Freigabe von %1$s fehlgeschlagen, da %2$s nicht gefunden wurde. Möglicherweise ist der Server nicht erreichbar oder nutzt ein selbst-erstelltes Zertifikat.",
     "Could not find share" : "Freigabe konnte nicht gefunden werden",
-    "Federated sharing" : "Federated-Sharing",
+    "Federated sharing" : "Federierte Freigaben",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Du hast {share} als externe Freigabe von {user} empfangen (im Auftrag von {behalf})",
     "You received {share} as a remote share from {user}" : "Du hast {share} als externe Freigabe von {user} empfangen",
     "Accept" : "Ok",

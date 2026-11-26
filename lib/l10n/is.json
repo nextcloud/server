@@ -205,7 +205,6 @@
     "A valid password must be provided" : "Skráðu inn gilt lykilorð",
     "The Login is already being used" : "Innskráningarnafnið er þegar í notkun",
     "Could not create account" : "Gat ekki búið til notandaaðgang",
-    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Einungis eru leyfilegir eftirfarandi stafir í innskráningarnafni: \"a-z\", \"A-Z\", \"0-9\", bil og \"_.@-'\"",
     "A valid Login must be provided" : "Settu inn gilt innskráningarnafn",
     "Login contains whitespace at the beginning or at the end" : "Innskráningarnafnið inniheldur bil í upphafi eða enda",
     "Login must not consist of dots only" : "Innskráningarnafn má ekki einungis samanstanda af punktum",
@@ -315,7 +314,6 @@
     "Only %1$s are valid values: %2$s" : "Aðeins %1$s eru leyfileg gildi: %2$s",
     "Need at least %1$s characters: %2$s" : "Þarf að minnsta kosti %1$s stafi: %2$s",
     "Provide %1$s characters at most: %2$s" : "Gefðu upp í mesta lagi %1$s stafi: %2$s",
-    "Dot files are not allowed" : "Skrár með punkti eru ekki leyfðar",
     "Help & privacy" : "Aðstoð og gagnaleynd",
     "Appearance and accessibility" : "Útlit og aðgengi",
     "Apps" : "Forrit",
@@ -343,6 +341,7 @@
     "Public upload is not allowed" : "Opinberar innsendingar eru ekki leyfðar",
     "Sharing is disabled" : "Deiling er óvirk",
     "Sharing is disabled for you" : "Deiling er óvirk fyrir þig",
+    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Einungis eru leyfilegir eftirfarandi stafir í innskráningarnafni: \"a-z\", \"A-Z\", \"0-9\", bil og \"_.@-'\"",
     "Application is not enabled" : "Forrit ekki virkt",
     "Authentication error" : "Villa við auðkenningu",
     "Token expired. Please reload page." : "Kenniteikn er útrunnið. Þú ættir að hlaða síðunni aftur inn."

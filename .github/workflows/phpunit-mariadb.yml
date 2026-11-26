@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   phpunit-mariadb:
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
 
     strategy:
       fail-fast: false
@@ -25,7 +25,7 @@ jobs:
           - mariadb-versions: '10.11'
             php-versions: '8.3'
           - mariadb-versions: '12.3'
-            php-versions: '8.5'
+            php-versions: '8.6'
 
     name: MariaDB ${{ matrix.mariadb-versions }} (PHP ${{ matrix.php-versions }}) - database tests
 

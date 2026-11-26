@@ -263,7 +263,6 @@
     "A valid password must be provided" : "Musíte zadať platné heslo",
     "The Login is already being used" : "Prihlasovacie meno sa už používa",
     "Could not create account" : "Nepodarilo sa vytvoriť účet",
-    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "V prihlasovacom mene je možné použiť iba nasledovné znaky: \"a-z\", \"A-Z\", \"0-9\", medzery a \"_.@-'\"",
     "A valid Login must be provided" : "Musíte zadať platné prihlasovacie meno.",
     "Login contains whitespace at the beginning or at the end" : "Prihlasovacie meno obsahuje medzeru na začiatku alebo na konci.",
     "Login must not consist of dots only" : "Prihlasovacie meno sa nesmie skladať len z bodiek",
@@ -515,7 +514,6 @@
     "Only %1$s are valid values: %2$s" : "Platné sú iba hodnoty %1$s: %2$s",
     "Need at least %1$s characters: %2$s" : "Je potrebných aspoň %1$s znakov: %2$s",
     "Provide %1$s characters at most: %2$s" : "Zadajte najviac %1$s znakov: %2$s",
-    "Dot files are not allowed" : "Súbory s názvom začínajúcim bodkou nie sú povolené",
     "Help & privacy" : "Pomoc a súkromie",
     "Appearance and accessibility" : "Vzhľad a prístupnosť",
     "Apps" : "Aplikácie",
@@ -529,7 +527,6 @@
     "Sharing backend for %s not found" : "Backend zdieľania pre %s nebol nájdený",
     "%1$s shared %2$s with you and wants to add:" : "%1$s zdieľal %2$s s vami a chce pridať:",
     "%1$s shared %2$s with you and wants to add" : "%1$s zdieľal %2$s s vami a chce pridať",
-    "Share recipient is not a valid circle" : "Príjemca zdieľania nie je platný kruh",
     "You cannot share your root folder" : "Svoj koreňový priečinok nemôžete zdieľať",
     "You are not allowed to share %s" : "Nemáte oprávnenie zdieľať %s",
     "File shares cannot have create or delete permissions" : "Zdieľané súbory nemôžu mať oprávnenia pre vytváranie ani odstraňovanie",
@@ -544,8 +541,10 @@
     "Public upload is not allowed" : "Verejné nahrávanie nie je povolené",
     "Sharing is disabled" : "Zdieľanie je zakázané",
     "Sharing is disabled for you" : "Zdieľanie je pre vás zakázané",
+    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "V prihlasovacom mene je možné použiť iba nasledovné znaky: \"a-z\", \"A-Z\", \"0-9\", medzery a \"_.@-'\"",
     "Application is not enabled" : "Aplikácia nie je zapnutá",
     "Authentication error" : "Chyba autentifikácie",
-    "Token expired. Please reload page." : "Platnosť tokenu vypršala. Obnovte, prosím, stránku."
+    "Token expired. Please reload page." : "Platnosť tokenu vypršala. Obnovte, prosím, stránku.",
+    "Share recipient is not a valid circle" : "Príjemca zdieľania nie je platný kruh"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

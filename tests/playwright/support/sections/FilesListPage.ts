@@ -253,10 +253,10 @@ export class FilesListPage {
 			return
 		}
 
-		const menu = await this.openActionsMenuForRow(row)
-		const actionEntry = this.getActionButtonInMenu(menu, actionId)
-		await actionEntry.waitFor({ state: 'visible' })
-		await actionEntry.click()
+		await expect(async () => {
+			const menu = await this.openActionsMenuForRow(row)
+			await this.getActionButtonInMenu(menu, actionId).click({ timeout: 2000 })
+		}).toPass({ timeout: 15_000 })
 	}
 
 	/**

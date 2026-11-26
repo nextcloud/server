@@ -48,7 +48,6 @@ trait PreviewPixelsTrait {
 				$samples++;
 			}
 		}
-		imagedestroy($image);
 
 		return [$red / $samples, $green / $samples, $blue / $samples];
 	}

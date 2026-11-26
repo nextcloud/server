@@ -110,7 +110,9 @@ final class GroupShareRecipientTypeTest extends TestCase {
 
 	public function testGetRecipientDisplayName(): void {
 		// Clear display name cache, because setting the display name on the group doesn't update it in the cache of the manager
-		self::invokePrivate(self::invokePrivate(Server::get(IGroupManager::class), 'displayNameCache'), 'clear');
+		/** @var \OC\Group\DisplayNameCache */
+		$displayNameCache = self::invokePrivate(Server::get(IGroupManager::class), 'displayNameCache');
+		$displayNameCache->clear();
 
 		$this->assertEquals('Group 1', $this->recipientType->getRecipientDisplayName($this->group1->getGID(), null));
 		$this->assertNull($this->recipientType->getRecipientDisplayName($this->group1->getGID(), 'https://example.com'));

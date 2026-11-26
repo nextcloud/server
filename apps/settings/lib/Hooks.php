@@ -22,6 +22,7 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Mail\EMailDetails;
+use OCP\Mail\Headers\AutoSubmitted;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\User\Events\PasswordUpdatedEvent;
@@ -119,6 +120,7 @@ class Hooks implements IEventListener {
 			$message = $this->mailer->createMessage();
 			$message->setTo([$user->getEMailAddress() => $user->getDisplayName()]);
 			$message->useTemplate($template);
+			$message->setAutoSubmitted(AutoSubmitted::VALUE_AUTO_GENERATED);
 			$this->mailer->send($message);
 		}
 	}
@@ -199,6 +201,7 @@ class Hooks implements IEventListener {
 			$message = $this->mailer->createMessage();
 			$message->setTo([$oldMailAddress => $user->getDisplayName()]);
 			$message->useTemplate($template);
+			$message->setAutoSubmitted(AutoSubmitted::VALUE_AUTO_GENERATED);
 			$this->mailer->send($message);
 		}
 	}

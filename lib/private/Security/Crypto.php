@@ -43,6 +43,7 @@ class Crypto implements ICrypto {
 	 */
 	#[\Override]
 	public function calculateHMAC(
+		#[SensitiveParameter]
 		string $message,
 		#[SensitiveParameter]
 		string $password = '',
@@ -69,6 +70,7 @@ class Crypto implements ICrypto {
 	 */
 	#[\Override]
 	public function encrypt(
+		#[SensitiveParameter]
 		string $plaintext,
 		#[SensitiveParameter]
 		string $password = '',

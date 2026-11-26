@@ -263,7 +263,6 @@
     "A valid password must be provided" : "Зөв нууц үг оруулах шаардлагатай",
     "The Login is already being used" : "Нэвтрэх нэр аль хэдийн ашиглагдаж байна",
     "Could not create account" : "Бүртгэл үүсгэж чадсангүй",
-    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Нэвтрэх нэрэнд зөвхөн дараах тэмдэгтүүд зөвшөөрөгдөнө: \"a-z\", \"A-Z\", \"0-9\", зай болон \"_.@-'\"",
     "A valid Login must be provided" : "Зөв нэвтрэх нэр оруулах шаардлагатай",
     "Login contains whitespace at the beginning or at the end" : "Нэвтрэх нэр эхэнд эсвэл төгсгөлд хоосон зайтай",
     "Login must not consist of dots only" : "Нэвтрэх нэр зөвхөн цэгээс бүрдэж болохгүй",
@@ -515,7 +514,6 @@
     "Only %1$s are valid values: %2$s" : "Зөвхөн %1$s нь хүчинтэй утга: %2$s",
     "Need at least %1$s characters: %2$s" : "Дор хаяж %1$s тэмдэгт шаардлагатай: %2$s",
     "Provide %1$s characters at most: %2$s" : "Хамгийн ихдээ %1$s тэмдэгт оруулна уу: %2$s",
-    "Dot files are not allowed" : "Dot файлууд зөвшөөрөл байхгүй байна",
     "Help & privacy" : "Тусламж & нууцлал",
     "Appearance and accessibility" : "Гадаад төрх ба хүртээмж",
     "Apps" : "Аппликэйшинууд",
@@ -529,7 +527,6 @@
     "Sharing backend for %s not found" : "%s-д зориулсан хуваалцах backend олдсонгүй",
     "%1$s shared %2$s with you and wants to add:" : "%1$s %2$s-г тантай хуваалцаж, нэмэхийг хүсэж байна:",
     "%1$s shared %2$s with you and wants to add" : "%1$s %2$s-г тантай хуваалцаж, нэмэхийг хүсэж байна",
-    "Share recipient is not a valid circle" : "Хуваалцах хүлээн авагч зөв circle биш",
     "You cannot share your root folder" : "Үндсэн хавтсаа хуваалцах боломжгүй",
     "You are not allowed to share %s" : "%s хуваалцах зөвшөөрөлгүй байна",
     "File shares cannot have create or delete permissions" : "Файл хуваалцалтад үүсгэх эсвэл устгах эрх байж болохгүй",
@@ -544,8 +541,10 @@
     "Public upload is not allowed" : "Нийтийн байршуулалт зөвшөөрөгдөөгүй",
     "Sharing is disabled" : "Хуваалцах идэвхгүй",
     "Sharing is disabled for you" : "Хуваалцах танд идэвхгүй",
+    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Нэвтрэх нэрэнд зөвхөн дараах тэмдэгтүүд зөвшөөрөгдөнө: \"a-z\", \"A-Z\", \"0-9\", зай болон \"_.@-'\"",
     "Application is not enabled" : "Програм идэвхгүй",
     "Authentication error" : "Нотолгооны алдаа",
-    "Token expired. Please reload page." : "Токен хугацаа дууссан. Хуудсыг дахин ачаална уу."
+    "Token expired. Please reload page." : "Токен хугацаа дууссан. Хуудсыг дахин ачаална уу.",
+    "Share recipient is not a valid circle" : "Хуваалцах хүлээн авагч зөв circle биш"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -132,18 +132,32 @@ class PrincipalTest extends TestCase {
 			->willReturn($fooAccountPropertyCollection);
 
 		$emailPropertyOne = $this->createMock(IAccountProperty::class);
+		$emailPropertyOne->method('getLocallyVerified')
+			->willReturn(IAccountManager::VERIFIED);
 		$emailPropertyOne->expects($this->once())
 			->method('getValue')
 			->willReturn('alias@nextcloud.com');
 		$emailPropertyTwo = $this->createMock(IAccountProperty::class);
+		$emailPropertyTwo->method('getLocallyVerified')
+			->willReturn(IAccountManager::VERIFIED);
 		$emailPropertyTwo->expects($this->once())
 			->method('getValue')
 			->willReturn('alias2@nextcloud.com');
+		$emailPropertyNotVerified = $this->createMock(IAccountProperty::class);
+		$emailPropertyNotVerified->method('getLocallyVerified')
+			->willReturn(IAccountManager::NOT_VERIFIED);
+		$emailPropertyNotVerified->expects($this->never())
+			->method('getValue');
+		$emailPropertyInProgress = $this->createMock(IAccountProperty::class);
+		$emailPropertyInProgress->method('getLocallyVerified')
+			->willReturn(IAccountManager::VERIFICATION_IN_PROGRESS);
+		$emailPropertyInProgress->expects($this->never())
+			->method('getValue');
 
 		$barAccountPropertyCollection = $this->createMock(IAccountPropertyCollection::class);
 		$barAccountPropertyCollection->expects($this->once())
 			->method('getProperties')
-			->willReturn([$emailPropertyOne, $emailPropertyTwo]);
+			->willReturn([$emailPropertyOne, $emailPropertyNotVerified, $emailPropertyTwo, $emailPropertyInProgress]);
 		$barAccount = $this->createMock(IAccount::class);
 		$barAccount->expects($this->once())
 			->method('getPropertyCollection')
@@ -246,6 +260,59 @@ class PrincipalTest extends TestCase {
 			->method('getUserLanguage')
 			->with($fooUser)
 			->willReturn('de');
+
+		$expectedResponse = [
+			'uri' => 'principals/users/foo',
+			'{DAV:}displayname' => 'foo',
+			'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => 'INDIVIDUAL',
+			'{http://nextcloud.com/ns}language' => 'de',
+			'{http://sabredav.org/ns}email-address' => 'foo@nextcloud.com',
+		];
+		$response = $this->connector->getPrincipalByPath('principals/users/foo');
+		$this->assertSame($expectedResponse, $response);
+	}
+
+	public function testGetPrincipalsByPathWithUnverifiedAdditionalMails(): void {
+		$fooUser = $this->createMock(IUser::class);
+		$fooUser->method('getSystemEMailAddress')
+			->willReturn('foo@nextcloud.com');
+		$fooUser->method('getUID')
+			->willReturn('foo');
+		$fooUser->method('getDisplayName')
+			->willReturn('foo');
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('foo')
+			->willReturn($fooUser);
+
+		$this->languageFactory
+			->method('getUserLanguage')
+			->with($fooUser)
+			->willReturn('de');
+
+		$notVerified = $this->createMock(IAccountProperty::class);
+		$notVerified->method('getLocallyVerified')
+			->willReturn(IAccountManager::NOT_VERIFIED);
+		$notVerified->method('getValue')
+			->willReturn('bar@nextcloud.com');
+		$inProgress = $this->createMock(IAccountProperty::class);
+		$inProgress->method('getLocallyVerified')
+			->willReturn(IAccountManager::VERIFICATION_IN_PROGRESS);
+		$inProgress->method('getValue')
+			->willReturn('baz@nextcloud.com');
+		$collection = $this->createMock(IAccountPropertyCollection::class);
+		$collection->method('getProperties')
+			->willReturn([$notVerified, $inProgress]);
+		$account = $this->createMock(IAccount::class);
+		$account->method('getPropertyCollection')
+			->with(IAccountManager::COLLECTION_EMAIL)
+			->willReturn($collection);
+		$this->accountManager
+			->expects($this->once())
+			->method('getAccount')
+			->with($fooUser)
+			->willReturn($account);
 
 		$expectedResponse = [
 			'uri' => 'principals/users/foo',
@@ -917,6 +984,100 @@ class PrincipalTest extends TestCase {
 			['{http://sabredav.org/ns}email-address' => 'user']));
 	}
 
+	private function createSearchUser(string $uid, string $searchValue): IUser&MockObject {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn($uid);
+		$user->method('getDisplayName')->willReturn($searchValue);
+		$user->method('getSystemEMailAddress')->willReturn($searchValue);
+		return $user;
+	}
+
+	public static function searchPrincipalWithEnumerationRestrictionsDataProvider(): array {
+		$cases = [];
+		foreach (['{DAV:}displayname', '{http://sabredav.org/ns}email-address'] as $property) {
+			// phone book restriction only: phone book matches and full matches
+			$cases[] = [$property, false, true, true, ['principals/users/bob', 'principals/users/dave']];
+			$cases[] = [$property, false, true, false, ['principals/users/bob']];
+			// phone book and group restriction: phone book matches and common groups
+			$cases[] = [$property, true, true, false, ['principals/users/bob', 'principals/users/carol']];
+			// group restriction only: common groups
+			$cases[] = [$property, true, false, false, ['principals/users/carol']];
+			// no restriction: everybody
+			$cases[] = [$property, false, false, false, ['principals/users/bob', 'principals/users/carol', 'principals/users/dave']];
+		}
+		return $cases;
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'searchPrincipalWithEnumerationRestrictionsDataProvider')]
+	public function testSearchPrincipalWithEnumerationRestrictions(string $property, bool $limitGroup, bool $limitPhone, bool $fullMatch, array $expected): void {
+		$this->shareManager->method('shareAPIEnabled')->willReturn(true);
+		$this->shareManager->method('allowEnumeration')->willReturn(true);
+		$this->shareManager->method('limitEnumerationToGroups')->willReturn($limitGroup);
+		$this->shareManager->method('limitEnumerationToPhone')->willReturn($limitPhone);
+		$this->shareManager->method('allowEnumerationFullMatch')->willReturn($fullMatch);
+		$this->shareManager->method('shareWithGroupMembersOnly')->willReturn(false);
+
+		$alice = $this->createSearchUser('alice', 'alice');
+		$bob = $this->createSearchUser('bob', 'bob');
+		$carol = $this->createSearchUser('carol', 'carol');
+		$dave = $this->createSearchUser('dave', 'dave');
+		$this->userSession->method('getUser')->willReturn($alice);
+
+		$this->userManager->method('searchDisplayName')->with('dave')->willReturn([$bob, $carol, $dave]);
+		$this->userManager->method('getByEmail')->with('dave')->willReturn([$bob, $carol, $dave]);
+
+		$this->knownUserService->method('isKnownToUser')
+			->willReturnCallback(static fn (string $knownTo, string $contact): bool => $knownTo === 'alice' && $contact === 'bob');
+
+		$this->groupManager->method('getUserGroupIds')->willReturnMap([
+			[$alice, ['group1']],
+			[$bob, ['group2']],
+			[$carol, ['group1']],
+			[$dave, ['group2']],
+		]);
+
+		$this->assertEquals($expected, $this->connector->searchPrincipals('principals/users', [$property => 'dave']));
+	}
+
+	public static function searchPrincipalWithGroupMembersOnlyExcludedGroupsDataProvider(): array {
+		$cases = [];
+		foreach (['{DAV:}displayname', '{http://sabredav.org/ns}email-address'] as $property) {
+			foreach ([false, true] as $limitGroup) {
+				$cases[] = [$property, $limitGroup, [], ['principals/users/bob', 'principals/users/carol']];
+				$cases[] = [$property, $limitGroup, ['everyone'], ['principals/users/carol']];
+				$cases[] = [$property, $limitGroup, ['everyone', 'group1'], []];
+			}
+		}
+		return $cases;
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'searchPrincipalWithGroupMembersOnlyExcludedGroupsDataProvider')]
+	public function testSearchPrincipalWithGroupMembersOnlyExcludedGroups(string $property, bool $limitGroup, array $excludedGroups, array $expected): void {
+		$this->shareManager->method('shareAPIEnabled')->willReturn(true);
+		$this->shareManager->method('allowEnumeration')->willReturn(true);
+		$this->shareManager->method('limitEnumerationToGroups')->willReturn($limitGroup);
+		$this->shareManager->method('limitEnumerationToPhone')->willReturn(false);
+		$this->shareManager->method('allowEnumerationFullMatch')->willReturn(false);
+		$this->shareManager->method('shareWithGroupMembersOnly')->willReturn(true);
+		$this->shareManager->method('shareWithGroupMembersOnlyExcludeGroupsList')->willReturn($excludedGroups);
+
+		$alice = $this->createSearchUser('alice', 'alice');
+		$bob = $this->createSearchUser('bob', 'bob');
+		$carol = $this->createSearchUser('carol', 'carol');
+		$this->userSession->method('getUser')->willReturn($alice);
+
+		$this->userManager->method('searchDisplayName')->with('o')->willReturn([$bob, $carol]);
+		$this->userManager->method('getByEmail')->with('o')->willReturn([$bob, $carol]);
+
+		$this->groupManager->method('getUserGroupIds')->willReturnMap([
+			[$alice, ['everyone', 'group1']],
+			[$bob, ['everyone']],
+			[$carol, ['everyone', 'group1']],
+		]);
+
+		$this->assertEquals($expected, $this->connector->searchPrincipals('principals/users', [$property => 'o']));
+	}
+
 	public function testFindByUriSharingApiDisabled(): void {
 		$this->shareManager->expects($this->once())
 			->method('shareApiEnabled')
@@ -1003,6 +1164,73 @@ class PrincipalTest extends TestCase {
 		return [
 			['mailto:user2@foo.bar', 'user2@foo.bar', 'principals/users/user2'],
 			['mailto:user3@foo.bar', 'user3@foo.bar', 'principals/users/user3'],
+		];
+	}
+
+	public function testFindByUriWithGroupRestrictionExcludedGroup(): void {
+		$this->shareManager->method('shareApiEnabled')->willReturn(true);
+		$this->shareManager->method('shareWithGroupMembersOnly')->willReturn(true);
+		$this->shareManager->method('shareWithGroupMembersOnlyExcludeGroupsList')->willReturn(['everyone']);
+
+		$user = $this->createMock(IUser::class);
+		$this->userSession->method('getUser')->willReturn($user);
+		$user2 = $this->createMock(IUser::class);
+		$user2->method('getUID')->willReturn('user2');
+		$this->userManager->method('getByEmail')->with('user2@foo.bar')->willReturn([$user2]);
+		$this->groupManager->method('getUserGroupIds')->willReturnMap([
+			[$user, ['group1', 'everyone']],
+			[$user2, ['group2', 'everyone']],
+		]);
+
+		$this->assertNull($this->connector->findByUri('mailto:user2@foo.bar', 'principals/users'));
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'findByUriPrincipalDataProvider')]
+	public function testFindByUriPrincipal(string $uri, bool $groupsOnly, ?string $expects): void {
+		$this->shareManager->method('shareApiEnabled')->willReturn(true);
+		$this->shareManager->method('shareWithGroupMembersOnly')->willReturn($groupsOnly);
+		$this->shareManager->method('shareWithGroupMembersOnlyExcludeGroupsList')->willReturn($groupsOnly ? ['everyone'] : []);
+
+		$currentUser = $this->createMock(IUser::class);
+		$currentUser->method('getUID')->willReturn('user1');
+		$this->userSession->method('getUser')->willReturn($currentUser);
+
+		$users = ['user1' => $currentUser];
+		foreach (['user2', 'user3'] as $uid) {
+			$users[$uid] = $this->createMock(IUser::class);
+			$users[$uid]->method('getUID')->willReturn($uid);
+		}
+		$this->userManager->method('get')->willReturnCallback(fn (string $uid) => $users[$uid] ?? null);
+		$this->groupManager->method('getUserGroupIds')->willReturnCallback(fn (IUser $user) => match ($user->getUID()) {
+			'user1' => ['group1', 'everyone'],
+			'user2' => ['group1', 'everyone'],
+			'user3' => ['group3', 'everyone'],
+		});
+		$this->groupManager->method('get')->willReturnCallback(function (string $gid) {
+			if (!in_array($gid, ['group1', 'group3', 'everyone'], true)) {
+				return null;
+			}
+			$group = $this->createMock(IGroup::class);
+			$group->method('getDisplayName')->willReturn($gid);
+			return $group;
+		});
+
+		$this->assertSame($expects, $this->connector->findByUri($uri, ''));
+	}
+
+	public static function findByUriPrincipalDataProvider(): array {
+		return [
+			['principal:principals/users/user2', false, 'principals/users/user2'],
+			['principal:principals/users/user3', false, 'principals/users/user3'],
+			['principal:principals/users/unknown', false, null],
+			['principal:principals/groups/group3', false, 'principals/groups/group3'],
+			['principal:principals/groups/unknown', false, null],
+			['principal:principals/users/user2', true, 'principals/users/user2'],
+			['principal:principals/users/user3', true, null],
+			['principal:principals/users/unknown', true, null],
+			['principal:principals/groups/group1', true, 'principals/groups/group1'],
+			['principal:principals/groups/group3', true, null],
+			['principal:principals/groups/everyone', true, null],
 		];
 	}
 

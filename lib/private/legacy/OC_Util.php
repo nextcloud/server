@@ -507,12 +507,7 @@ class OC_Util {
 	 * @internal
 	 */
 	private static function isAnnotationsWorking(): bool {
-		if (PHP_VERSION_ID >= 80300) {
-			/** @psalm-suppress UndefinedMethod */
-			$reflection = \ReflectionMethod::createFromMethodName(__METHOD__);
-		} else {
-			$reflection = new \ReflectionMethod(__METHOD__);
-		}
+		$reflection = \ReflectionMethod::createFromMethodName(__METHOD__);
 		$docs = $reflection->getDocComment();
 
 		return (is_string($docs) && strlen($docs) > 50);

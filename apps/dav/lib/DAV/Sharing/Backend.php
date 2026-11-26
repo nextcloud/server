@@ -17,7 +17,10 @@ use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IGroupManager;
 use OCP\IUserManager;
+use OCP\IUserSession;
+use OCP\Share\IManager as IShareManager;
 use Psr\Log\LoggerInterface;
+use Sabre\DAV\Exception\Forbidden;
 
 abstract class Backend {
 	use TTransactional;
@@ -42,6 +45,8 @@ abstract class Backend {
 		//       by default.
 		private FederationSharingService $federationSharingService,
 		private LoggerInterface $logger,
+		private IShareManager $shareManager,
+		private IUserSession $userSession,
 	) {
 		$this->shareCache = $this->cacheFactory->createInMemory();
 	}
@@ -49,13 +54,12 @@ abstract class Backend {
 	/**
 	 * @param list<array{href: string, commonName: string, readOnly: bool}> $add
 	 * @param list<string> $remove
+	 * @throws Forbidden if a share is not allowed by the sharing settings
 	 */
 	public function updateShares(IShareable $shareable, array $add, array $remove, array $oldShares = []): void {
 		$this->shareCache->clear();
 		foreach ($add as $element) {
-			// Hacky code below ... shouldn't we check the whole (principal) root collection instead?
-			$principal = $this->principalBackend->findByUri($element['href'], '')
-				?? $this->remoteUserPrincipalBackend->findByUri($element['href'], '');
+			$principal = $this->findShareePrincipal($element['href']);
 			if (empty($principal)) {
 				continue;
 			}
@@ -80,6 +84,10 @@ abstract class Backend {
 				continue;
 			}
 
+			if ($principalparts[1] !== 'remote-users') {
+				$this->assertSharingAllowed($principalparts[1], $principalparts[2]);
+			}
+
 			$access = Backend::ACCESS_READ;
 			if (isset($element['readOnly'])) {
 				$access = $element['readOnly'] ? Backend::ACCESS_READ : Backend::ACCESS_READ_WRITE;
@@ -92,9 +100,7 @@ abstract class Backend {
 			}
 		}
 		foreach ($remove as $element) {
-			// Hacky code below ... shouldn't we check the whole (principal) root collection instead?
-			$principal = $this->principalBackend->findByUri($element, '')
-				?? $this->remoteUserPrincipalBackend->findByUri($element, '');
+			$principal = $this->findShareePrincipal($element);
 			if (empty($principal)) {
 				continue;
 			}
@@ -240,7 +246,7 @@ abstract class Backend {
 	public function unshare(IShareable $shareable, string $principalUri): bool {
 		$this->shareCache->clear();
 
-		$principal = $this->principalBackend->findByUri($principalUri, '');
+		$principal = $this->findShareePrincipal($principalUri);
 		if (empty($principal)) {
 			return false;
 		}
@@ -280,6 +286,63 @@ abstract class Backend {
 
 	public function getSharesByShareePrincipal(string $principal): array {
 		return $this->service->getSharesByPrincipals([$principal]);
+	}
+
+	/**
+	 * Resolves a `principal:` href of a sharee to its principal uri.
+	 * Does not apply the sharing settings, so that existing shares can always be removed.
+	 */
+	private function findShareePrincipal(string $href): ?string {
+		if (!str_starts_with($href, 'principal:')) {
+			return null;
+		}
+
+		$principal = $this->getPrincipalByPath(substr($href, strlen('principal:')), ['uri']);
+		return $principal['uri'] ?? null;
+	}
+
+	/**
+	 * @param string $shareeType 'users', 'groups' or 'circles'
+	 * @throws Forbidden
+	 */
+	private function assertSharingAllowed(string $shareeType, string $shareeId): void {
+		if (!$this->shareManager->shareApiEnabled()) {
+			throw new Forbidden('Sharing is not allowed');
+		}
+
+		$user = $this->userSession->getUser();
+		if ($this->shareManager->sharingDisabledForUser($user?->getUID())) {
+			throw new Forbidden('Sharing is not allowed for you');
+		}
+
+		if ($shareeType === 'groups' && !$this->shareManager->allowGroupSharing()) {
+			throw new Forbidden('Group sharing is not allowed');
+		}
+
+		if ($shareeType === 'circles' || !$this->shareManager->shareWithGroupMembersOnly()) {
+			return;
+		}
+
+		if ($user === null) {
+			throw new Forbidden('Sharing is only allowed with group members');
+		}
+
+		$allowedGroups = array_diff(
+			$this->groupManager->getUserGroupIds($user),
+			$this->shareManager->shareWithGroupMembersOnlyExcludeGroupsList(),
+		);
+
+		if ($shareeType === 'groups') {
+			if (!in_array($shareeId, $allowedGroups, true)) {
+				throw new Forbidden('Sharing is only allowed within your own groups');
+			}
+			return;
+		}
+
+		$sharee = $this->userManager->get($shareeId);
+		if ($sharee === null || array_intersect($allowedGroups, $this->groupManager->getUserGroupIds($sharee)) === []) {
+			throw new Forbidden('Sharing is only allowed with group members');
+		}
 	}
 
 	/**
