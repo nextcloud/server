@@ -1073,13 +1073,24 @@ class UserTest extends \Test\TestCase {
 			->with($this->user->getUsername(), 'user_ldap', 'displayName', '')
 			->willReturn($oldName);
 
+		$calls = [];
+		$this->access->expects($this->once())
+			->method('cacheUserDisplayName')
+			->with($this->user->getUsername(), $expected)
+			->willReturnCallback(function () use (&$calls): void {
+				$calls[] = 'cache';
+			});
+
 		$ncUserObj = $this->createMock(\OC\User\User::class);
 		$ncUserObj->method('getUID')
 			->willReturn('alice');
 		if ($expectedOldValue !== null) {
 			$ncUserObj->expects($this->once())
 				->method('triggerChange')
-				->with('displayName', $expected, $expectedOldValue);
+				->with('displayName', $expected, $expectedOldValue)
+				->willReturnCallback(function () use (&$calls): void {
+					$calls[] = 'trigger';
+				});
 		} else {
 			$ncUserObj->expects($this->never())
 				->method('triggerChange');
@@ -1090,12 +1101,17 @@ class UserTest extends \Test\TestCase {
 
 		$displayName = $this->user->composeAndStoreDisplayName($part1, $part2);
 		$this->assertSame($expected, $displayName);
+		// the cache must hold the new name before listeners of the change run
+		$this->assertSame($expectedOldValue !== null ? ['cache', 'trigger'] : ['cache'], $calls);
 	}
 
 	public function testComposeAndStoreDisplayNameNoOverwrite(): void {
 		$displayName = 'Randall Flagg';
 		$this->userConfig->expects($this->never())
 			->method('setValueString');
+		$this->access->expects($this->once())
+			->method('cacheUserDisplayName')
+			->with($this->user->getUsername(), $displayName);
 		$this->userConfig->expects($this->once())
 			->method('getValueString')
 			->willReturn($displayName);

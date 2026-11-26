@@ -117,8 +117,7 @@ class User {
 			$displayName2 = (string)$ldapEntry[$attr][0];
 		}
 		if ($displayName !== '') {
-			$composedDisplayName = $this->composeAndStoreDisplayName($displayName, $displayName2);
-			$this->access->cacheUserDisplayName($this->getUsername(), $composedDisplayName);
+			$this->composeAndStoreDisplayName($displayName, $displayName2);
 		}
 		unset($attr);
 
@@ -448,6 +447,8 @@ class User {
 		}
 		$hasStoredName = $this->userConfig->hasKey($this->uid, 'user_ldap', 'displayName');
 		$oldName = $this->userConfig->getValueString($this->uid, 'user_ldap', 'displayName', '');
+		// Listeners of the change may read the display name right away, e.g. to regenerate the avatar
+		$this->access->cacheUserDisplayName($this->getUsername(), $displayName);
 		if ($oldName !== $displayName) {
 			$this->store('displayName', $displayName);
 			$user = $this->userManager->get($this->getUsername());
