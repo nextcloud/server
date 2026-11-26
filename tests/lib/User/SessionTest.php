@@ -524,8 +524,8 @@ class SessionTest extends TestCase {
 
 		$this->throttler
 			->expects($this->once())
-			->method('registerAttempt')
-			->with('login', '192.168.0.1', ['user' => 'john']);
+			->method('registerUniqueAttempt')
+			->with('login', '192.168.0.1', ['john','doe'], ['user' => 'john']);
 		$this->dispatcher
 			->expects($this->exactly(2))
 			->method('dispatchTyped')
@@ -654,8 +654,8 @@ class SessionTest extends TestCase {
 
 		$this->throttler
 			->expects($this->once())
-			->method('registerAttempt')
-			->with('login', '192.168.0.1', ['user' => 'john']);
+			->method('registerUniqueAttempt')
+			->with('login', '192.168.0.1', ['john','doe'], ['user' => 'john']);
 
 		$this->dispatcher
 			->expects($this->exactly(2))
@@ -1563,8 +1563,8 @@ class SessionTest extends TestCase {
 
 		$this->throttler
 			->expects($this->once())
-			->method('registerAttempt')
-			->with('login', '192.168.0.1', ['user' => 'john']);
+			->method('registerUniqueAttempt')
+			->with('login', '192.168.0.1', ['john','I-AM-A-PASSWORD'], ['user' => 'john']);
 		$this->dispatcher
 			->expects($this->exactly(2))
 			->method('dispatchTyped')
@@ -1626,8 +1626,8 @@ class SessionTest extends TestCase {
 
 		$this->throttler
 			->expects($this->once())
-			->method('registerAttempt')
-			->with('login', '192.168.0.1', ['user' => 'john@foo.bar']);
+			->method('registerUniqueAttempt')
+			->with('login', '192.168.0.1', ['john@foo.bar','I-AM-A-PASSWORD'], ['user' => 'john@foo.bar']);
 		$this->dispatcher
 			->expects($this->exactly(2))
 			->method('dispatchTyped')
