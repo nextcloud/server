@@ -527,7 +527,6 @@
     "Sharing backend for %s not found" : "Jagamise taustateenust ei leidu %s jaoks",
     "%1$s shared %2$s with you and wants to add:" : "%1$s jagas sinuga %2$s ning soovib lisada:",
     "%1$s shared %2$s with you and wants to add" : "%1$s jagas sinuga %2$s ning soovib lisada",
-    "Share recipient is not a valid circle" : "Jaosmeedia vastuvõtja pole korrektne tiim",
     "You cannot share your root folder" : "Sa ei saa juurkausta jagada",
     "You are not allowed to share %s" : "Sul pole lubatud %s jagada",
     "File shares cannot have create or delete permissions" : "Jaosfailidel ei saa olla loomis- või kustutamisõigusi",
@@ -545,6 +544,7 @@
     "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Kasutajanimes on lubatud ainult järgmised tähemärgid: „a-z“, „A-Z“, „0-9“, ja „_.@-'“",
     "Application is not enabled" : "Rakendus pole kasutusel",
     "Authentication error" : "Viga autentimisel",
-    "Token expired. Please reload page." : "Tunnusluba aegus. Palun laadi leht uuesti."
+    "Token expired. Please reload page." : "Tunnusluba aegus. Palun laadi leht uuesti.",
+    "Share recipient is not a valid circle" : "Jaosmeedia vastuvõtja pole korrektne tiim"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

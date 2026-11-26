@@ -356,7 +356,6 @@
     "Sharing backend for %s not found" : "No fue encontrado el Backend que comparte para %s",
     "%1$s shared %2$s with you and wants to add:" : "%1$s le compartió %2$s y quiere añadir:",
     "%1$s shared %2$s with you and wants to add" : "%1$s le compartió %2$s y quiere añadir",
-    "Share recipient is not a valid circle" : "El círculo receptor del recurso compartido no es válido",
     "You cannot share your root folder" : "No puedes compartir tu carpeta principal",
     "You are not allowed to share %s" : "No tienes permitido compartir %s",
     "Cannot increase permissions of %s" : "No se pueden incrementar los permisos de %s",
@@ -373,6 +372,7 @@
     "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Sólo los siguientes caracteres están permitidos en un nombre de usuario: \"a-z\", \"A-Z\", \"0-9\", espacios y \"_.@-'\"",
     "Application is not enabled" : "La aplicación está deshabilitada",
     "Authentication error" : "Error de autenticación",
-    "Token expired. Please reload page." : "La ficha ha expirado. Por favor recarga la página."
+    "Token expired. Please reload page." : "La ficha ha expirado. Por favor recarga la página.",
+    "Share recipient is not a valid circle" : "El círculo receptor del recurso compartido no es válido"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

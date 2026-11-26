@@ -471,7 +471,6 @@
     "Sharing backend for %s not found" : "بک‌اند اشتراک‌گذاری برای %s یافت نشد",
     "%1$s shared %2$s with you and wants to add:" : "%1$s %2$s را با شما به اشتراک گذاشته و می‌خواهد اضافه کند:",
     "%1$s shared %2$s with you and wants to add" : "%1$s %2$s را با شما به اشتراک گذاشته و می‌خواهد اضافه کند",
-    "Share recipient is not a valid circle" : "دریافت‌کننده اشتراک یک حلقه معتبر نیست",
     "You cannot share your root folder" : "نمی‌توانید پوشه ریشه خود را به اشتراک بگذارید",
     "You are not allowed to share %s" : "شما مجاز به اشتراک‌گذاری %s نیستید",
     "File shares cannot have create or delete permissions" : "اشتراک‌های فایل نمی‌توانند مجوز ایجاد یا حذف داشته باشند",
@@ -489,6 +488,7 @@
     "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "در نام کاربری فقط کاراکترهای زیر مجاز هستند: \"a-z\"، \"A-Z\"، \"0-9\"، فاصله و \"_.@-'\"",
     "Application is not enabled" : "برنامه فعال نیست",
     "Authentication error" : "خطای احراز هویت",
-    "Token expired. Please reload page." : "توکن منقضی شده است. لطفاً صفحه را مجدداً بارگذاری کنید."
+    "Token expired. Please reload page." : "توکن منقضی شده است. لطفاً صفحه را مجدداً بارگذاری کنید.",
+    "Share recipient is not a valid circle" : "دریافت‌کننده اشتراک یک حلقه معتبر نیست"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

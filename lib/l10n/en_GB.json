@@ -527,7 +527,6 @@
     "Sharing backend for %s not found" : "Sharing backend for %s not found",
     "%1$s shared %2$s with you and wants to add:" : "%1$s shared %2$s with you and wants to add:",
     "%1$s shared %2$s with you and wants to add" : "%1$s shared %2$s with you and wants to add",
-    "Share recipient is not a valid circle" : "Share recipient is not a valid circle",
     "You cannot share your root folder" : "You cannot share your root folder",
     "You are not allowed to share %s" : "You are not allowed to share %s",
     "File shares cannot have create or delete permissions" : "File shares cannot have create or delete permissions",
@@ -545,6 +544,7 @@
     "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"",
     "Application is not enabled" : "Application is not enabled",
     "Authentication error" : "Authentication error",
-    "Token expired. Please reload page." : "Token expired. Please reload page."
+    "Token expired. Please reload page." : "Token expired. Please reload page.",
+    "Share recipient is not a valid circle" : "Share recipient is not a valid circle"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -527,7 +527,6 @@
     "Sharing backend for %s not found" : "%s-д зориулсан хуваалцах backend олдсонгүй",
     "%1$s shared %2$s with you and wants to add:" : "%1$s %2$s-г тантай хуваалцаж, нэмэхийг хүсэж байна:",
     "%1$s shared %2$s with you and wants to add" : "%1$s %2$s-г тантай хуваалцаж, нэмэхийг хүсэж байна",
-    "Share recipient is not a valid circle" : "Хуваалцах хүлээн авагч зөв circle биш",
     "You cannot share your root folder" : "Үндсэн хавтсаа хуваалцах боломжгүй",
     "You are not allowed to share %s" : "%s хуваалцах зөвшөөрөлгүй байна",
     "File shares cannot have create or delete permissions" : "Файл хуваалцалтад үүсгэх эсвэл устгах эрх байж болохгүй",
@@ -545,6 +544,7 @@
     "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Нэвтрэх нэрэнд зөвхөн дараах тэмдэгтүүд зөвшөөрөгдөнө: \"a-z\", \"A-Z\", \"0-9\", зай болон \"_.@-'\"",
     "Application is not enabled" : "Програм идэвхгүй",
     "Authentication error" : "Нотолгооны алдаа",
-    "Token expired. Please reload page." : "Токен хугацаа дууссан. Хуудсыг дахин ачаална уу."
+    "Token expired. Please reload page." : "Токен хугацаа дууссан. Хуудсыг дахин ачаална уу.",
+    "Share recipient is not a valid circle" : "Хуваалцах хүлээн авагч зөв circle биш"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
