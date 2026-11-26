@@ -109,11 +109,7 @@ final class GroupShareRecipientTypeTest extends TestCase {
 	}
 
 	public function testGetRecipientDisplayName(): void {
-		// Clear display name cache, because setting the display name on the group doesn't update it in the cache of the manager
-		/** @var \OC\Group\DisplayNameCache */
-		$displayNameCache = self::invokePrivate(Server::get(IGroupManager::class), 'displayNameCache');
-		$displayNameCache->clear();
-
+		// The rename in setUp must be visible without clearing the manager cache.
 		$this->assertEquals('Group 1', $this->recipientType->getRecipientDisplayName($this->group1->getGID(), null));
 		$this->assertNull($this->recipientType->getRecipientDisplayName($this->group1->getGID(), 'https://example.com'));
 
@@ -149,6 +145,8 @@ final class GroupShareRecipientTypeTest extends TestCase {
 		$this->assertEquals(array_map($generateRecipient(...), [$this->group2]), $this->recipientType->searchRecipients($accessContext, 'group', 1, 1));
 
 		$this->assertEquals(array_map($generateRecipient(...), [$this->group1]), $this->recipientType->searchRecipients($accessContext, 'group1', 1, 0));
+		// "Group 1" matches the display name and not the gid.
+		$this->assertEquals(array_map($generateRecipient(...), [$this->group1]), $this->recipientType->searchRecipients($accessContext, 'Group 1', 5, 0));
 
 		$this->assertEquals([new ShareRecipient(GroupShareRecipientType::class, 'example', 'example.com')], $this->recipientType->searchRecipients($accessContext, 'example@example.com', 1, 0));
 		$this->assertEquals([new ShareRecipient(GroupShareRecipientType::class, 'example', 'https://example.com')], $this->recipientType->searchRecipients($accessContext, 'example@https://example.com', 1, 0));

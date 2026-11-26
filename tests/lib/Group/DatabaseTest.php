@@ -51,6 +51,28 @@ class DatabaseTest extends Backend {
 		$this->assertNull($backend->createGroup($group));
 	}
 
+	public function testRenameIsVisibleToLaterLookups(): void {
+		$gid = $this->getGroupName();
+		$this->assertSame($gid, $this->backend->createGroup($gid));
+
+		// createGroup caches the original name. A later lookup must not return it.
+		$this->assertSame($gid, $this->backend->getDisplayName($gid));
+		$this->assertTrue($this->backend->setDisplayName($gid, 'jokery'));
+
+		$this->assertSame('jokery', $this->backend->getDisplayName($gid));
+		$this->assertNotSame($gid, $this->backend->getDisplayName($gid));
+		$this->assertSame(['displayName' => 'jokery'], $this->backend->getGroupDetails($gid));
+		$this->assertSame('jokery', $this->backend->getGroupsDetails([$gid])[$gid]['displayName']);
+		// "jokery" is not a substring of the gid, so this only matches displayname.
+		$this->assertContains($gid, $this->backend->getGroups('jokery'));
+		$this->assertContains($gid, $this->backend->getGroups($gid));
+
+		$fresh = new Database();
+		$this->assertSame('jokery', $fresh->getDisplayName($gid));
+		$this->assertContains($gid, $fresh->getGroups('jokery'));
+		$this->assertNotContains($gid, $fresh->getGroups('not-the-renamed-group'));
+	}
+
 	public function testAddLongGroupName(): void {
 		$groupName = $this->getUniqueID('test_', 100);
 

@@ -43,13 +43,17 @@ export const useGroupsStore = defineStore('groups', () => {
 				},
 			})
 			for (const group of data.ocs.data.groups) {
-				if (groups.value.has(group.id)) {
+				const displayName = group.displayname || group.id
+				const existing = groups.value.get(group.id)
+				if (existing?.displayName === displayName) {
 					continue
 				}
 
+				// A previous lookup may have stored the gid. A rename only
+				// changes displayname, so replace the stored label.
 				groups.value.set(group.id, {
 					id: group.id,
-					displayName: group.displayname,
+					displayName,
 					isNoUser: true,
 				})
 			}

@@ -27,22 +27,58 @@ interface TwoFactorState {
 const twoFactorAdminDoc = loadState<string>('settings', 'two-factor-admin-doc')
 const twoFactorState = ref(loadState<TwoFactorState>('settings', 'mandatory2FAState'))
 
+interface GroupOption {
+	id: string
+	displayname: string
+}
+
 const loading = ref(false)
 const dirty = ref(false)
 const loadingGroups = ref(false)
-// Groups are loaded dynamically, but the assigned ones *should*
-// be valid groups, so let's add them as initial state
-const groups = ref(unique(twoFactorState.value.enforcedGroups, twoFactorState.value.excludedGroups))
+// The enforcement lists store group ids. The picker shows display names.
+// Seed the ids so an already assigned group is visible before its details arrive.
+const groupOptions = ref<GroupOption[]>(unique(twoFactorState.value.enforcedGroups, twoFactorState.value.excludedGroups)
+	.map(id => ({ id, displayname: id })))
 
 watch(twoFactorState, () => {
 	dirty.value = true
 }, { deep: true })
 
+/**
+ * Merge group details into the picker options.
+ * A later result that only knows the id must not wipe a resolved display name.
+ *
+ * @param incoming Groups returned by the details API, or id placeholders
+ */
+function mergeGroupOptions(incoming: GroupOption[]) {
+	const byId = new Map(groupOptions.value.map(group => [group.id, group]))
+	for (const group of incoming) {
+		const displayname = group.displayname?.trim() ? group.displayname : group.id
+		const current = byId.get(group.id)
+		if (current && current.displayname !== current.id && displayname === group.id) {
+			continue
+		}
+		byId.set(group.id, { id: group.id, displayname })
+	}
+	groupOptions.value = [...byId.values()]
+}
+
+/**
+ * @param query Search string, matched against the group id and the display name
+ */
+async function fetchGroups(query: string) {
+	const { data } = await axios.get(generateOcsUrl('cloud/groups/details?offset=0&search={query}&limit=20', { query }))
+	const groups = (data.ocs?.data?.groups ?? []) as GroupOption[]
+	mergeGroupOptions(groups.map(group => ({
+		id: group.id,
+		displayname: group.displayname || group.id,
+	})))
+}
+
 const searchGroup = useDebounceFn(async (query: string) => {
 	loadingGroups.value = true
 	try {
-		const { data } = await axios.get(generateOcsUrl('cloud/groups?offset=0&search={query}&limit=20', { query }))
-		groups.value = unique(groups.value, data.ocs.data.groups)
+		await fetchGroups(query)
 	} catch (error) {
 		logger.error('could not search groups', { error })
 	} finally {
@@ -51,14 +87,27 @@ const searchGroup = useDebounceFn(async (query: string) => {
 }, 500)
 
 // Populate the groups with a first set so the dropdown is not empty
-// when opening the page the first time
+// when opening the page the first time. Also resolve assigned ids, which
+// may sit outside that first page and would otherwise stay on the old name.
 searchGroup('')
+for (const id of unique(twoFactorState.value.enforcedGroups, twoFactorState.value.excludedGroups)) {
+	fetchGroups(id).catch((error) => logger.error('could not load group', { error }))
+}
 
 /**
  * @param lists Group lists to merge
  */
 function unique(...lists: string[][]): string[] {
 	return [...new Set(lists.flat())]
+}
+
+/**
+ * NcSelect stores the group id and shows the display name.
+ *
+ * @param group Picker option
+ */
+function groupId(group: GroupOption): string {
+	return group.id
 }
 
 /**
@@ -101,7 +150,9 @@ async function saveChanges() {
 				v-model="twoFactorState.enforcedGroups"
 				inputId="enforcedGroups"
 				:inputLabel="t('settings', 'Enforced groups')"
-				:options="groups"
+				:options="groupOptions"
+				label="displayname"
+				:reduce="groupId"
 				:disabled="loading"
 				multiple
 				:loading="loadingGroups"
@@ -114,7 +165,9 @@ async function saveChanges() {
 				v-model="twoFactorState.excludedGroups"
 				inputId="excludedGroups"
 				:inputLabel="t('settings', 'Excluded groups')"
-				:options="groups"
+				:options="groupOptions"
+				label="displayname"
+				:reduce="groupId"
 				:disabled="loading"
 				multiple
 				:loading="loadingGroups"
