@@ -25,6 +25,7 @@ defineProps<{
 		v-if="configOption.type !== ConfigurationType.Boolean"
 		v-model="value"
 		:name="configKey"
+		autocomplete="off"
 		:required="!(configOption.flags & ConfigurationFlag.Optional)"
 		:label="configOption.value"
 		:title="configOption.tooltip"
