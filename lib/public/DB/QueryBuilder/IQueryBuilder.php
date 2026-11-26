@@ -43,6 +43,10 @@ interface IQueryBuilder {
 	 * @since 9.0.0
 	 */
 	public const PARAM_LOB = ParameterType::LARGE_OBJECT;
+	/**
+	 * @since 35.0.4
+	 */
+	public const PARAM_BINARY = ParameterType::BINARY;
 
 	/**
 	 * @since 9.0.0
