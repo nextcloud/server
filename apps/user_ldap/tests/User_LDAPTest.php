@@ -861,6 +861,8 @@ class User_LDAPTest extends TestCase {
 		$user2 = $this->createMock(User::class);
 		$user2->expects($this->never())
 			->method('composeAndStoreDisplayName');
+		$user2->expects($this->once())
+			->method('markDisplayNameMissing');
 		$user2->expects($this->any())
 			->method('getDN')
 			->willReturn('another DN');

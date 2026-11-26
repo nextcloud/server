@@ -100,6 +100,25 @@ class HooksTest extends TestCase {
 		$this->hooks->changeUserHook($params['user'], $params['feature'], $params['value']);
 	}
 
+	public function testChangeUserHookPersistsDisplayNameAlreadyOnAccount(): void {
+		$property = $this->createMock(IAccountProperty::class);
+		$property->method('getValue')
+			->willReturn('newDisplayName');
+		$property->expects($this->never())
+			->method('setValue');
+		$account = $this->createMock(IAccount::class);
+		$account->method('getProperty')
+			->with(IAccountManager::PROPERTY_DISPLAYNAME)
+			->willReturn($property);
+		$this->accountManager->method('getAccount')
+			->willReturn($account);
+		$this->accountManager->expects($this->once())
+			->method('updateAccount')
+			->with($account);
+
+		$this->hooks->changeUserHook($this->createMock(IUser::class), 'displayName', 'newDisplayName');
+	}
+
 	public static function dataTestChangeUserHook(): array {
 		return [
 			[
