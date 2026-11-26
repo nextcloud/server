@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace OCA\DAV\Tests\unit\CalDAV\Listeners;
 
 use OCA\DAV\BackgroundJob\RefreshWebcalJob;
-use OCA\DAV\CalDAV\Reminder\Backend;
 use OCA\DAV\CalDAV\WebcalCaching\RefreshWebcalService;
 use OCA\DAV\Events\SubscriptionCreatedEvent;
 use OCA\DAV\Events\SubscriptionDeletedEvent;
@@ -22,7 +21,6 @@ use Test\TestCase;
 
 class SubscriptionListenerTest extends TestCase {
 	private RefreshWebcalService&MockObject $refreshWebcalService;
-	private Backend&MockObject $reminderBackend;
 	private IJobList&MockObject $jobList;
 	private LoggerInterface&MockObject $logger;
 	private SubscriptionListener $calendarPublicationListener;
@@ -33,12 +31,11 @@ class SubscriptionListenerTest extends TestCase {
 		parent::setUp();
 
 		$this->refreshWebcalService = $this->createMock(RefreshWebcalService::class);
-		$this->reminderBackend = $this->createMock(Backend::class);
 		$this->jobList = $this->createMock(IJobList::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->subscriptionCreatedEvent = $this->createMock(SubscriptionCreatedEvent::class);
 		$this->subscriptionDeletedEvent = $this->createMock(SubscriptionDeletedEvent::class);
-		$this->calendarPublicationListener = new SubscriptionListener($this->jobList, $this->refreshWebcalService, $this->reminderBackend, $this->logger);
+		$this->calendarPublicationListener = new SubscriptionListener($this->jobList, $this->refreshWebcalService, $this->logger);
 	}
 
 	public function testInvalidEvent(): void {
@@ -61,8 +58,7 @@ class SubscriptionListenerTest extends TestCase {
 		$this->subscriptionDeletedEvent->expects($this->once())->method('getSubscriptionId')->with()->willReturn(5);
 		$this->subscriptionDeletedEvent->expects($this->once())->method('getSubscriptionData')->with()->willReturn(['principaluri' => 'principaluri', 'uri' => 'uri']);
 		$this->jobList->expects($this->once())->method('remove')->with(RefreshWebcalJob::class, ['principaluri' => 'principaluri', 'uri' => 'uri']);
-		$this->reminderBackend->expects($this->once())->method('cleanRemindersForCalendar')->with(5);
-		$this->logger->expects($this->exactly(2))->method('debug');
+		$this->logger->expects($this->once())->method('debug');
 		$this->calendarPublicationListener->handle($this->subscriptionDeletedEvent);
 	}
 }

@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Tests\unit\CalDAV\Reminder;
 
+use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Reminder\Backend as ReminderBackend;
 use OCA\DAV\Db\PropertyMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -131,6 +132,7 @@ class BackendTest extends TestCase {
 			'notification_date' => 123456,
 			'is_repeat_based' => false,
 			'calendardata' => 'Calendar data 123',
+			'classification' => CalDavBackend::CLASSIFICATION_PRIVATE,
 			'displayname' => 'Displayname 123',
 			'principaluri' => 'principals/users/user001',
 			'uri' => 'personal',
@@ -150,6 +152,7 @@ class BackendTest extends TestCase {
 			'notification_date' => 123456,
 			'is_repeat_based' => false,
 			'calendardata' => 'Calendar data 123',
+			'classification' => CalDavBackend::CLASSIFICATION_PRIVATE,
 			'displayname' => 'Displayname 123',
 			'principaluri' => 'principals/users/user001',
 			'uri' => 'personal',
@@ -330,6 +333,7 @@ class BackendTest extends TestCase {
 			->values([
 				'id' => $query->createNamedParameter(1),
 				'calendardata' => $query->createNamedParameter('Calendar data 123'),
+				'classification' => $query->createNamedParameter(CalDavBackend::CLASSIFICATION_PRIVATE),
 				'calendarid' => $query->createNamedParameter(1),
 				'size' => $query->createNamedParameter(42),
 			])
