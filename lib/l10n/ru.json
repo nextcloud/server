@@ -527,7 +527,6 @@
     "Sharing backend for %s not found" : "Не найден механизм общего доступа для %s",
     "%1$s shared %2$s with you and wants to add:" : "%1$s поделился(ась) %2$s с вами и хочет добавить:",
     "%1$s shared %2$s with you and wants to add" : "%1$s поделился(ась) %2$s с вами и хочет добавить",
-    "Share recipient is not a valid circle" : "Получатель общего ресурса — недопустимая команда",
     "You cannot share your root folder" : "Нельзя предоставить общий доступ к корневой папке",
     "You are not allowed to share %s" : "У вас нет прав предоставлять общий доступ к %s",
     "File shares cannot have create or delete permissions" : "Для файлов нельзя предоставлять общий доступ с правом создания или удаления",
@@ -545,6 +544,7 @@
     "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "В логине допустимы только символы «a-z», «A-Z», «0-9», пробелы и «_.@-'»",
     "Application is not enabled" : "Приложение не включено",
     "Authentication error" : "Ошибка аутентификации",
-    "Token expired. Please reload page." : "Токен просрочен. Перезагрузите страницу."
+    "Token expired. Please reload page." : "Токен просрочен. Перезагрузите страницу.",
+    "Share recipient is not a valid circle" : "Получатель общего ресурса — недопустимая команда"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }
