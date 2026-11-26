@@ -837,7 +837,7 @@ class ThemingControllerTest extends TestCase {
 	private function getThemeStylesheet(array $meta, bool $plain, int $type = ITheme::TYPE_THEME): string {
 		$theme = $this->createMock(ITheme::class);
 		$theme->method('getType')->willReturn($type);
-		$theme->method('getCSSVariables')->willReturn(['--color-main-background' => '#000', '--font-face' => 'sans-serif']);
+		$theme->method('getCSSVariables')->willReturn(['--color-main-background' => '#000', '--font-face' => 'sans-serif', '--animation-slow' => '200ms']);
 		$theme->method('getCustomCss')->willReturn('');
 		$theme->method('getMeta')->willReturn($meta);
 		$this->themesService->method('getThemes')->willReturn(['dark' => $theme]);
@@ -880,5 +880,17 @@ class ThemingControllerTest extends TestCase {
 		$css = $this->getThemeStylesheet([], false, ITheme::TYPE_FONT);
 
 		$this->assertStringContainsString('--font-face:sans-serif;', $css);
+	}
+
+	public function testGetThemeStylesheetOmitsAnimationForScopedColorTheme(): void {
+		$css = $this->getThemeStylesheet([], false);
+
+		$this->assertStringNotContainsString('--animation-slow', $css);
+	}
+
+	public function testGetThemeStylesheetKeepsAnimationForScopedSupplementaryTheme(): void {
+		$css = $this->getThemeStylesheet([], false, ITheme::TYPE_SUPPLEMENTARY);
+
+		$this->assertStringContainsString('--animation-slow:200ms;', $css);
 	}
 }
