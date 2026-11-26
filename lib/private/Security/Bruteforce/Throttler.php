@@ -18,6 +18,7 @@ use OCP\IConfig;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\Bruteforce\MaxDelayReached;
+use OCP\Security\ICrypto;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -44,6 +45,7 @@ class Throttler implements IThrottler {
 		private IBackend $backend,
 		private BruteforceAllowList $allowList,
 		private IEventDispatcher $dispatcher,
+		private ICrypto $crypto,
 	) {
 	}
 
@@ -117,7 +119,7 @@ class Throttler implements IThrottler {
 
 		$maxAgeTimestamp = (int)($this->timeFactory->getTime() - 3600 * $maxAgeHours);
 
-		$metadata['unique_hash'] = hash('xxh32', $identifier);
+		$metadata['unique_hash'] = $this->crypto->calculateHMAC($identifier);
 		if ($this->backend->getAttempts($ipAddress->getSubnet(), $maxAgeTimestamp, $action, $metadata) === 0) {
 			$this->registerAttempt($action, $ip, $metadata);
 		}
