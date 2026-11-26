@@ -37,7 +37,7 @@ enum PasswordStrength {
  * dictionaries).
  *
  * @param password - Password to evaluate; defaults to an empty string
- * @returns Estimated strength, from VeryWeak to ExtremelyStrong
+ * @return Estimated strength, from VeryWeak to ExtremelyStrong
  */
 function checkPasswordEntropy(password: string = ''): PasswordStrength {
 	if (password === '') {
