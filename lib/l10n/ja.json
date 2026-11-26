@@ -527,7 +527,6 @@
     "Sharing backend for %s not found" : "%s のための共有バックエンドが見つかりません",
     "%1$s shared %2$s with you and wants to add:" : "%1$s さんが %2$s にノートを追加しました:",
     "%1$s shared %2$s with you and wants to add" : "%1$s さんが %2$s にノートを追加しました",
-    "Share recipient is not a valid circle" : "共有先が有効なサークルではありません",
     "You cannot share your root folder" : "ルートルートフォルダーを共有することはできません",
     "You are not allowed to share %s" : "%s を共有することを許可されていません。",
     "File shares cannot have create or delete permissions" : "ファイル共有に作成または削除の権限を設定することはできません",
@@ -545,6 +544,7 @@
     "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "ログイン名で利用できる文字列： \"a-z\", \"A-Z\", \"0-9\", スペース, \"_.@-'\"",
     "Application is not enabled" : "アプリケーションは無効です",
     "Authentication error" : "認証エラー",
-    "Token expired. Please reload page." : "トークンが無効になりました。ページを再読込してください。"
+    "Token expired. Please reload page." : "トークンが無効になりました。ページを再読込してください。",
+    "Share recipient is not a valid circle" : "共有先が有効なサークルではありません"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

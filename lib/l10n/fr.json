@@ -263,6 +263,7 @@
     "A valid password must be provided" : "Un mot de passe valide doit être saisi",
     "The Login is already being used" : "L'identifiant est déjà utilisé",
     "Could not create account" : "Impossible de créer le compte",
+    "Only the following characters are allowed in a Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Seuls les caractères suivants sont autorisés dans un identifiant : \"a-z\", \"A-Z\", \"0-9\", espaces et \"_.@-'\"",
     "A valid Login must be provided" : "Un identifiant valide doit être saisi",
     "Login contains whitespace at the beginning or at the end" : "L'identifiant contient des espaces au début ou à la fin",
     "Login must not consist of dots only" : "L'identifiant ne doit pas être composé uniquement de points",
@@ -527,7 +528,6 @@
     "Sharing backend for %s not found" : "Le service de partage pour %s est introuvable",
     "%1$s shared %2$s with you and wants to add:" : "%1$s a partagé %2$s avec vous et souhaite ajouter :",
     "%1$s shared %2$s with you and wants to add" : "%1$s a partagé %2$s avec vous et souhaite ajouter",
-    "Share recipient is not a valid circle" : "Le destinataire du partage n’est pas une équipe valide",
     "You cannot share your root folder" : "Vous ne pouvez pas partager votre dossier racine",
     "You are not allowed to share %s" : "Vous n’êtes pas autorisé à partager %s",
     "File shares cannot have create or delete permissions" : "Les partages de fichiers ne peuvent pas avoir de permissions de création ou de suppression",
@@ -545,6 +545,7 @@
     "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Seuls les caractères suivants sont autorisés dans un identifiant : \"a-z\", \"A-Z\", \"0-9\", espaces et \"_.@-'\"",
     "Application is not enabled" : "L'application n'est pas activée",
     "Authentication error" : "Erreur d'authentification",
-    "Token expired. Please reload page." : "Le jeton de sécurité a expiré. Veuillez recharger la page."
+    "Token expired. Please reload page." : "Le jeton de sécurité a expiré. Veuillez recharger la page.",
+    "Share recipient is not a valid circle" : "Le destinataire du partage n’est pas une équipe valide"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

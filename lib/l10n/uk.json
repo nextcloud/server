@@ -468,7 +468,6 @@
     "Sharing backend for %s not found" : "Бекенд спільного доступу для %s не знайдено",
     "%1$s shared %2$s with you and wants to add:" : "%1$s поділив(ла)ся %2$s з вами та бажає додати:",
     "%1$s shared %2$s with you and wants to add" : "%1$s поділив(ла)ся %2$s з вами та бажає додати",
-    "Share recipient is not a valid circle" : "Отримувач ресурсу відсутній у застосунку \"Кола\"",
     "You cannot share your root folder" : "Ви не можете надавати у спільний доступ кореневий каталог",
     "You are not allowed to share %s" : "Вам заборонено поширювати %s",
     "File shares cannot have create or delete permissions" : "Відсутні дозволи сторення або вилучення для спільних файлів",
@@ -486,6 +485,7 @@
     "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Лише такі символи дозволено у імені облікового запису: \"a-z\", \"A-Z\", \"0-9\", пробіл та \"_.@-'\"",
     "Application is not enabled" : "Застосунок не увімкнено",
     "Authentication error" : "Помилка автентифікації",
-    "Token expired. Please reload page." : "Строк дії токена скінчився. Будь ласка, перезавантажте сторінку."
+    "Token expired. Please reload page." : "Строк дії токена скінчився. Будь ласка, перезавантажте сторінку.",
+    "Share recipient is not a valid circle" : "Отримувач ресурсу відсутній у застосунку \"Кола\""
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }
