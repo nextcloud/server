@@ -148,8 +148,16 @@ class FilesSearchProvider implements IFilteringProvider {
 	private function buildSearchQuery(ISearchQuery $query, IUser $user): SearchQuery {
 		$comparisons = [];
 		foreach ($query->getFilters() as $name => $filter) {
+			if ($name === 'term') {
+				$raw = (string)$filter->get();
+				$terms = preg_split('/\s+/u', $raw, -1, PREG_SPLIT_NO_EMPTY) ?: [$raw];
+				foreach (array_unique($terms) as $term) {
+					$comparisons[] = new SearchComparison(ISearchComparison::COMPARE_LIKE, 'name', '%' . $term . '%');
+				}
+				continue;
+			}
+
 			$comparisons[] = match ($name) {
-				'term' => new SearchComparison(ISearchComparison::COMPARE_LIKE, 'name', '%' . $filter->get() . '%'),
 				'since' => new SearchComparison(ISearchComparison::COMPARE_GREATER_THAN_EQUAL, 'mtime', $filter->get()->getTimestamp()),
 				'until' => new SearchComparison(ISearchComparison::COMPARE_LESS_THAN_EQUAL, 'mtime', $filter->get()->getTimestamp()),
 				'min-size' => new SearchComparison(ISearchComparison::COMPARE_GREATER_THAN_EQUAL, 'size', $filter->get()),
