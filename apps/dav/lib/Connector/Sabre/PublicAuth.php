@@ -173,7 +173,7 @@ class PublicAuth extends AbstractBasic {
 		try {
 			$share = $this->getShare();
 		} catch (ShareNotFound $e) {
-			$this->throttler->registerUniqueAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress(), $username . $password);
+			$this->throttler->registerUniqueAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress(), [$username, $password]);
 			return false;
 		}
 
@@ -205,13 +205,13 @@ class PublicAuth extends AbstractBasic {
 					throw new NotAuthenticated('Cannot authenticate over ajax calls');
 				}
 
-				$this->throttler->registerUniqueAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress(), $username . $password);
+				$this->throttler->registerUniqueAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress(), [$username, $password]);
 				return false;
 			} elseif ($share->getShareType() === IShare::TYPE_REMOTE) {
 				return true;
 			}
 
-			$this->throttler->registerUniqueAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress(), $username . $password);
+			$this->throttler->registerUniqueAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress(), [$username, $password]);
 			return false;
 		}
 
