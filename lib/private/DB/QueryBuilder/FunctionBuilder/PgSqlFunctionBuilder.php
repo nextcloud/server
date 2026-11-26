@@ -10,9 +10,10 @@ namespace OC\DB\QueryBuilder\FunctionBuilder;
 use OC\DB\QueryBuilder\QueryFunction;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
+use Override;
 
 class PgSqlFunctionBuilder extends FunctionBuilder {
-	#[\Override]
+	#[Override]
 	public function concat($x, ...$expr): IQueryFunction {
 		$args = func_get_args();
 		$list = [];
@@ -22,7 +23,7 @@ class PgSqlFunctionBuilder extends FunctionBuilder {
 		return new QueryFunction(sprintf('(%s)', implode(' || ', $list)));
 	}
 
-	#[\Override]
+	#[Override]
 	public function groupConcat($expr, ?string $separator = ','): IQueryFunction {
 		$castedExpression = $this->queryBuilder->expr()->castColumn($expr, IQueryBuilder::PARAM_STR);
 
@@ -34,8 +35,13 @@ class PgSqlFunctionBuilder extends FunctionBuilder {
 		return new QueryFunction('string_agg(' . $castedExpression . ', ' . $separator . ')');
 	}
 
-	#[\Override]
+	#[Override]
 	public function regexSubstring($input, $pattern): IQueryFunction {
 		return new QueryFunction('substring(' . $this->helper->quoteColumnName($input) . ' from ' . $this->helper->quoteColumnName($pattern) . ')');
+	}
+
+	#[Override]
+	public function fromUnixtime(int|string $timestamp): IQueryFunction {
+		return new QueryFunction('to_timestamp(' . (int)$timestamp . ')');
 	}
 }
