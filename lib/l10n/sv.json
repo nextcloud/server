@@ -527,7 +527,6 @@
     "Sharing backend for %s not found" : "Delningsgränssnittet för %s hittades inte",
     "%1$s shared %2$s with you and wants to add:" : "%1$s delade %2$s med dig och vill lägga till:",
     "%1$s shared %2$s with you and wants to add" : "%1$s delade %2$s med dig och vill lägga till",
-    "Share recipient is not a valid circle" : "Delningsmottagare är inte en giltig cirkel",
     "You cannot share your root folder" : "Du kan inte dela din rotmapp",
     "You are not allowed to share %s" : "Du tillåts inte att dela %s",
     "File shares cannot have create or delete permissions" : "Fildelningar kan inte ha behörighet att skapa eller radera",
@@ -545,6 +544,7 @@
     "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Endast följande tecken är tillåtna i en inloggning: \"a-z\", \"A-Z\", \"0-9\", mellanslag och \"_.@-'\"",
     "Application is not enabled" : "Appen är inte aktiverad",
     "Authentication error" : "Fel vid autentisering",
-    "Token expired. Please reload page." : "Token har löpt ut. Uppdatera sidan."
+    "Token expired. Please reload page." : "Token har löpt ut. Uppdatera sidan.",
+    "Share recipient is not a valid circle" : "Delningsmottagare är inte en giltig cirkel"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

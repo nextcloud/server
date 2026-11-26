@@ -263,6 +263,7 @@
     "A valid password must be provided" : "En gyldig adgangskode skal angives",
     "The Login is already being used" : "Login anvendes allerede",
     "Could not create account" : "Kontoen kunne ikke oprettes",
+    "Only the following characters are allowed in a Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Kun følgende tegn er tilladt i et login: \"a-z\", \"A-Z\", \"0-9\", mellemrum og \"_.@-'\"",
     "A valid Login must be provided" : "Et gyldigt login skal angives",
     "Login contains whitespace at the beginning or at the end" : "Login indeholder mellemrum i begyndelsen eller slutningen",
     "Login must not consist of dots only" : "Login må ikke kun bestå af punktummer",
@@ -527,7 +528,6 @@
     "Sharing backend for %s not found" : "Delingsbackend'en for %s blev ikke fundet",
     "%1$s shared %2$s with you and wants to add:" : "%1$s delte %2$s med dig og ønsker at tilføje:",
     "%1$s shared %2$s with you and wants to add" : "%1$s delte %2$s med dig og ønsker at tilføje",
-    "Share recipient is not a valid circle" : "Delingsmodtager er ikke et gyldigt team",
     "You cannot share your root folder" : "Du kan ikke dele din rodmappe",
     "You are not allowed to share %s" : "Du har ikke tilladelse til at dele %s",
     "File shares cannot have create or delete permissions" : "Fildelinger kan ikke have oprettelses- eller sletningsrettigheder",
@@ -545,6 +545,7 @@
     "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Kun følgende tegn er tilladt i et login: \"a-z\", \"A-Z\", \"0-9\", mellemrum og \"_.@-'\"",
     "Application is not enabled" : "Programmet er ikke aktiveret",
     "Authentication error" : "Adgangsfejl",
-    "Token expired. Please reload page." : "Adgang er udløbet. Genindlæs siden."
+    "Token expired. Please reload page." : "Adgang er udløbet. Genindlæs siden.",
+    "Share recipient is not a valid circle" : "Delingsmodtager er ikke et gyldigt team"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

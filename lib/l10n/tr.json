@@ -527,7 +527,6 @@
     "Sharing backend for %s not found" : "%s için paylaşım arka ucu bulunamadı",
     "%1$s shared %2$s with you and wants to add:" : "%1$s sizinle %2$s ögesini paylaştı ve eklemenizi istiyor:",
     "%1$s shared %2$s with you and wants to add" : "%1$s sizinle %2$s ögesini paylaştı ve eklemenizi istiyor",
-    "Share recipient is not a valid circle" : "Paylaşım alıcısı geçerli bir çevre değil",
     "You cannot share your root folder" : "Kök klasörünüzü paylaşamazsınız",
     "You are not allowed to share %s" : "%s ögesini paylaşma izniniz yok",
     "File shares cannot have create or delete permissions" : "Dosya paylaşımlarında oluşturma ya da silme izni olamaz",
@@ -545,6 +544,7 @@
     "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Kullanıcı adında yalnızca şu karakterler kullanılabilir: \"a-z\", \"A-Z\", \"0-9\", boşluk ve \"_.@-'\"",
     "Application is not enabled" : "Uygulama kullanıma alınmamış",
     "Authentication error" : "Kimlik doğrulama sorunu",
-    "Token expired. Please reload page." : "Kodun geçerlilik süresi dolmuş. Lütfen sayfayı yenileyin."
+    "Token expired. Please reload page." : "Kodun geçerlilik süresi dolmuş. Lütfen sayfayı yenileyin.",
+    "Share recipient is not a valid circle" : "Paylaşım alıcısı geçerli bir çevre değil"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

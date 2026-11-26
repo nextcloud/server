@@ -453,7 +453,6 @@
     "Sharing backend for %s not found" : "Motor compartido para %s no encontrado",
     "%1$s shared %2$s with you and wants to add:" : "%1$s ha compartido %2$s contigo y quiere añadir:",
     "%1$s shared %2$s with you and wants to add" : "%1$s ha compartido %2$s contigo y quiere añadir",
-    "Share recipient is not a valid circle" : "El recipiente del recurso compartido no es un círculo válido",
     "You cannot share your root folder" : "No puede compartir su carpeta raíz",
     "You are not allowed to share %s" : "Usted no está autorizado para compartir %s",
     "File shares cannot have create or delete permissions" : "Las recursos compartidos de archivos no pueden tener permisos de creación o borrado",
@@ -471,6 +470,7 @@
     "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Sólo los siguientes caracteres están permitidos en un nombre de usuario: \"a-z\", \"A-Z\", \"0-9\", espacios y \"_.@-'\"",
     "Application is not enabled" : "La aplicación no está habilitada",
     "Authentication error" : "Error de autenticación",
-    "Token expired. Please reload page." : "Token caducado. Por favor, recarge la página."
+    "Token expired. Please reload page." : "Token caducado. Por favor, recarge la página.",
+    "Share recipient is not a valid circle" : "El recipiente del recurso compartido no es un círculo válido"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

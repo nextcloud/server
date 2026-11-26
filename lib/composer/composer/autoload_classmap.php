@@ -1083,6 +1083,7 @@ return array(
     'OCP\\TaskProcessing\\TaskTypes\\TextToTextTranslate' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/TextToTextTranslate.php',
     'OCP\\Teams\\ITeamFolderProvider' => $baseDir . '/lib/public/Teams/ITeamFolderProvider.php',
     'OCP\\Teams\\ITeamManager' => $baseDir . '/lib/public/Teams/ITeamManager.php',
+    'OCP\\Teams\\ITeamOwnedResourceProvider' => $baseDir . '/lib/public/Teams/ITeamOwnedResourceProvider.php',
     'OCP\\Teams\\ITeamResourceProvider' => $baseDir . '/lib/public/Teams/ITeamResourceProvider.php',
     'OCP\\Teams\\Team' => $baseDir . '/lib/public/Teams/Team.php',
     'OCP\\Teams\\TeamFolder' => $baseDir . '/lib/public/Teams/TeamFolder.php',
