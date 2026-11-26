@@ -158,7 +158,7 @@ interface IShare {
 	/**
 	 * Get the provider id.
 	 *
-	 * @since 35.0.0
+	 * @since 36.0.0
 	 */
 	public function getProviderId(): string;
 
