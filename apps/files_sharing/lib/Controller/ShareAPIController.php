@@ -1205,7 +1205,7 @@ class ShareAPIController extends OCSController {
 		$nodes = [];
 		while (true) {
 			$node = $node->getParent();
-			if ($node->getPath() === $basePath) {
+			if ($node->getId() < 0 || $node->getPath() === $basePath) {
 				break;
 			}
 			$nodes[] = $node;
