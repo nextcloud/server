@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\DAV\CalDAV\Federation;
 
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\CalDAV\Trashbin\Plugin as TrashbinPlugin;
 use OCP\Constants;
 use Sabre\CalDAV\ICalendar;
 use Sabre\CalDAV\Plugin;
@@ -215,7 +216,7 @@ class FederatedCalendar implements ICalendar, IProperties, IMultiGet {
 	public function getChild($name): INode {
 		$obj = $this->caldavBackend->getCalendarObject($this->federationInfo->getId(), $name, $this->getCalendarType());
 
-		if ($obj === null) {
+		if ($obj === null || isset($obj[TrashbinPlugin::PROPERTY_DELETED_AT])) {
 			throw new NotFound('Calendar object not found');
 		}
 
@@ -260,7 +261,7 @@ class FederatedCalendar implements ICalendar, IProperties, IMultiGet {
 	#[\Override]
 	public function childExists($name): bool {
 		$obj = $this->caldavBackend->getCalendarObject($this->federationInfo->getId(), $name, $this->getCalendarType());
-		return $obj !== null;
+		return $obj !== null && !isset($obj[TrashbinPlugin::PROPERTY_DELETED_AT]);
 	}
 
 	/**

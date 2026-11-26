@@ -766,11 +766,6 @@
     </InvalidScalarArgument>
     <NullableReturnStatement>
       <code><![CDATA[$this->getPrincipalPropertiesByPath($path)]]></code>
-      <code><![CDATA[null]]></code>
-      <code><![CDATA[null]]></code>
-      <code><![CDATA[null]]></code>
-      <code><![CDATA[null]]></code>
-      <code><![CDATA[null]]></code>
     </NullableReturnStatement>
     <UndefinedClass>
       <code><![CDATA[Circles]]></code>

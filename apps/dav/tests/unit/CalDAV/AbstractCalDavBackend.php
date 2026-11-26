@@ -89,8 +89,8 @@ abstract class AbstractCalDavBackend extends TestCase {
 			->onlyMethods(['getPrincipalPropertiesByPath', 'getGroupMembership', 'findByUri'])
 			->getMock();
 		$this->principal->expects($this->any())->method('getPrincipalPropertiesByPath')
-			->willReturn([
-				'uri' => 'principals/best-friend',
+			->willReturnCallback(static fn (string $path): array => [
+				'uri' => $path,
 				'{DAV:}displayname' => 'User\'s displayname',
 			]);
 		$this->principal->expects($this->any())->method('getGroupMembership')
@@ -112,7 +112,12 @@ abstract class AbstractCalDavBackend extends TestCase {
 			$this->createMock(ICacheFactory::class),
 			new Service(new SharingMapper($this->db)),
 			$this->federationSharingService,
-			$this->logger);
+			$this->logger,
+			$this->createConfiguredMock(ShareManager::class, [
+				'shareApiEnabled' => true,
+				'allowGroupSharing' => true,
+			]),
+			$this->createMock(IUserSession::class));
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->backend = new CalDavBackend(
 			$this->db,

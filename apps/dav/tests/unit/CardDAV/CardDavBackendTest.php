@@ -118,13 +118,15 @@ class CardDavBackendTest extends TestCase {
 				$this->config,
 				$this->createMock(IFactory::class)
 			])
-			->onlyMethods(['getPrincipalByPath', 'getGroupMembership', 'findByUri'])
+			->onlyMethods(['getPrincipalByPath', 'getPrincipalPropertiesByPath', 'getGroupMembership', 'findByUri'])
 			->getMock();
 		$this->principal->method('getPrincipalByPath')
 			->willReturn([
 				'uri' => 'principals/best-friend',
 				'{DAV:}displayname' => 'User\'s displayname',
 			]);
+		$this->principal->method('getPrincipalPropertiesByPath')
+			->willReturnCallback(static fn (string $path): array => ['uri' => $path]);
 		$this->principal->method('getGroupMembership')
 			->withAnyParameters()
 			->willReturn([self::UNIT_TEST_GROUP]);
@@ -140,7 +142,12 @@ class CardDavBackendTest extends TestCase {
 			$this->createMock(ICacheFactory::class),
 			new Service(new SharingMapper($this->db)),
 			$this->federationSharingService,
-			$this->createMock(LoggerInterface::class)
+			$this->createMock(LoggerInterface::class),
+			$this->createConfiguredMock(ShareManager::class, [
+				'shareApiEnabled' => true,
+				'allowGroupSharing' => true,
+			]),
+			$this->createMock(IUserSession::class),
 		);
 
 		$this->backend = $this->createBackend();
@@ -262,9 +269,6 @@ class CardDavBackendTest extends TestCase {
 		$this->groupManager->expects($this->any())
 			->method('groupExists')
 			->willReturn(true);
-		$this->principal->expects(self::atLeastOnce())
-			->method('findByUri')
-			->willReturnOnConsecutiveCalls(self::UNIT_TEST_USER1, self::UNIT_TEST_GROUP);
 		$auditEvents = $this->captureAuditEvents();
 
 		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
@@ -310,6 +314,26 @@ class CardDavBackendTest extends TestCase {
 		$this->assertSame(['principal:' . self::UNIT_TEST_GROUP, 'principal:' . self::UNIT_TEST_USER1], $sharees);
 		$this->assertSame($addressBookId, $deletedParameters['addressBookId']);
 		$this->assertSame(self::UNIT_TEST_USER, $deletedParameters['owner']);
+	}
+
+	public function testSystemAddressBookSharesAreIgnored(): void {
+		$this->userManager->method('userExists')
+			->willReturn(true);
+		$this->principal->method('findByUri')
+			->willReturn(self::UNIT_TEST_USER1);
+		$uri = $this->getUniqueID('system');
+		$addressBookId = $this->backend->createAddressBook('principals/system/system', $uri, []);
+		$addressBookInfo = $this->backend->getAddressBooksByUri('principals/system/system', $uri);
+		$addressBook = new AddressBook($this->backend, $addressBookInfo, $this->createMock(IL10N::class));
+		$this->backend->updateShares($addressBook, [['href' => 'principal:' . self::UNIT_TEST_USER1]], []);
+
+		try {
+			$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER1);
+		} finally {
+			$this->backend->deleteAddressBook($addressBookId);
+		}
+
+		$this->assertNotContains($addressBookId, array_map('intval', array_column($books, 'id')));
 	}
 
 	public function testCardOperations(): void {
@@ -727,10 +751,6 @@ class CardDavBackendTest extends TestCase {
 		$this->groupManager->expects($this->any())
 			->method('groupExists')
 			->willReturn(true);
-		$this->principal->expects(self::any())
-			->method('findByUri')
-			->willReturn(self::UNIT_TEST_USER1);
-
 		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
 		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
 		$this->assertEquals(1, count($books));

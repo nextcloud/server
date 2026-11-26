@@ -27,6 +27,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\CardDAV\Backend\BackendInterface;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\PropPatch;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Reader;
 use Test\TestCase;
@@ -254,6 +255,33 @@ VCF,
 		self::assertCount(1, $cards);
 	}
 
+	public function testGetChildForFederationIsReadOnly(): void {
+		$this->mockFederationWithRestrictions(true, false, false, false);
+		$this->cardDavBackend->method('getCard')
+			->with(123, 'LDAP:user.vcf')
+			->willReturn($this->getFederatedCard());
+
+		$card = $this->addressBook->getChild('LDAP:user.vcf');
+
+		self::assertEquals($this->addressBook->getChildACL(), $card->getACL());
+		self::assertNotContains('{DAV:}all', array_column($card->getACL(), 'privilege'));
+		self::assertNotContains('{DAV:}write', array_column($card->getACL(), 'privilege'));
+	}
+
+	public function testGetMultipleChildrenForFederationIsReadOnly(): void {
+		$this->mockFederationWithRestrictions(true, false, false, false);
+		$this->cardDavBackend->method('getMultipleCards')
+			->with(123, ['LDAP:user.vcf'])
+			->willReturn([$this->getFederatedCard()]);
+
+		$cards = $this->addressBook->getMultipleChildren(['LDAP:user.vcf']);
+
+		self::assertCount(1, $cards);
+		self::assertEquals($this->addressBook->getChildACL(), $cards[0]->getACL());
+		self::assertNotContains('{DAV:}all', array_column($cards[0]->getACL(), 'privilege'));
+		self::assertNotContains('{DAV:}write', array_column($cards[0]->getACL(), 'privilege'));
+	}
+
 	#[DataProvider('federationRestrictionProvider')]
 	public function testGetChangesForFederationBypassesRestrictions(bool $enumeration, bool $group, bool $phone, bool $ownGroups): void {
 		$this->mockFederationWithRestrictions($enumeration, $group, $phone, $ownGroups);
@@ -265,8 +293,13 @@ VCF,
 				'modified' => ['LDAP:modified.vcf'],
 				'deleted' => ['LDAP:deleted.vcf'],
 			]);
-		$backend->method('getCard')
-			->willReturn($this->getFederatedCard());
+		$backend->expects(self::once())
+			->method('getMultipleCards')
+			->with(123, ['LDAP:added.vcf', 'LDAP:modified.vcf'])
+			->willReturn([
+				['uri' => 'LDAP:added.vcf'] + $this->getFederatedCard(),
+				['uri' => 'LDAP:modified.vcf'] + $this->getFederatedCard(),
+			]);
 		$addressBook = new SystemAddressbook(
 			$backend,
 			$this->addressBookInfo,
@@ -318,7 +351,7 @@ VCF,
 				'deleted' => ['LDAP:deleted.vcf'],
 			]);
 		$backend->expects(self::never())
-			->method('getCard');
+			->method('getMultipleCards');
 		$addressBook = new SystemAddressbook(
 			$backend,
 			$this->addressBookInfo,
@@ -335,6 +368,152 @@ VCF,
 		self::assertSame([], $changes['added']);
 		self::assertSame([], $changes['modified']);
 		self::assertSame(['LDAP:deleted.vcf', 'LDAP:added.vcf', 'LDAP:modified.vcf'], $changes['deleted']);
+	}
+
+	public function testGetChangesForFederationReportsMissingAndLocalOnlyCardsAsDeleted(): void {
+		$this->mockFederationWithRestrictions(true, false, false, false);
+		$backend = $this->createMock(CardDavBackend::class);
+		$backend->method('getChangesForAddressBook')
+			->willReturn([
+				'syncToken' => 2,
+				'added' => ['LDAP:visible.vcf', 'LDAP:missing.vcf'],
+				'modified' => ['LDAP:local.vcf'],
+				'deleted' => ['LDAP:deleted.vcf'],
+			]);
+		$backend->expects(self::once())
+			->method('getMultipleCards')
+			->with(123, ['LDAP:visible.vcf', 'LDAP:missing.vcf', 'LDAP:local.vcf'])
+			->willReturn([
+				['uri' => 'LDAP:visible.vcf'] + $this->getFederatedCard(),
+				[
+					'id' => 124,
+					'uri' => 'LDAP:local.vcf',
+					'carddata' => "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.4.2//EN\r\nUID:local\r\nFN;X-NC-SCOPE=v2-local:local\r\nEND:VCARD\r\n",
+				],
+			]);
+		$addressBook = new SystemAddressbook(
+			$backend,
+			$this->addressBookInfo,
+			$this->l10n,
+			$this->shareManager,
+			$this->userSession,
+			$this->request,
+			$this->trustedServers,
+			$this->groupManager,
+		);
+
+		$changes = $addressBook->getChanges(1, 1);
+
+		self::assertSame(['LDAP:visible.vcf'], $changes['added']);
+		self::assertSame([], $changes['modified']);
+		self::assertSame(['LDAP:deleted.vcf', 'LDAP:missing.vcf', 'LDAP:local.vcf'], $changes['deleted']);
+	}
+
+	private function createAddressBookWithChanges(array $changes): SystemAddressbook {
+		$backend = $this->createMock(CardDavBackend::class);
+		$backend->method('getChangesForAddressBook')
+			->willReturn(['syncToken' => 2] + $changes);
+		return new SystemAddressbook(
+			$backend,
+			$this->addressBookInfo,
+			$this->l10n,
+			$this->shareManager,
+			$this->userSession,
+			$this->request,
+			$this->trustedServers,
+			$this->groupManager,
+		);
+	}
+
+	private function mockSessionUser(string $uid, string $backend = 'Database'): IUser&MockObject {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn($uid);
+		$user->method('getBackendClassName')->willReturn($backend);
+		$this->userSession->method('getUser')->willReturn($user);
+		return $user;
+	}
+
+	public function testGetChangesWithoutRestrictions(): void {
+		$this->mockShareSettings(true, false, false, false);
+		$this->mockSessionUser('user');
+		$addressBook = $this->createAddressBookWithChanges([
+			'added' => ['Database:added.vcf'],
+			'modified' => ['Database:modified.vcf'],
+			'deleted' => ['Database:deleted.vcf'],
+		]);
+
+		$changes = $addressBook->getChanges(1, 1);
+
+		self::assertSame(['Database:added.vcf'], $changes['added']);
+		self::assertSame(['Database:modified.vcf'], $changes['modified']);
+		self::assertSame(['Database:deleted.vcf'], $changes['deleted']);
+	}
+
+	public static function ownCardOnlyProvider(): array {
+		return [
+			'enumeration disabled' => [false, false, false, 'Database'],
+			'enumeration limited to phone' => [true, false, true, 'Database'],
+			'guest' => [true, false, false, 'Guests'],
+		];
+	}
+
+	#[DataProvider('ownCardOnlyProvider')]
+	public function testGetChangesOnlyReportsOwnCard(bool $enumeration, bool $group, bool $phone, string $backend): void {
+		$this->mockShareSettings($enumeration, $group, $phone, false);
+		$user = $this->mockSessionUser('user', $backend);
+		$ownCardUri = SyncService::getCardUri($user);
+		$addressBook = $this->createAddressBookWithChanges([
+			'added' => ['Database:added.vcf'],
+			'modified' => [$ownCardUri, 'Database:modified.vcf'],
+			'deleted' => ['Database:deleted.vcf'],
+		]);
+
+		$changes = $addressBook->getChanges(1, 1);
+
+		self::assertSame([], $changes['added']);
+		self::assertSame([$ownCardUri], $changes['modified']);
+		self::assertSame([], $changes['deleted']);
+	}
+
+	public function testGetChangesWithGroupRestrictionOnlyReportsGroupMembers(): void {
+		$this->mockShareSettings(true, true, false, false);
+		$user = $this->mockSessionUser('user');
+		$member = $this->createMock(IUser::class);
+		$group = $this->createMock(IGroup::class);
+		$group->method('searchUsers')
+			->with('')
+			->willReturn(['user' => $user, 'member' => $member]);
+		$this->groupManager->method('getUserGroups')
+			->with($user)
+			->willReturn([$group]);
+		$addressBook = $this->createAddressBookWithChanges([
+			'added' => ['Database:member.vcf', 'Database:other.vcf'],
+			'modified' => [],
+			'deleted' => ['Database:member.vcf', 'Database:deleted.vcf'],
+		]);
+
+		$changes = $addressBook->getChanges(1, 1);
+
+		self::assertSame(['Database:member.vcf'], $changes['added']);
+		self::assertSame([], $changes['modified']);
+		self::assertSame(['Database:member.vcf'], $changes['deleted']);
+	}
+
+	public function testGetChangesWithoutSessionUserAndRestrictionsIsEmpty(): void {
+		$this->mockShareSettings(false, false, false, false);
+		$this->userSession->method('getUser')->willReturn(null);
+		$addressBook = $this->createAddressBookWithChanges([
+			'added' => ['Database:added.vcf'],
+			'modified' => ['Database:modified.vcf'],
+			'deleted' => ['Database:deleted.vcf'],
+		]);
+
+		$changes = $addressBook->getChanges(1, 1);
+
+		self::assertSame(2, $changes['syncToken']);
+		self::assertSame([], $changes['added']);
+		self::assertSame([], $changes['modified']);
+		self::assertSame([], $changes['deleted']);
 	}
 
 	public function testGetChildWithoutEnumeration(): void {
@@ -849,6 +1028,9 @@ VCF;
 		$this->userSession->expects(self::once())
 			->method('getUser')
 			->willReturn($user);
+		$this->cardDavBackend->method('getMultipleCards')
+			->with(123, [])
+			->willReturn([]);
 
 		$cards = $this->addressBook->getMultipleChildren(['Database:user1.vcf', 'LDAP:user2.vcf']);
 
@@ -890,5 +1072,35 @@ VCF;
 		$cards = $this->addressBook->getMultipleChildren(['Database:user1.vcf', 'LDAP:user2.vcf']);
 
 		self::assertCount(2, $cards);
+	}
+
+	public function testGetACLDoesNotAllowWritingOrSharing(): void {
+		$privileges = array_column($this->addressBook->getACL(), 'privilege');
+
+		self::assertContains('{DAV:}read', $privileges);
+		self::assertNotContains('{DAV:}all', $privileges);
+		self::assertNotContains('{DAV:}write', $privileges);
+		self::assertNotContains('{DAV:}write-acl', $privileges);
+	}
+
+	public function testUpdateSharesIsForbidden(): void {
+		$this->cardDavBackend->expects(self::never())
+			->method(self::anything());
+		$this->expectException(Forbidden::class);
+
+		$this->addressBook->updateShares([['href' => 'principal:principals/users/user', 'commonName' => '', 'readOnly' => true]], []);
+	}
+
+	public function testPropPatchDoesNotUpdateAddressBook(): void {
+		$this->cardDavBackend->expects(self::never())
+			->method('updateAddressBook');
+		$propPatch = new PropPatch([
+			'{DAV:}displayname' => 'Renamed',
+			'{urn:ietf:params:xml:ns:carddav}addressbook-description' => 'Described',
+		]);
+
+		$this->addressBook->propPatch($propPatch);
+
+		self::assertSame(['{DAV:}displayname', '{urn:ietf:params:xml:ns:carddav}addressbook-description'], $propPatch->getRemainingMutations());
 	}
 }
