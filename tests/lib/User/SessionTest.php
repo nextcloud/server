@@ -194,10 +194,13 @@ class SessionTest extends TestCase {
 		$userSession->expects($this->once())
 			->method('prepareUserLogin');
 
-		$this->dispatcher->expects($this->exactly(2))
+		$this->dispatcher->expects($this->exactly(3))
 			->method('dispatchTyped')
 			->with(
-				$this->callback(function (PostLoginEvent|UserLoggedInEvent $e): bool {
+				$this->callback(function (BeforeUserLoggedInEvent|PostLoginEvent|UserLoggedInEvent $e): bool {
+					if ($e instanceof BeforeUserLoggedInEvent) {
+						return $e == new BeforeUserLoggedInEvent('foo', 'bar');
+					}
 					return $e->getUser()->getUID() === 'foo'
 						&& $e->getPassword() === 'bar'
 						&& $e->isTokenLogin() === false;
@@ -497,7 +500,7 @@ class SessionTest extends TestCase {
 
 		$userSession = $this->getMockBuilder(Session::class)
 			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
-			->onlyMethods(['login', 'supportsCookies', 'createSessionToken', 'getUser'])
+			->onlyMethods(['loginWithCredentials', 'supportsCookies', 'createSessionToken', 'getUser'])
 			->getMock();
 
 		$this->tokenProvider->expects($this->once())
@@ -555,7 +558,7 @@ class SessionTest extends TestCase {
 		/** @var Session $userSession */
 		$userSession = $this->getMockBuilder(Session::class)
 			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
-			->onlyMethods(['login', 'supportsCookies', 'createSessionToken', 'getUser'])
+			->onlyMethods(['loginWithCredentials', 'supportsCookies', 'createSessionToken', 'getUser'])
 			->getMock();
 
 		$this->tokenProvider->expects($this->once())
@@ -580,7 +583,7 @@ class SessionTest extends TestCase {
 
 		$userSession = $this->getMockBuilder(Session::class)
 			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
-			->onlyMethods(['login', 'supportsCookies', 'createSessionToken', 'getUser'])
+			->onlyMethods(['loginWithCredentials', 'supportsCookies', 'createSessionToken', 'getUser'])
 			->getMock();
 
 		$this->tokenProvider->expects($this->once())
@@ -588,7 +591,7 @@ class SessionTest extends TestCase {
 			->with('I-AM-AN-APP-PASSWORD')
 			->willReturn($this->createMock(IToken::class));
 		$userSession->expects($this->once())
-			->method('login')
+			->method('loginWithCredentials')
 			->with('john', 'I-AM-AN-APP-PASSWORD')
 			->willReturn(true);
 
@@ -612,6 +615,48 @@ class SessionTest extends TestCase {
 		$this->assertTrue($userSession->logClientIn('john', 'I-AM-AN-APP-PASSWORD', $request, $this->throttler));
 	}
 
+	public function testLogClientInWithTokenPasswordDispatchesBeforeLoginOnce(): void {
+		$session = $this->createMock(ISession::class);
+		$request = $this->createMock(IRequest::class);
+		$request->method('getRemoteAddress')->willReturn('192.168.0.1');
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('john');
+		$user->method('isEnabled')->willReturn(true);
+		$this->manager->method('get')
+			->with('john')
+			->willReturn($user);
+
+		$token = new PublicKeyToken();
+		$token->setId(1);
+		$token->setUid('john');
+		$token->setLoginName('john');
+		$token->setType(IToken::PERMANENT_TOKEN);
+		$token->setLastCheck(10000);
+		$this->tokenProvider->method('getToken')
+			->with('I-AM-AN-APP-PASSWORD')
+			->willReturn($token);
+		$this->tokenProvider->method('getPassword')
+			->with($token, 'I-AM-AN-APP-PASSWORD')
+			->willReturn('secret');
+
+		$userSession = $this->getMockBuilder(Session::class)
+			->setConstructorArgs([$this->manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->onlyMethods(['prepareUserLogin'])
+			->getMock();
+
+		$beforeLoginEvents = [];
+		$this->dispatcher->method('dispatchTyped')
+			->willReturnCallback(function (Event $event) use (&$beforeLoginEvents): void {
+				if ($event instanceof BeforeUserLoggedInEvent) {
+					$beforeLoginEvents[] = $event;
+				}
+			});
+
+		$this->assertTrue($userSession->logClientIn('john', 'I-AM-AN-APP-PASSWORD', $request, $this->throttler));
+		$this->assertEquals([new BeforeUserLoggedInEvent('john', 'I-AM-AN-APP-PASSWORD')], $beforeLoginEvents);
+	}
+
 	public function testLogClientInNoTokenPasswordNo2fa(): void {
 		$this->expectException(PasswordLoginForbiddenException::class);
 
@@ -621,7 +666,7 @@ class SessionTest extends TestCase {
 
 		$userSession = $this->getMockBuilder(Session::class)
 			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
-			->onlyMethods(['login', 'isTwoFactorEnforced'])
+			->onlyMethods(['loginWithCredentials', 'isTwoFactorEnforced'])
 			->getMock();
 
 		$this->tokenProvider->expects($this->once())
@@ -815,6 +860,40 @@ class SessionTest extends TestCase {
 		$loginResult = $this->userSession->tryTokenLogin($request, true);
 
 		self::assertTrue($loginResult);
+	}
+
+	public function testTryTokenLoginDispatchesBeforeLoginOnce(): void {
+		$request = $this->createMock(IRequest::class);
+		$request->method('getHeader')->with('Authorization')->willReturn('Bearer app-token');
+		$dbToken = new PublicKeyToken();
+		$dbToken->setId(42);
+		$dbToken->setUid('alice');
+		$dbToken->setLoginName('alice');
+		$dbToken->setLastCheck(10000);
+		$dbToken->setType(IToken::PERMANENT_TOKEN);
+		$this->tokenProvider->method('getToken')
+			->with('app-token')
+			->willReturn($dbToken);
+		$this->tokenProvider->expects($this->once())
+			->method('getPassword')
+			->with($dbToken, 'app-token')
+			->willReturn('secret');
+		$user = $this->createMock(IUser::class);
+		$user->method('isEnabled')->willReturn(true);
+		$this->manager->method('get')
+			->with('alice')
+			->willReturn($user);
+
+		$beforeLoginEvents = [];
+		$this->dispatcher->method('dispatchTyped')
+			->willReturnCallback(function (Event $event) use (&$beforeLoginEvents): void {
+				if ($event instanceof BeforeUserLoggedInEvent) {
+					$beforeLoginEvents[] = $event;
+				}
+			});
+
+		$this->assertTrue($this->userSession->tryTokenLogin($request));
+		$this->assertEquals([new BeforeUserLoggedInEvent('alice', 'secret')], $beforeLoginEvents);
 	}
 
 	public function testRememberLoginValidToken(): void {
@@ -1534,7 +1613,7 @@ class SessionTest extends TestCase {
 
 		$userSession = $this->getMockBuilder(Session::class)
 			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
-			->onlyMethods(['login', 'supportsCookies', 'createSessionToken', 'getUser'])
+			->onlyMethods(['loginWithCredentials', 'supportsCookies', 'createSessionToken', 'getUser'])
 			->getMock();
 
 		$this->tokenProvider->expects($this->once())
@@ -1542,7 +1621,7 @@ class SessionTest extends TestCase {
 			->with('I-AM-A-PASSWORD')
 			->willReturn($this->createMock(IToken::class));
 		$userSession->expects($this->once())
-			->method('login')
+			->method('loginWithCredentials')
 			->with('john', 'I-AM-A-PASSWORD')
 			->willReturn(false);
 
@@ -1593,7 +1672,7 @@ class SessionTest extends TestCase {
 
 		$userSession = $this->getMockBuilder(Session::class)
 			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
-			->onlyMethods(['login', 'supportsCookies', 'createSessionToken', 'getUser'])
+			->onlyMethods(['loginWithCredentials', 'supportsCookies', 'createSessionToken', 'getUser'])
 			->getMock();
 
 		$this->tokenProvider->expects($this->once())
@@ -1601,7 +1680,7 @@ class SessionTest extends TestCase {
 			->with('I-AM-A-PASSWORD')
 			->willThrowException(new InvalidTokenException());
 		$userSession->expects($this->once())
-			->method('login')
+			->method('loginWithCredentials')
 			->with('john@foo.bar', 'I-AM-A-PASSWORD')
 			->willReturn(false);
 		$manager
