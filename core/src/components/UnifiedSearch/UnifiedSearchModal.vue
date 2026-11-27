@@ -208,7 +208,7 @@
 									v-for="(result, index) in group.results"
 									:key="index"
 									v-bind="result"
-									:role="isSmallMobile ? undefined : 'option'"
+									:option="!isSmallMobile"
 									:elementId="rowElementId(group.id, index, group.unfiltered)"
 									:active="activeDescendantId === rowElementId(group.id, index, group.unfiltered)" />
 							</ul>
@@ -1471,8 +1471,7 @@ export default defineComponent({
 		},
 
 		/**
-		 * Follow a result's url. Rows are plain <a href target="_self"> links, so a
-		 * same-tab location change is equivalent to the user clicking the anchor.
+		 * Follow a result's url in the same tab, like clicking the row.
 		 *
 		 * @param url the resource url to open
 		 */

@@ -3,15 +3,14 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { mount } from '@vue/test-utils'
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import NcListItem from '@nextcloud/vue/components/NcListItem'
 import AppIcon from '../../components/AppIcon.vue'
 import SearchResult from '../../components/UnifiedSearch/SearchResult.vue'
 
-function factory(propsData = {}, attrs = {}) {
+function factory(propsData = {}) {
 	return mount(SearchResult, {
 		props: { title: 'A document', resourceUrl: '/f/1', thumbnailUrl: '', ...propsData },
-		attrs,
 	})
 }
 
@@ -19,8 +18,8 @@ describe('SearchResult combobox option', () => {
 	// aria-activedescendant on the input references the option element's id, and the
 	// option is the <li> (decision 1B: per-group listboxes). The modal supplies the
 	// role from context; the id comes from the prop. Both must land on the same <li>.
-	it('carries the caller-supplied role and the id on the same option element', () => {
-		const li = factory({ elementId: 'unified-search-result-files-0' }, { role: 'option' }).find('li')
+	it('puts the option role and the id on the same element', () => {
+		const li = factory({ elementId: 'unified-search-result-files-0', option: true }).find('li')
 
 		expect(li.attributes('role')).toBe('option')
 		expect(li.attributes('id')).toBe('unified-search-result-files-0')
@@ -36,6 +35,71 @@ describe('SearchResult combobox option', () => {
 		const wrapper = factory({ elementId: 'row-0', active: false })
 
 		expect(wrapper.findComponent(NcListItem).props('active')).toBe(false)
+	})
+})
+
+describe('SearchResult option opening', () => {
+	afterEach(() => {
+		vi.restoreAllMocks()
+		vi.unstubAllGlobals()
+	})
+
+	// jsdom's location.assign is non-configurable, so replace the whole location.
+	function stubAssign() {
+		const assign = vi.fn()
+		vi.stubGlobal('location', { assign })
+		return assign
+	}
+
+	function stubOpen() {
+		return vi.spyOn(window, 'open').mockImplementation(() => null)
+	}
+
+	it('renders no link inside an option', () => {
+		const wrapper = factory({ option: true })
+
+		expect(wrapper.find('a').attributes('href')).toBeUndefined()
+	})
+
+	it('keeps the link when not an option', () => {
+		const wrapper = factory()
+
+		expect(wrapper.find('a').attributes('href')).toBe('/f/1')
+		expect(wrapper.find('li').attributes('role')).toBeUndefined()
+	})
+
+	it('opens the result in the same tab on click', async () => {
+		const assign = stubAssign()
+
+		await factory({ option: true }).find('a').trigger('click')
+
+		expect(assign).toHaveBeenCalledWith('/f/1')
+	})
+
+	it.each(['ctrlKey', 'metaKey', 'shiftKey'])('opens the result in a new tab on %s click', async (modifier) => {
+		const open = stubOpen()
+		const assign = stubAssign()
+
+		await factory({ option: true }).find('a').trigger('click', { [modifier]: true })
+
+		expect(open).toHaveBeenCalledWith('/f/1', '_blank', 'noopener')
+		expect(assign).not.toHaveBeenCalled()
+	})
+
+	it('opens the result in a new tab on middle click', async () => {
+		const open = stubOpen()
+
+		await factory({ option: true }).find('li').trigger('auxclick', { button: 1 })
+
+		expect(open).toHaveBeenCalledWith('/f/1', '_blank', 'noopener')
+	})
+
+	it('ignores a right click', async () => {
+		const open = stubOpen()
+
+		await factory({ option: true }).find('li').trigger('auxclick', { button: 2 })
+
+		expect(open).not.toHaveBeenCalled()
 	})
 })
 
