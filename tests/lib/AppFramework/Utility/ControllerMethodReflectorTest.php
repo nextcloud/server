@@ -146,6 +146,21 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 	}
 
 	/**
+	 * @SuppressWarnings(PHPMD.CyclomaticComplexity, PHPMD.ExcessiveMethodLength)
+	 */
+	public function testGetAnnotationParenthesisedWithoutEquals(): void {
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
+		$reader->reflect(
+			self::class,
+			__FUNCTION__
+		);
+
+		$this->assertTrue($reader->hasAnnotation('SuppressWarnings'));
+		$this->assertSame('', $reader->getAnnotationParameter('SuppressWarnings', 'PHPMD.CyclomaticComplexity'));
+		$this->assertSame('', $reader->getAnnotationParameter('SuppressWarnings', 'PHPMD.ExcessiveMethodLength'));
+	}
+
+	/**
 	 * @Annotation
 	 * @param test
 	 */
