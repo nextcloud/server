@@ -80,7 +80,9 @@ class Client implements IClient {
 		$headers = $options[RequestOptions::HEADERS] ?? [];
 		if (!isset($headers['Accept-Encoding'])) {
 			$acceptEnc = 'gzip';
-			if (empty($options[RequestOptions::STREAM]) && ((curl_version()['features'] ?? 0) & CURL_VERSION_BROTLI) === CURL_VERSION_BROTLI) {
+			$brotliSupported = ((curl_version()['features'] ?? 0) & CURL_VERSION_BROTLI) === CURL_VERSION_BROTLI;
+			// Streamed requests may be handled by Guzzle's StreamHandler, which cannot decode brotli
+			if ($brotliSupported && empty($options[RequestOptions::STREAM])) {
 				$acceptEnc = 'br, ' . $acceptEnc;
 			}
 			$options[RequestOptions::HEADERS] = $headers; // ensure headers are present
