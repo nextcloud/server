@@ -1259,6 +1259,10 @@ final readonly class SharingBackend implements ISharingBackend {
 
 		$defaultSet = false;
 		foreach ($shares as &$share) {
+			if ($share->owner->instance !== null) {
+				continue;
+			}
+
 			$shareSourceTypeClasses = array_map(fn (ShareSource $source): string => $source->class, $share->sources);
 			$shareRecipientTypeClasses = array_map(fn (ShareRecipient $recipient): string => $recipient->class, $share->recipients);
 			$shareCompatiblePropertyClasses = $this->registry->getCompatiblePropertyTypeClasses($shareSourceTypeClasses, $shareRecipientTypeClasses);
@@ -1272,6 +1276,10 @@ final readonly class SharingBackend implements ISharingBackend {
 		}
 
 		foreach ($shares as &$share) {
+			if ($share->owner->instance !== null) {
+				continue;
+			}
+
 			$shareCompatiblePermissionTypeClasses = $this->getShareCompatiblePermissionTypeClasses($share->sources);
 
 			foreach ($shareCompatiblePermissionTypeClasses as $permissionTypeClass) {
