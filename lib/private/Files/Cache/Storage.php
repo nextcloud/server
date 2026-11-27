@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace OC\Files\Cache;
 
 use OC\DB\Exceptions\DbalException;
+use OC\Files\Storage\Wrapper\Availability;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Storage\IStorage;
 use OCP\FilesMetadata\IFilesMetadataManager;
@@ -142,9 +143,9 @@ class Storage {
 	}
 
 	/**
-	 * @param int $delay amount of seconds to delay reconsidering that storage further
+	 * @param int $additionalDelay additional delay - {@see Availability::shouldRecheck()} already waits {@see Availability::RECHECK_TTL_SEC}
 	 */
-	public function setAvailability(bool $isAvailable, int $delay = 0): void {
+	public function setAvailability(bool $isAvailable, int $additionalDelay = 0): void {
 		$available = $isAvailable ? 1 : 0;
 		if (!$isAvailable) {
 			Server::get(LoggerInterface::class)->info('Storage with ' . $this->storageId . ' marked as unavailable', ['app' => 'lib']);
@@ -153,7 +154,7 @@ class Storage {
 		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$query->update('storages')
 			->set('available', $query->createNamedParameter($available))
-			->set('last_checked', $query->createNamedParameter(time() + $delay))
+			->set('last_checked', $query->createNamedParameter(time() + $additionalDelay))
 			->where($query->expr()->eq('id', $query->createNamedParameter($this->storageId)));
 		$query->executeStatement();
 	}
