@@ -2745,7 +2745,7 @@ $CONFIG = [
 	 *
 	 * Defaults to 100 MiB
 	 */
-	'localstorage.min_free_space' => 100 * 1024 * 1024,
+	'localstorage__min_free_space' => 100 * 1024 * 1024,
 
 	/**
 	 * Include external storage mounts in quota calculations.
