@@ -1315,6 +1315,7 @@ return array(
     'OC\\Authentication\\Events\\AppPasswordCreatedEvent' => $baseDir . '/lib/private/Authentication/Events/AppPasswordCreatedEvent.php',
     'OC\\Authentication\\Events\\LoginFailed' => $baseDir . '/lib/private/Authentication/Events/LoginFailed.php',
     'OC\\Authentication\\Events\\RemoteWipeFinished' => $baseDir . '/lib/private/Authentication/Events/RemoteWipeFinished.php',
+    'OC\\Authentication\\Events\\RemoteWipeMarked' => $baseDir . '/lib/private/Authentication/Events/RemoteWipeMarked.php',
     'OC\\Authentication\\Events\\RemoteWipeStarted' => $baseDir . '/lib/private/Authentication/Events/RemoteWipeStarted.php',
     'OC\\Authentication\\Exceptions\\ExpiredTokenException' => $baseDir . '/lib/private/Authentication/Exceptions/ExpiredTokenException.php',
     'OC\\Authentication\\Exceptions\\InvalidProviderException' => $baseDir . '/lib/private/Authentication/Exceptions/InvalidProviderException.php',
