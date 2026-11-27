@@ -61,6 +61,11 @@ class LazyUser implements IUser {
 	}
 
 	#[\Override]
+	public function getDisplayLabel(): string {
+		return $this->getUser()->getDisplayLabel();
+	}
+
+	#[\Override]
 	public function setDisplayName($displayName): bool {
 		return $this->getUser()->setDisplayName($displayName);
 	}

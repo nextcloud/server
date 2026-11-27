@@ -13,16 +13,12 @@ import { ref } from 'vue'
 import AccountPropertySection from './shared/AccountPropertySection.vue'
 import { NAME_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.ts'
 
-const { displayName } = loadState<{ displayName: IAccountProperty }>('settings', 'personalInfoParameters')
+const { displayName, displayLabel } = loadState<{
+	displayName: IAccountProperty
+	displayLabel: string
+}>('settings', 'personalInfoParameters')
 const { displayNameChangeSupported } = loadState<{ displayNameChangeSupported: boolean }>('settings', 'accountParameters')
-const property = ref({ ...displayName, readable: NAME_READABLE_ENUM[displayName.name] })
-
-/**
- * @param value The entered display name
- */
-function onValidate(value: string): boolean {
-	return value !== ''
-}
+const property = ref({ ...displayName, value: displayLabel, readable: NAME_READABLE_ENUM[displayName.name] })
 
 /**
  * @param value The saved display name
@@ -44,6 +40,5 @@ function onSave(value: string) {
 		:placeholder="t('settings', 'Your full name')"
 		autocomplete="username"
 		:disabled="!displayNameChangeSupported"
-		:onValidate="onValidate"
 		:onSave="onSave" />
 </template>

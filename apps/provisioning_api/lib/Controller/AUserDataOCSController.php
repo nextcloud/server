@@ -192,6 +192,7 @@ abstract class AUserDataOCSController extends OCSController {
 		$data[self::USER_FIELD_NOTIFICATION_EMAIL] = $targetUserObject->getPrimaryEMailAddress();
 
 		$backend = $targetUserObject->getBackend();
+		$data['displayLabel'] = $targetUserObject->getDisplayLabel();
 		$data['backendCapabilities'] = [
 			'setDisplayName' => $backend instanceof ISetDisplayNameBackend || $backend->implementsActions(Backend::SET_DISPLAYNAME),
 			'setPassword' => $backend instanceof ISetPasswordBackend || $backend->implementsActions(Backend::SET_PASSWORD),

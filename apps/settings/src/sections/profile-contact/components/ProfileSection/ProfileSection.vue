@@ -41,7 +41,7 @@ const loading = ref(false)
  * @param newDisplayName The saved display name
  */
 function handleDisplayNameUpdate(newDisplayName: string) {
-	displayName.value = newDisplayName
+	displayName.value = newDisplayName || userId
 }
 
 onMounted(() => subscribe('settings:display-name:updated', handleDisplayNameUpdate))

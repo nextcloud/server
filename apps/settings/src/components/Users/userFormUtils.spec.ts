@@ -65,6 +65,7 @@ describe('userToFormData', () => {
 		const user = {
 			id: 'bob',
 			displayname: 'Bob Smith',
+			displayLabel: 'Bob Smith',
 			email: 'bob@example.com',
 			groups: ['admin', 'devs'],
 			subadmin: ['devs'],

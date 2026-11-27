@@ -59,6 +59,8 @@ class User implements IUser {
 
 	/** @var ?non-empty-string $displayName */
 	private ?string $displayName = null;
+
+	private ?string $displayLabel = null;
 	private ?bool $enabled = null;
 	private ?string $home = null;
 
@@ -112,6 +114,32 @@ class User implements IUser {
 	}
 
 	/**
+	 * Stored display name, or an empty string when none is set.
+	 */
+	#[\Override]
+	public function getDisplayLabel(): string {
+		if ($this->displayLabel === null) {
+			$this->displayLabel = $this->readDisplayLabel();
+		}
+		return $this->displayLabel;
+	}
+
+	/**
+	 * Read the display name stored for this user, without falling back to the user id.
+	 */
+	private function readDisplayLabel(): string {
+		if ($this->backend instanceof Database) {
+			return $this->backend->getDisplayLabel($this->uid);
+		}
+
+		if ($this->backend && $this->backend->implementsActions(Backend::GET_DISPLAYNAME)) {
+			return $this->backend->getDisplayName($this->uid);
+		}
+
+		return '';
+	}
+
+	/**
 	 * Set the display name for the user.
 	 *
 	 * @param string $displayName
@@ -123,13 +151,14 @@ class User implements IUser {
 	public function setDisplayName($displayName): bool {
 		$displayName = trim($displayName);
 		$oldDisplayName = $this->getDisplayName();
-		if ($this->backend->implementsActions(Backend::SET_DISPLAYNAME) && !empty($displayName) && $displayName !== $oldDisplayName) {
+		if ($this->backend->implementsActions(Backend::SET_DISPLAYNAME) && $displayName !== $this->getDisplayLabel()) {
 			/** @var ISetDisplayNameBackend $backend */
 			$backend = $this->backend;
 			$result = $backend->setDisplayName($this->uid, $displayName);
 			if ($result) {
-				$this->displayName = $displayName;
-				$this->triggerChange('displayName', $displayName, $oldDisplayName);
+				$this->displayLabel = $displayName;
+				$this->displayName = $displayName !== '' ? $displayName : $this->uid;
+				$this->triggerChange('displayName', $this->displayName, $oldDisplayName);
 			}
 			return $result !== false;
 		}

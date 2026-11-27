@@ -25,6 +25,7 @@ use OCP\Dashboard\IWidget;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IUserManager;
 use OCP\Util;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
@@ -40,6 +41,7 @@ class DashboardController extends Controller {
 		private IL10N $l10n,
 		private ?string $userId,
 		private DashboardService $service,
+		private IUserManager $userManager,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -71,6 +73,8 @@ class DashboardController extends Controller {
 		$this->initialState->provideInitialState('appStoreEnabled', $this->config->getSystemValueBool('appstoreenabled', true));
 		$this->initialState->provideInitialState('firstRun', $this->userConfig->getValueBool($this->userId, 'dashboard', 'firstRun', true));
 		$this->initialState->provideInitialState('birthdate', $this->service->getBirthdate());
+		$user = $this->userManager->get($this->userId);
+		$this->initialState->provideInitialState('displayLabel', $user?->getDisplayLabel() ?? '');
 		$this->userConfig->setValueBool($this->userId, 'dashboard', 'firstRun', false);
 
 		$response = new TemplateResponse('dashboard', 'index', [

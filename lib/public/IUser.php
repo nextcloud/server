@@ -41,11 +41,22 @@ interface IUser {
 	public function getDisplayName(): string;
 
 	/**
+	 * The display name stored for the user.
+	 *
+	 * Unlike {@see getDisplayName()}, this does not fall back to the user id.
+	 * An empty string means no display name is stored.
+	 *
+	 * @since 36.0.0
+	 */
+	public function getDisplayLabel(): string;
+
+	/**
 	 * set the display name for the user
 	 *
 	 * @since 8.0.0
 	 *
 	 * @since 25.0.0 Throw InvalidArgumentException
+	 * @since 36.0.0 Accept an empty string to clear the stored display name
 	 * @throws \InvalidArgumentException
 	 */
 	public function setDisplayName(string $displayName): bool;
