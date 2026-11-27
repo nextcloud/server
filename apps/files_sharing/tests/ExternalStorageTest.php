@@ -15,6 +15,7 @@ use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\ICertificateManager;
+use OCP\IConfig;
 use OCP\IUser;
 use OCP\OCM\IOCMDiscoveryService;
 use OCP\OCM\IOCMProvider;
@@ -109,6 +110,30 @@ class ExternalStorageTest extends \Test\TestCase {
 	public function testStorageMountOptions($inputUri, $baseUri): void {
 		$storage = $this->getTestStorage($inputUri);
 		$this->assertEquals($baseUri, $storage->getBaseUri());
+	}
+
+	public static function allowLocalAddressProvider(): array {
+		return [
+			'not configured' => [null, false],
+			'disabled' => [false, false],
+			'enabled' => [true, true],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'allowLocalAddressProvider')]
+	public function testDefaultRequestOptionsAllowLocalAddress(?bool $configValue, bool $expected): void {
+		$config = Server::get(IConfig::class);
+		if ($configValue !== null) {
+			$config->setSystemValue('davstorage_allow_local_address', $configValue);
+		}
+
+		try {
+			$options = self::invokePrivate($this->getTestStorage('https://remoteserver'), 'getDefaultRequestOptions');
+		} finally {
+			$config->deleteSystemValue('davstorage_allow_local_address');
+		}
+
+		$this->assertSame($expected, $options['nextcloud']['allow_local_address']);
 	}
 
 	public function testIfTestReturnsTheValue(): void {
