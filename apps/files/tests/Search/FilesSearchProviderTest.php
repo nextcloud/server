@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Files\Tests\Search;
 
+use OC\Search\Filter\StringFilter;
 use OC\Search\FilterCollection;
 use OC\Search\SearchQuery;
 use OCA\Files\Search\FilesSearchProvider;
@@ -16,10 +17,14 @@ use OCP\Files\File;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
 use OCP\Files\IUserFolder;
+use OCP\Files\Search\ISearchBinaryOperator;
+use OCP\Files\Search\ISearchComparison;
+use OCP\Files\Search\ISearchQuery;
 use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -70,5 +75,46 @@ class FilesSearchProviderTest extends TestCase {
 			'path' => '/Docs/report.txt',
 			'lastModified' => '2025-10-30T23:16:39+00:00',
 		], $result['entries'][0]->jsonSerialize()['attributes']);
+	}
+
+	public static function termProvider(): array {
+		return [
+			'single token' => ['first', ['%first%']],
+			'adjacent tokens' => ['first second', ['%first%', '%second%']],
+			'non-adjacent tokens' => ['first third', ['%first%', '%third%']],
+			'reversed tokens' => ['third first', ['%third%', '%first%']],
+			'three tokens' => ['first second third', ['%first%', '%second%', '%third%']],
+			'repeated token' => ['first first', ['%first%']],
+			'multiple spaces' => ['  first    third  ', ['%first%', '%third%']],
+			'tab separator' => ["first\tthird", ['%first%', '%third%']],
+			'whitespace only' => ['   ', ['%   %']],
+			'invalid utf-8' => ["a\xB1 b", ["%a\xB1 b%"]],
+		];
+	}
+
+	#[DataProvider('termProvider')]
+	public function testTermIsSplitIntoNameComparisons(string $term, array $expectedLikes): void {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('alice');
+
+		$userFolder = $this->createMock(IUserFolder::class);
+		$userFolder->expects($this->once())
+			->method('search')
+			->with($this->callback(function (ISearchQuery $query) use ($expectedLikes): bool {
+				$operator = $query->getSearchOperation();
+				$this->assertInstanceOf(ISearchBinaryOperator::class, $operator);
+				$this->assertSame(ISearchBinaryOperator::OPERATOR_AND, $operator->getType());
+				$likes = array_map(function (ISearchComparison $comparison): string {
+					$this->assertSame(ISearchComparison::COMPARE_LIKE, $comparison->getType());
+					$this->assertSame('name', $comparison->getField());
+					return $comparison->getValue();
+				}, $operator->getArguments());
+				$this->assertSame($expectedLikes, $likes);
+				return true;
+			}))
+			->willReturn([]);
+		$this->rootFolder->method('getUserFolder')->with('alice')->willReturn($userFolder);
+
+		$this->provider->search($user, new SearchQuery(new FilterCollection(...['term' => new StringFilter($term)])));
 	}
 }
