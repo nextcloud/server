@@ -8,6 +8,7 @@
 
 namespace OCA\DAV\DAV;
 
+use OCP\IUserSession;
 use Sabre\DAV\Auth\Backend\BackendInterface;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
@@ -17,7 +18,9 @@ class PublicAuth implements BackendInterface {
 	/** @var string[] */
 	private $publicURLs;
 
-	public function __construct() {
+	public function __construct(
+		private IUserSession $userSession,
+	) {
 		$this->publicURLs = [
 			'public-calendars',
 			'principals/system/public'
@@ -55,6 +58,8 @@ class PublicAuth implements BackendInterface {
 	#[\Override]
 	public function check(RequestInterface $request, ResponseInterface $response) {
 		if ($this->isRequestPublic($request)) {
+			// Public requests are handled without the session's logged-in user
+			$this->userSession->setIncognitoMode(true);
 			return [true, 'principals/system/public'];
 		}
 		return [false, 'No public access to this resource.'];
@@ -74,7 +79,7 @@ class PublicAuth implements BackendInterface {
 	private function isRequestPublic(RequestInterface $request) {
 		$url = $request->getPath();
 		$matchingUrls = array_filter($this->publicURLs, function ($publicUrl) use ($url) {
-			return str_starts_with($url, $publicUrl);
+			return $url === $publicUrl || str_starts_with($url, $publicUrl . '/');
 		});
 		return !empty($matchingUrls);
 	}

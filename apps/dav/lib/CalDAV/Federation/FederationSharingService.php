@@ -11,6 +11,7 @@ namespace OCA\DAV\CalDAV\Federation;
 
 use OCA\DAV\CalDAV\Federation\Protocol\CalendarFederationProtocolV1;
 use OCA\DAV\DAV\RemoteUserPrincipalBackend;
+use OCA\DAV\DAV\Sharing\Backend;
 use OCA\DAV\DAV\Sharing\IShareable;
 use OCA\DAV\DAV\Sharing\SharingMapper;
 use OCP\AppFramework\Http;
@@ -62,7 +63,7 @@ class FederationSharingService {
 
 	/**
 	 * Send a calendar share to a remote instance and create a federated share locally if it is
-	 * accepted.
+	 * accepted. Downgrading an existing share to read-only is applied locally in any case.
 	 *
 	 * @param IShareable $shareable The calendar to be shared.
 	 * @param string $principal The principal to share with (should be a remote user principal).
@@ -70,14 +71,6 @@ class FederationSharingService {
 	 */
 	public function shareWith(IShareable $shareable, string $principal, int $access): void {
 		$baseError = 'Failed to create federated calendar share: ';
-
-		if (!$this->config->isOutgoingServer2serverShareEnabled()) {
-			$this->logger->error('cannot share with remote user because federated sharing is disabled on this instance', [
-				'shareable' => $shareable->getName(),
-				'encodedShareWith' => $principal,
-			]);
-			return;
-		}
 
 		// 1. Validate share data
 		$shareWith = $this->decodeRemoteUserPrincipal($principal);
@@ -114,7 +107,43 @@ class FederationSharingService {
 
 		$displayName = $getProp('{DAV:}displayname') ?? '';
 
-		$token = $this->random->generate(32);
+		// The remote server only accepts changes to an existing share that carry its current token
+		$shareWithEncoded = base64_encode($shareWith);
+		$shareWithPrincipalUri = RemoteUserPrincipalBackend::PRINCIPAL_PREFIX . '/' . $shareWithEncoded;
+		$existingShares = $this->sharingMapper->getSharesByPrincipalsAndResource(
+			[$shareWithPrincipalUri],
+			$shareable->getResourceId(),
+			'calendar',
+		);
+		$existingShare = $existingShares[0] ?? null;
+
+		// A downgrade to read-only must not depend on the remote server accepting the new offer
+		if ($existingShare !== null
+			&& $access === Backend::ACCESS_READ
+			&& (int)$existingShare['access'] !== Backend::ACCESS_READ) {
+			$this->sharingMapper->deleteShare(
+				$shareable->getResourceId(),
+				'calendar',
+				$shareWithPrincipalUri,
+			);
+			$this->sharingMapper->shareWithToken(
+				$shareable->getResourceId(),
+				'calendar',
+				Backend::ACCESS_READ,
+				$shareWithPrincipalUri,
+				$existingShare['token'],
+			);
+		}
+
+		if (!$this->config->isOutgoingServer2serverShareEnabled()) {
+			$this->logger->error('cannot share with remote user because federated sharing is disabled on this instance', [
+				'shareable' => $shareable->getName(),
+				'encodedShareWith' => $principal,
+			]);
+			return;
+		}
+
+		$token = $existingShare['token'] ?? $this->random->generate(32);
 		$share = $this->federationFactory->getCloudFederationShare(
 			$shareWith,
 			$shareable->getName(),
@@ -131,7 +160,6 @@ class FederationSharingService {
 		);
 
 		// 2. Send share to federated instance
-		$shareWithEncoded = base64_encode($shareWith);
 		$relativeCalendarUrl = "remote-calendars/$shareWithEncoded/" . $calendar->getName() . '_shared_by_' . $ownerUid;
 		$calendarUrl = $this->url->linkTo('', 'remote.php') . "/dav/$relativeCalendarUrl";
 		$calendarUrl = $this->url->getAbsoluteURL($calendarUrl);
@@ -172,7 +200,6 @@ class FederationSharingService {
 		}
 
 		// 3. Create a local DAV share to track the token for authentication
-		$shareWithPrincipalUri = RemoteUserPrincipalBackend::PRINCIPAL_PREFIX . '/' . $shareWithEncoded;
 		$this->sharingMapper->deleteShare(
 			$shareable->getResourceId(),
 			'calendar',

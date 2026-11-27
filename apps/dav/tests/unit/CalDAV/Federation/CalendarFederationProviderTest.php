@@ -22,6 +22,10 @@ use OCP\Federation\Exceptions\ProviderCouldNotAddShareException;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
+use OCP\OCM\IOCMDiscoveryService;
+use OCP\Security\Signature\Exceptions\IncomingRequestException;
+use OCP\Security\Signature\IIncomingSignedRequest;
+use OCP\Security\Signature\ISignatureManager;
 use OCP\Share\Exceptions\ShareNotFound;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -37,6 +41,8 @@ class CalendarFederationProviderTest extends TestCase {
 	private IJobList&MockObject $jobList;
 	private ICloudIdManager&MockObject $cloudIdManager;
 	private FederatedCalendarInvitationService&MockObject $invitationService;
+	private IOCMDiscoveryService&MockObject $ocmDiscoveryService;
+	private ISignatureManager&MockObject $signatureManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -47,6 +53,8 @@ class CalendarFederationProviderTest extends TestCase {
 		$this->jobList = $this->createMock(JobList::class);
 		$this->cloudIdManager = $this->createMock(ICloudIdManager::class);
 		$this->invitationService = $this->createMock(FederatedCalendarInvitationService::class);
+		$this->ocmDiscoveryService = $this->createMock(IOCMDiscoveryService::class);
+		$this->signatureManager = $this->createMock(ISignatureManager::class);
 
 		$this->calendarFederationProvider = new CalendarFederationProvider(
 			$this->logger,
@@ -55,6 +63,8 @@ class CalendarFederationProviderTest extends TestCase {
 			$this->jobList,
 			$this->cloudIdManager,
 			$this->invitationService,
+			$this->ocmDiscoveryService,
+			$this->signatureManager,
 		);
 	}
 
@@ -229,6 +239,8 @@ class CalendarFederationProviderTest extends TestCase {
 			->willReturn('sharee1');
 		$share->method('getShareSecret')
 			->willReturn('new-token');
+		$share->method('getOwner')
+			->willReturn('user1@nextcloud.remote');
 		$share->method('getSharedBy')
 			->willReturn('user1@nextcloud.remote');
 		$share->method('getSharedByDisplayName')
@@ -259,6 +271,18 @@ class CalendarFederationProviderTest extends TestCase {
 				'ae4b8ab904076fff2b955ea21b1a0d92',
 			)
 			->willReturn($existingCalendar);
+
+		$signedRequest = $this->createMock(IIncomingSignedRequest::class);
+		$signedRequest->method('getOrigin')
+			->willReturn('nextcloud.remote');
+		$this->ocmDiscoveryService->expects(self::once())
+			->method('getIncomingSignedRequest')
+			->with('user1@nextcloud.remote')
+			->willReturn($signedRequest);
+		$this->signatureManager->expects(self::once())
+			->method('extractIdentityFromUri')
+			->with('https://nextcloud.remote/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user1')
+			->willReturn('nextcloud.remote');
 
 		$this->federatedCalendarMapper->expects(self::never())
 			->method('insert');
@@ -305,7 +329,7 @@ class CalendarFederationProviderTest extends TestCase {
 		$share->method('getShareWith')
 			->willReturn('sharee1');
 		$share->method('getShareSecret')
-			->willReturn('new-token');
+			->willReturn('token');
 		$share->method('getOwner')
 			->willReturn('user1@nextcloud.remote');
 		$share->method('getSharedBy')
@@ -326,18 +350,20 @@ class CalendarFederationProviderTest extends TestCase {
 		$existingCalendar->setPrincipaluri('principals/users/sharee1');
 		$existingCalendar->setUri('ae4b8ab904076fff2b955ea21b1a0d92');
 		$existingCalendar->setRemoteUrl('https://nextcloud.remote/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user1');
-		$existingCalendar->setToken('old-token');
+		$existingCalendar->setToken('token');
 		$existingCalendar->setState(FederatedCalendarEntity::STATE_PENDING);
 
 		$this->federatedCalendarMapper->expects(self::once())
 			->method('findByUri')
 			->willReturn($existingCalendar);
+		$this->ocmDiscoveryService->expects(self::never())
+			->method('getIncomingSignedRequest');
 		$this->federatedCalendarMapper->expects(self::never())
 			->method('insert');
 		$this->federatedCalendarMapper->expects(self::once())
 			->method('update')
 			->willReturnCallback(function (FederatedCalendarEntity $calendar) {
-				$this->assertEquals('new-token', $calendar->getToken());
+				$this->assertEquals('token', $calendar->getToken());
 				$this->assertEquals(FederatedCalendarEntity::STATE_PENDING, $calendar->getState());
 				// A pending invitation keeps showing the sharer's metadata
 				$this->assertEquals('Calendar 1', $calendar->getDisplayName());
@@ -362,6 +388,146 @@ class CalendarFederationProviderTest extends TestCase {
 			->method('add');
 
 		$this->assertEquals(10, $this->calendarFederationProvider->shareReceived($share));
+	}
+
+	public static function provideUnrelatedSenderData(): array {
+		return [
+			'unsigned, accepted' => [null, FederatedCalendarEntity::STATE_ACCEPTED],
+			'unsigned, pending' => [null, FederatedCalendarEntity::STATE_PENDING],
+			'signed by another server, accepted' => ['other.remote', FederatedCalendarEntity::STATE_ACCEPTED],
+			'signed by another server, pending' => ['other.remote', FederatedCalendarEntity::STATE_PENDING],
+		];
+	}
+
+	#[DataProvider('provideUnrelatedSenderData')]
+	public function testShareReceivedWithExistingCalendarFromUnrelatedSender(?string $signedOrigin, int $state): void {
+		$share = $this->createMock(ICloudFederationShare::class);
+		$share->method('getShareType')
+			->willReturn('user');
+		$share->method('getProtocol')
+			->willReturn([
+				'version' => 'v1',
+				'url' => 'https://nextcloud.remote/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user1',
+				'displayName' => 'Calendar 1',
+				'color' => '#ff0000',
+				'access' => 2,
+				'components' => 'VEVENT,VTODO',
+			]);
+		$share->method('getShareWith')
+			->willReturn('sharee1');
+		$share->method('getShareSecret')
+			->willReturn('new-token');
+		$share->method('getOwner')
+			->willReturn('user1@nextcloud.remote');
+		$share->method('getSharedBy')
+			->willReturn('user1@nextcloud.remote');
+		$share->method('getSharedByDisplayName')
+			->willReturn('User 1');
+
+		$this->calendarFederationConfig->expects(self::once())
+			->method('isFederationEnabled')
+			->willReturn(true);
+
+		$this->calendarFederationConfig->expects(self::once())
+			->method('isIncomingServer2serverShareEnabled')
+			->willReturn(true);
+
+		$existingCalendar = new FederatedCalendarEntity();
+		$existingCalendar->setId(10);
+		$existingCalendar->setPrincipaluri('principals/users/sharee1');
+		$existingCalendar->setUri('ae4b8ab904076fff2b955ea21b1a0d92');
+		$existingCalendar->setRemoteUrl('https://nextcloud.remote/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user1');
+		$existingCalendar->setToken('old-token');
+		$existingCalendar->setSharedBy('user1@nextcloud.remote');
+		$existingCalendar->setPermissions(1);
+		$existingCalendar->setState($state);
+
+		$this->federatedCalendarMapper->expects(self::once())
+			->method('findByUri')
+			->willReturn($existingCalendar);
+
+		$signedRequest = null;
+		if ($signedOrigin !== null) {
+			$signedRequest = $this->createMock(IIncomingSignedRequest::class);
+			$signedRequest->method('getOrigin')
+				->willReturn($signedOrigin);
+		}
+		$this->ocmDiscoveryService->expects(self::once())
+			->method('getIncomingSignedRequest')
+			->willReturn($signedRequest);
+		$this->signatureManager->method('extractIdentityFromUri')
+			->willReturn('nextcloud.remote');
+
+		$this->assertExistingCalendarIsNotTouched();
+
+		$this->expectException(ProviderCouldNotAddShareException::class);
+		$this->expectExceptionMessage('Calendar is already shared with the sharee');
+		$this->expectExceptionCode(403);
+		$this->calendarFederationProvider->shareReceived($share);
+	}
+
+	public function testShareReceivedWithExistingCalendarAndInvalidSignature(): void {
+		$share = $this->createMock(ICloudFederationShare::class);
+		$share->method('getShareType')
+			->willReturn('user');
+		$share->method('getProtocol')
+			->willReturn([
+				'version' => 'v1',
+				'url' => 'https://nextcloud.remote/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user1',
+				'displayName' => 'Calendar 1',
+				'color' => '#ff0000',
+				'access' => 2,
+				'components' => 'VEVENT,VTODO',
+			]);
+		$share->method('getShareWith')
+			->willReturn('sharee1');
+		$share->method('getShareSecret')
+			->willReturn('new-token');
+		$share->method('getOwner')
+			->willReturn('user1@nextcloud.remote');
+
+		$this->calendarFederationConfig->expects(self::once())
+			->method('isFederationEnabled')
+			->willReturn(true);
+
+		$this->calendarFederationConfig->expects(self::once())
+			->method('isIncomingServer2serverShareEnabled')
+			->willReturn(true);
+
+		$existingCalendar = new FederatedCalendarEntity();
+		$existingCalendar->setId(10);
+		$existingCalendar->setRemoteUrl('https://nextcloud.remote/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user1');
+		$existingCalendar->setToken('old-token');
+		$existingCalendar->setState(FederatedCalendarEntity::STATE_ACCEPTED);
+
+		$this->federatedCalendarMapper->expects(self::once())
+			->method('findByUri')
+			->willReturn($existingCalendar);
+
+		$this->ocmDiscoveryService->expects(self::once())
+			->method('getIncomingSignedRequest')
+			->willThrowException(new IncomingRequestException('Invalid signature'));
+
+		$this->assertExistingCalendarIsNotTouched();
+
+		$this->expectException(ProviderCouldNotAddShareException::class);
+		$this->expectExceptionCode(403);
+		$this->calendarFederationProvider->shareReceived($share);
+	}
+
+	private function assertExistingCalendarIsNotTouched(): void {
+		$this->federatedCalendarMapper->expects(self::never())
+			->method('insert');
+		$this->federatedCalendarMapper->expects(self::never())
+			->method('update');
+		$this->invitationService->expects(self::never())
+			->method('shouldAutoAccept');
+		$this->invitationService->expects(self::never())
+			->method('accept');
+		$this->invitationService->expects(self::never())
+			->method('notifyAboutNewShare');
+		$this->jobList->expects(self::never())
+			->method('add');
 	}
 
 	public function testShareReceivedWithInvalidProtocolVersion(): void {

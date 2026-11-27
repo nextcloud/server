@@ -45,7 +45,16 @@ class DavAclPlugin extends \Sabre\DAVACL\Plugin {
 		'{http://calendarserver.org/ns/}calendar-proxy-write-for',
 	];
 
-	public function __construct() {
+	private const PUBLIC_PRINCIPAL = 'principals/system/public';
+
+	/**
+	 * @param bool $restrictPublicPrincipal Grant the public principal only the
+	 *                                      privileges given to it by name, not
+	 *                                      those given to {DAV:}authenticated
+	 */
+	public function __construct(
+		private bool $restrictPublicPrincipal = false,
+	) {
 		$this->hideNodesFromListings = true;
 		$this->allowUnauthenticatedAccess = false;
 	}
@@ -55,6 +64,31 @@ class DavAclPlugin extends \Sabre\DAVACL\Plugin {
 		parent::initialize($server);
 		// Before the CalDAV and CardDAV plugins resolve the hrefs
 		$server->on('report', [$this, 'beforeReport'], 50);
+	}
+
+	#[\Override]
+	public function getAcl($node) {
+		$acl = parent::getAcl($node);
+		if (!$this->isPublicPrincipalRestricted()) {
+			return $acl;
+		}
+		return array_values(array_filter(
+			$acl,
+			static fn (array $ace): bool => $ace['principal'] !== '{DAV:}authenticated',
+		));
+	}
+
+	#[\Override]
+	public function principalSearch(array $searchProperties, array $requestedProperties, $collectionUri = null, $test = 'allof') {
+		if ($this->isPublicPrincipalRestricted()) {
+			return [];
+		}
+		return parent::principalSearch($searchProperties, $requestedProperties, $collectionUri, $test);
+	}
+
+	private function isPublicPrincipalRestricted(): bool {
+		return $this->restrictPublicPrincipal
+			&& $this->getCurrentUserPrincipal() === self::PUBLIC_PRINCIPAL;
 	}
 
 	#[\Override]

@@ -15,9 +15,13 @@ use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Collection;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAVACL\ACLTrait;
+use Sabre\DAVACL\IACL;
 use Sabre\Uri;
 
-class PublicCalendarRoot extends Collection {
+class PublicCalendarRoot extends Collection implements IACL {
+	use ACLTrait;
+
 	public function __construct(
 		protected CalDavBackend $caldavBackend,
 		protected IL10N $l10n,
@@ -49,6 +53,17 @@ class PublicCalendarRoot extends Collection {
 	#[\Override]
 	public function getChildren(): array {
 		return [];
+	}
+
+	#[\Override]
+	public function getACL(): array {
+		return [
+			[
+				'privilege' => '{DAV:}read',
+				'principal' => '{DAV:}all',
+				'protected' => true,
+			],
+		];
 	}
 
 	/**
