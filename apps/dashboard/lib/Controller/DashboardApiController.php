@@ -203,8 +203,8 @@ class DashboardApiController extends OCSController {
 	#[NoCSRFRequired]
 	#[ApiRoute(verb: 'GET', url: '/api/v1/widgets')]
 	public function getWidgets(?string $teamId = null): DataResponse {
-		$teamId = $this->validateTeamAccess($teamId);
 		if ($teamId !== null) {
+			$teamId = $this->validateTeamAccess($teamId);
 			$items = [];
 			foreach ($this->getTeamWidgets($teamId, []) as $id => $widget) {
 				try {
