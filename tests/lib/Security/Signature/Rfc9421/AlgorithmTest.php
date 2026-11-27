@@ -13,6 +13,7 @@ use Firebase\JWT\JWK;
 use Firebase\JWT\Key;
 use OC\Security\Signature\Rfc9421\Algorithm;
 use OCP\Security\Signature\Exceptions\SignatureException;
+use phpseclib3\Crypt\EC;
 use Test\TestCase;
 
 class AlgorithmTest extends TestCase {
@@ -64,19 +65,25 @@ class AlgorithmTest extends TestCase {
 		Algorithm::sign('payload', str_repeat("\x00", 64), 'ed25519');
 	}
 
-	public function testEd25519VerifyRoundTripWithSodium(): void {
-		$this->skipUnlessSodium();
-		[$secret, $key] = $this->ed25519KeyPair();
-		$base = 'arbitrary signature base';
-		$sig = sodium_crypto_sign_detached($base, $secret);
-		$this->assertSame(64, strlen($sig));
-		$this->assertTrue(Algorithm::verify($base, $sig, $key, 'ed25519'));
-		// JOSE alias accepted.
-		$this->assertTrue(Algorithm::verify($base, $sig, $key, 'EdDSA'));
-		// alg-omitted path resolves through Key alg.
-		$this->assertTrue(Algorithm::verify($base, $sig, $key, null));
-		// tamper detection
-		$this->assertFalse(Algorithm::verify($base . 'x', $sig, $key, 'ed25519'));
+	public function testEd25519VerifyRfc8032VectorWithPhpEngine(): void {
+		$key = $this->ed25519PublicKey();
+		$signature = pack(
+			'H*',
+			'e5564300c360ac729086e2cc806e828a84877f1eb8e5d974d'
+				. '873e065224901555fb8821590a33bacc61e39701cf9b46bd'
+				. '25bf5f0595bbe24655141438e7a100b',
+		);
+
+		EC::forceEngine('PHP');
+		try {
+			$this->assertTrue(Algorithm::verify('', $signature, $key, 'ed25519'));
+			$this->assertTrue(Algorithm::verify('', $signature, $key, 'EdDSA'));
+			$this->assertTrue(Algorithm::verify('', $signature, $key, null));
+			$this->assertFalse(Algorithm::verify('x', $signature, $key, 'ed25519'));
+			$this->assertFalse(Algorithm::verify('', 'short', $key, 'ed25519'));
+		} finally {
+			EC::forceEngine();
+		}
 	}
 
 	public function testRsaPkcs1RoundTrip(): void {
@@ -109,9 +116,8 @@ class AlgorithmTest extends TestCase {
 	}
 
 	public function testAlgHintConflictsWithJwkAlgRejected(): void {
-		$this->skipUnlessSodium();
 		// Ed25519 JWK, request claims ES256: RFC 9421 §3.2 step 6 disagreement.
-		[, $key] = $this->ed25519KeyPair();
+		$key = $this->ed25519PublicKey();
 		$this->expectException(SignatureException::class);
 		Algorithm::verify('payload', random_bytes(64), $key, 'ES256');
 	}
@@ -130,6 +136,15 @@ class AlgorithmTest extends TestCase {
 		$rawSig = Algorithm::sign('msg', $priv, 'ecdsa-p256-sha256');
 		$der = Algorithm::ecdsaRawToDer($rawSig, 32);
 		$this->assertNotNull($der);
+		$this->assertSame(
+			1,
+			openssl_verify(
+				'msg',
+				$der,
+				$key->getKeyMaterial(),
+				OPENSSL_ALGO_SHA256,
+			),
+		);
 		$this->assertTrue(Algorithm::verify('msg', $rawSig, $key, 'ecdsa-p256-sha256'));
 	}
 
@@ -137,27 +152,18 @@ class AlgorithmTest extends TestCase {
 		$this->assertNull(Algorithm::ecdsaRawToDer('short', 32));
 	}
 
-	private function skipUnlessSodium(): void {
-		if (!extension_loaded('sodium')) {
-			$this->markTestSkipped('ext-sodium is not loaded');
-		}
-	}
-
-	/**
-	 * @return array{0: string, 1: Key}
-	 */
-	private function ed25519KeyPair(): array {
-		$keypair = sodium_crypto_sign_keypair();
-		$publicKey = sodium_crypto_sign_publickey($keypair);
-		$secretKey = sodium_crypto_sign_secretkey($keypair);
-		$key = JWK::parseKey([
+	private function ed25519PublicKey(): Key {
+		return JWK::parseKey([
 			'kty' => 'OKP',
 			'crv' => 'Ed25519',
 			'kid' => 'k',
 			'alg' => 'EdDSA',
-			'x' => self::b64url($publicKey),
+			'x' => self::b64url(pack(
+				'H*',
+				'd75a980182b10ab7d54bfed3c964073a'
+					. '0ee172f3daa62325af021a68f707511a',
+			)),
 		], 'EdDSA');
-		return [$secretKey, $key];
 	}
 
 	/**
