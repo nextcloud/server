@@ -60,9 +60,9 @@ async function onSubmit(event: SubmitEvent) {
 <template>
 	<LoginFlowContainer :heading="t('core', 'Account access')">
 		<NcNoteCard type="info">
-			{{ t('core', 'Currently logged in as {userDisplayName} ({userId}).', { userDisplayName, userId }) }}
+			{{ t('core', 'Currently logged in as {userDisplayName} ({userId}).', { userDisplayName, userId }, undefined, { escape: false }) }}
 			<br>
-			{{ t('core', 'You are about to grant "{client}" access to your {instanceName} account.', { client, instanceName }) }}
+			{{ t('core', 'You are about to grant "{client}" access to your {instanceName} account.', { client, instanceName }, undefined, { escape: false }) }}
 		</NcNoteCard>
 
 		<form method="POST" :action="actionUrl" @submit="onSubmit">
