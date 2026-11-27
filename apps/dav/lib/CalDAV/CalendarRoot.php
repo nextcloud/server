@@ -21,6 +21,7 @@ use Sabre\DAVACL\PrincipalBackend;
 
 class CalendarRoot extends \Sabre\CalDAV\CalendarRoot {
 	private array $returnCachedSubscriptions = [];
+	private bool $returnCachedSubscriptionsForAll = false;
 
 	public function __construct(
 		PrincipalBackend\BackendInterface $principalBackend,
@@ -52,7 +53,7 @@ class CalendarRoot extends \Sabre\CalDAV\CalendarRoot {
 			$principal,
 			$this->logger,
 			$this->federatedCalendarFactory,
-			array_key_exists($principal['uri'], $this->returnCachedSubscriptions)
+			$this->returnCachedSubscriptionsForAll || array_key_exists($principal['uri'], $this->returnCachedSubscriptions)
 		);
 	}
 
@@ -74,6 +75,14 @@ class CalendarRoot extends \Sabre\CalDAV\CalendarRoot {
 
 	public function enableReturnCachedSubscriptions(string $principalUri): void {
 		$this->returnCachedSubscriptions['principals/users/' . $principalUri] = true;
+	}
+
+	/**
+	 * Return subscriptions as cached calendars for every principal,
+	 * e.g. so they are taken into account for free/busy lookups.
+	 */
+	public function setReturnCachedSubscriptionsForAll(bool $enabled): void {
+		$this->returnCachedSubscriptionsForAll = $enabled;
 	}
 
 	#[\Override]

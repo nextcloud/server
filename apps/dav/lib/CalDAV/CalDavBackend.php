@@ -741,6 +741,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$fields[] = 'synctoken';
 		$fields[] = 'principaluri';
 		$fields[] = 'lastmodified';
+		$fields[] = 'transparent';
 
 		$query = $this->db->getQueryBuilder();
 		$query->select($fields)
@@ -777,6 +778,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$fields[] = 'synctoken';
 		$fields[] = 'principaluri';
 		$fields[] = 'lastmodified';
+		$fields[] = 'transparent';
 
 		$query = $this->db->getQueryBuilder();
 		$query->select($fields)
@@ -3011,6 +3013,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$fields[] = 'source';
 		$fields[] = 'principaluri';
 		$fields[] = 'lastmodified';
+		$fields[] = 'transparent';
 		$fields[] = 'synctoken';
 
 		$query = $this->db->getQueryBuilder();
@@ -3074,6 +3077,11 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			}
 		}
 
+		$transp = '{' . Plugin::NS_CALDAV . '}schedule-calendar-transp';
+		if (isset($properties[$transp])) {
+			$values['transparent'] = (int)($properties[$transp]->getValue() === 'transparent');
+		}
+
 		[$subscriptionId, $subscriptionRow] = $this->atomic(function () use ($values) {
 			$valuesToInsert = [];
 			$query = $this->db->getQueryBuilder();
@@ -3115,6 +3123,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	public function updateSubscription($subscriptionId, PropPatch $propPatch) {
 		$supportedProperties = array_keys($this->subscriptionPropertyMap);
 		$supportedProperties[] = '{http://calendarserver.org/ns/}source';
+		$supportedProperties[] = '{' . Plugin::NS_CALDAV . '}schedule-calendar-transp';
 
 		$propPatch->handle($supportedProperties, function ($mutations) use ($subscriptionId) {
 			$newValues = [];
@@ -3122,6 +3131,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			foreach ($mutations as $propertyName => $propertyValue) {
 				if ($propertyName === '{http://calendarserver.org/ns/}source') {
 					$newValues['source'] = $propertyValue->getHref();
+				} elseif ($propertyName === '{' . Plugin::NS_CALDAV . '}schedule-calendar-transp') {
+					$newValues['transparent'] = (int)($propertyValue->getValue() === 'transparent');
 				} else {
 					$fieldName = $this->subscriptionPropertyMap[$propertyName][0];
 					$newValues[$fieldName] = $propertyValue;
@@ -4093,6 +4104,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			}
 			$subscription[$xmlName] = $value;
 		}
+		$subscription['{' . Plugin::NS_CALDAV . '}schedule-calendar-transp'] = new ScheduleCalendarTransp($row['transparent'] ? 'transparent' : 'opaque');
 		return $subscription;
 	}
 

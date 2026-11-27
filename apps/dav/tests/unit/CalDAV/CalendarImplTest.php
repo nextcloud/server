@@ -16,6 +16,7 @@ use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
 use OCA\DAV\Connector\Sabre\Server;
 use OCP\Calendar\Exceptions\CalendarException;
 use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\ITip\Message;
@@ -71,6 +72,25 @@ class CalendarImplTest extends \Test\TestCase {
 
 	public function testGetDisplayColor(): void {
 		$this->assertEquals($this->calendarImpl->getDisplayColor(), '#AABBCC');
+	}
+
+	public static function isTransparentData(): array {
+		return [
+			'transparent' => [new ScheduleCalendarTransp(ScheduleCalendarTransp::TRANSPARENT), true],
+			'opaque' => [new ScheduleCalendarTransp(ScheduleCalendarTransp::OPAQUE), false],
+			'not set' => [null, false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('isTransparentData')]
+	public function testIsTransparent(?ScheduleCalendarTransp $transp, bool $expected): void {
+		$calendarImpl = new CalendarImpl(
+			$this->calendar,
+			$this->calendarInfo + ['{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp' => $transp],
+			$this->backend
+		);
+
+		$this->assertSame($expected, $calendarImpl->isTransparent());
 	}
 
 	public function testGetDisplayPropertiesWhenMissing(): void {

@@ -19,6 +19,7 @@ use OCP\Calendar\ICalendarExport;
 use OCP\Calendar\ICalendarIsEnabled;
 use OCP\Calendar\ICalendarIsPublic;
 use OCP\Calendar\ICalendarIsShared;
+use OCP\Calendar\ICalendarIsTransparent;
 use OCP\Calendar\ICalendarIsWritable;
 use OCP\Calendar\ICreateFromString;
 use OCP\Calendar\IHandleImipMessage;
@@ -32,7 +33,7 @@ use Sabre\VObject\ParseException;
 use Sabre\VObject\Reader;
 use function Sabre\Uri\split as uriSplit;
 
-class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIsWritable, ICalendarIsShared, ICalendarExport, ICalendarIsEnabled, ICalendarIsPublic {
+class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIsWritable, ICalendarIsShared, ICalendarExport, ICalendarIsEnabled, ICalendarIsPublic, ICalendarIsTransparent {
 	public function __construct(
 		private Calendar $calendar,
 		/** @var array<string, mixed> */
@@ -160,6 +161,15 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	#[\Override]
 	public function isEnabled(): bool {
 		return $this->calendarInfo['{http://owncloud.org/ns}calendar-enabled'] ?? true;
+	}
+
+	/**
+	 * @since 36.0.0
+	 */
+	#[\Override]
+	public function isTransparent(): bool {
+		$transp = $this->getSchedulingTransparency();
+		return $transp !== null && strtolower($transp->getValue()) === ScheduleCalendarTransp::TRANSPARENT;
 	}
 
 	/**
