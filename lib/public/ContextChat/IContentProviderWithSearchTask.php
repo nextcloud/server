@@ -9,11 +9,14 @@ declare(strict_types=1);
 
 namespace OCP\ContextChat;
 
+use OCP\AppFramework\Attribute\Implementable;
+
 /**
  * This interface defines methods to implement a Context Chat content provider
  * with a search task and data description.
  * @since 35.0.0
  */
+#[Implementable(since: '35.0.0')]
 interface IContentProviderWithSearchTask extends IContentProvider {
 	/**
 	 * A short description about the kind of data provided by this provider.
