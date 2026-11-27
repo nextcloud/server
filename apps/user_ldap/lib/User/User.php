@@ -117,8 +117,7 @@ class User {
 			$displayName2 = (string)$ldapEntry[$attr][0];
 		}
 		if ($displayName !== '') {
-			$composedDisplayName = $this->composeAndStoreDisplayName($displayName, $displayName2);
-			$this->access->cacheUserDisplayName($this->getUsername(), $composedDisplayName);
+			$this->composeAndStoreDisplayName($displayName, $displayName2);
 		}
 		unset($attr);
 
@@ -446,17 +445,31 @@ class User {
 		if ($displayName2 !== '') {
 			$displayName .= ' (' . $displayName2 . ')';
 		}
+		$hasStoredName = $this->userConfig->hasKey($this->uid, 'user_ldap', 'displayName');
 		$oldName = $this->userConfig->getValueString($this->uid, 'user_ldap', 'displayName', '');
+		// Listeners of the change may read the display name right away, e.g. to regenerate the avatar
+		$this->access->cacheUserDisplayName($this->getUsername(), $displayName);
 		if ($oldName !== $displayName) {
 			$this->store('displayName', $displayName);
 			$user = $this->userManager->get($this->getUsername());
-			if (!empty($oldName) && $user instanceof \OC\User\User) {
-				// if it was empty, it would be a new record, not a change emitting the trigger could
-				// potentially cause a UniqueConstraintViolationException, depending on some factors.
-				$user->triggerChange('displayName', $displayName, $oldName);
+			// Without a stored value this is a new record, not a change. Emitting the trigger could
+			// cause a UniqueConstraintViolationException while the account is being created.
+			// An empty stored value means the user was known before, displayed with its user id.
+			if ($hasStoredName && $user instanceof \OC\User\User) {
+				$user->triggerChange('displayName', $displayName, $oldName !== '' ? $oldName : $user->getUID());
 			}
 		}
 		return $displayName;
+	}
+
+	/**
+	 * Remembers that the user exists without a display name in LDAP, so that
+	 * a display name set later is announced as a change.
+	 */
+	public function markDisplayNameMissing(): void {
+		if (!$this->userConfig->hasKey($this->uid, 'user_ldap', 'displayName')) {
+			$this->store('displayName', '');
+		}
 	}
 
 	public function fetchStoredDisplayName(): string {

@@ -760,8 +760,7 @@ class Access extends LDAPUtility {
 		if ($user === null) {
 			return;
 		}
-		$composedDisplayName = $user->composeAndStoreDisplayName($displayName, $displayName2);
-		$this->cacheUserDisplayName($uid, $composedDisplayName);
+		$user->composeAndStoreDisplayName($displayName, $displayName2);
 	}
 
 	public function cacheUserDisplayName(string $ocName, string $displayName): void {
