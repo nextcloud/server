@@ -11,6 +11,7 @@ namespace OC\Core\Controller;
 
 use OC\Core\ResponseDefinitions;
 use OC\Files\SimpleFS\SimpleFile;
+use OC\User\NoUserException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\ExAppRequired;
@@ -557,10 +558,17 @@ class TaskProcessingApiController extends OCSController {
 		if (!in_array($fileId, $ids, true)) {
 			return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
 		}
+		$node = null;
 		if ($task->getUserId() !== null) {
 			\OC_Util::setupFS($task->getUserId());
+			try {
+				// Only look in the files the task's user can access right now,
+				// the root folder would also find the node in the files of other users
+				$node = $this->rootFolder->getUserFolder($task->getUserId())->getFirstNodeById($fileId);
+			} catch (NoUserException) {
+				// The task's user is gone, only the task's files in app data are left
+			}
 		}
-		$node = $this->rootFolder->getFirstNodeById($fileId);
 		if ($node === null) {
 			$node = $this->rootFolder->getFirstNodeByIdInPath($fileId, '/' . $this->rootFolder->getAppDataDirectoryName() . '/');
 			if (!$node instanceof File) {
