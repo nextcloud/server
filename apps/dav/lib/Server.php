@@ -21,6 +21,7 @@ use OCA\DAV\CalDAV\Publishing\PublishPlugin;
 use OCA\DAV\CalDAV\Schedule\IMipPlugin;
 use OCA\DAV\CalDAV\Schedule\IMipService;
 use OCA\DAV\CalDAV\Security\RateLimitingPlugin;
+use OCA\DAV\CalDAV\SharingPlugin;
 use OCA\DAV\CalDAV\Validation\CalDavValidatePlugin;
 use OCA\DAV\CardDAV\HasPhotoPlugin;
 use OCA\DAV\CardDAV\ImageExportPlugin;
@@ -221,7 +222,7 @@ class Server {
 			}
 
 			$this->server->addPlugin(new \Sabre\CalDAV\Notifications\Plugin());
-			$this->server->addPlugin(new \OCA\DAV\CalDAV\SharingPlugin(\OCP\Server::get(\OCP\Share\IManager::class)));
+			$this->server->addPlugin(new SharingPlugin(\OCP\Server::get(\OCP\Share\IManager::class)));
 			$this->server->addPlugin(new PublishPlugin(
 				\OCP\Server::get(IURLGenerator::class),
 				\OCP\Server::get(\OCP\Share\IManager::class),
