@@ -12,6 +12,7 @@ use OC\Files\Filesystem;
 use OC\Lockdown\LockdownManager;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\AppInfo\PluginManager;
+use OCA\DAV\BulkDelete\BulkDeletePlugin;
 use OCA\DAV\BulkUpload\BulkUploadPlugin;
 use OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin;
 use OCA\DAV\CalDAV\BirthdayService;
@@ -393,6 +394,9 @@ class Server {
 						$view,
 						\OCP\Server::get(IFilesMetadataManager::class)
 					));
+					if ($config->getSystemValueBool('bulk_delete.enabled', true)) {
+						$this->server->addPlugin(new BulkDeletePlugin($user->getUID(), $logger));
+					}
 					$this->server->addPlugin(
 						new BulkUploadPlugin(
 							$userFolder,
