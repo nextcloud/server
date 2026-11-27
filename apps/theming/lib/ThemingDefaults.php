@@ -300,7 +300,8 @@ class ThemingDefaults extends \OC_Defaults {
 	public function getLogoImage(): ?array {
 		try {
 			$file = $this->imageManager->getImage('logo', false);
-			return ['content' => $file->getContent(), 'mimeType' => $this->imageManager->getImageMime('logo')];
+			$mimeType = $file->getName() === 'logo' ? $this->imageManager->getImageMime('logo') : $file->getMimeType();
+			return ['content' => $file->getContent(), 'mimeType' => $mimeType];
 		} catch (\Exception $e) {
 			return parent::getLogoImage();
 		}
