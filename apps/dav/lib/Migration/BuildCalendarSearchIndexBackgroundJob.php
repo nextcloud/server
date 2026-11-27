@@ -31,12 +31,13 @@ class BuildCalendarSearchIndexBackgroundJob extends QueuedJob {
 	public function run($argument) {
 		$offset = (int)$argument['offset'];
 		$stopAt = (int)$argument['stopAt'];
+		$property = $argument['property'] ?? null;
 
 		$this->logger->info('Building calendar index (' . $offset . '/' . $stopAt . ')');
 
 		$startTime = $this->time->getTime();
 		while (($this->time->getTime() - $startTime) < 15) {
-			$offset = $this->buildIndex($offset, $stopAt);
+			$offset = $this->buildIndex($offset, $stopAt, $property);
 			if ($offset >= $stopAt) {
 				break;
 			}
@@ -47,7 +48,8 @@ class BuildCalendarSearchIndexBackgroundJob extends QueuedJob {
 		} else {
 			$this->jobList->add(self::class, [
 				'offset' => $offset,
-				'stopAt' => $stopAt
+				'stopAt' => $stopAt,
+				'property' => $property,
 			]);
 			$this->logger->info('New building calendar index job scheduled with offset ' . $offset);
 		}
@@ -56,11 +58,12 @@ class BuildCalendarSearchIndexBackgroundJob extends QueuedJob {
 	/**
 	 * @param int $offset
 	 * @param int $stopAt
+	 * @param string|null $property only reindex objects whose data contains this property name
 	 * @return int
 	 */
-	private function buildIndex(int $offset, int $stopAt): int {
+	private function buildIndex(int $offset, int $stopAt, ?string $property): int {
 		$query = $this->db->getQueryBuilder();
-		$query->select(['id', 'calendarid', 'uri', 'calendardata'])
+		$query->select(['id', 'calendarid', 'calendartype', 'uri', 'calendardata'])
 			->from('calendarobjects')
 			->where($query->expr()->lte('id', $query->createNamedParameter($stopAt)))
 			->andWhere($query->expr()->gt('id', $query->createNamedParameter($offset)))
@@ -76,7 +79,11 @@ class BuildCalendarSearchIndexBackgroundJob extends QueuedJob {
 				$calendarData = stream_get_contents($calendarData);
 			}
 
-			$this->calDavBackend->updateProperties($row['calendarid'], $row['uri'], $calendarData);
+			if ($property !== null && stripos($calendarData, $property) === false) {
+				continue;
+			}
+
+			$this->calDavBackend->updateProperties($row['calendarid'], $row['uri'], $calendarData, (int)$row['calendartype']);
 		}
 
 		return $offset;
