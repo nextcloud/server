@@ -94,16 +94,16 @@ ResponseDefinitions.php             @provokateurin @nextcloud/server-backend
 /apps/webhook_listeners             @janepie @julien-nc
 
 # Groupware team
-/build/integration/dav_features/caldav.feature            @ChristophWurst @SebastianKrupinski @tcitworld
+/build/integration/dav_features/caldav.feature            @hamza221 @SebastianKrupinski
 /build/integration/dav_features/carddav.feature           @hamza221 @SebastianKrupinski
-/lib/private/Calendar                                     @ChristophWurst @SebastianKrupinski @tcitworld
+/lib/private/Calendar                                     @hamza221 @SebastianKrupinski
 /lib/private/Contacts                                     @hamza221 @SebastianKrupinski
-/lib/public/Calendar                                      @ChristophWurst @SebastianKrupinski @tcitworld
+/lib/public/Calendar                                      @hamza221 @SebastianKrupinski
 /lib/public/Contacts                                      @hamza221 @SebastianKrupinski
 /apps/contactsinteraction                                 @kesselb @SebastianKrupinski
-/apps/dav/lib/CalDAV                                      @ChristophWurst @SebastianKrupinski @tcitworld
+/apps/dav/lib/CalDAV                                      @hamza221 @SebastianKrupinski
 /apps/dav/lib/CardDAV                                     @hamza221 @SebastianKrupinski
-/apps/dav/tests/unit/CalDAV                               @ChristophWurst @SebastianKrupinski @tcitworld
+/apps/dav/tests/unit/CalDAV                               @hamza221 @SebastianKrupinski
 /apps/dav/tests/unit/CardDAV                              @hamza221 @SebastianKrupinski
 
 # Desktop client teamn
