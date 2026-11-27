@@ -20,9 +20,11 @@ use OCP\IConfig;
 use OCP\IDateTimeFormatter;
 use OCP\IGroup;
 use OCP\IGroupManager;
+use OCP\ITempManager;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\L10N\ILanguageIterator;
+use OCP\Server;
 use OCP\ServerVersion;
 use OCP\Support\Subscription\IRegistry;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -73,7 +75,17 @@ class AdminTest extends TestCase {
 		);
 	}
 
-	public function testGetFormWithUpdate(): void {
+	public static function webUpdaterProvider(): array {
+		return [
+			'installed and enabled' => [true, false, true],
+			'installed but disabled' => [true, true, false],
+			'missing and enabled' => [false, false, false],
+			'missing and disabled' => [false, true, false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('webUpdaterProvider')]
+	public function testGetFormWithUpdate(bool $updaterDirExists, bool $webUpdaterDisabled, bool $webUpdaterEnabled): void {
 		$this->serverVersion->expects(self::atLeastOnce())
 			->method('getChannel')
 			->willReturn('daily');
@@ -101,7 +113,7 @@ class AdminTest extends TestCase {
 			->method('getSystemValue')
 			->willReturnMap([
 				['updater.server.url', 'https://updates.nextcloud.com/updater_server/', 'https://updates.nextcloud.com/updater_server/'],
-				['upgrade.disable-web', false, false],
+				['upgrade.disable-web', false, $webUpdaterDisabled],
 			]);
 		$this->config
 			->expects(self::any())
@@ -155,7 +167,7 @@ class AdminTest extends TestCase {
 				'newVersionString' => 'Nextcloud 8.1.2',
 				'downloadLink' => 'https://downloads.nextcloud.org/server',
 				'changes' => [],
-				'webUpdaterEnabled' => true,
+				'webUpdaterEnabled' => $webUpdaterEnabled,
 				'isWebUpdaterRecommended' => true,
 				'updaterEnabled' => true,
 				'versionIsEol' => false,
@@ -168,7 +180,7 @@ class AdminTest extends TestCase {
 			]);
 
 		$expected = new TemplateResponse(Application::APP_ID, 'admin', [], '');
-		$this->assertEquals($expected, $this->admin->getForm());
+		$this->assertEquals($expected, $this->getFormWithUpdaterDirectory($updaterDirExists));
 	}
 
 	public function testGetFormWithUpdateAndChangedUpdateServer(): void {
@@ -267,7 +279,7 @@ class AdminTest extends TestCase {
 			]);
 
 		$expected = new TemplateResponse(Application::APP_ID, 'admin', [], '');
-		$this->assertEquals($expected, $this->admin->getForm());
+		$this->assertEquals($expected, $this->getFormWithUpdaterDirectory(true));
 	}
 
 	public function testGetFormWithUpdateAndCustomersUpdateServer(): void {
@@ -366,7 +378,22 @@ class AdminTest extends TestCase {
 			]);
 
 		$expected = new TemplateResponse(Application::APP_ID, 'admin', [], '');
-		$this->assertEquals($expected, $this->admin->getForm());
+		$this->assertEquals($expected, $this->getFormWithUpdaterDirectory(true));
+	}
+
+	private function getFormWithUpdaterDirectory(bool $exists): TemplateResponse {
+		$serverRoot = \OC::$SERVERROOT;
+		$temporaryRoot = rtrim(Server::get(ITempManager::class)->getTemporaryFolder(), '/');
+		if ($exists) {
+			self::assertTrue(mkdir($temporaryRoot . '/updater'));
+		}
+
+		try {
+			\OC::$SERVERROOT = $temporaryRoot;
+			return $this->admin->getForm();
+		} finally {
+			\OC::$SERVERROOT = $serverRoot;
+		}
 	}
 
 	public function testGetSection(): void {

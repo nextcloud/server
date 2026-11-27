@@ -80,9 +80,10 @@ class Admin implements ISettings {
 			'newVersionString' => empty($updateState['updateVersionString']) ? '' : $updateState['updateVersionString'],
 			'downloadLink' => empty($updateState['downloadLink']) ? '' : $updateState['downloadLink'],
 			'changes' => $this->filterChanges($updateState['changes'] ?? []),
-			'webUpdaterEnabled' => !$this->config->getSystemValue('upgrade.disable-web', false),
+			'webUpdaterEnabled' => !$this->config->getSystemValue('upgrade.disable-web', false)
+				&& is_dir(\OC::$SERVERROOT . '/updater'),
 			'isWebUpdaterRecommended' => $this->isWebUpdaterRecommended(),
-			'updaterEnabled' => empty($updateState['updaterEnabled']) ? false : $updateState['updaterEnabled'],
+			'updaterEnabled' => !empty($updateState['updaterEnabled']),
 			'versionIsEol' => empty($updateState['versionIsEol']) ? false : $updateState['versionIsEol'],
 			'isDefaultUpdateServerURL' => $isDefaultUpdateServerURL,
 			'updateServerURL' => $updateServerURL,
