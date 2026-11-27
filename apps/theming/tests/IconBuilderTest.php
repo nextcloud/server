@@ -14,6 +14,7 @@ use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\App\IAppManager;
+use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -191,72 +192,82 @@ class IconBuilderTest extends TestCase {
 		$expectedIcon->destroy();
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataRenderAppIconSvg')]
-	public function testGetFavIconSvg(string $app, string $color, string $file): void {
-		$this->checkImagick('SVG');
-		// mock required methods
-		$this->imageManager->expects($this->any())
-			->method('canConvert')
-			->willReturnMap([
-				['ICO', true],
-				['SVG', true],
-				['PNG', true]
-			]);
-		$this->util->expects($this->once())
-			->method('getAppIcon')
-			->with($app, true)
-			->willReturn(__DIR__ . '/data/' . $file);
-		$this->themingDefaults->expects($this->any())
-			->method('getColorPrimary')
-			->willReturn($color);
-		// generate expected output from source file
-		$expectedIcon = $this->generateTestFavIcon($file, 'SVG', $color);
-		// run test
-		$result = $this->iconBuilder->getFavicon($app);
-		$this->assertIsString($result, 'Favicon generation should return a ICO blob');
-		$this->assertEquals($expectedIcon->getImagesBlob(), $result, 'Generated favicon differs from expected');
-		$expectedIcon->destroy();
+	public static function dataGetFavicon(): array {
+		return [
+			['settings', 'settings.svg', 'image/svg+xml', '#0082c9', false, false],
+			['settings', 'settings.png', 'image/png', '#0082c9', false, false],
+			['settings', 'settings.svg', 'image/svg+xml', '#ffffff', true, true],
+			['core', 'logo.svg', 'image/svg+xml', '#ffffff', true, false],
+		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataRenderAppIconPng')]
-	public function testGetFaviconPng(string $app, string $color, string $file): void {
-		$this->checkImagick('PNG');
-		// mock required methods
-		$this->imageManager->expects($this->any())
-			->method('canConvert')
-			->willReturnMap([
-				['ICO', true],
-				['SVG', false],
-				['PNG', true]
-			]);
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetFavicon')]
+	public function testGetFavicon(string $app, string $file, string $mime, string $color, bool $isBright, bool $inverted): void {
+		$path = __DIR__ . '/data/' . $file;
+		$this->themingDefaults->method('getColorPrimary')->willReturn($color);
+		$this->util->method('isBrightColor')->with($color)->willReturn($isBright);
 		$this->util->expects($this->once())
 			->method('getAppIcon')
-			->with($app, false)
-			->willReturn(__DIR__ . '/data/' . $file);
-		$this->themingDefaults->expects($this->any())
-			->method('getColorPrimary')
-			->willReturn($color);
-		// generate expected output from source file
-		$expectedIcon = $this->generateTestFavIcon($file, 'PNG', $color);
-		// run test
-		$result = $this->iconBuilder->getFavicon($app);
-		$this->assertIsString($result, 'Favicon generation should return a ICO blob');
-		$this->assertEquals($expectedIcon->getImagesBlob(), $result, 'Generated favicon differs from expected');
-		$expectedIcon->destroy();
+			->with($app)
+			->willReturn($path);
+
+		$svg = simplexml_load_string($this->iconBuilder->getFavicon($app));
+
+		$this->assertNotFalse($svg, 'Generated favicon is no valid XML');
+		$this->assertEquals($color, (string)$svg->rect['fill']);
+		$this->assertEquals('data:' . $mime . ';base64,' . base64_encode(file_get_contents($path)), (string)$svg->image['href']);
+		$this->assertEquals($inverted, isset($svg->filter));
+		$this->assertEquals($inverted ? 'url(#invert)' : '', (string)$svg->image['filter']);
+	}
+
+	public function testGetFaviconCustomLogoNotInverted(): void {
+		$logo = $this->createMock(ISimpleFile::class);
+		$logo->method('getContent')->willReturn(file_get_contents(__DIR__ . '/data/logo.png'));
+		$logo->method('getMimeType')->willReturn('application/octet-stream');
+		$this->themingDefaults->method('getColorPrimary')->willReturn('#ffffff');
+		$this->util->method('isBrightColor')->willReturn(true);
+		$this->util->expects($this->once())
+			->method('getAppIcon')
+			->with('settings')
+			->willReturn($logo);
+
+		$svg = simplexml_load_string($this->iconBuilder->getFavicon('settings'));
+
+		$this->assertFalse(isset($svg->filter));
+		$this->assertStringStartsWith('data:image/png;base64,', (string)$svg->image['href']);
+	}
+
+	public static function dataGetFaviconCustomLogoMime(): array {
+		return [
+			['<!-- comment --><svg xmlns="http://www.w3.org/2000/svg"/>', 'image/svg+xml'],
+			["\n<svg xmlns=\"http://www.w3.org/2000/svg\"/>", 'image/svg+xml'],
+			['<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg"/>', 'image/svg+xml'],
+			['no image', false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetFaviconCustomLogoMime')]
+	public function testGetFaviconCustomLogoMime(string $content, string|false $mime): void {
+		$logo = $this->createMock(ISimpleFile::class);
+		$logo->method('getContent')->willReturn($content);
+		$this->themingDefaults->method('getColorPrimary')->willReturn('#0082c9');
+		$this->util->method('getAppIcon')->willReturn($logo);
+
+		$result = $this->iconBuilder->getFavicon('settings');
+
+		if ($mime === false) {
+			$this->assertFalse($result);
+		} else {
+			$svg = simplexml_load_string($result);
+			$this->assertEquals('data:' . $mime . ';base64,' . base64_encode($content), (string)$svg->image['href']);
+		}
 	}
 
 	public function testGetFaviconNotFound(): void {
-		$this->checkImagick('ICO');
-		$util = $this->createMock(Util::class);
-		$iconBuilder = new IconBuilder($this->themingDefaults, $util, $this->imageManager);
-		$this->imageManager->expects($this->any())
-			->method('canConvert')
-			->willReturn(true);
-		$util->expects($this->once())
+		$this->util->expects($this->once())
 			->method('getAppIcon')
 			->willReturn('notexistingfile');
-		$result = $iconBuilder->getFavicon('noapp');
-		$this->assertFalse($result, 'Favicon generation should fail for missing file');
+		$this->assertFalse($this->iconBuilder->getFavicon('noapp'));
 	}
 
 	public function testGetTouchIconNotFound(): void {
@@ -337,24 +348,5 @@ class IconBuilderTest extends TestCase {
 		$finalIconFile->setImageFormat('png');
 		$appIconFile->destroy();
 		return $finalIconFile;
-	}
-
-	/**
-	 * Helper to generate expected favicon from source file for tests.
-	 */
-	private function generateTestFavIcon(string $file, string $format, string $color): \Imagick {
-		$baseIcon = $this->generateTestIcon($file, $format, 128, $color);
-		$baseIcon->setImageFormat('PNG32');
-
-		$testIcon = new \Imagick();
-		$testIcon->setFormat('ICO');
-		foreach ([16, 32, 64, 128] as $size) {
-			$clone = clone $baseIcon;
-			$clone->scaleImage($size, 0);
-			$testIcon->addImage($clone);
-			$clone->destroy();
-		}
-		$baseIcon->destroy();
-		return $testIcon;
 	}
 }
