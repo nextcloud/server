@@ -9,6 +9,7 @@ import type { AppAction } from './index.ts'
 import { mdiTrashCanOutline } from '@mdi/js'
 import { t } from '@nextcloud/l10n'
 import { useAppsStore } from '../store/apps.ts'
+import { pinia } from '../store/pinia.ts'
 import { canUninstall } from '../utils/appStatus.ts'
 
 export const actionRemove: AppAction = {
@@ -20,7 +21,7 @@ export const actionRemove: AppAction = {
 	enabled: canUninstall,
 	label: () => t('appstore', 'Remove'),
 	async callback(app: IAppstoreApp | IAppstoreExApp) {
-		const store = useAppsStore()
+		const store = useAppsStore(pinia)
 		await store.uninstallApp(app.id)
 	},
 }
