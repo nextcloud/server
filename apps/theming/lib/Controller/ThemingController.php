@@ -457,9 +457,13 @@ class ThemingController extends Controller {
 
 		// Generate variables
 		$themeVariables = $theme->getCSSVariables();
-		if (!$plain && $theme->getType() !== ITheme::TYPE_FONT) {
-			// Scoped color themes must not reset the font set by the font theme
-			$themeVariables = array_diff_key($themeVariables, ['--font-face' => true]);
+		if (!$plain && $theme->getType() === ITheme::TYPE_THEME) {
+			// Scoped color themes must not reset the font and animation speed set by the font and reduced motion themes
+			$themeVariables = array_diff_key($themeVariables, [
+				'--font-face' => true,
+				'--animation-quick' => true,
+				'--animation-slow' => true,
+			]);
 		}
 		$variables = '';
 		foreach ($themeVariables as $variable => $value) {
