@@ -95,6 +95,11 @@ class MountCacheService implements IEventListener {
 		}
 	}
 
+	public function handleUpdatedCredentials(IUser $user, StorageConfig $storage): void {
+		$this->userMountCache->removeMount($storage->getMountPointForUser($user), $user);
+		$this->registerForUser($user, $storage);
+	}
+
 	private function getCacheEntryForRoot(IUser $user, StorageConfig $storage): ICacheEntry {
 		try {
 			$userStorage = $this->configAdapter->constructStorageForUser($user, clone $storage);

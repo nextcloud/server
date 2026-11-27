@@ -16,6 +16,7 @@ use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\BackendService;
+use OCA\Files_External\Service\MountCacheService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -56,6 +57,7 @@ class UserGlobalStoragesController extends StoragesController {
 		IConfig $config,
 		BackendService $backendService,
 		private IEventDispatcher $eventDispatcher,
+		private MountCacheService $mountCacheService,
 	) {
 		parent::__construct(
 			$appName,
@@ -162,6 +164,7 @@ class UserGlobalStoragesController extends StoragesController {
 					false,
 					'files_external.user_credentials.updated',
 				));
+				$this->mountCacheService->handleUpdatedCredentials($this->userSession->getUser(), $storage);
 				$authMechanism->manipulateStorageConfig($storage, $this->userSession->getUser());
 			} else {
 				return new DataResponse(
