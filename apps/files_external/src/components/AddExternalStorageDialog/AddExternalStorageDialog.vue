@@ -102,6 +102,7 @@ watch(authMechanisms, () => {
 		<NcTextField
 			v-model="internalStorage.mountPoint"
 			:label="t('files_external', 'Folder name')"
+			autocomplete="off"
 			required />
 
 		<MountOptions v-model="internalStorage.mountOptions!" />
