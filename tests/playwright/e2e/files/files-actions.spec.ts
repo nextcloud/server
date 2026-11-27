@@ -38,4 +38,19 @@ test.describe('Files: Actions', () => {
 			await expect(filesListPage.getSelectionActionEntry(actionId)).toBeVisible()
 		}
 	})
+
+	test('keeps the row menu open when it is reopened right after closing it', async ({ page, filesListPage }) => {
+		const toggle = filesListPage.getActionsButtonForFile('image.jpg')
+		await filesListPage.openActionsMenuForFile('image.jpg')
+
+		for (let round = 1; round <= 3; round++) {
+			await page.keyboard.press('Escape')
+			await expect(toggle).toHaveAttribute('aria-expanded', 'false')
+			await toggle.click({ force: true })
+			await expect(toggle).toHaveAttribute('aria-expanded', 'true')
+			// Late events of the previous closing must not close the menu again
+			await page.waitForTimeout(300)
+			await expect(toggle, `round ${round}`).toHaveAttribute('aria-expanded', 'true')
+		}
+	})
 })
