@@ -34,27 +34,6 @@ class UtilTest extends TestCase {
 	protected IUserManager&MockObject $userManagerMock;
 	protected IMountPoint&MockObject $mountMock;
 
-	public function testSetRecoveryForUser(): void {
-		$this->instance->setRecoveryForUser(true);
-		$this->assertArrayHasKey('recoveryEnabled', self::$tempStorage);
-	}
-
-	public function testIsRecoveryEnabledForUser(): void {
-		$this->assertTrue($this->instance->isRecoveryEnabledForUser('admin'));
-
-		// Assert recovery will return default value if not set
-		unset(self::$tempStorage['recoveryEnabled']);
-		$this->assertFalse($this->instance->isRecoveryEnabledForUser('admin'));
-	}
-
-	public function testUserHasFiles(): void {
-		$this->filesMock->expects($this->once())
-			->method('file_exists')
-			->willReturn(true);
-
-		$this->assertTrue($this->instance->userHasFiles('admin'));
-	}
-
 	protected function setUp(): void {
 		parent::setUp();
 		$this->mountMock = $this->createMock(IMountPoint::class);
@@ -99,11 +78,65 @@ class UtilTest extends TestCase {
 		$this->instance = new Util($this->filesMock, $cryptMock, $userSessionMock, $this->appConfigMock, $this->userConfigMock, $this->userManagerMock);
 	}
 
-	/**
-	 *
-	 * @param string $value
-	 * @param bool $expect
-	 */
+	public function testSetRecoveryForUser(): void {
+		$this->instance->setRecoveryForUser(true);
+		$this->assertArrayHasKey('recoveryEnabled', self::$tempStorage);
+	}
+
+	public function testIsRecoveryEnabledForUser(): void {
+		$this->assertTrue($this->instance->isRecoveryEnabledForUser('admin'));
+
+		// Assert recovery will return default value if not set
+		unset(self::$tempStorage['recoveryEnabled']);
+		$this->assertFalse($this->instance->isRecoveryEnabledForUser('admin'));
+	}
+
+	public function testUserHasFiles(): void {
+		$this->filesMock->expects($this->once())
+			->method('file_exists')
+			->willReturn(true);
+
+		$this->assertTrue($this->instance->userHasFiles('admin'));
+	}
+
+	public function testGetOwner(): void {
+		$this->userManagerMock->expects($this->once())
+			->method('userExists')
+			->with('alice')
+			->willReturn(true);
+
+		$this->assertSame('alice', $this->instance->getOwner('/alice/files/report.txt'));
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'malformedOwnerPathProvider')]
+	public function testGetOwnerRejectsMalformedPath(string $path): void {
+		$this->userManagerMock->expects($this->never())
+			->method('userExists');
+
+		$this->expectException(\BadMethodCallException::class);
+
+		$this->instance->getOwner($path);
+	}
+
+	public static function malformedOwnerPathProvider(): array {
+		return [
+			['alice/files/report.txt'],
+			['/'],
+			['//alice/files/report.txt'],
+		];
+	}
+
+	public function testGetOwnerRejectsUnknownUser(): void {
+		$this->userManagerMock->expects($this->once())
+			->method('userExists')
+			->with('deleted-user')
+			->willReturn(false);
+
+		$this->expectException(\BadMethodCallException::class);
+
+		$this->instance->getOwner('/deleted-user/files/report.txt');
+	}
+
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestIsMasterKeyEnabled')]
 	public function testIsMasterKeyEnabled(bool $value, bool $expect): void {
 		$this->appConfigMock->expects($this->once())->method('getValueBool')
@@ -141,10 +174,6 @@ class UtilTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @param bool $value
-	 * @param bool $expected
-	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestSetEncryptHomeStorage')]
 	public function testSetEncryptHomeStorage(bool $value, bool $expected): void {
 		$this->appConfigMock->expects($this->once())->method('setValueBool')
