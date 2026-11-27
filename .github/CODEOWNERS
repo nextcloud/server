@@ -118,7 +118,6 @@ ResponseDefinitions.php             @provokateurin @nextcloud/server-backend
 # App maintainers
 /apps/admin_audit/appinfo/info.xml                        @luka-nextcloud @samin-z
 /apps/cloud_federation_api/appinfo/info.xml               @leftybournes @provokateurin
-/apps/comments/appinfo/info.xml                           @edward-ly @marcelklehr
 /apps/contactsinteraction/appinfo/info.xml                @kesselb @SebastianKrupinski
 /apps/dashboard/appinfo/info.xml                          @julien-nc @juliusknorr
 /apps/encryption/appinfo/info.xml                         @GhassenKefi @icewind1991
@@ -143,5 +142,4 @@ ResponseDefinitions.php             @provokateurin @nextcloud/server-backend
 /apps/user_ldap/appinfo/info.xml                          @come-nc @blizzz
 /apps/user_status/appinfo/info.xml                        @Antreesy @nickvergessen
 /apps/weather_status/appinfo/info.xml                     @julien-nc @juliusknorr
-/apps/webhook_listeners                                   @janepie @julien-nc
 /apps/workflowengine/appinfo/info.xml                     @blizzz @juliusknorr
