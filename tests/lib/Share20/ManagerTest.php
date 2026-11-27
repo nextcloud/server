@@ -5958,6 +5958,7 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_enabled', 'yes', 'yes'],
 				['core', 'shareapi_allow_links', 'yes', 'yes'],
 				['core', 'shareapi_allow_links_exclude_groups', '[]', '[]'],
+				['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
 			]);
 
 		$owner1 = $this->createMock(IUser::class);
