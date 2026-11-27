@@ -448,6 +448,27 @@ class SystemTagManagerTest extends TestCase {
 		$this->assertEquals($expectedResult, $this->tagManager->canUserSeeTag($tag1, $user));
 	}
 
+	public static function anonymousVisibilityCheckProvider(): array {
+		return [
+			// invisible
+			[false, false, false],
+			// restricted
+			[true, false, false],
+			// public
+			[true, true, true],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('anonymousVisibilityCheckProvider')]
+	public function testVisibilityCheckWithoutUser($userVisible, $userAssignable, $expectedResult): void {
+		$tag1 = $this->tagManager->createTag('one', $userVisible, $userAssignable);
+
+		$this->groupManager->expects($this->never())
+			->method('isAdmin');
+
+		$this->assertEquals($expectedResult, $this->tagManager->canUserSeeTag($tag1, null));
+	}
+
 	public static function assignabilityCheckProvider(): array {
 		return [
 			// no groups
