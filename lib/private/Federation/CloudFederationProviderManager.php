@@ -12,6 +12,7 @@ namespace OC\Federation;
 use OC\AppFramework\Http;
 use OC\OCM\OCMSignatoryManager;
 use OCP\App\IAppManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\Exceptions\ProviderDoesNotExistsException;
 use OCP\Federation\ICloudFederationNotification;
 use OCP\Federation\ICloudFederationProvider;
@@ -23,6 +24,7 @@ use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\IAppConfig;
 use OCP\IConfig;
+use OCP\OCM\Events\BeforeOCMShareSentEvent;
 use OCP\OCM\Exceptions\OCMCapabilityException;
 use OCP\OCM\Exceptions\OCMProviderException;
 use OCP\OCM\IOCMDiscoveryService;
@@ -50,6 +52,7 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 		private readonly ISignatureManager $signatureManager,
 		private readonly OCMSignatoryManager $signatoryManager,
 		private LoggerInterface $logger,
+		private IEventDispatcher $eventDispatcher,
 	) {
 	}
 
@@ -110,11 +113,22 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	 */
 	#[\Override]
 	public function sendShare(ICloudFederationShare $share) {
+		$event = new BeforeOCMShareSentEvent($share);
+		$this->eventDispatcher->dispatchTyped($event);
 		$cloudID = $this->cloudIdManager->resolveCloudId($share->getShareWith());
+		$requiresOcm = false;
 		try {
 			try {
-				$response = $this->postOcmPayload($cloudID->getRemote(), '/shares', $share->getShare());
-			} catch (OCMProviderException) {
+				$payload = $event->getPayload();
+				$requiresOcm = ($payload['resourceType'] ?? null) !== 'file'
+					|| !in_array($payload['shareType'] ?? null, ['user', 'group'], true)
+					|| ($payload['protocol']['name'] ?? null) !== 'webdav'
+					|| isset($payload['encryption']);
+				$response = $this->postOcmPayload($cloudID->getRemote(), '/shares', $payload);
+			} catch (OCMProviderException $e) {
+				if ($requiresOcm) {
+					throw $e;
+				}
 				return false;
 			}
 			if ($response->getStatusCode() === Http::STATUS_CREATED) {
@@ -127,9 +141,13 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 			// if flat re-sharing is not supported by the remote server
 			// we re-throw the exception and fall back to the old behaviour.
 			// (flat re-shares has been introduced in Nextcloud 9.1)
-			if ($e->getCode() === Http::STATUS_INTERNAL_SERVER_ERROR) {
+			if ($requiresOcm || $e->getCode() === Http::STATUS_INTERNAL_SERVER_ERROR) {
 				throw $e;
 			}
+		}
+
+		if ($requiresOcm) {
+			throw new OCMProviderException('The remote provider did not accept the OCM share.');
 		}
 
 		return false;
@@ -142,10 +160,12 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	 */
 	#[\Override]
 	public function sendCloudShare(ICloudFederationShare $share): IResponse {
+		$event = new BeforeOCMShareSentEvent($share);
+		$this->eventDispatcher->dispatchTyped($event);
 		$cloudID = $this->cloudIdManager->resolveCloudId($share->getShareWith());
 		$client = $this->httpClientService->newClient();
 		try {
-			return $this->postOcmPayload($cloudID->getRemote(), '/shares', $share->getShare(), $client);
+			return $this->postOcmPayload($cloudID->getRemote(), '/shares', $event->getPayload(), $client);
 		} catch (\Throwable $e) {
 			$this->logger->error('Error while sending share to federation server: ' . $e->getMessage(), ['exception' => $e]);
 			try {

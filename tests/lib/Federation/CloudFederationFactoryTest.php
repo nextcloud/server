@@ -152,7 +152,13 @@ class CloudFederationFactoryTest extends TestCase {
 		$this->assertLegacyShare($this->createShare(Constants::PERMISSION_ALL));
 	}
 
-	private function createShare(?int $permissions = null): ICloudFederationShare {
+	public function testFactoryKeepsLegacyRecipientTypeDefault(): void {
+		$share = $this->createShare(shareType: 'example-recipient', resourceType: 'calendar');
+		$this->assertSame('user', $share->getShareType());
+		$this->assertSame('calendar', $share->getResourceType());
+	}
+
+	private function createShare(?int $permissions = null, string $shareType = 'user', string $resourceType = 'file'): ICloudFederationShare {
 		$arguments = [
 			'recipient@remote.example',
 			'document.odt',
@@ -163,8 +169,8 @@ class CloudFederationFactoryTest extends TestCase {
 			'owner@local.example',
 			'Owner',
 			'share-secret',
-			'user',
-			'file',
+			$shareType,
+			$resourceType,
 		];
 		if ($permissions !== null) {
 			$arguments[] = $permissions;

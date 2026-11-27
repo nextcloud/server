@@ -15,6 +15,7 @@ use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Notifications;
 use OCA\FederatedFileSharing\TokenHandler;
+use OCA\Files_Sharing\External\Storage as ExternalStorage;
 use OCP\Constants;
 use OCP\Contacts\IManager as IContactsManager;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -23,6 +24,7 @@ use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -109,6 +111,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	}
 
 	protected function tearDown(): void {
+		$this->connection->getQueryBuilder()->delete('federated_reshares')->executeStatement();
 		$this->connection->getQueryBuilder()->delete('share')->executeStatement();
 
 		parent::tearDown();
@@ -124,6 +127,9 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestCreate')]
 	public function testCreate(?\DateTime $expirationDate, ?string $expectedDataDate): void {
 		$share = $this->shareManager->newShare();
+		$attributes = $share->newAttributes();
+		$attributes->setAttribute('example', 'targets', ['blank']);
+		$share->setAttributes($attributes);
 
 		/** @var File&MockObject $node */
 		$node = $this->createMock(File::class);
@@ -160,7 +166,11 @@ class FederatedShareProviderTest extends \Test\TestCase {
 				IShare::TYPE_REMOTE,
 				19
 			)
-			->willReturn(true);
+			->willReturnCallback(function (...$arguments): bool {
+				$stored = $this->provider->getShareById((string)$arguments[3]);
+				self::assertSame(['blank'], $stored->getAttributes()?->getAttribute('example', 'targets'));
+				return true;
+			});
 
 		$this->rootFolder->expects($this->never())->method($this->anything());
 
@@ -191,6 +201,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			'accepted' => 0,
 			'token' => 'token',
 			'expiration' => $expectedDataDate,
+			'attributes' => '[["example","targets",["blank"]]]',
 		];
 		foreach (array_keys($expected) as $key) {
 			$this->assertEquals($expected[$key], $data[$key], "Assert that value for key '$key' is the same");
@@ -206,10 +217,18 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->assertEquals(19, $share->getPermissions());
 		$this->assertEquals('token', $share->getToken());
 		$this->assertEquals($expirationDate, $share->getExpirationDate());
+		$this->assertSame(['blank'], $share->getAttributes()?->getAttribute('example', 'targets'));
 	}
 
-	public function testCreateSameNameAsMountedFederatedShare(): void {
-		// shareOwner has a federated share mounted at /myFile, but the shared node is another one with the same name
+	public static function dataTestCreateWithMountedFederatedShare(): array {
+		return [
+			'federated mount root' => [true],
+			'same name' => [false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestCreateWithMountedFederatedShare')]
+	public function testCreateWithMountedFederatedShare(bool $reshare): void {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->insert('share_external')
 			->values([
@@ -227,12 +246,22 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->executeStatement();
 
 		$share = $this->shareManager->newShare();
+		$attributes = $share->newAttributes();
+		$attributes->setAttribute('example', 'enabled', true);
+		$share->setAttributes($attributes);
 
 		$node = $this->createMock(File::class);
 		$node->method('getId')->willReturn(42);
 		$node->method('getName')->willReturn('myFile');
-		$node->method('getInternalPath')->willReturn('myFile');
-		$node->method('getStorage')->willReturn($this->createMock(IStorage::class));
+		$node->method('getInternalPath')->willReturn($reshare ? '' : 'myFile');
+		if ($reshare) {
+			$storage = $this->createMock(IStorage::class);
+			$storage->method('instanceOfStorage')->with(ExternalStorage::class)->willReturn(true);
+			$mount = $this->createStub(IMountPoint::class);
+			$mount->method('getMountPoint')->willReturn('/shareOwner/files/myFile/');
+			$node->method('getStorage')->willReturn($storage);
+			$node->method('getMountPoint')->willReturn($mount);
+		}
 
 		$share->setSharedWith('user@server.com')
 			->setSharedBy('sharedBy')
@@ -246,9 +275,10 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->addressHandler->method('generateRemoteURL')
 			->willReturn('http://localhost/');
 
-		$this->notifications->expects($this->never())
-			->method('requestReShare');
-		$this->notifications->expects($this->once())
+		$this->notifications->expects($reshare ? $this->once() : $this->never())
+			->method('requestReShare')
+			->willReturn(['token', 'remote-id']);
+		$this->notifications->expects($reshare ? $this->never() : $this->once())
 			->method('sendRemoteShare')
 			->willReturn(true);
 
@@ -258,8 +288,9 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			$this->connection->getQueryBuilder()->delete('share_external')->executeStatement();
 		}
 
-		$this->assertEquals('shareOwner', $share->getShareOwner());
+		$this->assertEquals($reshare ? 'remoteOwner@remote.test' : 'shareOwner', $share->getShareOwner());
 		$this->assertEquals('token', $share->getToken());
+		$this->assertTrue($this->provider->getShareById($share->getId())->getAttributes()?->getAttribute('example', 'enabled'));
 	}
 
 	public function testCreateCouldNotFindServer(): void {
@@ -525,12 +556,16 @@ class FederatedShareProviderTest extends \Test\TestCase {
 
 		$share->setPermissions(1);
 		$share->setExpirationDate($expirationDate);
+		$attributes = $share->newAttributes();
+		$attributes->setAttribute('example', 'enabled', true);
+		$share->setAttributes($attributes);
 		$this->provider->update($share);
 
 		$share = $this->provider->getShareById($share->getId());
 
 		$this->assertEquals(1, $share->getPermissions());
 		$this->assertEquals($expirationDate, $share->getExpirationDate());
+		$this->assertTrue($share->getAttributes()?->getAttribute('example', 'enabled'));
 	}
 
 	public static function dataTestUpdate(): array {
