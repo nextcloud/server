@@ -19,6 +19,8 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Storage\IStorageFactory;
+use OCP\Files\StorageInvalidException;
+use OCP\Files\StorageNotAvailableException;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -243,5 +245,46 @@ class ScannerTest extends TestCase {
 		$this->assertTrue($cache->inCache('foo.txt'));
 		$this->assertTrue($cache->inCache('folder/bar.txt'));
 		$this->assertFalse($cache->inCache('folder/subfolder/foobar.txt'));
+	}
+
+	public function testScanContinuesAfterInvalidStorage(): void {
+		$invalidStorage = new class([]) extends Temporary {
+			#[\Override]
+			public function getMetaData(string $path): ?array {
+				throw new StorageInvalidException('Remote share not found');
+			}
+		};
+		$storage = new Temporary([]);
+		$storage->file_put_contents('foo.txt', 'qwerty');
+
+		$logger = $this->createMock(LoggerInterface::class);
+		$logger->expects($this->once())
+			->method('error')
+			->with(
+				'Storage ' . $invalidStorage->getId() . ' not available',
+				$this->callback(fn (array $context): bool => $context['exception'] instanceof StorageInvalidException),
+			);
+
+		$scanner = new TestScanner(
+			Server::get(IUserManager::class)->get(''),
+			Server::get(IDBConnection::class),
+			$this->createMock(IEventDispatcher::class),
+			$logger,
+			Server::get(SetupManager::class),
+		);
+		$scanner->addMount(new MountPoint($invalidStorage, '/invalid'));
+		$scanner->addMount(new MountPoint($storage, '/valid'));
+
+		$emitted = [];
+		$scanner->listen('\OC\Files\Utils\Scanner', 'StorageNotAvailable', function (StorageNotAvailableException|StorageInvalidException $e) use (&$emitted): void {
+			$emitted[] = $e;
+		});
+
+		$scanner->scan('');
+
+		$this->assertCount(1, $emitted);
+		$this->assertInstanceOf(StorageInvalidException::class, $emitted[0]);
+		$this->assertSame('Remote share not found', $emitted[0]->getMessage());
+		$this->assertTrue($storage->getCache()->inCache('foo.txt'));
 	}
 }

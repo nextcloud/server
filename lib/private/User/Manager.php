@@ -244,7 +244,12 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @return IUser|false the User object on success, false otherwise
 	 */
 	public function checkPasswordNoLogging($loginName, $password) {
-		$loginName = str_replace("\0", '', $loginName);
+		// A NUL byte in the login name must not turn it into a second name for an
+		// account: the checks done before the password check (e.g. 2FA enforcement
+		// in Session::logClientIn()) see the name as sent, so the name has to stay the same
+		if (str_contains($loginName, "\0")) {
+			return false;
+		}
 		$password = str_replace("\0", '', $password);
 
 		$cachedBackend = $this->cache->get($loginName);
@@ -744,7 +749,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		// Check the ID for bad characters
 		// Allowed are: "a-z", "A-Z", "0-9", spaces and "_.@-'"
 		if (preg_match('/[^a-zA-Z0-9 _.@\-\']/', $uid)) {
-			throw new \InvalidArgumentException($l->t('Only the following characters are allowed in an Login:'
+			throw new \InvalidArgumentException($l->t('Only the following characters are allowed in a Login:'
 				. ' "a-z", "A-Z", "0-9", spaces and "_.@-\'"'));
 		}
 

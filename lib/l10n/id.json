@@ -260,7 +260,6 @@
     "A valid password must be provided" : "Tuliskan kata sandi yang valid",
     "The Login is already being used" : "Login sudah digunakan",
     "Could not create account" : "Tidak dapat membuat akun",
-    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Hanya karakter berikut yang diizinkan dalam sebuah login: \"a-z\", \"A-Z\", \"0-9\", spasi, dan \"_.@-'\"",
     "A valid Login must be provided" : "Login yang valid harus disediakan",
     "Login contains whitespace at the beginning or at the end" : "Login berisi spasi di awal atau di akhir",
     "Login must not consist of dots only" : "Login tidak boleh hanya terdiri dari titik",
@@ -505,7 +504,6 @@
     "Only %1$s are valid values: %2$s" : "Hanya %1$s yang merupakan nilai valid: %2$s",
     "Need at least %1$s characters: %2$s" : "Memerlukan setidaknya %1$s karakter: %2$s",
     "Provide %1$s characters at most: %2$s" : "Maksimal %1$s karakter: %2$s",
-    "Dot files are not allowed" : "Berkas titik tidak diperbolehkan",
     "Help & privacy" : "Bantuan & privasi",
     "Appearance and accessibility" : "Tampilan dan aksesibilitas",
     "Apps" : "Aplikasi",
@@ -519,7 +517,6 @@
     "Sharing backend for %s not found" : "Backend berbagi untuk %s tidak ditemukan",
     "%1$s shared %2$s with you and wants to add:" : "%1$s membagikan %2$s kepada Anda dan ingin menambahkan:",
     "%1$s shared %2$s with you and wants to add" : "%1$s membagikan %2$s kepada Anda dan ingin menambahkan",
-    "Share recipient is not a valid circle" : "Penerima pembagian bukan lingkaran yang valid",
     "You cannot share your root folder" : "Anda tidak dapat membagikan folder root Anda",
     "You are not allowed to share %s" : "Anda tidak diizinkan untuk membagikan %s",
     "File shares cannot have create or delete permissions" : "Pembagian file tidak boleh memiliki izin membuat atau menghapus",
@@ -534,8 +531,10 @@
     "Public upload is not allowed" : "Unggah publik tidak diizinkan",
     "Sharing is disabled" : "Berbagi dinonaktifkan",
     "Sharing is disabled for you" : "Berbagi dinonaktifkan untuk Anda",
+    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Hanya karakter berikut yang diizinkan dalam sebuah login: \"a-z\", \"A-Z\", \"0-9\", spasi, dan \"_.@-'\"",
     "Application is not enabled" : "Aplikasi tidak diaktifkan",
     "Authentication error" : "Galat saat otentikasi",
-    "Token expired. Please reload page." : "Token sudah kedaluwarsa. Silakan muat ulang halaman."
+    "Token expired. Please reload page." : "Token sudah kedaluwarsa. Silakan muat ulang halaman.",
+    "Share recipient is not a valid circle" : "Penerima pembagian bukan lingkaran yang valid"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

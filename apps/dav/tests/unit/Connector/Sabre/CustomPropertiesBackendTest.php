@@ -16,6 +16,7 @@ use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\DAV\INode;
 use Sabre\DAV\Tree;
 
 /**
@@ -37,6 +38,8 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 
 		$this->server = new \Sabre\DAV\Server();
 		$this->tree = $this->createMock(Tree::class);
+		$this->tree->method('getNodeForPath')
+			->willReturn($this->createMock(INode::class));
 
 		$userId = self::getUniqueID('testcustompropertiesuser');
 

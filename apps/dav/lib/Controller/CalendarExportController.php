@@ -8,8 +8,10 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Controller;
 
+use NCU\AppFramework\Http\Attribute\TokenScope;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\Export\ExportService;
+use OCA\DAV\TokenScopes;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -20,10 +22,12 @@ use OCP\AppFramework\OCSController;
 use OCP\Calendar\CalendarExportOptions;
 use OCP\Calendar\ICalendarExport;
 use OCP\Calendar\IManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 
 class CalendarExportController extends OCSController {
 
@@ -34,6 +38,7 @@ class CalendarExportController extends OCSController {
 		private IGroupManager $groupManager,
 		private IManager $calendarManager,
 		private ExportService $exportService,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct(Application::APP_ID, $request);
 	}
@@ -55,6 +60,7 @@ class CalendarExportController extends OCSController {
 	#[ApiRoute(verb: 'POST', url: '/export', root: '/calendar')]
 	#[UserRateLimit(limit: 1, period: 60)]
 	#[NoAdminRequired]
+	#[TokenScope(scope: TokenScopes::CALENDAR_READ)]
 	public function export(string $target, ?string $type = null, ?array $options = null, ?string $user = null) {
 		$calendarId = $target;
 		$format = $type ?? 'ical';
@@ -101,6 +107,17 @@ class CalendarExportController extends OCSController {
 		};
 		$response = new StreamTraversableResponse($this->exportService->export($calendar, $options), Http::STATUS_OK, ['Content-Type' => $contentType]);
 		$response->cacheFor(0);
+
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Calendar "%s" of "%s" was exported in format "%s"',
+			[
+				'calendarId' => $calendarId,
+				'owner' => $userId,
+				'format' => $format,
+			],
+			false,
+			'dav.calendar.exported',
+		));
 
 		return $response;
 	}

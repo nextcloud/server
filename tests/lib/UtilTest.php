@@ -195,7 +195,6 @@ class UtilTest extends \Test\TestCase {
 		Util::addScript('myApp4', 'myApp4JSFile', 'myApp3');
 		Util::addScript('myApp3', 'myApp3JSFile', 'myApp2');
 		Util::addScript('myApp2', 'myApp2JSFile', 'myApp');
-		Util::addScript('core', 'common');
 		Util::addScript('core', 'main');
 
 		$scripts = Util::getScripts();
@@ -203,18 +202,14 @@ class UtilTest extends \Test\TestCase {
 		// Core should appear first
 		$this->assertEquals(
 			0,
-			array_search('core/js/common', $scripts, true)
-		);
-		$this->assertEquals(
-			1,
 			array_search('core/js/main', $scripts, true)
 		);
 		$this->assertEquals(
-			2,
+			1,
 			array_search('core/js/myFancyJSFile1', $scripts, true)
 		);
 		$this->assertEquals(
-			3,
+			2,
 			array_search('core/js/myFancyJSFile4', $scripts, true)
 		);
 
@@ -248,7 +243,6 @@ class UtilTest extends \Test\TestCase {
 
 		// All scripts still there
 		$scripts = [
-			'core/js/common',
 			'core/js/main',
 			'core/js/myFancyJSFile1',
 			'core/js/myFancyJSFile4',

@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OC\Core\Command\Config\App;
 
 use OC\AppConfig;
+use OCP\Config\BeforeAppConfigSetEvent;
 use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -74,6 +75,12 @@ class SetConfig extends Base {
 				InputOption::VALUE_NONE,
 				'Only updates the value, if it is not set before, it is not being added'
 			)
+			->addOption(
+				'force',
+				'f',
+				InputOption::VALUE_NONE,
+				'Set the value even if the app rejects it',
+			)
 		;
 	}
 
@@ -124,13 +131,25 @@ class SetConfig extends Base {
 				$updated = $this->appConfig->updateType($appName, $configName, $type) || $updated;
 			}
 		} else {
+			$value = (string)$input->getOption('value');
+			$event = new BeforeAppConfigSetEvent($appName, $configName, $value);
+			$this->eventDispatcher->dispatchTyped($event);
+			if ($event->isRejected()) {
+				if (!$input->getOption('force')) {
+					$output->writeln('<error>The value was rejected for config ' . $configName . ' of app ' . $appName . ', use --force to set it anyway</error>');
+					return self::FAILURE;
+				}
+				$output->writeln('<comment>The value was rejected for config ' . $configName . ' of app ' . $appName . ', setting it anyway</comment>');
+			}
+
 			/**
 			 * If --type is specified in the command line, we upgrade the type in database
 			 * after a confirmation from admin.
 			 * If not we get the type from current stored value or VALUE_MIXED as default.
 			 */
 			try {
-				$currType = $this->appConfig->getValueType($appName, $configName);
+				// Remove potential sensitive flag from type
+				$currType = $this->appConfig->getValueType($appName, $configName) & ~IAppConfig::FLAG_SENSITIVE;
 				if ($type === null || $typeString === null || $type === $currType || !$this->ask($input, $output, $typeString)) {
 					$type = $currType;
 				} else {
@@ -174,7 +193,6 @@ class SetConfig extends Base {
 				return self::FAILURE;
 			}
 
-			$value = (string)$input->getOption('value');
 			switch ($type) {
 				case IAppConfig::VALUE_MIXED:
 					$updated = $this->appConfig->setValueMixed($appName, $configName, $value, $lazy, $sensitive);
@@ -220,7 +238,7 @@ class SetConfig extends Base {
 			}
 
 		} else {
-			$output->writeln('<info>Config value were not updated</info>');
+			$output->writeln('<info>Config value was not updated</info>');
 		}
 
 		return 0;

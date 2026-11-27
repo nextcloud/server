@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Controller;
 
+use NCU\AppFramework\Http\Attribute\TokenScope;
 use OCA\DAV\Db\Direct;
 use OCA\DAV\Db\DirectMapper;
 use OCP\AppFramework\Http;
@@ -25,6 +26,7 @@ use OCP\Files\File;
 use OCP\Files\IUserFolder;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\ISecureRandom;
 use OCP\Share\IManager;
 
@@ -58,6 +60,8 @@ class DirectController extends OCSController {
 	 * 200: Direct link returned
 	 */
 	#[NoAdminRequired]
+	// Not OCA\Files_Sharing\TokenScopes::SHARES_WRITE: files_sharing can be disabled, and its classes don't load then
+	#[TokenScope(scope: 'files_sharing:shares:write')]
 	public function getUrl(int $fileId, int $expirationTime = 60 * 60 * 8): DataResponse {
 		if (!$this->shareManager->shareApiAllowLinks()) {
 			throw new OCSForbiddenException('Creating direct links is disabled');
@@ -94,6 +98,16 @@ class DirectController extends OCSController {
 		$direct->setExpiration($this->timeFactory->getTime() + $expirationTime);
 
 		$this->mapper->insert($direct);
+
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Direct download link for file "%s" was created, valid for %s seconds',
+			[
+				'fileId' => $fileId,
+				'expirationTime' => $expirationTime,
+			],
+			false,
+			'dav.direct_link.created',
+		));
 
 		$url = $this->urlGenerator->getAbsoluteURL('remote.php/direct/' . $token);
 

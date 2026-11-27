@@ -58,7 +58,7 @@ class TokenScopesTest extends TestCase {
 
 	#[DataProvider('merges')]
 	public function testUpdateScope(array $stored, array $requested, array $expected): void {
-		$this->assertSame($expected, $this->tokenScopes->updateScope($stored, $requested));
+		$this->assertSame($expected, $this->tokenScopes->updateScope($stored, $requested, []));
 	}
 
 	public static function invalidUpdates(): array {
@@ -67,6 +67,8 @@ class TokenScopesTest extends TestCase {
 			'files share without read' => [[TokenScopes::KEY => [SharingTokenScopes::SHARES_WRITE]]],
 			'files write and share without read' => [[TokenScopes::KEY => [FilesTokenScopes::FILES_WRITE, SharingTokenScopes::SHARES_WRITE]]],
 			'read-only files' => [[TokenScopes::KEY => [FilesTokenScopes::FILES_READ]]],
+			'trash without files' => [[TokenScopes::KEY => ['files_trashbin:dav:read']]],
+			'versions without files' => [[TokenScopes::KEY => ['files_versions:dav:read']]],
 			'read and share without write' => [[TokenScopes::KEY => [FilesTokenScopes::FILES_READ, SharingTokenScopes::SHARES_WRITE]]],
 			'not an array' => [[TokenScopes::KEY => FilesTokenScopes::FILES_READ]],
 			'nested array entry' => [[TokenScopes::KEY => ['dav:calendar:read', ['x']]]],
@@ -80,7 +82,35 @@ class TokenScopesTest extends TestCase {
 	#[DataProvider('invalidUpdates')]
 	public function testInvalidUpdateIsRejected(array $requested): void {
 		$this->expectException(\InvalidArgumentException::class);
-		$this->tokenScopes->updateScope([IToken::SCOPE_FILESYSTEM => true], $requested);
+		$this->tokenScopes->updateScope([IToken::SCOPE_FILESYSTEM => true], $requested, []);
+	}
+
+	public function testAppGrant(): void {
+		$this->assertSame(
+			[IToken::SCOPE_FILESYSTEM => false, TokenScopes::KEY => ['deck']],
+			$this->tokenScopes->updateScope([IToken::SCOPE_FILESYSTEM => true], [TokenScopes::KEY => ['deck']], ['deck']),
+		);
+	}
+
+	public function testStoredAppGrantSurvivesTheAppLeaving(): void {
+		$stored = [IToken::SCOPE_FILESYSTEM => false, TokenScopes::KEY => ['deck']];
+		$this->assertSame(
+			[IToken::SCOPE_FILESYSTEM => false, TokenScopes::KEY => ['dav:calendar:read', 'deck']],
+			$this->tokenScopes->updateScope($stored, [TokenScopes::KEY => ['deck', 'dav:calendar:read']], []),
+		);
+	}
+
+	public static function invalidAppGrants(): array {
+		return [
+			'app not grantable' => ['notes'],
+			'capability' => ['files'],
+		];
+	}
+
+	#[DataProvider('invalidAppGrants')]
+	public function testInvalidAppGrantIsRejected(string $scope): void {
+		$this->expectException(\InvalidArgumentException::class);
+		$this->tokenScopes->updateScope([IToken::SCOPE_FILESYSTEM => true], [TokenScopes::KEY => [$scope]], ['deck']);
 	}
 
 	public static function blobs(): array {

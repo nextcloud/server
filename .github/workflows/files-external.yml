@@ -9,14 +9,14 @@ permissions:
 
 jobs:
   files-external:
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
 
     if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
 
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.3', '8.5']
+        php-versions: ['8.3', '8.6']
         backend: ['generic', 'proftpd', 'vsftpd', 'pure-ftpd', 's3-minio', 's3-localstack', 'openssh', 'smb', 'webdav']
 
     name: php${{ matrix.php-versions }}-${{ matrix.backend }}
@@ -178,7 +178,7 @@ jobs:
           docker ps -aq | while read container ; do IMAGE=$(docker inspect --format='{{.Config.Image}}' $container); echo $IMAGE; docker logs $container; echo "\n\n" ; done
 
   files-external-smb-kerberos:
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
 
     if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
 

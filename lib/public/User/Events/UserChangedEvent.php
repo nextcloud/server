@@ -9,36 +9,30 @@ declare(strict_types=1);
 
 namespace OCP\User\Events;
 
+use OCP\AppFramework\Attribute\Dispatchable;
+use OCP\AppFramework\Attribute\Listenable;
 use OCP\EventDispatcher\Event;
 use OCP\IUser;
 
 /**
  * @since 18.0.0
  */
+#[Listenable(since: '18.0.0')]
+#[Dispatchable(since: '18.0.0')]
 class UserChangedEvent extends Event {
-	private IUser $user;
-	private string $feature;
-	/** @var mixed */
-	private $value;
-	/** @var mixed */
-	private $oldValue;
-
 	/**
 	 * @since 18.0.0
 	 */
-	public function __construct(IUser $user,
-		string $feature,
-		$value,
-		$oldValue = null) {
+	public function __construct(
+		private readonly IUser $user,
+		private readonly string $feature,
+		private readonly mixed $value,
+		private readonly mixed $oldValue = null,
+	) {
 		parent::__construct();
-		$this->user = $user;
-		$this->feature = $feature;
-		$this->value = $value;
-		$this->oldValue = $oldValue;
 	}
 
 	/**
-	 * @return IUser
 	 * @since 18.0.0
 	 */
 	public function getUser(): IUser {
@@ -46,7 +40,6 @@ class UserChangedEvent extends Event {
 	}
 
 	/**
-	 * @return string
 	 * @since 18.0.0
 	 */
 	public function getFeature(): string {
@@ -54,18 +47,16 @@ class UserChangedEvent extends Event {
 	}
 
 	/**
-	 * @return mixed
 	 * @since 18.0.0
 	 */
-	public function getValue() {
+	public function getValue(): mixed {
 		return $this->value;
 	}
 
 	/**
-	 * @return mixed
 	 * @since 18.0.0
 	 */
-	public function getOldValue() {
+	public function getOldValue(): mixed {
 		return $this->oldValue;
 	}
 }

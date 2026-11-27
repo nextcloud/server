@@ -161,7 +161,6 @@ OC.L10N.register(
     "Test Base DN" : "آزمایش DN پایه",
     "Listing and searching for users is constrained by these criteria:" : "فهرست‌سازی و جستجوی کاربران با این معیارها محدود می‌شود:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "رایج‌ترین کلاس‌های شیء برای کاربران عبارتند از organizationalPerson، person، user و inetOrgPerson. اگر مطمئن نیستید کدام کلاس شیء را انتخاب کنید، لطفاً با مدیر دایرکتوری خود مشورت کنید.",
-    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "فیلتر مشخص می‌کند که کدام کاربران LDAP به نمونه {instanceName} دسترسی داشته باشند.",
     "Verify settings and count users" : "تأیید تنظیمات و شمارش کاربران",
     "User count: {usersCount}" : "تعداد کاربران: {usersCount}",
     "Test Configuration" : "آزمایش پیکربندی",
@@ -199,6 +198,7 @@ OC.L10N.register(
     "Mode switch" : "تغییر حالت",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "تغییر حالت باعث فعال شدن پرس‌وجوهای خودکار LDAP می‌شود. بسته به اندازه LDAP شما، ممکن است مدتی طول بکشد. آیا همچنان می‌خواهید حالت را تغییر دهید؟",
     "Confirm" : "تأیید",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "فیلتری را که هنگام تلاش برای ورود اعمال می‌شود، تعریف می‌کند. `%%uid` نام کاربری را در عمل ورود جایگزین می‌کند. مثال: `uid=%%uid`"
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "فیلتری را که هنگام تلاش برای ورود اعمال می‌شود، تعریف می‌کند. `%%uid` نام کاربری را در عمل ورود جایگزین می‌کند. مثال: `uid=%%uid`",
+    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "فیلتر مشخص می‌کند که کدام کاربران LDAP به نمونه {instanceName} دسترسی داشته باشند."
 },
 "nplurals=2; plural=(n > 1);");

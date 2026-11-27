@@ -31,6 +31,7 @@ use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Server;
 use OCP\Share\IManager as ShareManager;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -117,13 +118,15 @@ class CardDavBackendTest extends TestCase {
 				$this->config,
 				$this->createMock(IFactory::class)
 			])
-			->onlyMethods(['getPrincipalByPath', 'getGroupMembership', 'findByUri'])
+			->onlyMethods(['getPrincipalByPath', 'getPrincipalPropertiesByPath', 'getGroupMembership', 'findByUri'])
 			->getMock();
 		$this->principal->method('getPrincipalByPath')
 			->willReturn([
 				'uri' => 'principals/best-friend',
 				'{DAV:}displayname' => 'User\'s displayname',
 			]);
+		$this->principal->method('getPrincipalPropertiesByPath')
+			->willReturnCallback(static fn (string $path): array => ['uri' => $path]);
 		$this->principal->method('getGroupMembership')
 			->withAnyParameters()
 			->willReturn([self::UNIT_TEST_GROUP]);
@@ -139,7 +142,12 @@ class CardDavBackendTest extends TestCase {
 			$this->createMock(ICacheFactory::class),
 			new Service(new SharingMapper($this->db)),
 			$this->federationSharingService,
-			$this->createMock(LoggerInterface::class)
+			$this->createMock(LoggerInterface::class),
+			$this->createConfiguredMock(ShareManager::class, [
+				'shareApiEnabled' => true,
+				'allowGroupSharing' => true,
+			]),
+			$this->createMock(IUserSession::class),
 		);
 
 		$this->backend = $this->createBackend();
@@ -170,6 +178,20 @@ class CardDavBackendTest extends TestCase {
 			$this->sharingBackend,
 			$this->config,
 		);
+	}
+
+	/**
+	 * @return \ArrayObject<int, CriticalActionPerformedEvent>
+	 */
+	private function captureAuditEvents(): \ArrayObject {
+		$auditEvents = new \ArrayObject();
+		$this->dispatcher->method('dispatchTyped')
+			->willReturnCallback(function (object $event) use ($auditEvents): void {
+				if ($event instanceof CriticalActionPerformedEvent) {
+					$auditEvents[] = $event;
+				}
+			});
+		return $auditEvents;
 	}
 
 	private function countChanges(int $addressBookId): int {
@@ -247,13 +269,12 @@ class CardDavBackendTest extends TestCase {
 		$this->groupManager->expects($this->any())
 			->method('groupExists')
 			->willReturn(true);
-		$this->principal->expects(self::atLeastOnce())
-			->method('findByUri')
-			->willReturnOnConsecutiveCalls(self::UNIT_TEST_USER1, self::UNIT_TEST_GROUP);
+		$auditEvents = $this->captureAuditEvents();
 
 		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
 		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
 		$this->assertEquals(1, count($books));
+		$addressBookId = (int)$books[0]['id'];
 		$l = $this->createMock(IL10N::class);
 		$addressBook = new AddressBook($this->backend, $books[0], $l);
 		$this->backend->updateShares($addressBook, [
@@ -271,6 +292,48 @@ class CardDavBackendTest extends TestCase {
 		$this->backend->deleteAddressBook($books[0]['id']);
 		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
 		$this->assertEquals(0, count($books));
+
+		$this->assertSame(['dav.addressbook.created', 'dav.addressbook_share.updated', 'dav.addressbook.deleted'], array_map(
+			static fn (CriticalActionPerformedEvent $event): string => $event->getOperation(),
+			$auditEvents->getArrayCopy(),
+		));
+		$this->assertSame([
+			'addressBookId' => $addressBookId,
+			'owner' => self::UNIT_TEST_USER,
+			'uri' => 'Example',
+		], $auditEvents[0]->getParameters());
+		$this->assertSame([
+			'addressBookId' => $addressBookId,
+			'owner' => self::UNIT_TEST_USER,
+			'added' => 'principal:' . self::UNIT_TEST_USER1 . ', principal:' . self::UNIT_TEST_GROUP,
+			'removed' => '',
+		], $auditEvents[1]->getParameters());
+		$deletedParameters = $auditEvents[2]->getParameters();
+		$sharees = explode(', ', $deletedParameters['sharees']);
+		sort($sharees);
+		$this->assertSame(['principal:' . self::UNIT_TEST_GROUP, 'principal:' . self::UNIT_TEST_USER1], $sharees);
+		$this->assertSame($addressBookId, $deletedParameters['addressBookId']);
+		$this->assertSame(self::UNIT_TEST_USER, $deletedParameters['owner']);
+	}
+
+	public function testSystemAddressBookSharesAreIgnored(): void {
+		$this->userManager->method('userExists')
+			->willReturn(true);
+		$this->principal->method('findByUri')
+			->willReturn(self::UNIT_TEST_USER1);
+		$uri = $this->getUniqueID('system');
+		$addressBookId = $this->backend->createAddressBook('principals/system/system', $uri, []);
+		$addressBookInfo = $this->backend->getAddressBooksByUri('principals/system/system', $uri);
+		$addressBook = new AddressBook($this->backend, $addressBookInfo, $this->createMock(IL10N::class));
+		$this->backend->updateShares($addressBook, [['href' => 'principal:' . self::UNIT_TEST_USER1]], []);
+
+		try {
+			$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER1);
+		} finally {
+			$this->backend->deleteAddressBook($addressBookId);
+		}
+
+		$this->assertNotContains($addressBookId, array_map('intval', array_column($books, 'id')));
 	}
 
 	public function testCardOperations(): void {
@@ -284,7 +347,7 @@ class CardDavBackendTest extends TestCase {
 		$backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
 		$books = $backend->getAddressBooksForUser(self::UNIT_TEST_USER);
 		$this->assertEquals(1, count($books));
-		$bookId = $books[0]['id'];
+		$bookId = (int)$books[0]['id'];
 
 		$uri = $this->getUniqueID('card');
 		// updateProperties is expected twice, once for createCard and once for updateCard
@@ -299,10 +362,7 @@ class CardDavBackendTest extends TestCase {
 				$this->assertEquals($expected, func_get_args());
 			});
 
-		// Expect event
-		$this->dispatcher
-			->expects($this->exactly(3))
-			->method('dispatchTyped');
+		$auditEvents = $this->captureAuditEvents();
 
 		// create a card
 		$backend->createCard($bookId, $uri, $this->vcardTest0);
@@ -332,6 +392,56 @@ class CardDavBackendTest extends TestCase {
 		$backend->deleteCard($bookId, $uri);
 		$cards = $backend->getCards($bookId);
 		$this->assertEquals(0, count($cards));
+
+		$this->assertCount(3, $auditEvents);
+		foreach (['created', 'updated', 'deleted'] as $i => $change) {
+			$this->assertSame('dav.card.' . $change, $auditEvents[$i]->getOperation());
+			$this->assertSame('Card "%s" in address book "%s" of "%s" was ' . $change, $auditEvents[$i]->getLogMessage());
+			$this->assertSame([
+				'cardUri' => $uri,
+				'addressBookId' => $bookId,
+				'owner' => self::UNIT_TEST_USER,
+			], $auditEvents[$i]->getParameters());
+		}
+	}
+
+	public function testCardsOfSystemAddressBookAreNotAuditLogged(): void {
+		$bookId = $this->backend->createAddressBook('principals/system/system', 'system-test', []);
+		$auditEvents = $this->captureAuditEvents();
+
+		try {
+			$this->backend->createCard($bookId, 'card.vcf', $this->vcardTest0);
+			$this->backend->updateCard($bookId, 'card.vcf', $this->vcardTest1);
+			$this->backend->deleteCard($bookId, 'card.vcf');
+		} finally {
+			$this->backend->deleteAddressBook($bookId);
+		}
+
+		$this->assertSame(['dav.addressbook.deleted'], array_map(
+			static fn (CriticalActionPerformedEvent $event): string => $event->getOperation(),
+			$auditEvents->getArrayCopy(),
+		));
+	}
+
+	public function testMoveCardIsAuditLogged(): void {
+		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Source', []);
+		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Target', []);
+		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
+		$sourceBookId = (int)$books[0]['id'];
+		$targetBookId = (int)$books[1]['id'];
+		$this->backend->createCard($sourceBookId, 'card.vcf', $this->vcardTest0);
+		$auditEvents = $this->captureAuditEvents();
+
+		$this->assertTrue($this->backend->moveCard($sourceBookId, 'card.vcf', $targetBookId, 'moved.vcf'));
+
+		$this->assertCount(1, $auditEvents);
+		$this->assertSame('dav.card.moved', $auditEvents[0]->getOperation());
+		$this->assertSame([
+			'cardUri' => 'moved.vcf',
+			'sourceAddressBookId' => $sourceBookId,
+			'targetAddressBookId' => $targetBookId,
+			'owner' => self::UNIT_TEST_USER,
+		], $auditEvents[0]->getParameters());
 	}
 
 	public function testMultiCard(): void {
@@ -607,6 +717,33 @@ class CardDavBackendTest extends TestCase {
 		$this->assertEquals($uri0, $changes['added'][0]);
 	}
 
+	public function testSyncSupportTruncatesIncrementalChanges(): void {
+		$this->config->method('getSystemValueInt')
+			->willReturnCallback(fn (string $key, int $default) => $key === 'carddav_sync_request_truncation' ? 2 : $default);
+
+		$bookId = $this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
+		$syncToken = $this->backend->getChangesForAddressBook($bookId, '', 1)['syncToken'];
+
+		$uris = [];
+		for ($i = 0; $i < 3; $i++) {
+			$uri = $this->getUniqueID('card');
+			$this->backend->createCard($bookId, $uri, str_replace('UID:Test', 'UID:Test' . $i, $this->vcardTest0));
+			$uris[] = $uri;
+		}
+
+		$changes = $this->backend->getChangesForAddressBook($bookId, (string)$syncToken, 1, null);
+		$this->assertTrue($changes['result_truncated']);
+		$this->assertSame([$uris[0], $uris[1]], $changes['added']);
+
+		$changes = $this->backend->getChangesForAddressBook($bookId, (string)$changes['syncToken'], 1, null);
+		$this->assertTrue($changes['result_truncated']);
+		$this->assertSame([$uris[1], $uris[2]], $changes['added']);
+
+		$changes = $this->backend->getChangesForAddressBook($bookId, (string)$changes['syncToken'], 1, null);
+		$this->assertArrayNotHasKey('result_truncated', $changes);
+		$this->assertSame([$uris[2]], $changes['added']);
+	}
+
 	public function testSharing(): void {
 		$this->userManager->expects($this->any())
 			->method('userExists')
@@ -614,10 +751,6 @@ class CardDavBackendTest extends TestCase {
 		$this->groupManager->expects($this->any())
 			->method('groupExists')
 			->willReturn(true);
-		$this->principal->expects(self::any())
-			->method('findByUri')
-			->willReturn(self::UNIT_TEST_USER1);
-
 		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
 		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
 		$this->assertEquals(1, count($books));

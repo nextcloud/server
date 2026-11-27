@@ -37,7 +37,7 @@ OC.L10N.register(
     "Display Name" : "Отображаемое имя",
     "GPUs support" : "Поддержка графических процессоров",
     "Compute device" : "Вычислительное устройство",
-    "Advanced deploy options" : "Расширенные возможности развертывания",
+    "Advanced deploy options" : "Дополнительные параметры развёртывания",
     "Edit ExApp deploy options before installation" : "Отредактируйте параметры развертывания ExApp перед установкой",
     "Configured ExApp deploy options. Can be set only during installation" : "Настроенные параметры развертывания ExApp. Можно задать только во время установки",
     "Environment variables" : "Переменные среды",
@@ -162,7 +162,6 @@ OC.L10N.register(
     "An error occurred during the request. Unable to proceed." : "Во время запроса произошла ошибка. Продолжение невозможно.",
     "Could not update an exApp. Please try again later." : "Не удалось обновить ExApp. Повторите попытку позже.",
     "Could not update {app}. Please try again later." : "Не удалось обновить {app}. Повторите попытку позже.",
-    "Could not update an app. Please try again later." : "Не удалось обновить приложение. Повторите попытку позже.",
-    "Failed to update app {appName}" : "Не удалось обновить приложение {appName}"
+    "Could not update an app. Please try again later." : "Не удалось обновить приложение. Повторите попытку позже."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

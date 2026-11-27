@@ -19,6 +19,7 @@ use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory as IL10nFactory;
+use OCP\Mail\Headers\AutoSubmitted;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
@@ -117,6 +118,7 @@ class RemoteWipeEmailListener implements IEventListener {
 		$emailTemplate->addFooter();
 		$message->setTo([$user->getEMailAddress()]);
 		$message->useTemplate($emailTemplate);
+		$message->setAutoSubmitted(AutoSubmitted::VALUE_AUTO_GENERATED);
 
 		return $message;
 	}
@@ -148,6 +150,7 @@ class RemoteWipeEmailListener implements IEventListener {
 		$emailTemplate->addFooter();
 		$message->setTo([$user->getEMailAddress()]);
 		$message->useTemplate($emailTemplate);
+		$message->setAutoSubmitted(AutoSubmitted::VALUE_AUTO_GENERATED);
 
 		return $message;
 	}

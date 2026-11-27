@@ -17,6 +17,7 @@ use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\SystemTag\Events\TagCreatedEvent;
 use OCP\SystemTag\Events\TagDeletedEvent;
 use OCP\SystemTag\Events\TagUpdatedEvent;
@@ -64,9 +65,8 @@ class SystemTagManager implements ISystemTagManager {
 
 		$tags = [];
 
-		// note: not all databases will fail if it's a string or starts with a number
 		foreach ($tagIds as $tagId) {
-			if (!is_numeric($tagId)) {
+			if (!\is_int($tagId) && (!\is_string($tagId) || (string)(int)$tagId !== $tagId)) {
 				throw new \InvalidArgumentException('Tag id must be integer');
 			}
 		}
@@ -410,17 +410,12 @@ class SystemTagManager implements ISystemTagManager {
 	#[\Override]
 	public function canUserSeeTag(ISystemTag $tag, ?IUser $user): bool {
 		// If no user, then we only show public tags
-		if (!$user && $tag->getAccessLevel() === ISystemTag::ACCESS_LEVEL_PUBLIC) {
-			return true;
+		if ($user === null) {
+			return $tag->getAccessLevel() === ISystemTag::ACCESS_LEVEL_PUBLIC;
 		}
 
 		if ($tag->isUserVisible()) {
 			return true;
-		}
-
-		// if not returned yet, and user is not logged in, then the tag is not visible
-		if ($user === null) {
-			return false;
 		}
 
 		if ($this->groupManager->isAdmin($user->getUID())) {
@@ -451,10 +446,8 @@ class SystemTagManager implements ISystemTagManager {
 					'systemtagid' => $query->createNamedParameter($tag->getId()),
 					'gid' => $query->createParameter('gid'),
 				]);
+			$groupIds = array_values(array_filter($groupIds, static fn ($groupId): bool => $groupId !== ''));
 			foreach ($groupIds as $groupId) {
-				if ($groupId === '') {
-					continue;
-				}
 				$query->setParameter('gid', $groupId);
 				$query->executeStatement();
 			}
@@ -464,6 +457,16 @@ class SystemTagManager implements ISystemTagManager {
 			$this->connection->rollBack();
 			throw $e;
 		}
+
+		$this->dispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Groups allowed to assign system tag %s were set to "%s"',
+			[
+				'tagId' => $tag->getId(),
+				'groupIds' => implode(', ', $groupIds),
+			],
+			false,
+			'systemtags.tag_groups.updated',
+		));
 	}
 
 	#[\Override]

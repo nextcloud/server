@@ -13,6 +13,7 @@ use OCA\Files_Sharing\External\ExternalShare;
 use OCA\Files_Sharing\External\ExternalShareMapper;
 use OCA\Files_Sharing\External\Manager;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\BackgroundJob\IJobList;
 use OCP\DB\Exception;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
@@ -57,6 +58,7 @@ class ManagerUpdateAccessTokenTest extends TestCase {
 			$this->createMock(IRootFolder::class),
 			$this->createMock(ISetupManager::class),
 			$this->externalShareMapper,
+			$this->createMock(IJobList::class),
 		);
 	}
 

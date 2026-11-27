@@ -240,7 +240,6 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "Group sharing is disabled by the administrator",
     "Public link sharing is disabled by the administrator" : "Public link sharing is disabled by the administrator",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Sharing %1$s failed because the back end does not allow shares from type %2$s",
-    "Public upload disabled by the administrator" : "Public upload disabled by the administrator",
-    "Via “{folder}”" : "Via “{folder}”"
+    "Public upload disabled by the administrator" : "Public upload disabled by the administrator"
 },
 "nplurals=2; plural=(n!=1);");

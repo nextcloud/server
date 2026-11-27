@@ -116,7 +116,6 @@ OC.L10N.register(
     "Share link" : "Megosztási hivatkozás",
     "Copy" : "Másolás",
     "Send link via email" : "Hivatkozás küldése levélben",
-    "Remove email" : "E-mail eltávolítása",
     "Select" : "Kiválasztás",
     "What are you requesting?" : "Milyen fájlokat kér?",
     "Request subject" : "Fájlkérés tárgya",
@@ -292,10 +291,11 @@ OC.L10N.register(
     "Share not found" : "A megosztás nem található",
     "Back to %s" : "Vissza ide: %s",
     "Add to your Nextcloud" : "Hozzáadás a Nextcloudjához",
+    "Cannot share with a disabled account." : "Nem lehet megosztani letiltott fiókkal",
     "Group sharing is disabled by the administrator" : "A csoportos megosztást letiltotta a rendszergazda",
     "Public link sharing is disabled by the administrator" : "A nyilvános hivatkozással történő megosztást letiltotta a rendszergazda",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "A(z) %1$s megosztása sikertelen, mert a háttérprogram nem engedélyezi a(z) %2$s típusú megosztást",
     "Public upload disabled by the administrator" : "A nyilvános feltöltést letiltotta a rendszergazda",
-    "Via “{folder}”" : "A(z) „{folder}” mappán keretül"
+    "Remove email" : "E-mail eltávolítása"
 },
 "nplurals=2; plural=(n != 1);");

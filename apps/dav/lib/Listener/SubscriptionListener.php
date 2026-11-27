@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace OCA\DAV\Listener;
 
 use OCA\DAV\BackgroundJob\RefreshWebcalJob;
-use OCA\DAV\CalDAV\Reminder\Backend as ReminderBackend;
 use OCA\DAV\CalDAV\WebcalCaching\RefreshWebcalService;
 use OCA\DAV\Events\SubscriptionCreatedEvent;
 use OCA\DAV\Events\SubscriptionDeletedEvent;
@@ -24,7 +23,6 @@ class SubscriptionListener implements IEventListener {
 	public function __construct(
 		private IJobList $jobList,
 		private RefreshWebcalService $refreshWebcalService,
-		private ReminderBackend $reminderBackend,
 		private LoggerInterface $logger,
 	) {
 	}
@@ -58,9 +56,6 @@ class SubscriptionListener implements IEventListener {
 				'principaluri' => $subscriptionData['principaluri'],
 				'uri' => $subscriptionData['uri']
 			]);
-
-			$this->logger->debug('Cleaning all reminders for subscription ' . $subscriptionId);
-			$this->reminderBackend->cleanRemindersForCalendar($subscriptionId);
 		}
 	}
 }

@@ -12,6 +12,8 @@ use OC\AppFramework\Http\Request;
 use OC\Authentication\Events\LoginFailed;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
+use OC\Authentication\RememberLogin\RememberLoginToken;
+use OC\Authentication\RememberLogin\RememberLoginTokenMapper;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\PublicKeyToken;
 use OC\Security\CSRF\CsrfTokenManager;
@@ -21,9 +23,11 @@ use OC\User\Manager;
 use OC\User\Session;
 use OC\User\User;
 use OCA\DAV\Connector\Sabre\Auth;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Token\IToken;
+use OCP\DB\Exception as DbException;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICacheFactory;
@@ -60,6 +64,7 @@ class SessionTest extends TestCase {
 	private ILockdownManager&MockObject $lockdownManager;
 	private LoggerInterface&MockObject $logger;
 	private IEventDispatcher&MockObject $dispatcher;
+	private RememberLoginTokenMapper&MockObject $rememberLoginTokenMapper;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -81,6 +86,8 @@ class SessionTest extends TestCase {
 		$this->lockdownManager = $this->createMock(ILockdownManager::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
+		$this->rememberLoginTokenMapper = $this->createMock(RememberLoginTokenMapper::class);
+		$this->overwriteService(RememberLoginTokenMapper::class, $this->rememberLoginTokenMapper);
 		$this->userSession = $this->getMockBuilder(Session::class)
 			->setConstructorArgs([
 				$this->manager,
@@ -339,6 +346,88 @@ class SessionTest extends TestCase {
 		$userSession->login('foo', 'app-password');
 	}
 
+	public function testLoginWithPercentEncodedLoginName(): void {
+		$session = $this->createMock(Memory::class);
+		$managerMethods = get_class_methods(Manager::class);
+		// Keep following methods intact in order to ensure hooks are working
+		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
+		$manager = $this->getMockBuilder(Manager::class)
+			->onlyMethods($mockedManagerMethods)
+			->setConstructorArgs([
+				$this->config,
+				$this->createMock(ICacheFactory::class),
+				$this->createMock(IEventDispatcher::class),
+				$this->createMock(LoggerInterface::class),
+			])
+			->getMock();
+		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('foo');
+		$user->method('isEnabled')->willReturn(true);
+		$manager->method('get')
+			->with('foo')
+			->willReturn($user);
+
+		$session->expects($this->once())
+			->method('regenerateId');
+		$token = new PublicKeyToken();
+		$token->setId(1);
+		$token->setLoginName('foo@example.com');
+		$token->setLastCheck(0); // Never
+		$token->setUid('foo');
+		$this->tokenProvider
+			->method('getPassword')
+			->with($token)
+			->willThrowException(new PasswordlessTokenException());
+		$this->tokenProvider
+			->method('getToken')
+			->with('app-password')
+			->willReturn($token);
+
+		// The client percent-encoded the login name, e.g. iOS 18.4 does this
+		// for CalDAV/CardDAV accounts, so it no longer matches the token.
+		$userSession->login('foo%40example.com', 'app-password');
+
+		$this->assertSame($user, $userSession->getUser());
+	}
+
+	public function testLoginWithDifferentLoginNameStillFails(): void {
+		$session = $this->createMock(Memory::class);
+		$managerMethods = get_class_methods(Manager::class);
+		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
+		$manager = $this->getMockBuilder(Manager::class)
+			->onlyMethods($mockedManagerMethods)
+			->setConstructorArgs([
+				$this->config,
+				$this->createMock(ICacheFactory::class),
+				$this->createMock(IEventDispatcher::class),
+				$this->createMock(LoggerInterface::class),
+			])
+			->getMock();
+		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
+
+		$session->expects($this->once())
+			->method('regenerateId');
+		$token = new PublicKeyToken();
+		$token->setId(1);
+		$token->setLoginName('foo');
+		$token->setLastCheck(0); // Never
+		$token->setUid('foo');
+		$this->tokenProvider
+			->method('getToken')
+			->with('app-password')
+			->willReturn($token);
+		$manager->expects($this->once())
+			->method('checkPasswordNoLogging')
+			->with('bar', 'app-password')
+			->willReturn(false);
+
+		// Decoding must not turn an unrelated login name into a match.
+		$this->assertFalse($userSession->login('bar', 'app-password'));
+		$this->assertNull($userSession->getUser());
+	}
+
 	public function testLoginLastCheckUpdate(): void {
 		$session = $this->createMock(Memory::class);
 		$managerMethods = get_class_methods(Manager::class);
@@ -441,8 +530,8 @@ class SessionTest extends TestCase {
 
 		$this->throttler
 			->expects($this->once())
-			->method('registerAttempt')
-			->with('login', '192.168.0.1', ['user' => 'john']);
+			->method('registerUniqueAttempt')
+			->with('login', '192.168.0.1', ['john','doe'], ['user' => 'john']);
 		$this->dispatcher
 			->expects($this->exactly(2))
 			->method('dispatchTyped')
@@ -571,8 +660,8 @@ class SessionTest extends TestCase {
 
 		$this->throttler
 			->expects($this->once())
-			->method('registerAttempt')
-			->with('login', '192.168.0.1', ['user' => 'john']);
+			->method('registerUniqueAttempt')
+			->with('login', '192.168.0.1', ['john','doe'], ['user' => 'john']);
 
 		$this->dispatcher
 			->expects($this->exactly(2))
@@ -765,20 +854,25 @@ class SessionTest extends TestCase {
 			->method('get')
 			->with('foo')
 			->willReturn($user);
-		$this->config->expects($this->once())
-			->method('getUserKeys')
-			->with('foo', 'login_token')
-			->willReturn([$token]);
-		$this->config->expects($this->once())
-			->method('deleteUserValue')
-			->with('foo', 'login_token', $token);
+
+		$storedRememberLoginToken = new RememberLoginToken();
+		$storedRememberLoginToken->uid = 'foo';
+		$storedRememberLoginToken->token = $token;
+
+		$this->rememberLoginTokenMapper->expects($this->once())
+			->method('findByToken')
+			->with($token)
+			->willReturn($storedRememberLoginToken);
 		$this->random->expects($this->once())
 			->method('generate')
 			->with(32)
 			->willReturn('abcdefg123456');
-		$this->config->expects($this->once())
-			->method('setUserValue')
-			->with('foo', 'login_token', 'abcdefg123456', 10000);
+		$this->rememberLoginTokenMapper->expects($this->once())
+			->method('deleteByToken')
+			->with($token);
+		$this->rememberLoginTokenMapper->expects($this->once())
+			->method('insert')
+			->with($this->callback(fn (RememberLoginToken $newToken): bool => $newToken->uid === 'foo' && $newToken->token === 'abcdefg123456'));
 
 		$tokenObject = $this->createMock(IToken::class);
 		$tokenObject->expects($this->once())
@@ -861,15 +955,20 @@ class SessionTest extends TestCase {
 			->method('get')
 			->with('foo')
 			->willReturn($user);
-		$this->config->expects($this->once())
-			->method('getUserKeys')
-			->with('foo', 'login_token')
-			->willReturn([$token]);
-		$this->config->expects($this->once())
-			->method('deleteUserValue')
-			->with('foo', 'login_token', $token);
-		$this->config->expects($this->once())
-			->method('setUserValue'); // TODO: mock new random value
+
+		$storedRememberLoginToken = new RememberLoginToken();
+		$storedRememberLoginToken->uid = 'foo';
+		$storedRememberLoginToken->token = $token;
+
+		$this->rememberLoginTokenMapper->expects($this->once())
+			->method('findByToken')
+			->with($token)
+			->willReturn($storedRememberLoginToken);
+		$this->rememberLoginTokenMapper->expects($this->once())
+			->method('deleteByToken')
+			->with($token);
+		$this->rememberLoginTokenMapper->expects($this->once())
+			->method('insert');
 
 		$session->expects($this->once())
 			->method('getId')
@@ -934,15 +1033,23 @@ class SessionTest extends TestCase {
 			->method('get')
 			->with('foo')
 			->willReturn($user);
-		$this->config->expects($this->once())
-			->method('getUserKeys')
-			->with('foo', 'login_token')
-			->willReturn([$token]);
+
+		$storedRememberLoginToken = new RememberLoginToken();
+		$storedRememberLoginToken->uid = 'foo';
+		$storedRememberLoginToken->token = $token;
+
+		$this->rememberLoginTokenMapper->expects($this->once())
+			->method('findByToken')
+			->with($token)
+			->willReturn($storedRememberLoginToken);
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with($oldSessionId)
 			->willThrowException(new InvalidTokenException());
 
+		$this->rememberLoginTokenMapper->expects($this->once())
+			->method('deleteByToken')
+			->with($token);
 		$this->config->expects($this->never())
 			->method('deleteUserValue');
 		$this->tokenProvider->expects($this->never())
@@ -988,13 +1095,16 @@ class SessionTest extends TestCase {
 			->method('get')
 			->with('foo')
 			->willReturn($user);
+		$this->rememberLoginTokenMapper->expects($this->once())
+			->method('findByToken')
+			->with($token)
+			->willThrowException(new DoesNotExistException(''));
 		$this->config->expects($this->once())
 			->method('getUserKeys')
 			->with('foo', 'login_token')
-			->willReturn(['anothertoken']);
-		$this->config->expects($this->never())
-			->method('deleteUserValue')
-			->with('foo', 'login_token', $token);
+			->willReturn([]);
+		$this->rememberLoginTokenMapper->expects($this->never())
+			->method('deleteByToken');
 
 		$this->tokenProvider->expects($this->never())
 			->method('renewSessionToken');
@@ -1009,6 +1119,119 @@ class SessionTest extends TestCase {
 		$granted = $userSession->loginWithCookie('foo', $token, $oldSessionId);
 
 		$this->assertFalse($granted);
+	}
+
+	public function testRememberLoginTokenFromDifferentUser(): void {
+		$session = $this->createMock(Memory::class);
+		$manager = $this->createMock(Manager::class);
+		$userSession = $this->getMockBuilder(Session::class)
+			//override, otherwise tests will fail because of setcookie()
+			->onlyMethods(['setMagicInCookie'])
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->getMock();
+		$token = 'goodToken';
+		$oldSessionId = 'sess321';
+
+		$manager->expects($this->once())
+			->method('get')
+			->with('foo')
+			->willReturn($this->createMock(IUser::class));
+
+		$storedRememberLoginToken = new RememberLoginToken();
+		$storedRememberLoginToken->uid = 'bar';
+		$storedRememberLoginToken->token = $token;
+		$this->rememberLoginTokenMapper->expects($this->once())
+			->method('findByToken')
+			->with($token)
+			->willReturn($storedRememberLoginToken);
+		$this->logger->expects($this->once())
+			->method('warning')
+			->with('Tried to login using remember-me token from a different user');
+
+		$this->config->expects($this->never())
+			->method('getUserKeys');
+		$this->tokenProvider->expects($this->never())
+			->method('getToken');
+		$session->expects($this->never())
+			->method('regenerateId');
+		$this->rememberLoginTokenMapper->expects($this->never())
+			->method('deleteByToken');
+		$this->rememberLoginTokenMapper->expects($this->never())
+			->method('insert');
+		$userSession->expects($this->never())
+			->method('setMagicInCookie');
+
+		$this->assertFalse($userSession->loginWithCookie('foo', $token, $oldSessionId));
+	}
+
+	public function testRememberLoginLegacyToken(): void {
+		$session = $this->createMock(Memory::class);
+		$manager = $this->createMock(Manager::class);
+		$userSession = $this->getMockBuilder(Session::class)
+			//override, otherwise tests will fail because of setcookie()
+			->onlyMethods(['setMagicInCookie', 'setLoginName'])
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->getMock();
+		$token = 'legacyToken';
+		$oldSessionId = 'sess321';
+		$sessionId = 'sess123';
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('foo');
+		$manager->expects($this->once())
+			->method('get')
+			->with('foo')
+			->willReturn($user);
+
+		$this->rememberLoginTokenMapper->expects($this->once())
+			->method('findByToken')
+			->with($token)
+			->willThrowException(new DoesNotExistException(''));
+		$this->config->expects($this->once())
+			->method('getUserKeys')
+			->with('foo', 'login_token')
+			->willReturn(['otherToken', $token]);
+		$this->config->expects($this->once())
+			->method('deleteUserValue')
+			->with('foo', 'login_token', $token);
+
+		$oldTokenObject = $this->createMock(IToken::class);
+		$oldTokenObject->method('getUID')
+			->willReturn('foo');
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with($oldSessionId)
+			->willReturn($oldTokenObject);
+
+		$session->expects($this->once())
+			->method('regenerateId');
+		$this->rememberLoginTokenMapper->expects($this->never())
+			->method('deleteByToken');
+		$this->random->expects($this->once())
+			->method('generate')
+			->with(32)
+			->willReturn('abcdefg123456');
+		$this->rememberLoginTokenMapper->expects($this->once())
+			->method('insert')
+			->with($this->callback(fn (RememberLoginToken $newToken): bool => $newToken->uid === 'foo' && $newToken->token === 'abcdefg123456'));
+
+		$tokenObject = $this->createMock(IToken::class);
+		$tokenObject->method('getLoginName')
+			->willReturn('foobar');
+		$tokenObject->method('getId')
+			->willReturn(42);
+		$session->method('getId')
+			->willReturn($sessionId);
+		$this->tokenProvider->expects($this->once())
+			->method('renewSessionToken')
+			->with($oldSessionId, $sessionId)
+			->willReturn($tokenObject);
+		$userSession->expects($this->once())
+			->method('setMagicInCookie')
+			->with('foo', 'abcdefg123456');
+
+		$this->assertTrue($userSession->loginWithCookie('foo', $token, $oldSessionId));
 	}
 
 	public function testRememberLoginInvalidUser(): void {
@@ -1039,10 +1262,8 @@ class SessionTest extends TestCase {
 			->method('get')
 			->with('foo')
 			->willReturn(null);
-		$this->config->expects($this->never())
-			->method('getUserKeys')
-			->with('foo', 'login_token')
-			->willReturn(['anothertoken']);
+		$this->rememberLoginTokenMapper->expects($this->never())
+			->method('findByToken');
 
 		$this->tokenProvider->expects($this->never())
 			->method('renewSessionToken');
@@ -1131,6 +1352,54 @@ class SessionTest extends TestCase {
 			->with($sessionId, $uid, $loginName, $password, 'Firefox', IToken::TEMPORARY_TOKEN, IToken::DO_NOT_REMEMBER);
 
 		$this->assertTrue($userSession->createSessionToken($request, $uid, $loginName, $password));
+	}
+
+	public static function dataCreateSessionTokenConflict(): array {
+		return [
+			'same user' => ['user123', true],
+			'other user' => ['otheruser', false],
+		];
+	}
+
+	#[DataProvider(methodName: 'dataCreateSessionTokenConflict')]
+	public function testCreateSessionTokenConflict(string $existingUid, bool $expectSuccess): void {
+		$manager = $this->createMock(Manager::class);
+		$session = $this->createMock(ISession::class);
+		$user = $this->createMock(IUser::class);
+		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
+
+		$request = new Request([
+			'server' => [
+				'HTTP_USER_AGENT' => 'Firefox',
+			]
+		], $this->createMock(IRequestId::class), $this->createMock(IConfig::class), $this->createMock(CsrfTokenManager::class));
+
+		$uid = 'user123';
+		$sessionId = 'abcxyz';
+
+		$manager->method('get')
+			->with($uid)
+			->willReturn($user);
+		$session->method('getId')
+			->willReturn($sessionId);
+
+		$exception = $this->createMock(DbException::class);
+		$exception->method('getReason')->willReturn(DbException::REASON_UNIQUE_CONSTRAINT_VIOLATION);
+		$this->tokenProvider->expects($this->once())
+			->method('generateToken')
+			->willThrowException($exception);
+
+		$existing = new PublicKeyToken();
+		$existing->setUid($existingUid);
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with($sessionId)
+			->willReturn($existing);
+
+		if (!$expectSuccess) {
+			$this->expectExceptionMessage('Token conflict handled, but UIDs do not match');
+		}
+		$this->assertTrue($userSession->createSessionToken($request, $uid, $uid));
 	}
 
 	public function testCreateRememberedSessionToken(): void {
@@ -1254,10 +1523,13 @@ class SessionTest extends TestCase {
 			->method('generate')
 			->with(32)
 			->willReturn('LongRandomToken');
-		$this->config
+		$this->rememberLoginTokenMapper
 			->expects($this->once())
-			->method('setUserValue')
-			->with('UserUid', 'login_token', 'LongRandomToken', 10000);
+			->method('insert')
+			->with($this->callback(function (RememberLoginToken $rememberLoginToken): bool {
+				return $rememberLoginToken->uid === 'UserUid'
+					&& $rememberLoginToken->token === 'LongRandomToken';
+			}));
 		$this->userSession
 			->expects($this->once())
 			->method('setMagicInCookie')
@@ -1431,8 +1703,8 @@ class SessionTest extends TestCase {
 
 		$this->throttler
 			->expects($this->once())
-			->method('registerAttempt')
-			->with('login', '192.168.0.1', ['user' => 'john']);
+			->method('registerUniqueAttempt')
+			->with('login', '192.168.0.1', ['john','I-AM-A-PASSWORD'], ['user' => 'john']);
 		$this->dispatcher
 			->expects($this->exactly(2))
 			->method('dispatchTyped')
@@ -1494,8 +1766,8 @@ class SessionTest extends TestCase {
 
 		$this->throttler
 			->expects($this->once())
-			->method('registerAttempt')
-			->with('login', '192.168.0.1', ['user' => 'john@foo.bar']);
+			->method('registerUniqueAttempt')
+			->with('login', '192.168.0.1', ['john@foo.bar','I-AM-A-PASSWORD'], ['user' => 'john@foo.bar']);
 		$this->dispatcher
 			->expects($this->exactly(2))
 			->method('dispatchTyped')

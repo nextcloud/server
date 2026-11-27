@@ -14,8 +14,10 @@ use OCA\DAV\BackgroundJob\FederatedCalendarSyncJob;
 use OCA\Federation\TrustedServers;
 use OCP\App\IAppManager;
 use OCP\BackgroundJob\IJobList;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudIdManager;
 use OCP\IURLGenerator;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
@@ -35,6 +37,7 @@ class FederatedCalendarInvitationService {
 		private readonly CalendarFederationConfig $config,
 		private readonly IAppManager $appManager,
 		private readonly LoggerInterface $logger,
+		private readonly IEventDispatcher $eventDispatcher,
 	) {
 	}
 
@@ -47,6 +50,16 @@ class FederatedCalendarInvitationService {
 		]);
 
 		$this->dismissNotification($calendar);
+
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Federated calendar "%s" shared by "%s" was accepted',
+			[
+				'federatedCalendarId' => $calendar->getId(),
+				'remoteOwner' => $calendar->getSharedBy(),
+			],
+			false,
+			'dav.federated_calendar.accepted',
+		));
 	}
 
 	public function decline(FederatedCalendarEntity $calendar): void {
@@ -54,6 +67,16 @@ class FederatedCalendarInvitationService {
 		// a share that no longer exists
 		$this->dismissNotification($calendar);
 		$this->mapper->deleteById($calendar->getId());
+
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Federated calendar "%s" shared by "%s" was declined',
+			[
+				'federatedCalendarId' => $calendar->getId(),
+				'remoteOwner' => $calendar->getSharedBy(),
+			],
+			false,
+			'dav.federated_calendar.declined',
+		));
 	}
 
 	public function notifyAboutNewShare(FederatedCalendarEntity $calendar): void {

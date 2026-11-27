@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   phpunit-mysql:
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
 
     strategy:
       fail-fast: false
@@ -26,7 +26,7 @@ jobs:
             php-versions: '8.3'
             partitioning: false
           - mysql-versions: '9.7'
-            php-versions: '8.5'
+            php-versions: '8.6'
             partitioning: true
 
     name: MySQL ${{ matrix.mysql-versions }} (PHP ${{ matrix.php-versions }})${{ case(matrix.partitioning, ' Partitioning', '') }} - database tests

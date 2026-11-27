@@ -1,5 +1,7 @@
 { "translations": {
     "Logged in account must be an administrator or have authorization to edit this setting." : "Oturum açmış hesap bir yönetici olmalı ya da bu ayarı düzenleme izni olmalıdır.",
+    "The given value was rejected" : "Belirtilen değer reddedildi",
+    "Deleting the given key was rejected" : "Belirtilen anahtarın silinmesi reddedildi",
     "Could not create non-existing user ID" : "Var olmayan kullanıcı kimliği oluşturulamadı",
     "User already exists" : "Kullanıcı zaten var",
     "Group %1$s does not exist" : "%1$s grubu bulunamadı",

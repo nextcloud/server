@@ -26,6 +26,7 @@ use OC\Files\View;
 use OC\Installer;
 use OC\Updater;
 use OC\User\Session;
+use OCA\Files_Sharing\MountProvider;
 use OCP\Command\IBus;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\IRootFolder;
@@ -388,12 +389,10 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	/**
 	 * Allows us to test private methods/properties
 	 *
-	 * @param $object
-	 * @param $methodName
-	 * @param array $parameters
+	 * @param object|class-string $object
 	 * @return mixed
 	 */
-	protected static function invokePrivate($object, $methodName, array $parameters = []) {
+	protected static function invokePrivate($object, string $methodName, array $parameters = []) {
 		if (is_string($object)) {
 			$className = $object;
 		} else {
@@ -507,13 +506,13 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		$setupManager = Server::get(SetupManager::class);
 		$setupManager->tearDown();
 
-		/** @var MountProviderCollection $mountProviderCollection */
 		$mountProviderCollection = Server::get(MountProviderCollection::class);
 		$mountProviderCollection->clearProviders();
 
 		/** @var IConfig $config */
 		$config = Server::get(IConfig::class);
 		$mountProviderCollection->registerProvider(new CacheMountProvider($config));
+		$mountProviderCollection->registerProvider(Server::get(MountProvider::class));
 		$mountProviderCollection->registerHomeProvider(new LocalHomeMountProvider());
 		$objectStoreConfig = Server::get(PrimaryObjectStoreConfig::class);
 		$mountProviderCollection->registerRootProvider(new RootMountProvider($objectStoreConfig, $config));

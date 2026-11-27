@@ -8,6 +8,7 @@ import axios from '@nextcloud/axios'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import { generateOcsUrl } from '@nextcloud/router'
 import { SCOPE_SUFFIX } from '../../constants/AccountPropertyConstants.ts'
+import { ocsData } from '../../utils/handlers.ts'
 
 /**
  * Save the primary account property value for the user
@@ -33,7 +34,7 @@ export async function savePrimaryAccountProperty(accountProperty, value) {
 		value,
 	})
 
-	return res.data
+	return ocsData(res)
 }
 
 /**
@@ -54,5 +55,5 @@ export async function savePrimaryAccountPropertyScope(accountProperty, scope) {
 		value: scope,
 	})
 
-	return res.data
+	return ocsData(res)
 }

@@ -10,12 +10,14 @@ namespace Test\SystemTag;
 
 use OC\SystemTag\SystemTagManager;
 use OC\SystemTag\SystemTagObjectMapper;
+use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Server;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
@@ -284,11 +286,32 @@ class SystemTagManagerTest extends TestCase {
 		$this->tagManager->getTagsByIds([$tag1->getId(), 100, 101]);
 	}
 
-	public function testGetInvalidTagIdFormat(): void {
+	public static function invalidTagIdFormatProvider(): array {
+		return [
+			'trailing characters' => ['%ssuffix'],
+			'fraction' => ['%s.5'],
+			'fraction of zero' => ['%s.0'],
+			'exponent' => ['%se0'],
+			'leading zero' => ['0%s'],
+			'leading whitespace' => [' %s'],
+			'trailing whitespace' => ['%s '],
+			'sign' => ['+%s'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('invalidTagIdFormatProvider')]
+	public function testGetInvalidTagIdFormat(string $format): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$tag1 = $this->tagManager->createTag('one', true, false);
-		$this->tagManager->getTagsByIds([$tag1->getId() . 'suffix']);
+		$this->tagManager->getTagsByIds([sprintf($format, $tag1->getId())]);
+	}
+
+	public function testGetInvalidTagIdType(): void {
+		$this->expectException(\InvalidArgumentException::class);
+
+		$tag1 = $this->tagManager->createTag('one', true, false);
+		$this->tagManager->getTagsByIds([(int)$tag1->getId() + 0.5]);
 	}
 
 	public static function updateTagProvider(): array {
@@ -424,6 +447,27 @@ class SystemTagManagerTest extends TestCase {
 		$this->assertEquals($expectedResult, $this->tagManager->canUserSeeTag($tag1, $user));
 	}
 
+	public static function anonymousVisibilityCheckProvider(): array {
+		return [
+			// invisible
+			[false, false, false],
+			// restricted
+			[true, false, false],
+			// public
+			[true, true, true],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('anonymousVisibilityCheckProvider')]
+	public function testVisibilityCheckWithoutUser($userVisible, $userAssignable, $expectedResult): void {
+		$tag1 = $this->tagManager->createTag('one', $userVisible, $userAssignable);
+
+		$this->groupManager->expects($this->never())
+			->method('isAdmin');
+
+		$this->assertEquals($expectedResult, $this->tagManager->canUserSeeTag($tag1, null));
+	}
+
 	public static function assignabilityCheckProvider(): array {
 		return [
 			// no groups
@@ -489,6 +533,25 @@ class SystemTagManagerTest extends TestCase {
 
 		$this->assertEquals(['group3', 'group4'], $this->tagManager->getTagGroups($tag1));
 		$this->assertEquals([], $this->tagManager->getTagGroups($tag2));
+	}
+
+	public function testSetTagGroupsDispatchesAuditEvent(): void {
+		$tag = $this->tagManager->createTag('tag1', true, false);
+
+		$auditEvents = [];
+		$this->dispatcher->method('dispatchTyped')
+			->willReturnCallback(function (Event $event) use (&$auditEvents): void {
+				if ($event instanceof CriticalActionPerformedEvent) {
+					$auditEvents[] = $event;
+				}
+			});
+
+		$this->tagManager->setTagGroups($tag, ['group1', '', 'group2']);
+
+		$this->assertCount(1, $auditEvents);
+		$this->assertSame('systemtags.tag_groups.updated', $auditEvents[0]->getOperation());
+		$this->assertSame('Groups allowed to assign system tag %s were set to "%s"', $auditEvents[0]->getLogMessage());
+		$this->assertSame(['tagId' => $tag->getId(), 'groupIds' => 'group1, group2'], $auditEvents[0]->getParameters());
 	}
 
 	/**

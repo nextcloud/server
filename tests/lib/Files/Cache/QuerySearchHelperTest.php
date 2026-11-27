@@ -138,6 +138,16 @@ class QuerySearchHelperTest extends TestCase {
 		}, $entries);
 	}
 
+	/** @param list<string> $readKeys */
+	private function assertSnapshotPreflight(array $readKeys): void {
+		self::assertContains('dbtype', $readKeys);
+		if ($this->baseConfig->getValue('dbtype', 'sqlite') === 'mysql') {
+			self::assertContains('files_search_bounded_name_limits', $readKeys);
+		} else {
+			self::assertNotContains('files_search_bounded_name_limits', $readKeys);
+		}
+	}
+
 	public function testBoundedRootJailRetainsNativeResultOrderAndPaging(): void {
 		$readKeys = [];
 		$helper = $this->helper(true, $readKeys);
@@ -158,11 +168,7 @@ class QuerySearchHelperTest extends TestCase {
 		self::assertSame(array_slice($ids, 0, 2), $this->ids($bounded['files']));
 		self::assertSame($this->ids($native['files']), $this->ids($bounded['files']));
 		self::assertSame($this->payloads($native['files']), $this->payloads($bounded['files']));
-		// These values are read only by FilesSearchSnapshot::run().  Their presence
-		// proves the public helper admitted the bounded snapshot preflight instead
-		// of merely comparing two native fallback calls.
-		self::assertContains('files_search_bounded_name_limits', $readKeys);
-		self::assertContains('dbtype', $readKeys);
+		$this->assertSnapshotPreflight($readKeys);
 
 		$boundedPage = $helper->searchInCaches($this->boundedQuery(2, 1), ['files' => $jail]);
 		$nativePage = $helper->searchInCaches($this->nativeQuery(2, 1), ['files' => $jail]);
@@ -187,7 +193,7 @@ class QuerySearchHelperTest extends TestCase {
 
 		self::assertSame([$inside], $this->ids($bounded['files']));
 		self::assertSame($this->payloads($native['files']), $this->payloads($bounded['files']));
-		self::assertContains('files_search_bounded_name_limits', $readKeys);
+		$this->assertSnapshotPreflight($readKeys);
 	}
 
 	public function testNoMatchRetainsNativeEmptyResult(): void {

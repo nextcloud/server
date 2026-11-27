@@ -1,5 +1,7 @@
 { "translations": {
     "Logged in account must be an administrator or have authorization to edit this setting." : "Для изменения этого параметра необходимо быть администратором или иметь соответствующие права.",
+    "The given value was rejected" : "Указанное значение отклонено",
+    "Deleting the given key was rejected" : "Удаление указанного ключа отклонено",
     "Could not create non-existing user ID" : "Невозможно создать несуществующий идентификатор пользователя",
     "User already exists" : "Пользователь уже существует",
     "Group %1$s does not exist" : "Группа %1$s не существует",

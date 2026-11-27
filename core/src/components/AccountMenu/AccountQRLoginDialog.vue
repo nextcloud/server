@@ -4,10 +4,10 @@
 -->
 
 <script setup lang="ts">
-import QR from '@chenfengyuan/vue-qrcode'
 import { t } from '@nextcloud/l10n'
 import { getBaseUrl } from '@nextcloud/router'
 import { useFormatRelativeTime } from '@nextcloud/vue/composables/useFormatDateTime'
+import { useQRCode } from '@vueuse/integrations/useQRCode'
 import { computed } from 'vue'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
 
@@ -52,6 +52,7 @@ const qrUrl = computed(() => {
 	// TODO return different result for error handling (to not provide invalid URL)
 	return `nc://${path}/user:${user}&password:${password}&server:${server}`
 })
+const qrCode = useQRCode(qrUrl)
 
 const expirationTimestamp = (props.data?.deviceToken?.lastActivity ? props.data.deviceToken.lastActivity * 1_000 : Date.now()) + 120_000
 const expireTimeout = setTimeout(() => {
@@ -79,7 +80,7 @@ function onClosing(result: unknown) {
 			<p class="qr-login__description">
 				{{ t('core', 'Use {productName} mobile client you want to connect to scan the code', { productName }) }}
 			</p>
-			<QR :value="qrUrl" />
+			<img :src="qrCode" alt="">
 			<template v-if="isOneTimeToken">
 				<!-- TRANSLATORS Intl will provide a conjunction, e.g. 'Code will expire in 30 seconds' -->
 				{{ t('core', 'Code will expire {timeCountdown} or after use', { timeCountdown }) }}

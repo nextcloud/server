@@ -14,6 +14,7 @@ use OCA\TwoFactorBackupCodes\Db\BackupCodeMapper;
 use OCA\TwoFactorBackupCodes\Event\CodesGenerated;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 
@@ -53,6 +54,12 @@ class BackupCodeStorage {
 		}
 
 		$this->eventDispatcher->dispatchTyped(new CodesGenerated($user));
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Two-factor backup codes were generated for user "%s"',
+			['userId' => $uid],
+			false,
+			'twofactor_backupcodes.codes.generated',
+		));
 
 		return $result;
 	}

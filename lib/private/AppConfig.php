@@ -15,6 +15,7 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Config\ConfigManager;
 use OC\Config\PresetManager;
 use OC\Memcache\Factory as CacheFactory;
+use OCP\Config\Exceptions\TypeConflictException;
 use OCP\Config\Lexicon\Entry;
 use OCP\Config\Lexicon\Strictness;
 use OCP\Config\ValueType;
@@ -844,8 +845,23 @@ class AppConfig implements IAppConfig {
 		int $type,
 	): bool {
 		$this->assertParams($app, $key);
+		$requestedType = $type & ~self::VALUE_SENSITIVE;
 		if (!$this->matchAndApplyLexiconDefinition($app, $key, $lazy, $type)) {
 			return false; // returns false as database is not updated
+		}
+		if ($requestedType === self::VALUE_MIXED) {
+			// mixed values are untyped strings, so they need to be validated against the type from the lexicon
+			try {
+				match ($type & ~self::VALUE_SENSITIVE) {
+					self::VALUE_INT => $this->configManager->convertToInt($value),
+					self::VALUE_FLOAT => $this->configManager->convertToFloat($value),
+					self::VALUE_BOOL => $this->configManager->convertToBool($value),
+					self::VALUE_ARRAY => $this->configManager->convertToArray($value),
+					default => null,
+				};
+			} catch (TypeConflictException $e) {
+				throw new AppConfigTypeConflictException('The value for app config key ' . $app . '/' . $key . ' does not match the type from the config lexicon: ' . $e->getMessage(), previous: $e);
+			}
 		}
 		$this->loadConfig(null, $lazy ?? true);
 

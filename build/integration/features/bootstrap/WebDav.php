@@ -108,7 +108,7 @@ trait WebDav {
 		$headers['Destination'] = $fullUrl . $fileDestination;
 		try {
 			$this->response = $this->makeDavRequest($user, 'MOVE', $fileSource, $headers);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		} catch (\GuzzleHttp\Exception\BadResponseException $e) {
 			$this->response = $e->getResponse();
 		}
 	}
@@ -275,6 +275,26 @@ trait WebDav {
 
 		$client = new GClient();
 		$options = [
+			'headers' => [
+				'X-Requested-With' => 'XMLHttpRequest',
+			]
+		];
+
+		try {
+			$this->response = $client->request('GET', $fullUrl, $options);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
+	#[When('Downloading public file :filename from legacy public webdav')]
+	public function downloadingPublicFileFromLegacyWebdav(string $filename) {
+		$token = $this->lastShareData->data->token;
+		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/webdav/$filename";
+
+		$client = new GClient();
+		$options = [
+			'auth' => [$token, ''],
 			'headers' => [
 				'X-Requested-With' => 'XMLHttpRequest',
 			]

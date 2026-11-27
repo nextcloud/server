@@ -25,7 +25,6 @@ class ComposerStaticInitAdminAudit
         'OCA\\AdminAudit\\Actions\\Action' => __DIR__ . '/..' . '/../lib/Actions/Action.php',
         'OCA\\AdminAudit\\Actions\\Files' => __DIR__ . '/..' . '/../lib/Actions/Files.php',
         'OCA\\AdminAudit\\Actions\\Sharing' => __DIR__ . '/..' . '/../lib/Actions/Sharing.php',
-        'OCA\\AdminAudit\\Actions\\Trashbin' => __DIR__ . '/..' . '/../lib/Actions/Trashbin.php',
         'OCA\\AdminAudit\\Actions\\Versions' => __DIR__ . '/..' . '/../lib/Actions/Versions.php',
         'OCA\\AdminAudit\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\AdminAudit\\AuditLogger' => __DIR__ . '/..' . '/../lib/AuditLogger.php',
@@ -41,6 +40,7 @@ class ComposerStaticInitAdminAudit
         'OCA\\AdminAudit\\Listener\\SecurityEventListener' => __DIR__ . '/..' . '/../lib/Listener/SecurityEventListener.php',
         'OCA\\AdminAudit\\Listener\\SharingEventListener' => __DIR__ . '/..' . '/../lib/Listener/SharingEventListener.php',
         'OCA\\AdminAudit\\Listener\\TagEventListener' => __DIR__ . '/..' . '/../lib/Listener/TagEventListener.php',
+        'OCA\\AdminAudit\\Listener\\TrashbinEventListener' => __DIR__ . '/..' . '/../lib/Listener/TrashbinEventListener.php',
         'OCA\\AdminAudit\\Listener\\UserManagementEventListener' => __DIR__ . '/..' . '/../lib/Listener/UserManagementEventListener.php',
         'OCA\\AdminAudit\\Operation' => __DIR__ . '/..' . '/../lib/Operation.php',
     );

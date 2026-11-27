@@ -7,12 +7,6 @@ import type { Node } from '@nextcloud/files'
 
 import { getShare, isSharingDialogAvailable, openSharingDialog } from '@nextcloud/sharing/dialog'
 
-/**
- * The dialog is a Vue 3 component while this frontend is still Vue 2. The
- * library depends on Vue itself, so npm installs its own copy next to it and
- * the dialog runs on that one, the same way `@nextcloud/dialogs` does.
- */
-
 export { isSharingDialogAvailable }
 
 /**

@@ -25,6 +25,7 @@ use Sabre\VObject\Component\VAlarm;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\ParseException;
+use Sabre\VObject\Property\ICalendar\Duration;
 use Sabre\VObject\Recur\EventIterator;
 use Sabre\VObject\Recur\MaxInstancesExceededException;
 use Sabre\VObject\Recur\NoInstancesException;
@@ -48,6 +49,11 @@ class ReminderService {
 		self::REMINDER_TYPE_AUDIO
 	];
 
+	/**
+	 * Maximum number of additional reminders a single VALARM can request via REPEAT
+	 */
+	private const MAX_ALARM_REPEATS = 100;
+
 	public function __construct(
 		private Backend $backend,
 		private NotificationProviderManager $notificationProviderManager,
@@ -63,9 +69,6 @@ class ReminderService {
 
 	/**
 	 * Process reminders to activate
-	 *
-	 * @throws NotificationProvider\ProviderNotAvailableException
-	 * @throws NotificationTypeDoesNotExistException
 	 */
 	public function processReminders() :void {
 		$reminders = $this->backend->getRemindersToProcess();
@@ -74,96 +77,114 @@ class ReminderService {
 		]);
 
 		foreach ($reminders as $reminder) {
-			$calendarData = is_resource($reminder['calendardata'])
-				? stream_get_contents($reminder['calendardata'])
-				: $reminder['calendardata'];
-
-			if (!$calendarData) {
-				continue;
-			}
-
-			$vcalendar = $this->parseCalendarData($calendarData);
-			if (!$vcalendar) {
-				$this->logger->debug('Reminder {id} does not belong to a valid calendar', [
-					'id' => $reminder['id'],
-				]);
-				$this->backend->removeReminder($reminder['id']);
-				continue;
-			}
-
 			try {
-				$vevent = $this->getVEventByRecurrenceId($vcalendar, $reminder['recurrence_id'], $reminder['is_recurrence_exception']);
-			} catch (MaxInstancesExceededException $e) {
-				$this->logger->debug('Recurrence with too many instances detected, skipping VEVENT', ['exception' => $e]);
-				$this->backend->removeReminder($reminder['id']);
-				continue;
-			}
-
-			if (!$vevent) {
-				$this->logger->debug('Reminder {id} does not belong to a valid event', [
+				$this->processReminder($reminder);
+			} catch (\Throwable $e) {
+				$this->logger->error('Reminder {id} could not be processed, removing it', [
 					'id' => $reminder['id'],
+					'exception' => $e,
 				]);
 				$this->backend->removeReminder($reminder['id']);
-				continue;
 			}
-
-			if ($this->wasEventCancelled($vevent)) {
-				$this->logger->debug('Reminder {id} belongs to a cancelled event', [
-					'id' => $reminder['id'],
-				]);
-				$this->deleteOrProcessNext($reminder, $vevent);
-				continue;
-			}
-
-			if (!$this->notificationProviderManager->hasProvider($reminder['type'])) {
-				$this->logger->debug('Reminder {id} does not belong to a valid notification provider', [
-					'id' => $reminder['id'],
-				]);
-				$this->deleteOrProcessNext($reminder, $vevent);
-				continue;
-			}
-
-			if ($this->config->getAppValue('dav', 'sendEventRemindersToSharedUsers', 'yes') === 'yes') {
-				$users = $this->getAllUsersWithWriteAccessToCalendar($reminder['calendar_id']);
-			} else {
-				$users = [];
-			}
-
-			$ownerUser = $this->getUserFromPrincipalURI($reminder['principaluri']);
-			if ($ownerUser !== null) {
-				$users[] = $ownerUser;
-			}
-
-			// Filter out any users who have muted reminders for this calendar
-			$users = array_values(array_filter($users, function (IUser $u) use ($reminder): bool {
-				$principalUri = 'principals/users/' . $u->getUID();
-				return !$this->backend->isReminderMutedForPrincipal($reminder, $principalUri);
-			}));
-
-			if (count($users) === 0) {
-				$this->logger->debug('Reminder {id} is ignored by all recipient users for calendar {calendarId}', [
-					'id' => $reminder['id'],
-					'calendarId' => $reminder['calendar_id'],
-				]);
-				$this->deleteOrProcessNext($reminder, $vevent);
-				continue;
-			}
-
-			$userPrincipalEmailAddresses = [];
-			$userPrincipal = $this->principalConnector->getPrincipalByPath($reminder['principaluri']);
-			if ($userPrincipal) {
-				$userPrincipalEmailAddresses = $this->principalConnector->getEmailAddressesOfPrincipal($userPrincipal);
-			}
-
-			$this->logger->debug('Reminder {id} will be sent to {numUsers} users', [
-				'id' => $reminder['id'],
-				'numUsers' => count($users),
-			]);
-			$notificationProvider = $this->notificationProviderManager->getProvider($reminder['type']);
-			$notificationProvider->send($vevent, $reminder['displayname'], $userPrincipalEmailAddresses, $users);
-
-			$this->deleteOrProcessNext($reminder, $vevent);
 		}
+	}
+
+	/**
+	 * @throws NotificationProvider\ProviderNotAvailableException
+	 * @throws NotificationTypeDoesNotExistException
+	 */
+	private function processReminder(array $reminder): void {
+		$calendarData = is_resource($reminder['calendardata'])
+			? stream_get_contents($reminder['calendardata'])
+			: $reminder['calendardata'];
+
+		if (!$calendarData) {
+			return;
+		}
+
+		$vcalendar = $this->parseCalendarData($calendarData);
+		if (!$vcalendar) {
+			$this->logger->debug('Reminder {id} does not belong to a valid calendar', [
+				'id' => $reminder['id'],
+			]);
+			$this->backend->removeReminder($reminder['id']);
+			return;
+		}
+
+		try {
+			$vevent = $this->getVEventByRecurrenceId($vcalendar, $reminder['recurrence_id'], $reminder['is_recurrence_exception']);
+		} catch (MaxInstancesExceededException $e) {
+			$this->logger->debug('Recurrence with too many instances detected, skipping VEVENT', ['exception' => $e]);
+			$this->backend->removeReminder($reminder['id']);
+			return;
+		}
+
+		if (!$vevent) {
+			$this->logger->debug('Reminder {id} does not belong to a valid event', [
+				'id' => $reminder['id'],
+			]);
+			$this->backend->removeReminder($reminder['id']);
+			return;
+		}
+
+		if ($this->wasEventCancelled($vevent)) {
+			$this->logger->debug('Reminder {id} belongs to a cancelled event', [
+				'id' => $reminder['id'],
+			]);
+			$this->deleteOrProcessNext($reminder, $vevent);
+			return;
+		}
+
+		if (!$this->notificationProviderManager->hasProvider($reminder['type'])) {
+			$this->logger->debug('Reminder {id} does not belong to a valid notification provider', [
+				'id' => $reminder['id'],
+			]);
+			$this->deleteOrProcessNext($reminder, $vevent);
+			return;
+		}
+
+		// Private events are hidden from sharees, so only the owner is reminded of them
+		$isPrivate = ($reminder['classification'] ?? null) === CalDavBackend::CLASSIFICATION_PRIVATE;
+		if (!$isPrivate && $this->config->getAppValue('dav', 'sendEventRemindersToSharedUsers', 'yes') === 'yes') {
+			$users = $this->getAllUsersWithWriteAccessToCalendar($reminder['calendar_id']);
+		} else {
+			$users = [];
+		}
+
+		$ownerUser = $this->getUserFromPrincipalURI($reminder['principaluri']);
+		if ($ownerUser !== null) {
+			$users[] = $ownerUser;
+		}
+
+		// Filter out any users who have muted reminders for this calendar
+		$users = array_values(array_filter($users, function (IUser $u) use ($reminder): bool {
+			$principalUri = 'principals/users/' . $u->getUID();
+			return !$this->backend->isReminderMutedForPrincipal($reminder, $principalUri);
+		}));
+
+		if (count($users) === 0) {
+			$this->logger->debug('Reminder {id} is ignored by all recipient users for calendar {calendarId}', [
+				'id' => $reminder['id'],
+				'calendarId' => $reminder['calendar_id'],
+			]);
+			$this->deleteOrProcessNext($reminder, $vevent);
+			return;
+		}
+
+		$userPrincipalEmailAddresses = [];
+		$userPrincipal = $this->principalConnector->getPrincipalByPath($reminder['principaluri']);
+		if ($userPrincipal) {
+			$userPrincipalEmailAddresses = $this->principalConnector->getEmailAddressesOfPrincipal($userPrincipal);
+		}
+
+		$this->logger->debug('Reminder {id} will be sent to {numUsers} users', [
+			'id' => $reminder['id'],
+			'numUsers' => count($users),
+		]);
+		$notificationProvider = $this->notificationProviderManager->getProvider($reminder['type']);
+		$notificationProvider->send($vevent, $reminder['displayname'], $userPrincipalEmailAddresses, $users);
+
+		$this->deleteOrProcessNext($reminder, $vevent);
 	}
 
 	/**
@@ -396,13 +417,13 @@ class ReminderService {
 			'is_repeat_based' => false,
 		];
 
-		$repeat = isset($valarm->REPEAT) ? (int)$valarm->REPEAT->getValue() : 0;
+		// REPEAT is only valid together with DURATION (RFC 5545 3.6.6)
+		$duration = $valarm->DURATION;
+		$repeat = isset($valarm->REPEAT) && $duration instanceof Duration
+			? min((int)$valarm->REPEAT->getValue(), self::MAX_ALARM_REPEATS)
+			: 0;
 		for ($i = 0; $i < $repeat; $i++) {
-			if ($valarm->DURATION === null) {
-				continue;
-			}
-
-			$clonedNotificationDate->add($valarm->DURATION->getDateInterval());
+			$clonedNotificationDate->add($duration->getDateInterval());
 			$alarms[] = [
 				'calendar_id' => $objectData['calendarid'],
 				'object_id' => $objectData['id'],

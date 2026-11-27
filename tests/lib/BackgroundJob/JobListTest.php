@@ -51,6 +51,21 @@ class JobListTest extends TestCase {
 		);
 	}
 
+	private function createInstanceWithExcludedJobs(array $excludedJobs): void {
+		$this->config = $this->createMock(IConfig::class);
+		$this->config->expects($this->once())
+			->method('getSystemValue')
+			->with('excluded_jobs', [])
+			->willReturn($excludedJobs);
+		$this->instance = new JobList(
+			$this->connection,
+			$this->config,
+			$this->timeFactory,
+			Server::get(LoggerInterface::class),
+			Server::get(ISnowflakeGenerator::class),
+		);
+	}
+
 	protected function clearJobsList(): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('jobs');
@@ -240,6 +255,41 @@ class JobListTest extends TestCase {
 		$this->assertEquals(2, $nextJob->getArgument());
 	}
 
+	public static function excludedJobClassProvider(): array {
+		return [
+			[TestJob::class],
+			['\\' . TestJob::class],
+		];
+	}
+
+	#[DataProvider(methodName: 'excludedJobClassProvider')]
+	public function testGetNextSkipsExcludedJobClasses(string $excludedClass): void {
+		$this->createTempJob(TestJob::class, 1, 0, 12345);
+		$this->createTempJob(TestParallelAwareJob::class, 2, 0, 12346);
+
+		$this->createInstanceWithExcludedJobs([$excludedClass]);
+		$this->timeFactory->expects($this->atLeastOnce())
+			->method('getTime')
+			->willReturn(123456789);
+		$nextJob = $this->instance->getNext();
+
+		$this->assertInstanceOf(TestParallelAwareJob::class, $nextJob);
+		$this->assertEquals(2, $nextJob->getArgument());
+	}
+
+	public function testGetNextReturnsNullWhenOnlyExcludedJobsAreLeft(): void {
+		$this->createTempJob(TestJob::class, 1, 0, 12345);
+
+		$this->createInstanceWithExcludedJobs([TestJob::class]);
+		$this->timeFactory->expects($this->atLeastOnce())
+			->method('getTime')
+			->willReturn(123456789);
+
+		// The config is read once in the constructor, not on every getNext() call
+		$this->assertNull($this->instance->getNext());
+		$this->assertNull($this->instance->getNext());
+	}
+
 	/**
 	 * @param $argument
 	 */
@@ -322,6 +372,30 @@ class JobListTest extends TestCase {
 		$this->assertNotNull($job);
 		$this->assertTrue($this->instance->hasReservedJob());
 		$this->assertTrue($this->instance->hasReservedJob(TestJob::class));
+	}
+
+	public function testCountReservedJobs(): void {
+		$this->clearJobsList();
+
+		$this->timeFactory->expects($this->atLeastOnce())
+			->method('getTime')
+			->willReturn(123456789);
+
+		$this->instance->add(new TestJob($this->timeFactory, $this, function (): void {
+		}), 1);
+		$this->instance->add(new TestJob($this->timeFactory, $this, function (): void {
+		}), 2);
+
+		$this->assertSame(0, $this->instance->countReservedJobs(TestJob::class));
+
+		$first = $this->instance->getNext();
+		$this->assertNotNull($first);
+		$this->assertSame(1, $this->instance->countReservedJobs(TestJob::class));
+		$this->assertSame(0, $this->instance->countReservedJobs(TestJob::class, (int)$first->getId()));
+		$this->assertSame(0, $this->instance->countReservedJobs(TestParallelAwareJob::class));
+
+		$this->assertNotNull($this->instance->getNext());
+		$this->assertSame(2, $this->instance->countReservedJobs(TestJob::class));
 	}
 
 	public function testHasReservedJobsAndParallelAwareJob(): void {

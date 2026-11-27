@@ -157,7 +157,6 @@ OC.L10N.register(
     "Could not load app categories. Please try again later." : "Δεν ήταν δυνατή η φόρτωση των κατηγοριών εφαρμογών. Παρακαλούμε δοκιμάστε ξανά αργότερα.",
     "Could not load apps list. Please try again later." : "Δεν ήταν δυνατή η φόρτωση της λίστας εφαρμογών. Παρακαλούμε δοκιμάστε ξανά αργότερα.",
     "Could not update the app. Please try again later." : "Δεν ήταν δυνατή η ενημέρωση της εφαρμογής. Παρακαλούμε δοκιμάστε ξανά αργότερα.",
-    "An error occurred during the request. Unable to proceed." : "Προέκυψε σφάλμα κατά την αίτηση. Δεν είναι δυνατή η συνέχεια.",
-    "Failed to update app {appName}" : "Αποτυχία ενημέρωσης της εφαρμογής {appName}"
+    "An error occurred during the request. Unable to proceed." : "Προέκυψε σφάλμα κατά την αίτηση. Δεν είναι δυνατή η συνέχεια."
 },
 "nplurals=2; plural=(n != 1);");

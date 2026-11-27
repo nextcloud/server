@@ -113,7 +113,7 @@ class Util {
 	 *
 	 * Be careful loading scripts using this method as they are loaded early
 	 * and block the initial page rendering. They should not have dependencies
-	 * on any other scripts than core-common and core-main.
+	 * on any other scripts than core-main.
 	 *
 	 * @since 28.0.0
 	 */
@@ -201,7 +201,6 @@ class Util {
 	 */
 	private static function scriptOrderValue(string $name): int {
 		return match($name) {
-			'core/js/common' => 3,
 			'core/js/main' => 2,
 			default => str_starts_with($name, 'core/l10n/')
 				? 1 // core translations have to be loaded directly after core-main
@@ -614,11 +613,17 @@ class Util {
 	 * This function shortens the string with by $accuracy (-5) from
 	 * $dataLength characters, until it fits within $dataLength bytes.
 	 *
+	 * @psalm-param positive-int $dataLength Maximum length to trim the data to
+	 * @psalm-param positive-int $accuracy Characters to cut off for each encoding attempt
 	 * @since 23.0.0
 	 */
 	public static function shortenMultibyteString(string $subject, int $dataLength, int $accuracy = 5): string {
+		if ($dataLength <= 0) {
+			return '';
+		}
+
 		$temp = mb_substr($subject, 0, $dataLength);
-		// json encodes encapsulates the string in double quotes, they need to be substracted
+		// json encodes encapsulates the string in double quotes, they need to be subtracted
 		while ((strlen(json_encode($temp)) - 2) > $dataLength) {
 			$temp = mb_substr($temp, 0, -$accuracy);
 		}

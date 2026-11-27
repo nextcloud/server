@@ -12,6 +12,7 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\Share\IShare;
 
 /**
  * Handles restricting for download of files
@@ -84,30 +85,34 @@ class ViewOnly {
 		return true;
 	}
 
-	/**
-	 * @param Node $fileInfo
-	 * @return bool
-	 */
 	public function isDownloadable(Node $fileInfo): bool {
-		// Restrict view-only to nodes which are shared
 		try {
-			$storage = $fileInfo->getStorage();
+			return self::canDownloadThroughMount($fileInfo);
 		} catch (NotFoundException) {
 			return true;
 		}
+	}
 
-		if (!$storage->instanceOfStorage(SharedStorage::class)) {
+	/**
+	 * Whether the node can be downloaded through the mount it is accessed by,
+	 * which for share mounts requires one of the received shares to allow it.
+	 *
+	 * @param ?callable(IShare): bool $allowsDownload whether a received share allows downloads, defaults to its download attribute
+	 * @throws NotFoundException
+	 */
+	public static function canDownloadThroughMount(Node $node, ?callable $allowsDownload = null): bool {
+		$mount = $node->getMountPoint();
+		if (!$mount instanceof SharedMount) {
 			return true;
 		}
 
-		// Extract extra permissions
-		/** @var SharedStorage $storage */
-		$share = $storage->getShare();
+		$allowsDownload ??= static fn (IShare $share): bool => $share->getAttributes()?->getAttribute('permissions', 'download') !== false;
+		foreach ($mount->getGroupedShares() as $share) {
+			if ($allowsDownload($share)) {
+				return true;
+			}
+		}
 
-		// Check whether download-permission was denied (granted if not set)
-		$attributes = $share->getAttributes();
-		$canDownload = $attributes?->getAttribute('permissions', 'download');
-
-		return $canDownload !== false;
+		return false;
 	}
 }

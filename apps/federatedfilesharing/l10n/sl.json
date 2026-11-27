@@ -35,6 +35,7 @@
     "Copy" : "Kopiraj",
     "Copied!" : "Kopirano!",
     "Federated Cloud" : "Zvezni oblak",
+    "You can share with anyone who uses a {productName} server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Delite lahko s komerkoli, ki uporablja strežnik {productName} ali drug strežnik oziroma storitev združljivo s standardom Open Cloud Mesh (OCM)! V pogovorno okno za deljenje preprosto vnesite njegov zvezni ID v oblaku (Federated Cloud ID) v formatu: uporabnik@domena.com",
     "Share it so your friends can share files with you:" : "Objavite naslov in omogočite souporabo s prijatelji:",
     "Facebook" : "Facebook",
     "Mastodon" : "Mastodon",

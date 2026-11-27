@@ -269,7 +269,6 @@
     "Share not found." : "Jakoa ei löytynyt.",
     "You are not allowed to edit this share." : "Sinulla ei ole oikeutta muokata tätä jakoa.",
     "Invalid ISO8601 date: %s" : "Virheellinen ISO8601-päiväys: %s",
-    "Dot files are not allowed" : "Pistetiedostot eivät ole sallittuja",
     "Help & privacy" : "Tuki ja tietosuoja",
     "Appearance and accessibility" : "Ulkoasu ja saavutettavuus",
     "Apps" : "Sovellukset",
@@ -280,7 +279,6 @@
     "Accounts" : "Tilit",
     "Sharing backend %s not found" : "Jakamisen taustaosaa %s ei löytynyt",
     "Sharing backend for %s not found" : "Jakamisen taustaosaa kohteelle %s ei löytynyt",
-    "Share recipient is not a valid circle" : "Jaon vastaanottaja ei ole kelvollinen piiri",
     "You are not allowed to share %s" : "Oikeutesi eivät riitä kohteen %s jakamiseen.",
     "Cannot increase permissions of %s" : "Kohteen %s käyttöoikeuksien lisääminen ei onnistu",
     "Files cannot be shared with delete permissions" : "Tiedostoja ei voi jakaa poistamisoikeuksilla",
@@ -294,6 +292,7 @@
     "Sharing is disabled for you" : "Jakaminen on poistettu käytöstä kohdallasi",
     "Application is not enabled" : "Sovellusta ei ole otettu käyttöön",
     "Authentication error" : "Tunnistautumisvirhe",
-    "Token expired. Please reload page." : "Valtuutus vanheni. Lataa sivu uudelleen."
+    "Token expired. Please reload page." : "Valtuutus vanheni. Lataa sivu uudelleen.",
+    "Share recipient is not a valid circle" : "Jaon vastaanottaja ei ole kelvollinen piiri"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -15,6 +15,7 @@ use OCA\DAV\CalDAV\Federation\FederatedCalendarEntity;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarMapper;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarObject;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarSyncService;
+use OCA\DAV\CalDAV\Trashbin\Plugin as TrashbinPlugin;
 use OCP\Constants;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Exception\MethodNotAllowed;
@@ -297,6 +298,16 @@ class FederatedCalendarTest extends TestCase {
 		$this->federatedCalendar->getChild('nonexistent.ics');
 	}
 
+	public function testGetChildTrashed(): void {
+		$this->caldavBackend->expects(self::once())
+			->method('getCalendarObject')
+			->with(10, 'event1-deleted.ics', 2)
+			->willReturn(['id' => 1, 'uri' => 'event1-deleted.ics', TrashbinPlugin::PROPERTY_DELETED_AT => 1700000000]);
+
+		$this->expectException(NotFound::class);
+		$this->federatedCalendar->getChild('event1-deleted.ics');
+	}
+
 	public function testGetChildren(): void {
 		$objects = [
 			['id' => 1, 'uri' => 'event1.ics', 'calendardata' => 'BEGIN:VCALENDAR...'],
@@ -350,6 +361,15 @@ class FederatedCalendarTest extends TestCase {
 
 		$result = $this->federatedCalendar->childExists('nonexistent.ics');
 		$this->assertFalse($result);
+	}
+
+	public function testChildNotExistsTrashed(): void {
+		$this->caldavBackend->expects(self::once())
+			->method('getCalendarObject')
+			->with(10, 'event1-deleted.ics', 2)
+			->willReturn(['id' => 1, 'uri' => 'event1-deleted.ics', TrashbinPlugin::PROPERTY_DELETED_AT => 1700000000]);
+
+		$this->assertFalse($this->federatedCalendar->childExists('event1-deleted.ics'));
 	}
 
 	public function testCreateFile(): void {

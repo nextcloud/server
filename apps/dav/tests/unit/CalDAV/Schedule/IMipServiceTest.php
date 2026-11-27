@@ -14,6 +14,7 @@ use OCA\DAV\CalDAV\EventReader;
 use OCA\DAV\CalDAV\Schedule\IMipService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Config\IUserConfig;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -23,12 +24,17 @@ use OCP\L10N\IFactory;
 use OCP\Mail\EMailDetails;
 use OCP\Mail\EMailDetailsRow;
 use OCP\Mail\IEMailTemplate;
+use OCP\Mail\IMailer;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VEvent;
+use Sabre\VObject\ITip\Message;
 use Sabre\VObject\Property\ICalendar\DateTime;
 use Test\TestCase;
 
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class IMipServiceTest extends TestCase {
 	private URLGenerator&MockObject $urlGenerator;
 	private IUserConfig&MockObject $userConfig;
@@ -40,6 +46,7 @@ class IMipServiceTest extends TestCase {
 	private ITimeFactory&MockObject $timeFactory;
 	private IMipService $service;
 	private IUserManager&MockObject $userManager;
+	private IMailer&MockObject $mailer;
 
 	private VCalendar $vCalendar1a;
 	private VCalendar $vCalendar1b;
@@ -60,6 +67,7 @@ class IMipServiceTest extends TestCase {
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->userManager = $this->createMock(IUserManager::class);
+		$this->mailer = $this->createMock(IMailer::class);
 		$this->l10nFactory->expects(self::once())
 			->method('findGenericLanguage')
 			->willReturn('en');
@@ -76,6 +84,7 @@ class IMipServiceTest extends TestCase {
 			$this->userManager,
 			$this->userConfig,
 			$this->appConfig,
+			$this->mailer,
 		);
 
 		// construct calendar with a 1 hour event and same start/end time zones
@@ -2727,5 +2736,407 @@ class IMipServiceTest extends TestCase {
 			], 'Will you attend?');
 
 		$this->service->addResponseButtons($template, 'token');
+	}
+
+	/**
+	 * instanceKey() is what IMipPlugin::schedule() uses to pair a new
+	 * instance with its old counterpart - two unrelated events that happen
+	 * to share a RECURRENCE-ID (or lack one) must never produce the same
+	 * key just because their UID differs.
+	 */
+	public function testInstanceKeyNeverMatchesAcrossDifferentUids(): void {
+		$vCalendarOld = new VCalendar();
+		$vEventOld = $vCalendarOld->add('VEVENT', ['UID' => 'uid-old']);
+
+		$vCalendarNew = new VCalendar();
+		$vEventNew = $vCalendarNew->add('VEVENT', ['UID' => 'uid-new']);
+
+		$this->assertNotSame($this->service->instanceKey($vEventOld), $this->service->instanceKey($vEventNew));
+	}
+
+	/**
+	 * A recurring event's master and one of its overrides share a UID but
+	 * differ by RECURRENCE-ID - schedule()'s pairing relies on instanceKey()
+	 * telling them apart, and on it matching the same instance's old and
+	 * new version to each other.
+	 */
+	public function testInstanceKeyDistinguishesMasterFromOverrideButMatchesAcrossVersions(): void {
+		$recurrenceId = new \DateTime('2016-01-02 00:00:00');
+
+		$vCalendarOld = new VCalendar();
+		$oldMaster = $vCalendarOld->add('VEVENT', ['UID' => 'uid-1234']);
+		$oldOverride = $vCalendarOld->add('VEVENT', ['UID' => 'uid-1234', 'RECURRENCE-ID' => $recurrenceId]);
+
+		$vCalendarNew = new VCalendar();
+		$newMaster = $vCalendarNew->add('VEVENT', ['UID' => 'uid-1234', 'SEQUENCE' => 3]);
+		$newOverride = $vCalendarNew->add('VEVENT', ['UID' => 'uid-1234', 'RECURRENCE-ID' => $recurrenceId, 'SEQUENCE' => 2]);
+
+		$this->assertNotSame($this->service->instanceKey($oldMaster), $this->service->instanceKey($oldOverride));
+		$this->assertSame($this->service->instanceKey($oldMaster), $this->service->instanceKey($newMaster));
+		$this->assertSame($this->service->instanceKey($oldOverride), $this->service->instanceKey($newOverride));
+	}
+
+	// First test to certify fix for issue nextcloud/server#41084
+	public function testDiffInstanceSequenceNumberIncrementDetectedForFirstModificationToEventWithoutZeroInit(): void {
+		$vEventOld = (new VCalendar())->add('VEVENT', [
+			'UID' => 'uid-1234',
+			// 'SEQUENCE' => 0,			// sequence number may not be set to zero during event creation and instead fully omitted
+			'SUMMARY' => 'Fellowship meeting',
+		]);
+
+		$vEventNew = (new VCalendar())->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 1,
+			'SUMMARY' => 'Fellowship meeting',
+		]);
+
+		$this->assertContains('SEQUENCE', $this->service->diffInstance($vEventNew, $vEventOld));
+	}
+
+	// Second test to certify fix for issue nextcloud/server#41084
+	public function testDiffInstanceSequenceNumberIncrementDetectedForFirstModificationToEventWithZeroInit(): void {
+		$vEventOld = (new VCalendar())->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 0,
+			'SUMMARY' => 'Fellowship meeting',
+		]);
+
+		$vEventNew = (new VCalendar())->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 1,
+			'SUMMARY' => 'Fellowship meeting',
+		]);
+
+		$this->assertContains('SEQUENCE', $this->service->diffInstance($vEventNew, $vEventOld));
+	}
+
+	/**
+	 * RDATE/EXDATE decide which occurrences of a recurring master exist, so
+	 * adding an extra occurrence or excluding one must register as a change
+	 * even when RRULE/SEQUENCE/LAST-MODIFIED are untouched - matching iTip's
+	 * own significantChangeProperties list.
+	 */
+	public function testDiffInstanceDetectsRdateAndExdateChanges(): void {
+		$vEventOld = (new VCalendar())->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'RRULE' => 'FREQ=DAILY;INTERVAL=1;UNTIL=20160201T000000Z',
+			'EXDATE' => new \DateTime('2016-01-05 00:00:00'),
+		]);
+
+		$vEventNewRdate = (new VCalendar())->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'RRULE' => 'FREQ=DAILY;INTERVAL=1;UNTIL=20160201T000000Z',
+			'EXDATE' => new \DateTime('2016-01-05 00:00:00'),
+			'RDATE' => new \DateTime('2016-03-01 00:00:00'),
+		]);
+		$this->assertContains('RDATE', $this->service->diffInstance($vEventNewRdate, $vEventOld));
+
+		$vEventNewExdate = (new VCalendar())->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'RRULE' => 'FREQ=DAILY;INTERVAL=1;UNTIL=20160201T000000Z',
+			'EXDATE' => new \DateTime('2016-01-06 00:00:00'),
+		]);
+		$this->assertContains('EXDATE', $this->service->diffInstance($vEventNewExdate, $vEventOld));
+	}
+
+	/**
+	 * eventInstances() is what IMipPlugin::schedule() relies on to extract
+	 * the VEVENT(s) from an iTip message and from the stored old calendar:
+	 * it must return only the VEVENT components, in document order,
+	 * ignoring sibling components like VTIMEZONE.
+	 */
+	public function testEventInstancesReturnsOnlyVeventComponentsInOrder(): void {
+		$vCalendar = new VCalendar();
+		$vCalendar->add('VTIMEZONE', ['TZID' => 'America/Toronto']);
+		$vEvent1 = $vCalendar->add('VEVENT', ['UID' => 'uid-1234']);
+		$vEvent2 = $vCalendar->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'RECURRENCE-ID' => new \DateTime('2016-01-02 00:00:00'),
+		]);
+
+		$this->assertSame([$vEvent1, $vEvent2], $this->service->eventInstances($vCalendar));
+	}
+
+	private function stubNow(): void {
+		$this->timeFactory->method('getDateTime')->willReturnCallback(
+			function ($v1, $v2) {
+				return match (true) {
+					$v1 === 'now' && $v2 === null => new \DateTime('2016-01-01 00:00:00'),
+				};
+			}
+		);
+	}
+
+	private function mockInvitationTokenStorage(): void {
+		$this->random->method('generate')->willReturn('sometoken');
+		$queryBuilder = $this->createMock(IQueryBuilder::class);
+		$queryBuilder->method('insert')->willReturnSelf();
+		$queryBuilder->method('values')->willReturnSelf();
+		$queryBuilder->method('createNamedParameter')->willReturnArgument(0);
+		$queryBuilder->method('executeStatement')->willReturn(1);
+		$this->db->method('getQueryBuilder')->willReturn($queryBuilder);
+	}
+
+	/**
+	 * Recreates the eligibility/config gate that used to be asserted at the
+	 * IMipPlugin level (schedule() no longer sees it at all - it's fully
+	 * internal to buildRequestEmail() now).
+	 */
+	public function testBuildRequestEmailAddsResponseButtonsWhenEligibleAndAllowed(): void {
+		$this->stubNow();
+		$vCalendar = new VCalendar();
+		$vEvent = $vCalendar->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+		]);
+		$attendee = $vEvent->add('ATTENDEE', 'mailto:frodo@hobb.it', ['RSVP' => 'TRUE']);
+
+		$template = $this->createMock(IEMailTemplate::class);
+		$this->mailer->method('createEMailTemplate')->willReturn($template);
+		$this->appConfig->method('getValueString')
+			->with('dav', 'invitation_link_recipients', 'yes')
+			->willReturn('yes');
+		$this->mockInvitationTokenStorage();
+
+		$iTipMessage = new Message();
+		$iTipMessage->recipient = 'mailto:frodo@hobb.it';
+		$iTipMessage->sender = 'mailto:gandalf@wiz.ard';
+		$iTipMessage->sequence = 1;
+
+		$this->l10n->method('getLanguageCode')->willReturn('ar');
+		$template->expects(self::once())->method('setLanguage')->with('ar');
+		$template->expects(self::once())->method('addBodySender')->with('Mr. Wizard', 'gandalf@wiz.ard');
+		$template->expects(self::once())->method('addBodyButtons');
+		$template->expects(self::once())->method('addFooter');
+
+		$result = $this->service->buildRequestEmail(
+			$iTipMessage,
+			$vEvent,
+			null,
+			$attendee,
+			'frodo@hobb.it',
+			null,
+			'gandalf@wiz.ard',
+			'Mr. Wizard',
+			1735689600,
+		);
+
+		$this->assertSame($template, $result);
+	}
+
+	public function testBuildRequestEmailOmitsResponseButtonsWhenLinkRecipientsDisallow(): void {
+		$this->stubNow();
+		$vCalendar = new VCalendar();
+		$vEvent = $vCalendar->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+		]);
+		$attendee = $vEvent->add('ATTENDEE', 'mailto:frodo@hobb.it', ['RSVP' => 'TRUE']);
+
+		$template = $this->createMock(IEMailTemplate::class);
+		$this->mailer->method('createEMailTemplate')->willReturn($template);
+		$this->appConfig->method('getValueString')
+			->with('dav', 'invitation_link_recipients', 'yes')
+			->willReturn('no');
+
+		$iTipMessage = new Message();
+		$iTipMessage->recipient = 'mailto:frodo@hobb.it';
+		$iTipMessage->sender = 'mailto:gandalf@wiz.ard';
+		$iTipMessage->sequence = 1;
+
+		$template->expects(self::never())->method('addBodyButtons');
+
+		$this->service->buildRequestEmail(
+			$iTipMessage,
+			$vEvent,
+			null,
+			$attendee,
+			'frodo@hobb.it',
+			null,
+			'gandalf@wiz.ard',
+			'Mr. Wizard',
+			1735689600,
+		);
+	}
+
+	public function testBuildRequestEmailOmitsResponseButtonsWhenAttendeeNotEligible(): void {
+		$this->stubNow();
+		$vCalendar = new VCalendar();
+		$vEvent = $vCalendar->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+		]);
+		$attendee = $vEvent->add('ATTENDEE', 'mailto:frodo@hobb.it', ['RSVP' => 'FALSE', 'ROLE' => 'NON-PARTICIPANT']);
+
+		$template = $this->createMock(IEMailTemplate::class);
+		$this->mailer->method('createEMailTemplate')->willReturn($template);
+
+		$iTipMessage = new Message();
+		$iTipMessage->recipient = 'mailto:frodo@hobb.it';
+		$iTipMessage->sender = 'mailto:gandalf@wiz.ard';
+		$iTipMessage->sequence = 1;
+
+		// eligibility is checked before the link-recipients config at all
+		$this->appConfig->expects(self::never())->method('getValueString');
+		$template->expects(self::never())->method('addBodyButtons');
+
+		$this->service->buildRequestEmail(
+			$iTipMessage,
+			$vEvent,
+			null,
+			$attendee,
+			'frodo@hobb.it',
+			null,
+			'gandalf@wiz.ard',
+			'Mr. Wizard',
+			1735689600,
+		);
+	}
+
+	/**
+	 * REPLY never offers Accept/Decline buttons (those belong on the
+	 * REQUEST the reply is answering, not on the reply notification the
+	 * organizer receives).
+	 */
+	public function testBuildReplyEmailNeverAddsResponseButtons(): void {
+		$this->stubNow();
+		$vCalendar = new VCalendar();
+		$vEvent = $vCalendar->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+		]);
+		$vEvent->add('ATTENDEE', 'mailto:frodo@hobb.it', ['PARTSTAT' => 'ACCEPTED']);
+
+		$template = $this->createMock(IEMailTemplate::class);
+		$this->mailer->method('createEMailTemplate')->willReturn($template);
+
+		$iTipMessage = new Message();
+		$iTipMessage->method = 'REPLY';
+		$iTipMessage->message = $vCalendar;
+		$iTipMessage->sender = 'mailto:frodo@hobb.it';
+
+		$template->expects(self::once())->method('addBodySender')->with('frodo@hobb.it', '');
+		$template->expects(self::never())->method('addBodyButtons');
+		$template->expects(self::once())->method('addFooter');
+
+		$result = $this->service->buildReplyEmail(
+			$iTipMessage,
+			$vEvent,
+			'gandalf@wiz.ard',
+			'Mr. Wizard',
+			'frodo@hobb.it',
+			null,
+		);
+
+		$this->assertSame($template, $result);
+	}
+
+	public function testBuildCancellationEmailNeverAddsResponseButtons(): void {
+		$this->stubNow();
+		$vCalendar = new VCalendar();
+		$vEvent = $vCalendar->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+		]);
+
+		$template = $this->createMock(IEMailTemplate::class);
+		$this->mailer->method('createEMailTemplate')->willReturn($template);
+
+		$template->expects(self::never())->method('addBodyButtons');
+		$template->expects(self::once())->method('addFooter');
+
+		$result = $this->service->buildCancellationEmail(
+			$vEvent,
+			'frodo@hobb.it',
+			null,
+			'gandalf@wiz.ard',
+			'Mr. Wizard',
+		);
+
+		$this->assertSame($template, $result);
+	}
+
+	public static function deleteInvitationTokensProvider(): array {
+		return [
+			'series cancelled' => [false, ['other-attendee', 'other-organizer', 'other-uid']],
+			'occurrence cancelled' => [true, ['series', 'other-occurrence', 'other-attendee', 'other-organizer', 'other-uid']],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'deleteInvitationTokensProvider')]
+	public function testDeleteInvitationTokens(bool $occurrenceOnly, array $expectedRemaining): void {
+		$db = Server::get(IDBConnection::class);
+		$l10nFactory = $this->createMock(IFactory::class);
+		$l10nFactory->method('get')->willReturn($this->l10n);
+		$service = new IMipService(
+			$this->urlGenerator,
+			$db,
+			$this->random,
+			$l10nFactory,
+			$this->timeFactory,
+			$this->userManager,
+			$this->userConfig,
+			$this->appConfig,
+			$this->mailer,
+		);
+		$uid = 'imip-service-test-' . $this->getUniqueID();
+		$organizer = 'mailto:organizer@testing.com';
+		$attendee = 'mailto:attendee1@testing.com';
+
+		$vCalendar = new VCalendar();
+		$series = $vCalendar->add('VEVENT', ['UID' => $uid, 'DTSTART' => '20240701T080000Z', 'RRULE' => 'FREQ=DAILY']);
+		$occurrence = $vCalendar->add('VEVENT', ['UID' => $uid, 'DTSTART' => '20240702T090000Z', 'RECURRENCE-ID' => '20240702T080000Z']);
+		$otherOccurrence = $vCalendar->add('VEVENT', ['UID' => $uid, 'DTSTART' => '20240703T090000Z', 'RECURRENCE-ID' => '20240703T080000Z']);
+		$otherEvent = (new VCalendar())->add('VEVENT', ['UID' => $uid . '-other', 'DTSTART' => '20240701T080000Z']);
+
+		$tokens = ['series', 'occurrence', 'other-occurrence', 'other-attendee', 'other-organizer', 'other-uid'];
+		$this->random->method('generate')->willReturnOnConsecutiveCalls(...array_map(fn (string $token) => $uid . $token, $tokens));
+		$invitations = [
+			[$organizer, $attendee, $series],
+			[$organizer, $attendee, $occurrence],
+			[$organizer, $attendee, $otherOccurrence],
+			[$organizer, 'mailto:attendee2@testing.com', $series],
+			['mailto:organizer2@testing.com', $attendee, $series],
+			[$organizer, $attendee, $otherEvent],
+		];
+		foreach ($invitations as [$sender, $recipient, $vEvent]) {
+			$message = new Message();
+			$message->sender = $sender;
+			$message->recipient = $recipient;
+			$message->sequence = 1;
+			$service->createInvitationToken($message, $vEvent, 2000000000);
+		}
+
+		$cancel = new Message();
+		$cancel->method = 'CANCEL';
+		$cancel->uid = $uid;
+		$cancel->sender = $organizer;
+		$cancel->recipient = $attendee;
+		$cancel->message = new VCalendar();
+		if (!$occurrenceOnly) {
+			$cancel->message->add(clone $series);
+		}
+		$cancel->message->add(clone $occurrence);
+		$service->deleteInvitationTokens($cancel);
+
+		$query = $db->getQueryBuilder();
+		$query->select('token')
+			->from('calendar_invitations')
+			->where($query->expr()->like('token', $query->createNamedParameter($db->escapeLikeParameter($uid) . '%')));
+		$remaining = array_map(fn (string $token) => substr($token, strlen($uid)), $query->executeQuery()->fetchFirstColumn());
+
+		$query = $db->getQueryBuilder();
+		$query->delete('calendar_invitations')
+			->where($query->expr()->like('token', $query->createNamedParameter($db->escapeLikeParameter($uid) . '%')))
+			->executeStatement();
+
+		sort($remaining);
+		sort($expectedRemaining);
+		$this->assertSame($expectedRemaining, $remaining);
 	}
 }

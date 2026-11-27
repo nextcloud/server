@@ -15,6 +15,7 @@ import { rebuildNavigation } from '../service/rebuild-navigation.ts'
 import logger from '../utils/logger.ts'
 import { useAppsStore } from './apps.ts'
 import { useExAppsStore } from './exApps.ts'
+import { pinia } from './pinia.ts'
 
 export const useUpdatesStore = defineStore('updates', () => {
 	const exApps = useExAppsStore()
@@ -35,7 +36,7 @@ export const useUpdatesStore = defineStore('updates', () => {
 	 * @param appIds - Ids of apps to update
 	 */
 	async function updateApps(appIds: string[]) {
-		const store = useAppsStore()
+		const store = useAppsStore(pinia)
 
 		const apps = appIds.map((appId) => store.getAppById(appId))
 		if (apps.some((app) => !app)) {

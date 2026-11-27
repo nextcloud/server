@@ -8,13 +8,21 @@
 
 namespace OCA\Files_Sharing\Tests;
 
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
 use OC\Federation\CloudId;
+use OC\ForbiddenException;
 use OCA\Files_Sharing\External\Manager as ExternalShareManager;
 use OCA\Files_Sharing\External\Storage;
+use OCP\Files\NotFoundException;
+use OCP\Files\StorageNotAvailableException;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
+use OCP\Http\Client\LocalServerException;
 use OCP\ICertificateManager;
+use OCP\IConfig;
 use OCP\IUser;
 use OCP\OCM\IOCMDiscoveryService;
 use OCP\OCM\IOCMProvider;
@@ -111,10 +119,179 @@ class ExternalStorageTest extends \Test\TestCase {
 		$this->assertEquals($baseUri, $storage->getBaseUri());
 	}
 
+	public static function allowLocalAddressProvider(): array {
+		return [
+			'not configured' => [null, false],
+			'disabled' => [false, false],
+			'enabled' => [true, true],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'allowLocalAddressProvider')]
+	public function testDefaultRequestOptionsAllowLocalAddress(?bool $configValue, bool $expected): void {
+		$config = Server::get(IConfig::class);
+		if ($configValue !== null) {
+			$config->setSystemValue('davstorage_allow_local_address', $configValue);
+		}
+
+		try {
+			$options = self::invokePrivate($this->getTestStorage('https://remoteserver'), 'getDefaultRequestOptions');
+		} finally {
+			$config->deleteSystemValue('davstorage_allow_local_address');
+		}
+
+		$this->assertSame($expected, $options['nextcloud']['allow_local_address']);
+	}
+
 	public function testIfTestReturnsTheValue(): void {
 		$storage = $this->getTestStorage('https://remoteserver');
 		$result = $storage->test();
 		$this->assertSame(true, $result);
+	}
+
+	public static function requestTimeoutProvider(): array {
+		return [
+			'default' => [null, 10],
+			'configured' => [25, 25],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'requestTimeoutProvider')]
+	public function testGetShareInfoUsesConfiguredRequestTimeout(?int $configured, int $expected): void {
+		if ($configured !== null) {
+			$realConfig = Server::get(IConfig::class);
+			$config = $this->createMock(IConfig::class);
+			$config->method('getSystemValueInt')
+				->willReturnCallback(fn (string $key, int $default = 0): int => $key === 'sharing.federation.request_timeout'
+					? $configured
+					: $realConfig->getSystemValueInt($key, $default));
+			$config->method('getSystemValueBool')
+				->willReturnCallback(fn (string $key, bool $default = false): bool => $realConfig->getSystemValueBool($key, $default));
+			$config->method('getSystemValue')
+				->willReturnCallback(fn (string $key, mixed $default = ''): mixed => $realConfig->getSystemValue($key, $default));
+			$this->overwriteService(IConfig::class, $config);
+		}
+
+		$response = $this->createMock(IResponse::class);
+		$response->method('getBody')
+			->willReturn('{"id":1}');
+		$client = $this->createMock(IClient::class);
+		$client->expects($this->once())
+			->method('post')
+			->with(
+				'https://remoteserver/index.php/apps/files_sharing/shareinfo?t=abcdef',
+				$this->callback(function (array $options) use ($expected): bool {
+					$this->assertSame($expected, $options['timeout']);
+					$this->assertSame($expected, $options['connect_timeout']);
+					return true;
+				}),
+			)
+			->willReturn($response);
+		$clientService = $this->createMock(IClientService::class);
+		$clientService->method('newClient')
+			->willReturn($client);
+		$this->overwriteService(IClientService::class, $clientService);
+
+		$uri = 'https://remoteserver';
+		$discoveryService = $this->createMock(IOCMDiscoveryService::class);
+		$discoveryService->method('discover')
+			->willReturn($this->createMock(IOCMProvider::class));
+		$storage = $this->getMockBuilder(Storage::class)
+			->setConstructorArgs([[
+				'cloudId' => new CloudId('testOwner@' . $uri, 'testOwner', $uri),
+				'remote' => $uri,
+				'owner' => 'testOwner',
+				'mountpoint' => 'remoteshare',
+				'token' => 'abcdef',
+				'password' => '',
+				'manager' => $this->createMock(ExternalShareManager::class),
+				'certificateManager' => Server::get(ICertificateManager::class),
+				'HttpClientService' => $clientService,
+				'discoveryService' => $discoveryService,
+				'recipient' => $this->createMock(IUser::class),
+			]])
+			->onlyMethods(['remoteIsOwnCloud'])
+			->getMock();
+		$storage->method('remoteIsOwnCloud')
+			->willReturn(true);
+
+		$this->assertSame(['id' => 1], $storage->getShareInfo());
+	}
+
+	private function getShareInfoStorage(): Storage&\PHPUnit\Framework\MockObject\MockObject {
+		$uri = 'https://remoteserver';
+		$discoveryService = $this->createMock(IOCMDiscoveryService::class);
+		$discoveryService->method('discover')
+			->willReturn($this->createMock(IOCMProvider::class));
+
+		return $this->getMockBuilder(Storage::class)
+			->setConstructorArgs([[
+				'cloudId' => new CloudId('testOwner@' . $uri, 'testOwner', $uri),
+				'remote' => $uri,
+				'owner' => 'testOwner',
+				'mountpoint' => 'remoteshare',
+				'token' => 'abcdef',
+				'password' => '',
+				'manager' => $this->createMock(ExternalShareManager::class),
+				'certificateManager' => Server::get(ICertificateManager::class),
+				'HttpClientService' => $this->createMock(IClientService::class),
+				'discoveryService' => $discoveryService,
+				'recipient' => $this->createMock(IUser::class),
+			]])
+			->onlyMethods(['remoteIsOwnCloud'])
+			->getMock();
+	}
+
+	public static function shareInfoErrorProvider(): array {
+		return [
+			[401, ForbiddenException::class, 'The remote server denied access to the share'],
+			[403, ForbiddenException::class, 'The remote server denied access to the share'],
+			[404, NotFoundException::class, 'The share was not found on the remote server'],
+			[500, StorageNotAvailableException::class, 'Could not fetch the share info from the remote server'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'shareInfoErrorProvider')]
+	public function testGetShareInfoKeepsRequestExceptionAsPrevious(int $status, string $expectedException, string $expectedMessage): void {
+		$requestException = RequestException::create(
+			new Request('POST', 'https://remoteserver/index.php/apps/files_sharing/shareinfo?t=abcdef'),
+			new Response($status),
+		);
+		$client = $this->createMock(IClient::class);
+		$client->method('post')
+			->willThrowException($requestException);
+		$clientService = $this->createMock(IClientService::class);
+		$clientService->method('newClient')
+			->willReturn($client);
+		$this->overwriteService(IClientService::class, $clientService);
+
+		$storage = $this->getShareInfoStorage();
+		$storage->method('remoteIsOwnCloud')
+			->willReturn(true);
+
+		try {
+			$storage->getShareInfo();
+			$this->fail('Expected ' . $expectedException);
+		} catch (\Exception $e) {
+			$this->assertInstanceOf($expectedException, $e);
+			$this->assertSame($expectedMessage, $e->getMessage());
+			$this->assertSame($requestException, $e->getPrevious());
+		}
+	}
+
+	public function testGetShareInfoKeepsLocalServerExceptionAsPrevious(): void {
+		$localServerException = new LocalServerException('Host violates local access rules');
+		$storage = $this->getShareInfoStorage();
+		$storage->method('remoteIsOwnCloud')
+			->willThrowException($localServerException);
+
+		try {
+			$storage->getShareInfo();
+			$this->fail('Expected ' . StorageNotAvailableException::class);
+		} catch (StorageNotAvailableException $e) {
+			$this->assertSame('Could not check whether the remote server is a Nextcloud server', $e->getMessage());
+			$this->assertSame($localServerException, $e->getPrevious());
+		}
 	}
 }
 

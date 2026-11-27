@@ -107,69 +107,57 @@ class HookConnectorTest extends TestCase {
 		return [
 			[function (): void {
 				Filesystem::file_put_contents('test.txt', 'asd');
-			}, 'preWrite', '\OCP\Files::preWrite', BeforeNodeWrittenEvent::class],
+			}, '\OCP\Files::preWrite', BeforeNodeWrittenEvent::class],
 			[function (): void {
 				Filesystem::file_put_contents('test.txt', 'asd');
-			}, 'postWrite', '\OCP\Files::postWrite', NodeWrittenEvent::class],
+			}, '\OCP\Files::postWrite', NodeWrittenEvent::class],
 			[function (): void {
 				Filesystem::file_put_contents('test.txt', 'asd');
-			}, 'preCreate', '\OCP\Files::preCreate', BeforeNodeCreatedEvent::class],
+			}, '\OCP\Files::preCreate', BeforeNodeCreatedEvent::class],
 			[function (): void {
 				Filesystem::file_put_contents('test.txt', 'asd');
-			}, 'postCreate', '\OCP\Files::postCreate', NodeCreatedEvent::class],
+			}, '\OCP\Files::postCreate', NodeCreatedEvent::class],
 			[function (): void {
 				Filesystem::mkdir('test.txt');
-			}, 'preCreate', '\OCP\Files::preCreate', BeforeNodeCreatedEvent::class],
+			}, '\OCP\Files::preCreate', BeforeNodeCreatedEvent::class],
 			[function (): void {
 				Filesystem::mkdir('test.txt');
-			}, 'postCreate', '\OCP\Files::postCreate', NodeCreatedEvent::class],
+			}, '\OCP\Files::postCreate', NodeCreatedEvent::class],
 			[function (): void {
 				Filesystem::touch('test.txt');
-			}, 'preTouch', '\OCP\Files::preTouch', BeforeNodeTouchedEvent::class],
+			}, '\OCP\Files::preTouch', BeforeNodeTouchedEvent::class],
 			[function (): void {
 				Filesystem::touch('test.txt');
-			}, 'postTouch', '\OCP\Files::postTouch', NodeTouchedEvent::class],
+			}, '\OCP\Files::postTouch', NodeTouchedEvent::class],
 			[function (): void {
 				Filesystem::touch('test.txt');
-			}, 'preCreate', '\OCP\Files::preCreate', BeforeNodeCreatedEvent::class],
+			}, '\OCP\Files::preCreate', BeforeNodeCreatedEvent::class],
 			[function (): void {
 				Filesystem::touch('test.txt');
-			}, 'postCreate', '\OCP\Files::postCreate', NodeCreatedEvent::class],
+			}, '\OCP\Files::postCreate', NodeCreatedEvent::class],
 			[function (): void {
 				Filesystem::file_put_contents('test.txt', 'asd');
 				Filesystem::unlink('test.txt');
-			}, 'preDelete', '\OCP\Files::preDelete', BeforeNodeDeletedEvent::class],
+			}, '\OCP\Files::preDelete', BeforeNodeDeletedEvent::class],
 			[function (): void {
 				Filesystem::file_put_contents('test.txt', 'asd');
 				Filesystem::unlink('test.txt');
-			}, 'postDelete', '\OCP\Files::postDelete', NodeDeletedEvent::class],
+			}, '\OCP\Files::postDelete', NodeDeletedEvent::class],
 			[function (): void {
 				Filesystem::mkdir('test.txt');
 				Filesystem::rmdir('test.txt');
-			}, 'preDelete', '\OCP\Files::preDelete', BeforeNodeDeletedEvent::class],
+			}, '\OCP\Files::preDelete', BeforeNodeDeletedEvent::class],
 			[function (): void {
 				Filesystem::mkdir('test.txt');
 				Filesystem::rmdir('test.txt');
-			}, 'postDelete', '\OCP\Files::postDelete', NodeDeletedEvent::class],
+			}, '\OCP\Files::postDelete', NodeDeletedEvent::class],
 		];
 	}
 
-	/**
-	 * @param callable $operation
-	 * @param string $expectedHook
-	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('viewToNodeProvider')]
-	public function testViewToNode(callable $operation, $expectedHook, $expectedLegacyEvent, $expectedEvent): void {
+	public function testViewToNode(callable $operation, string $expectedLegacyEvent, string $expectedEvent): void {
 		$connector = new HookConnector($this->root, $this->view, $this->eventDispatcher, $this->logger);
 		$connector->viewToNode();
-		$hookCalled = false;
-		/** @var Node $hookNode */
-		$hookNode = null;
-
-		$this->root->listen('\OC\Files', $expectedHook, function ($node) use (&$hookNode, &$hookCalled): void {
-			$hookCalled = true;
-			$hookNode = $node;
-		});
 
 		$dispatcherCalled = false;
 		/** @var Node $dispatcherNode */
@@ -192,9 +180,6 @@ class HookConnectorTest extends TestCase {
 
 		$operation();
 
-		$this->assertTrue($hookCalled);
-		$this->assertEquals('/' . $this->userId . '/files/test.txt', $hookNode->getPath());
-
 		$this->assertTrue($dispatcherCalled);
 		$this->assertEquals('/' . $this->userId . '/files/test.txt', $dispatcherNode->getPath());
 
@@ -207,41 +192,26 @@ class HookConnectorTest extends TestCase {
 			[function (): void {
 				Filesystem::file_put_contents('source', 'asd');
 				Filesystem::rename('source', 'target');
-			}, 'preRename', '\OCP\Files::preRename', BeforeNodeRenamedEvent::class],
+			}, '\OCP\Files::preRename', BeforeNodeRenamedEvent::class],
 			[function (): void {
 				Filesystem::file_put_contents('source', 'asd');
 				Filesystem::rename('source', 'target');
-			}, 'postRename', '\OCP\Files::postRename', NodeRenamedEvent::class],
+			}, '\OCP\Files::postRename', NodeRenamedEvent::class],
 			[function (): void {
 				Filesystem::file_put_contents('source', 'asd');
 				Filesystem::copy('source', 'target');
-			}, 'preCopy', '\OCP\Files::preCopy', BeforeNodeCopiedEvent::class],
+			}, '\OCP\Files::preCopy', BeforeNodeCopiedEvent::class],
 			[function (): void {
 				Filesystem::file_put_contents('source', 'asd');
 				Filesystem::copy('source', 'target');
-			}, 'postCopy', '\OCP\Files::postCopy', NodeCopiedEvent::class],
+			}, '\OCP\Files::postCopy', NodeCopiedEvent::class],
 		];
 	}
 
-	/**
-	 * @param callable $operation
-	 * @param string $expectedHook
-	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('viewToNodeProviderCopyRename')]
-	public function testViewToNodeCopyRename(callable $operation, $expectedHook, $expectedLegacyEvent, $expectedEvent): void {
+	public function testViewToNodeCopyRename(callable $operation, string $expectedLegacyEvent, string $expectedEvent): void {
 		$connector = new HookConnector($this->root, $this->view, $this->eventDispatcher, $this->logger);
 		$connector->viewToNode();
-		$hookCalled = false;
-		/** @var Node $hookSourceNode */
-		$hookSourceNode = null;
-		/** @var Node $hookTargetNode */
-		$hookTargetNode = null;
-
-		$this->root->listen('\OC\Files', $expectedHook, function ($sourceNode, $targetNode) use (&$hookCalled, &$hookSourceNode, &$hookTargetNode): void {
-			$hookCalled = true;
-			$hookSourceNode = $sourceNode;
-			$hookTargetNode = $targetNode;
-		});
 
 		$dispatcherCalled = false;
 		/** @var Node $dispatcherSourceNode */
@@ -270,10 +240,6 @@ class HookConnectorTest extends TestCase {
 
 		$operation();
 
-		$this->assertTrue($hookCalled);
-		$this->assertEquals('/' . $this->userId . '/files/source', $hookSourceNode->getPath());
-		$this->assertEquals('/' . $this->userId . '/files/target', $hookTargetNode->getPath());
-
 		$this->assertTrue($dispatcherCalled);
 		$this->assertEquals('/' . $this->userId . '/files/source', $dispatcherSourceNode->getPath());
 		$this->assertEquals('/' . $this->userId . '/files/target', $dispatcherTargetNode->getPath());
@@ -283,17 +249,25 @@ class HookConnectorTest extends TestCase {
 		$this->assertEquals('/' . $this->userId . '/files/target', $newDispatcherTargetNode->getPath());
 	}
 
+	public function testPostWriteRootHook(): void {
+		$connector = new HookConnector($this->root, $this->view, $this->eventDispatcher, $this->logger);
+		$connector->viewToNode();
+		/** @var ?Node $hookNode */
+		$hookNode = null;
+
+		$this->root->listen('\OC\Files', 'postWrite', function (Node $node) use (&$hookNode): void {
+			$hookNode = $node;
+		});
+
+		Filesystem::file_put_contents('test.txt', 'asd');
+
+		$this->assertNotNull($hookNode);
+		$this->assertEquals('/' . $this->userId . '/files/test.txt', $hookNode->getPath());
+	}
+
 	public function testPostDeleteMeta(): void {
 		$connector = new HookConnector($this->root, $this->view, $this->eventDispatcher, $this->logger);
 		$connector->viewToNode();
-		$hookCalled = false;
-		/** @var Node $hookNode */
-		$hookNode = null;
-
-		$this->root->listen('\OC\Files', 'postDelete', function ($node) use (&$hookNode, &$hookCalled): void {
-			$hookCalled = true;
-			$hookNode = $node;
-		});
 
 		$dispatcherCalled = false;
 		/** @var Node $dispatcherNode */
@@ -318,9 +292,6 @@ class HookConnectorTest extends TestCase {
 		Filesystem::file_put_contents('test.txt', 'asd');
 		$info = Filesystem::getFileInfo('test.txt');
 		Filesystem::unlink('test.txt');
-
-		$this->assertTrue($hookCalled);
-		$this->assertEquals($hookNode->getId(), $info->getId());
 
 		$this->assertTrue($dispatcherCalled);
 		$this->assertEquals($dispatcherNode->getId(), $info->getId());

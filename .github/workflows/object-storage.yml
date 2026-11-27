@@ -13,14 +13,14 @@ concurrency:
 
 jobs:
   object-storage:
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
 
     if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
 
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.3', '8.5']
+        php-versions: ['8.3', '8.6']
         backend: ['s3', 'azure', 'swift']
 
     name: php${{ matrix.php-versions }}-${{ matrix.backend }}

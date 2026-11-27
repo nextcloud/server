@@ -253,10 +253,10 @@ export class FilesListPage {
 			return
 		}
 
-		const menu = await this.openActionsMenuForRow(row)
-		const actionEntry = this.getActionButtonInMenu(menu, actionId)
-		await actionEntry.waitFor({ state: 'visible' })
-		await actionEntry.click()
+		await expect(async () => {
+			const menu = await this.openActionsMenuForRow(row)
+			await this.getActionButtonInMenu(menu, actionId).click({ timeout: 2000 })
+		}).toPass({ timeout: 15_000 })
 	}
 
 	/**
@@ -377,16 +377,16 @@ export class FilesListPage {
 	}
 
 	async selectAll(): Promise<void> {
-		await this.getSelectAllCheckbox().click({ force: true })
+		await this.getSelectAllCheckbox().check({ force: true })
 	}
 
 	/**
 	 * Clear the current selection via the master checkbox. It is a toggle, so it
-	 * clicks the same control as {@link selectAll}; call it while rows are
+	 * uses the same control as {@link selectAll}; call it while all rows are
 	 * selected to deselect them all.
 	 */
 	async deselectAll(): Promise<void> {
-		await this.getSelectAllCheckbox().click({ force: true })
+		await this.getSelectAllCheckbox().uncheck({ force: true })
 	}
 
 	/**

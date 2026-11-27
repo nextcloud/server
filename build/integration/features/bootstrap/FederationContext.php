@@ -44,6 +44,17 @@ class FederationContext implements Context {
 		$port = getenv('PORT_FED');
 
 		self::$phpFederatedServerPid = exec('PHP_CLI_SERVER_WORKERS=2 php -S localhost:' . $port . ' -t ../../ >/dev/null & echo $!');
+
+		// Wait until the server accepts connections, as the following hooks
+		// (like the user cleanup) send requests to it right away.
+		for ($i = 0; $i < 100; $i++) {
+			$socket = @fsockopen('localhost', (int)$port);
+			if ($socket !== false) {
+				fclose($socket);
+				return;
+			}
+			usleep(100000);
+		}
 	}
 
 	#[BeforeScenario]
@@ -58,8 +69,7 @@ class FederationContext implements Context {
 	}
 
 	/**
-	 * 	 *
-	 * 	 * @param 'LOCAL'|'REMOTE' $sharerServer "LOCAL" or "REMOTE"
+	 * @param 'LOCAL'|'REMOTE' $sharerServer "LOCAL" or "REMOTE"
 	 * @param 'LOCAL'|'REMOTE' $shareeServer
 	 */
 	#[Given('/^User "([^"]*)" from server "(LOCAL|REMOTE)" shares "([^"]*)" with user "([^"]*)" from server "(LOCAL|REMOTE)"$/')]
@@ -75,8 +85,7 @@ class FederationContext implements Context {
 	}
 
 	/**
-	 * 	 *
-	 * 	 * @param 'LOCAL'|'REMOTE' $sharerServer "LOCAL" or "REMOTE"
+	 * @param 'LOCAL'|'REMOTE' $sharerServer "LOCAL" or "REMOTE"
 	 * @param 'LOCAL'|'REMOTE' $shareeServer
 	 */
 	#[Given('/^User "([^"]*)" from server "(LOCAL|REMOTE)" shares "([^"]*)" with group "([^"]*)" from server "(LOCAL|REMOTE)"$/')]

@@ -5,7 +5,8 @@
  */
 
 if ($_['passwordChangeSupported']) {
-	\OCP\Util::addScript('settings', 'vue-settings-personal-password');
+	\OCP\Util::addScript('settings', 'personal-password');
+	\OCP\Util::addStyle('settings', 'personal-password');
 }
 ?>
 <div id="security-password"></div>

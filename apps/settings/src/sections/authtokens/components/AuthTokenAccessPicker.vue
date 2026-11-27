@@ -1,0 +1,165 @@
+<!--
+  - SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
+<script setup lang="ts">
+import type { Grant, Preset, Selection } from '../utils/accessLevel.ts'
+
+import { t } from '@nextcloud/l10n'
+import { computed, useTemplateRef, watch } from 'vue'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcRadioGroup from '@nextcloud/vue/components/NcRadioGroup'
+import { AREA_OPTIONS, AREAS, areaState, GRANT_LABELS, GRANTABLE_APPS, PRESET_GRANTS, SERVICES, setGrant, toScopes } from '../utils/accessLevel.ts'
+
+/** What the app password can reach */
+const selection = defineModel<Selection>({ required: true })
+
+const props = defineProps<{
+	/** Scopes the picker can't show, kept when saving */
+	kept: string[]
+}>()
+
+const areas = useTemplateRef('areas')
+
+const filesDescription = t('settings', 'Most apps need this for attachments and other file features.')
+
+const preset = computed({
+	get: () => selection.value.preset,
+	set(value: string) {
+		const name = value as Preset
+		const grants = PRESET_GRANTS[name as keyof typeof PRESET_GRANTS]
+		selection.value = grants ? { preset: name, grants, apps: [] } : { ...selection.value, preset: name }
+	},
+})
+
+// Custom needs something to save, a ticked box or the kept scopes
+watch([() => selection.value, areas], () => {
+	const empty = toScopes(selection.value, props.kept)?.length === 0
+	areas.value?.querySelector('input')?.setCustomValidity(empty ? t('settings', 'Choose at least one option') : '')
+}, { flush: 'post', immediate: true })
+
+/**
+ * @param grant Area or sub-option to change
+ * @param on Whether to tick it
+ */
+function toggle(grant: Grant, on: boolean) {
+	selection.value = { ...selection.value, preset: 'custom', grants: setGrant(selection.value.grants, grant, on) }
+}
+
+/**
+ * @param app App id to change
+ * @param on Whether to tick it
+ */
+function toggleApp(app: string, on: boolean) {
+	const apps = selection.value.apps.filter((id) => id !== app)
+	selection.value = { ...selection.value, preset: 'custom', apps: on ? [...apps, app] : apps }
+}
+</script>
+
+<template>
+	<div :class="$style.accessPicker">
+		<NcRadioGroup v-model="preset" :label="t('settings', 'Access')">
+			<NcCheckboxRadioSwitch value="all" :description="t('settings', 'Everything you can do, including your settings and any admin rights you have.')">
+				{{ t('settings', 'All access') }}
+			</NcCheckboxRadioSwitch>
+			<NcCheckboxRadioSwitch value="files" :description="t('settings', 'Read, edit and share files.')">
+				{{ t('settings', 'Files only') }}
+			</NcCheckboxRadioSwitch>
+			<NcCheckboxRadioSwitch value="calendarContacts" :description="t('settings', 'Read and edit calendars and contacts.')">
+				{{ t('settings', 'Calendar and contacts') }}
+			</NcCheckboxRadioSwitch>
+			<NcCheckboxRadioSwitch value="custom" :description="t('settings', 'Pick what this app password can reach.')">
+				{{ t('settings', 'Custom') }}
+			</NcCheckboxRadioSwitch>
+		</NcRadioGroup>
+
+		<template v-if="preset === 'custom'">
+			<div
+				ref="areas"
+				:class="$style.accessPicker__areas"
+				role="group"
+				:aria-label="t('settings', 'Custom access')">
+				<template v-for="area in AREAS" :key="area">
+					<!-- Mixed counts as unticked, so a click grants the whole area -->
+					<NcCheckboxRadioSwitch
+						:modelValue="areaState(selection.grants, area) === 'all'"
+						:indeterminate="areaState(selection.grants, area) === 'partial'"
+						:description="area === 'files' ? filesDescription : undefined"
+						@update:modelValue="toggle(area, $event)">
+						{{ GRANT_LABELS[area] }}
+					</NcCheckboxRadioSwitch>
+					<div :class="$style.accessPicker__options">
+						<NcCheckboxRadioSwitch
+							v-for="option in AREA_OPTIONS[area]"
+							:key="option"
+							:modelValue="selection.grants.includes(option)"
+							@update:modelValue="toggle(option, $event)">
+							{{ GRANT_LABELS[option] }}
+						</NcCheckboxRadioSwitch>
+					</div>
+				</template>
+				<NcCheckboxRadioSwitch
+					v-for="service in SERVICES"
+					:key="service"
+					:modelValue="selection.grants.includes(service)"
+					@update:modelValue="toggle(service, $event)">
+					{{ GRANT_LABELS[service] }}
+				</NcCheckboxRadioSwitch>
+				<hr v-if="GRANTABLE_APPS.length > 0" :class="$style.accessPicker__divider">
+				<NcCheckboxRadioSwitch
+					v-for="app in GRANTABLE_APPS"
+					:key="app.id"
+					:modelValue="selection.apps.includes(app.id)"
+					@update:modelValue="toggleApp(app.id, $event)">
+					<span :class="$style.accessPicker__app">
+						<img :class="$style.accessPicker__appIcon" :src="app.icon" alt="">
+						{{ app.name }}
+					</span>
+				</NcCheckboxRadioSwitch>
+			</div>
+		</template>
+
+		<NcNoteCard v-if="kept.length > 0" type="info">
+			{{ t('settings', 'This app password also has access set outside of Settings. It stays when you save.') }}
+		</NcNoteCard>
+	</div>
+</template>
+
+<style module>
+.accessPicker {
+	display: flex;
+	flex-direction: column;
+	gap: calc(2 * var(--default-grid-baseline));
+}
+
+.accessPicker__areas {
+	padding-inline-start: calc(4 * var(--default-grid-baseline));
+}
+
+.accessPicker__options {
+	padding-inline-start: calc(8 * var(--default-grid-baseline));
+}
+
+.accessPicker__divider {
+	/* Same inset as the checkboxes, which NcCheckboxRadioSwitch centers in a clickable area */
+	margin-block: calc(2 * var(--default-grid-baseline));
+	margin-inline: calc((var(--default-clickable-area) - 20px) / 2);
+	border: none;
+	border-top: 1px solid var(--color-border);
+}
+
+.accessPicker__app {
+	display: flex;
+	align-items: center;
+	gap: calc(2 * var(--default-grid-baseline));
+}
+
+.accessPicker__appIcon {
+	width: calc(4 * var(--default-grid-baseline));
+	height: calc(4 * var(--default-grid-baseline));
+	/* App icons are white, for the header */
+	filter: var(--background-invert-if-bright);
+}
+</style>

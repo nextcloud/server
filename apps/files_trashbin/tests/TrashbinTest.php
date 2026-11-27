@@ -689,6 +689,27 @@ class TrashbinTest extends \Test\TestCase {
 		$this->assertEquals(3, $view->getFileInfo('')->getSize());
 	}
 
+	public function testDeleteReturnsSizeOfDeletedNode(): void {
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_TRASHBIN_USER1);
+		$userFolder->newFile('file.txt', '1');
+		$folder = $userFolder->newFolder('folder');
+		$folder->newFile('a.txt', '22');
+		$folder->newFolder('sub')->newFile('b.txt', '333');
+
+		$userFolder->get('file.txt')->delete();
+		$folder->delete();
+
+		$filesInTrash = Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1, 'name');
+		$this->assertCount(2, $filesInTrash);
+		$sizes = [];
+		foreach ($filesInTrash as $file) {
+			$sizes[$file['name']] = Trashbin::delete($file['name'], self::TEST_TRASHBIN_USER1, $file['mtime']);
+		}
+
+		$this->assertEquals(['file.txt' => 1, 'folder' => 5], $sizes);
+		$this->assertCount(0, Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1));
+	}
+
 	/**
 	 * @param string $user
 	 * @param bool $create

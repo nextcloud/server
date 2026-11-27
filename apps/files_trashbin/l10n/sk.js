@@ -22,7 +22,7 @@ OC.L10N.register(
     "You" : "Vy",
     "List of files that have been deleted." : "Zoznam súborov, ktoré boli vymazané.",
     "No deleted files" : "Žiadne zmazané súbory",
-    "Files and folders you have deleted will show up here" : "Súbory a adresáre, ktoré ste vymazali, sa zobrazia tu",
+    "Files and folders you have deleted will show up here" : "Súbory a priečinky, ktoré ste vymazali, sa zobrazia tu",
     "All files have been permanently deleted" : "Všetky súbory boli trvalo vymazané",
     "Failed to empty deleted files" : "Nepodarilo sa vyprázdniť zmazané súbory"
 },

@@ -240,7 +240,7 @@ class Propagator implements IPropagator {
 					}
 
 					while ($row = $result->fetchAssociative()) {
-						$item = $this->batch[$row['path']];
+						$item = $this->batch[$row['path'] ?? ''];
 						if ($item['size'] && $row['size'] > -1) {
 							$queryWithSize->setParameter('fileid', $row['fileid'], IQueryBuilder::PARAM_INT)
 								->setParameter('size', $item['size'], IQueryBuilder::PARAM_INT)

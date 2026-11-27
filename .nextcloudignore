@@ -54,6 +54,7 @@ window.d.ts
 
 # Server specific
 /.devcontainer
+/.oss-scanner
 /__mocks__
 /__tests__
 /apps/testing

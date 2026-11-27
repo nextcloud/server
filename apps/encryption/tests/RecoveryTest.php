@@ -16,9 +16,11 @@ use OCA\Encryption\KeyManager;
 use OCA\Encryption\Recovery;
 use OCP\Config\IUserConfig;
 use OCP\Encryption\IFile;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -33,6 +35,7 @@ class RecoveryTest extends TestCase {
 	private IAppConfig&MockObject $appConfigMock;
 	private IUserConfig&MockObject $userConfigMock;
 	private Crypt&MockObject $cryptMock;
+	private IEventDispatcher&MockObject $eventDispatcherMock;
 
 	private Recovery $instance;
 
@@ -55,6 +58,11 @@ class RecoveryTest extends TestCase {
 		$this->keyManagerMock->expects($this->exactly(2))
 			->method('checkRecoveryPassword')
 			->willReturnOnConsecutiveCalls(true, true);
+
+		$this->expectAuditEvents([
+			['encryption.recovery_key.enabled', 'Recovery key was enabled', []],
+			['encryption.recovery_key.enabled', 'Recovery key was enabled', []],
+		]);
 
 		$this->assertTrue($this->instance->enableAdminRecovery('password'));
 		$this->assertArrayHasKey('recoveryAdminEnabled', self::$tempStorage);
@@ -83,6 +91,10 @@ class RecoveryTest extends TestCase {
 			->method('checkRecoveryPassword')
 			->willReturnOnConsecutiveCalls(true, false);
 
+		$this->expectAuditEvents([
+			['encryption.recovery_key.enabled', 'Recovery key was enabled', []],
+		]);
+
 		$this->assertTrue($this->instance->enableAdminRecovery('password'));
 		$this->assertArrayHasKey('recoveryAdminEnabled', self::$tempStorage);
 		$this->assertTrue(self::$tempStorage['recoveryAdminEnabled']);
@@ -98,6 +110,8 @@ class RecoveryTest extends TestCase {
 		$this->cryptMock->expects($this->once())
 			->method('createKeyPair')
 			->willReturn(false);
+
+		$this->expectAuditEvents([]);
 
 		$this->assertFalse($this->instance->enableAdminRecovery('password'));
 	}
@@ -119,6 +133,10 @@ class RecoveryTest extends TestCase {
 			->with('decryptedPrivateKey', 'password')
 			->willReturn('privateKey');
 
+		$this->expectAuditEvents([
+			['encryption.recovery_key.password_changed', 'Recovery key password was changed', []],
+		]);
+
 		$this->assertTrue($this->instance->changeRecoveryKeyPassword('password', 'passwordOld'));
 	}
 
@@ -132,6 +150,8 @@ class RecoveryTest extends TestCase {
 			->method('decryptPrivateKey')
 			->willReturn(false);
 
+		$this->expectAuditEvents([]);
+
 		$this->assertFalse($this->instance->changeRecoveryKeyPassword('password', 'passwordOld'));
 	}
 
@@ -139,6 +159,10 @@ class RecoveryTest extends TestCase {
 		$this->keyManagerMock->expects($this->exactly(2))
 			->method('checkRecoveryPassword')
 			->willReturnOnConsecutiveCalls(true, false);
+
+		$this->expectAuditEvents([
+			['encryption.recovery_key.disabled', 'Recovery key was disabled', []],
+		]);
 
 		$this->assertArrayHasKey('recoveryAdminEnabled', self::$tempStorage);
 		$this->assertTrue($this->instance->disableAdminRecovery('password'));
@@ -166,6 +190,10 @@ class RecoveryTest extends TestCase {
 		$this->viewMock->expects($this->exactly(2))
 			->method('getDirectoryContent')
 			->willReturn([]);
+		$this->expectAuditEvents([
+			['encryption.user_recovery.updated', 'Recovery key access for the files of user "%s" was %s', ['userId' => 'admin', 'status' => 'disabled']],
+			['encryption.user_recovery.updated', 'Recovery key access for the files of user "%s" was %s', ['userId' => 'admin', 'status' => 'enabled']],
+		]);
 		$this->assertTrue($this->instance->setRecoveryForUser(false));
 		$this->assertTrue($this->instance->setRecoveryForUser(true));
 	}
@@ -178,8 +206,10 @@ class RecoveryTest extends TestCase {
 		$this->cryptMock->expects($this->once())
 			->method('decryptPrivateKey')
 			->willReturn('privateKey');
+		$this->expectAuditEvents([
+			['encryption.user_files.recovered', 'Files of user "%s" were recovered with the recovery key', ['userId' => 'admin']],
+		]);
 		$this->instance->recoverUsersFiles('password', 'admin');
-		$this->addToAssertionCount(1);
 	}
 
 	public function testRecoverFile(): void {
@@ -222,6 +252,28 @@ class RecoveryTest extends TestCase {
 			['/', 'testkey', 'admin']));
 	}
 
+	public function testRecoverUserFilesWrongPassword(): void {
+		$this->cryptMock->expects($this->once())
+			->method('decryptPrivateKey')
+			->willReturn(false);
+		$this->expectAuditEvents([]);
+		$this->instance->recoverUsersFiles('password', 'admin');
+	}
+
+	/**
+	 * @param list<array{string, string, array<string, string>}> $expected operation, message and parameters of each expected audit event
+	 */
+	private function expectAuditEvents(array $expected): void {
+		$this->eventDispatcherMock->expects($this->exactly(count($expected)))
+			->method('dispatchTyped')
+			->willReturnCallback(function (CriticalActionPerformedEvent $event) use (&$expected): void {
+				[$operation, $message, $parameters] = array_shift($expected);
+				$this->assertSame($operation, $event->getOperation());
+				$this->assertSame($message, $event->getLogMessage());
+				$this->assertSame($parameters, $event->getParameters());
+			});
+	}
+
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -244,6 +296,7 @@ class RecoveryTest extends TestCase {
 		$this->userConfigMock = $this->createMock(IUserConfig::class);
 		$this->fileMock = $this->createMock(IFile::class);
 		$this->viewMock = $this->createMock(View::class);
+		$this->eventDispatcherMock = $this->createMock(IEventDispatcher::class);
 
 		$this->appConfigMock->expects($this->any())
 			->method('setValueBool')
@@ -264,7 +317,8 @@ class RecoveryTest extends TestCase {
 			$this->appConfigMock,
 			$this->userConfigMock,
 			$this->fileMock,
-			$this->viewMock);
+			$this->viewMock,
+			$this->eventDispatcherMock);
 	}
 
 }

@@ -33,6 +33,8 @@ class SharingContext implements Context {
 		$this->deleteServerConfig('files_sharing', 'outgoing_server2server_share_enabled');
 		$this->deleteServerConfig('core', 'shareapi_allow_view_without_download');
 		$this->deleteServerConfig('files_sharing', 'update_cutoff_time');
+		$this->deleteServerConfig('core', 'shareapi_exclude_groups');
+		$this->deleteServerConfig('core', 'shareapi_exclude_groups_list');
 
 		$this->runOcc(['config:system:delete', 'share_folder']);
 	}

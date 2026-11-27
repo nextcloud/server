@@ -9,9 +9,12 @@ declare(strict_types=1);
 
 namespace OCP\Group\Backend;
 
+use OCP\AppFramework\Attribute\Implementable;
+
 /**
  * @since 30.0.0
  */
+#[Implementable(since: '30.0.0')]
 interface ICreateNamedGroupBackend {
 	/**
 	 * Tries to create a group from its name.

@@ -16,8 +16,10 @@
  *
  * NcSelect appends its dropdown to the body, but `--vs-dropdown-z-index` is only
  * set on the select itself, so the dropdown falls back to the vue-select default
- * of 1000 and ends up behind modals (z-index 9998 and above).
+ * of 1000 and ends up behind modals (z-index 9998 and above) and popovers (100000).
+ * Newer versions set 9999 on the dropdown itself, which is still below popovers, and load
+ * after this file, hence !important.
  */
 .nc-select__dropdown.vs__dropdown-menu {
-	--vs-dropdown-z-index: 9999;
+	--vs-dropdown-z-index: 100001 !important;
 }

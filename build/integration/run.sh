@@ -55,7 +55,7 @@ export PORT
 echo "" > "${NC_DATADIR}/nextcloud.log"
 echo "" > phpserver.log
 
-PHP_CLI_SERVER_WORKERS=2 php -S localhost:$PORT -t ../.. &> phpserver.log &
+PHP_CLI_SERVER_WORKERS=2 php -d post_max_size=0 -S localhost:$PORT -t ../.. &> phpserver.log &
 PHPPID=$!
 echo $PHPPID
 

@@ -445,7 +445,7 @@ class FileTest extends TestCase {
 	}
 
 	/**
-	 * Test that putting a file triggers update hooks
+	 * Test that overwriting a file triggers write hooks only
 	 */
 	public function testPutOverwriteFileTriggersHooks(): void {
 		$view = Filesystem::getView();
@@ -455,24 +455,14 @@ class FileTest extends TestCase {
 
 		$this->assertNotEmpty($this->doPut('/foo.txt'));
 
-		$this->assertCount(4, HookHelper::$hookCalls);
+		$this->assertCount(2, HookHelper::$hookCalls);
 		$this->assertHookCall(
 			HookHelper::$hookCalls[0],
-			Filesystem::signal_update,
-			'/foo.txt'
-		);
-		$this->assertHookCall(
-			HookHelper::$hookCalls[1],
 			Filesystem::signal_write,
 			'/foo.txt'
 		);
 		$this->assertHookCall(
-			HookHelper::$hookCalls[2],
-			Filesystem::signal_post_update,
-			'/foo.txt'
-		);
-		$this->assertHookCall(
-			HookHelper::$hookCalls[3],
+			HookHelper::$hookCalls[1],
 			Filesystem::signal_post_write,
 			'/foo.txt'
 		);

@@ -15,4 +15,6 @@ namespace OCA\Files;
 class TokenScopes {
 	public const FILES_READ = 'files:files:read';
 	public const FILES_WRITE = 'files:files:write';
+	public const DAV_READ = 'files:dav:read';
+	public const DAV_WRITE = 'files:dav:write';
 }

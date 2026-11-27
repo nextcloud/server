@@ -153,6 +153,7 @@ class Application extends App implements IBootstrap {
 
 	public function registerEventsScripts(IEventDispatcher $dispatcher): void {
 		$dispatcher->addListener(ResourcesLoadAdditionalScriptsEvent::class, function (): void {
+			Util::addStyle('files_sharing', 'collaboration');
 			Util::addScript('files_sharing', 'collaboration');
 		});
 		$dispatcher->addListener(BeforeTemplateRenderedEvent::class, function (): void {

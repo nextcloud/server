@@ -10,8 +10,10 @@ namespace OCA\Files_Sharing\External;
 
 use OC\Files\Filesystem;
 use OCA\FederatedFileSharing\Events\FederatedShareAddedEvent;
+use OCA\Files_Sharing\BackgroundJob\ExternalShareScanJob;
 use OCA\Files_Sharing\Helper;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\BackgroundJob\IJobList;
 use OCP\DB\Exception;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
@@ -27,6 +29,7 @@ use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Notification\IManager;
 use OCP\OCS\IDiscoveryService;
 use OCP\Share\IShare;
@@ -48,6 +51,7 @@ class Manager {
 		private readonly IRootFolder $rootFolder,
 		private readonly ISetupManager $setupManager,
 		private readonly ExternalShareMapper $externalShareMapper,
+		private readonly IJobList $jobList,
 	) {
 	}
 
@@ -187,11 +191,11 @@ class Manager {
 		$this->setupManager->setupForUser($user);
 		$folder = $this->rootFolder->getUserFolder($user->getUID());
 
-		$shareFolder = Helper::getShareFolder(null, $user->getUID());
-		$shareFolder = $folder->get($shareFolder);
+		$shareFolderPath = Helper::getShareFolder(null, $user->getUID());
+		$shareFolder = $folder->get($shareFolderPath);
 		/** @var Folder $shareFolder */
 		$mountPoint = $shareFolder->getNonExistingName($externalShare->getName());
-		$mountPoint = Filesystem::normalizePath($mountPoint);
+		$mountPoint = Filesystem::normalizePath($shareFolderPath . '/' . $mountPoint);
 		$userShareAccepted = false;
 
 		if ($externalShare->getShareType() === IShare::TYPE_USER) {
@@ -200,6 +204,7 @@ class Manager {
 				$externalShare->setMountpoint($mountPoint);
 				$this->externalShareMapper->update($externalShare);
 				$userShareAccepted = true;
+				$this->jobList->add(ExternalShareScanJob::class, [$externalShare->getUser(), $externalShare->getMountpoint()]);
 			}
 		} else {
 			try {
@@ -218,6 +223,10 @@ class Manager {
 			$this->eventDispatcher->dispatchTyped($event);
 			$this->eventDispatcher->dispatchTyped(new InvalidateMountCacheEvent($user));
 			$result = true;
+		}
+
+		if ($result) {
+			$this->logRemoteShareDecision($externalShare, $user, 'accepted', 'files_sharing.remote_share.accepted');
 		}
 
 		// Make sure the user has no notification for something that does not exist anymore.
@@ -251,9 +260,29 @@ class Manager {
 			}
 		}
 
+		if ($result) {
+			$this->logRemoteShareDecision($externalShare, $user, 'declined', 'files_sharing.remote_share.declined');
+		}
+
 		// Make sure the user has no notification for something that does not exist anymore.
 		$this->processNotification($externalShare, $user);
 		return $result;
+	}
+
+	private function logRemoteShareDecision(ExternalShare $externalShare, IUser $user, string $action, string $operation): void {
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'The federated share "%s" with ID "%s" from "%s" on "%s" was ' . $action . ' for user "%s"',
+			[
+				'name' => $externalShare->getName(),
+				'id' => $externalShare->getId(),
+				'owner' => $externalShare->getOwner(),
+				'remote' => $externalShare->getRemote(),
+				'user' => $user->getUID(),
+				'remoteId' => $externalShare->getRemoteId(),
+			],
+			false,
+			$operation,
+		));
 	}
 
 	public function processNotification(ExternalShare $remoteShare, IUser $user): void {
@@ -407,6 +436,20 @@ class Manager {
 			}
 
 			$this->removeReShares((string)$id);
+
+			$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+				'The federated share mounted at "%s" with ID "%s" from "%s" on "%s" was removed for user "%s"',
+				[
+					'mountPoint' => $mountPoint,
+					'id' => $externalShare->getId(),
+					'owner' => $externalShare->getOwner(),
+					'remote' => $externalShare->getRemote(),
+					'user' => $user->getUID(),
+					'remoteId' => $externalShare->getRemoteId(),
+				],
+				false,
+				'files_sharing.remote_share.removed',
+			));
 		} catch (Exception $ex) {
 			$this->logger->emergency('Could not update share', ['exception' => $ex]);
 			return false;

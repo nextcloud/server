@@ -161,12 +161,13 @@ abstract class AbstractMapping {
 		$dn = array_search($name, $this->cache, true);
 		if ($dn === false) {
 			$dn = $this->localNameToDnCache?->get($name);
-			if ($dn === null) {
+			// a miss is not cached, the CLI may map the name without updating the local cache
+			if (!is_string($dn)) {
 				$dn = $this->getXbyY('ldap_dn', 'owncloud_name', $name);
 				if ($dn !== false) {
 					$this->cache[$dn] = $name;
+					$this->localNameToDnCache?->set($name, $dn, self::LOCAL_CACHE_TTL);
 				}
-				$this->localNameToDnCache?->set($name, $dn, self::LOCAL_CACHE_TTL);
 			}
 		}
 		return $dn ?? false;

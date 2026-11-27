@@ -143,8 +143,7 @@ export class ProfileContactSettingsPage {
 	}
 
 	/**
-	 * Open the combined control. The popover focuses the visibility select, so
-	 * its options are shown right away.
+	 * Open the combined control. The popover focuses the visibility select.
 	 *
 	 * @param readable - Readable name of the property, e.g. "Full name"
 	 */
@@ -153,11 +152,21 @@ export class ProfileContactSettingsPage {
 		await this.visibilityAndScopeButton(readable).click()
 		await expect(this.popoverHeading()).toBeVisible()
 		await expect(this.visibilitySelect()).toBeFocused()
-		await expect(this.visibilityListbox()).toBeVisible()
+		await this.showOptions(this.visibilityListbox())
 	}
 
 	/**
-	 * Move on to the scope select, which shows its options once focused.
+	 * Show the options of the focused select, focusing it does not open them.
+	 *
+	 * @param listbox - Options of the focused select
+	 */
+	private async showOptions(listbox: Locator): Promise<void> {
+		await this.page.keyboard.press('ArrowDown')
+		await expect(listbox).toBeVisible()
+	}
+
+	/**
+	 * Move on to the scope select and show its options.
 	 *
 	 * The options of the visibility select cover it as long as they are shown, so
 	 * the focus is moved by keyboard instead of clicking the select.
@@ -165,7 +174,7 @@ export class ProfileContactSettingsPage {
 	private async focusScopeSelect(): Promise<void> {
 		await this.page.keyboard.press('Tab')
 		await expect(this.scopeSelect()).toBeFocused()
-		await expect(this.scopeListbox()).toBeVisible()
+		await this.showOptions(this.scopeListbox())
 	}
 
 	/** Close the popover, and the options of the focused select if still shown */

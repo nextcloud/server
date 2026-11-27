@@ -18,7 +18,7 @@ This file is generated from multiple sources. Included packages:
 - icalzone
 	- version: 0.0.1
 	- license: ISC
-- nextcloud-ui
+- nextcloud
 	- version: 1.0.0
 	- license: AGPL-3.0-or-later
 - uuid

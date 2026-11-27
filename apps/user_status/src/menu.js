@@ -4,12 +4,13 @@
  */
 
 import { subscribe } from '@nextcloud/event-bus'
+import { createPinia } from 'pinia'
 import { createApp } from 'vue'
 import UserStatus from './UserStatus.vue'
-import store from './store/index.js'
 
 import './user-status-icons.css'
 
+const pinia = createPinia()
 const mountPoint = document.getElementById('user_status-menu-entry')
 
 /**
@@ -26,7 +27,7 @@ function mountMenuEntry() {
 	mountPoint.replaceWith(transparentMountPoint)
 
 	createApp(UserStatus)
-		.use(store)
+		.use(pinia)
 		.mount(transparentMountPoint)
 }
 
@@ -46,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		createApp(UserStatus, {
 			inline: true,
 		})
-			.use(store)
+			.use(pinia)
 			.mount(el)
 	})
 })

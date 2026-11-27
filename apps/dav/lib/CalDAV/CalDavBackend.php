@@ -50,6 +50,7 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -407,7 +408,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				->join('s', 'calendars', 'a', $select->expr()->eq('s.resourceid', 'a.id', IQueryBuilder::PARAM_INT))
 				->where($select->expr()->in('s.principaluri', $select->createNamedParameter($principals, IQueryBuilder::PARAM_STR_ARRAY), IQueryBuilder::PARAM_STR_ARRAY))
 				->andWhere($select->expr()->eq('s.type', $select->createNamedParameter('calendar', IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR))
-				->andWhere($select->expr()->notIn('a.id', $select->createFunction($subSelect->getSQL()), IQueryBuilder::PARAM_INT_ARRAY));
+				->andWhere($select->expr()->notIn('a.id', $select->createFunction($subSelect->getSQL()), IQueryBuilder::PARAM_INT_ARRAY))
+				// calendars in the owner's trash bin are not available to sharees
+				->andWhere($select->expr()->isNull('a.deleted_at'));
 
 			$results = $select->executeQuery();
 
@@ -530,6 +533,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->join('s', 'calendars', 'a', $query->expr()->eq('s.resourceid', 'a.id'))
 			->where($query->expr()->in('s.access', $query->createNamedParameter(self::ACCESS_PUBLIC)))
 			->andWhere($query->expr()->eq('s.type', $query->createNamedParameter('calendar')))
+			->andWhere($query->expr()->isNull('a.deleted_at'))
 			->executeQuery();
 
 		while ($row = $result->fetchAssociative()) {
@@ -588,6 +592,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->where($query->expr()->in('s.access', $query->createNamedParameter(self::ACCESS_PUBLIC)))
 			->andWhere($query->expr()->eq('s.type', $query->createNamedParameter('calendar')))
 			->andWhere($query->expr()->eq('s.publicuri', $query->createNamedParameter($uri)))
+			->andWhere($query->expr()->isNull('a.deleted_at'))
 			->executeQuery();
 
 		$row = $result->fetchAssociative();
@@ -867,6 +872,11 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		}, $this->db);
 
 		$this->dispatcher->dispatchTyped(new CalendarCreatedEvent((int)$calendarId, $calendarData));
+		$this->logAuditEvent('Calendar "%s" of "%s" was created with URI "%s"', [
+			'calendarId' => (int)$calendarId,
+			'owner' => $calendarData['principaluri'] ?? null,
+			'uri' => $calendarData['uri'] ?? null,
+		], 'dav.calendar.created');
 
 		return $calendarId;
 	}
@@ -939,6 +949,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$this->publishStatusCache->remove((string)$calendarId);
 
 		$this->atomic(function () use ($calendarId, $forceDeletePermanently): void {
+			$calendarId = (int)$calendarId;
 			// The calendar is deleted right away if this is either enforced by the caller
 			// or the special contacts birthday calendar or when the preference of an empty
 			// retention (0 seconds) is set, which signals a disabled trashbin.
@@ -949,7 +960,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$calendarData = $this->getCalendarById($calendarId);
 				$shares = $this->getShares($calendarId);
 
-				$this->purgeCalendarInvitations($calendarId);
+				if ($calendarData !== null) {
+					$this->purgeCalendarInvitations($calendarId, $calendarData['principaluri']);
+				}
 
 				$qbDeleteCalendarObjectProps = $this->db->getQueryBuilder();
 				$qbDeleteCalendarObjectProps->delete($this->dbObjectPropertiesTable)
@@ -979,6 +992,11 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				// Only dispatch if we actually deleted anything
 				if ($calendarData) {
 					$this->dispatcher->dispatchTyped(new CalendarDeletedEvent($calendarId, $calendarData, $shares));
+					$this->logAuditEvent('Calendar "%s" of "%s" was deleted, removing the shares with "%s"', [
+						'calendarId' => $calendarId,
+						'owner' => $calendarData['principaluri'] ?? null,
+						'sharees' => $this->implodeShareHrefs($shares),
+					], 'dav.calendar.deleted');
 				}
 			} else {
 				$qbMarkCalendarDeleted = $this->db->getQueryBuilder();
@@ -995,6 +1013,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 						$calendarData,
 						$shares
 					));
+					$this->logCalendarAuditEvent('Calendar "%s" of "%s" was moved to trash', $calendarId, $calendarData, 'dav.calendar.trashed');
 				}
 			}
 		}, $this->db);
@@ -1018,6 +1037,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$calendarData,
 				$shares
 			));
+			$this->logCalendarAuditEvent('Calendar "%s" of "%s" was restored from trash', $id, $calendarData, 'dav.calendar.restored');
 		}, $this->db);
 	}
 
@@ -1546,6 +1566,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				// RFC 4791 no-uid-conflict (409) reporting the existing object's href.
 				throw UidConflict::forCalendar($existing['uri']);
 			}
+			// The URI may still belong to a trashed object, which is not served as a child of the calendar
+			if ($this->getCalendarObject($calendarId, $objectUri, $calendarType) !== null) {
+				throw new Forbidden("A calendar object with URI $objectUri already exists in calendar $calendarId");
+			}
 			// The UID may still belong to a trashed object; delete it and replace it with the new object.
 			$found = $this->findCalendarObjectByUid($calendarId, $extraData['uid'], $calendarType, true);
 			if ($found !== null) {
@@ -1581,6 +1605,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$shares = $this->getShares($calendarId);
 
 				$this->dispatcher->dispatchTyped(new CalendarObjectCreatedEvent($calendarId, $calendarRow, $shares, $objectRow));
+				$this->logCalendarObjectAuditEvent('created', $calendarId, $calendarRow, $objectRow, 'dav.calendar_object.created');
 			} elseif ($calendarType === self::CALENDAR_TYPE_SUBSCRIPTION) {
 				$subscriptionRow = $this->getSubscriptionById($calendarId);
 
@@ -1664,6 +1689,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					$shares = $this->getShares($calendarId);
 
 					$this->dispatcher->dispatchTyped(new CalendarObjectUpdatedEvent($calendarId, $calendarRow, $shares, $objectRow, $oldObjectRow));
+					$this->logCalendarObjectAuditEvent('updated', $calendarId, $calendarRow, $objectRow, 'dav.calendar_object.updated');
 				} elseif ($calendarType === self::CALENDAR_TYPE_SUBSCRIPTION) {
 					$subscriptionRow = $this->getSubscriptionById($calendarId);
 
@@ -1697,7 +1723,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				return false;
 			}
 
-			$sourceCalendarId = $object['calendarid'];
+			$sourceCalendarId = (int)$object['calendarid'];
 			$sourceObjectUri = $object['uri'];
 			$sourceObjectUid = $object['uid'];
 
@@ -1737,6 +1763,12 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$targetShares = $this->getShares($targetCalendarId);
 				$sourceCalendarRow = $this->getCalendarById($sourceCalendarId);
 				$this->dispatcher->dispatchTyped(new CalendarObjectMovedEvent($sourceCalendarId, $sourceCalendarRow, $targetCalendarId, $targetCalendarRow, $sourceShares, $targetShares, $object));
+				$this->logAuditEvent('Calendar object "%s" was moved from calendar "%s" to calendar "%s" of "%s"', [
+					'objectUri' => $object['uri'] ?? null,
+					'sourceCalendarId' => $sourceCalendarId,
+					'targetCalendarId' => $targetCalendarId,
+					'owner' => $targetCalendarRow['principaluri'] ?? null,
+				], 'dav.calendar_object.moved');
 			}
 			return true;
 		}, $this->db);
@@ -1774,13 +1806,14 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 				$this->purgeProperties($calendarId, $data['id']);
 
-				$this->purgeObjectInvitations($data['uid']);
-
 				if ($calendarType === self::CALENDAR_TYPE_CALENDAR) {
 					$calendarRow = $this->getCalendarById($calendarId);
 					$shares = $this->getShares($calendarId);
 
+					$this->purgeObjectInvitations($data['uid'], $calendarRow['principaluri']);
+
 					$this->dispatcher->dispatchTyped(new CalendarObjectDeletedEvent($calendarId, $calendarRow, $shares, $data));
+					$this->logCalendarObjectAuditEvent('deleted', $calendarId, $calendarRow, $data, 'dav.calendar_object.deleted');
 				} else {
 					$subscriptionRow = $this->getSubscriptionById($calendarId);
 
@@ -1830,6 +1863,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 							$data
 						)
 					);
+					$this->logCalendarObjectAuditEvent('moved to trash', $calendarId, $calendarData, $data, 'dav.calendar_object.trashed');
 				}
 			}
 
@@ -1889,6 +1923,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					$row
 				)
 			);
+			$this->logCalendarObjectAuditEvent('restored from trash', (int)$objectData['calendarid'], $calendarRow, $row, 'dav.calendar_object.restored');
 		}, $this->db);
 	}
 
@@ -2793,6 +2828,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->join('co', 'calendars', 'c', $select->expr()->eq('c.id', 'co.calendarid', IQueryBuilder::PARAM_INT))
 			->andWhere($select->expr()->eq('co.id', $select->createNamedParameter($id, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT))
 			->andWhere($select->expr()->isNotNull('co.deleted_at'))
+			->andWhere($select->expr()->isNull('c.deleted_at'))
 			->orderBy('s.access', 'ASC');
 		$this->applySharedCalendarFilters($select, $principals, $principalUri);
 
@@ -3562,6 +3598,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$this->calendarSharingBackend->updateShares($shareable, $add, $remove, $oldShares);
 
 			$this->dispatcher->dispatchTyped(new CalendarShareUpdatedEvent($calendarId, $calendarRow, $oldShares, $add, $remove));
+			$this->logShareAuditEvent($calendarId, $calendarRow, $add, $remove);
 		}, $this->db);
 	}
 
@@ -3604,6 +3641,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$query->executeStatement();
 
 				$this->dispatcher->dispatchTyped(new CalendarPublishedEvent($calendarId, $calendarData, $publicUri));
+				// The public URI grants anonymous read access and is not logged
+				$this->logCalendarAuditEvent('Calendar "%s" of "%s" was published', $calendarId, $calendarData, 'dav.calendar.published');
 				return $publicUri;
 			}
 			$query->delete('dav_shares')
@@ -3612,6 +3651,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$query->executeStatement();
 
 			$this->dispatcher->dispatchTyped(new CalendarUnpublishedEvent($calendarId, $calendarData));
+			$this->logCalendarAuditEvent('Calendar "%s" of "%s" was unpublished', $calendarId, $calendarData, 'dav.calendar.unpublished');
 			return null;
 		}, $this->db);
 
@@ -4062,20 +4102,27 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @since 31.0.0
 	 *
 	 * @param int $calendarId
+	 * @param string $principalUri owner of the calendar
 	 *
 	 * @return void
 	 */
-	protected function purgeCalendarInvitations(int $calendarId): void {
+	protected function purgeCalendarInvitations(int $calendarId, string $principalUri): void {
+		$organizer = $this->getInvitationsOrganizer($principalUri);
+		if ($organizer === null) {
+			return;
+		}
 		// select all calendar object uid's
 		$cmd = $this->db->getQueryBuilder();
 		$cmd->select('uid')
 			->from($this->dbObjectsTable)
-			->where($cmd->expr()->eq('calendarid', $cmd->createNamedParameter($calendarId)));
+			->where($cmd->expr()->eq('calendarid', $cmd->createNamedParameter($calendarId)))
+			->andWhere($cmd->expr()->eq('calendartype', $cmd->createNamedParameter(self::CALENDAR_TYPE_CALENDAR)));
 		$allIds = $cmd->executeQuery()->fetchFirstColumn();
-		// delete all links that match object uid's
+		// delete all links that match object uid's and were sent by the calendar owner
 		$cmd = $this->db->getQueryBuilder();
 		$cmd->delete($this->dbObjectInvitationsTable)
-			->where($cmd->expr()->in('uid', $cmd->createParameter('uids'), IQueryBuilder::PARAM_STR_ARRAY));
+			->where($cmd->expr()->in('uid', $cmd->createParameter('uids'), IQueryBuilder::PARAM_STR_ARRAY))
+			->andWhere($cmd->expr()->eq('organizer', $cmd->createNamedParameter($organizer, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
 		foreach (array_chunk($allIds, 1000) as $chunkIds) {
 			$cmd->setParameter('uids', $chunkIds, IQueryBuilder::PARAM_STR_ARRAY);
 			$cmd->executeStatement();
@@ -4088,14 +4135,36 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @since 31.0.0
 	 *
 	 * @param string $eventId UID of the event
+	 * @param string $principalUri owner of the calendar the event is deleted from
 	 *
 	 * @return void
 	 */
-	protected function purgeObjectInvitations(string $eventId): void {
+	protected function purgeObjectInvitations(string $eventId, string $principalUri): void {
+		$organizer = $this->getInvitationsOrganizer($principalUri);
+		if ($organizer === null) {
+			return;
+		}
 		$cmd = $this->db->getQueryBuilder();
 		$cmd->delete($this->dbObjectInvitationsTable)
-			->where($cmd->expr()->eq('uid', $cmd->createNamedParameter($eventId, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
+			->where($cmd->expr()->eq('uid', $cmd->createNamedParameter($eventId, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR))
+			->andWhere($cmd->expr()->eq('organizer', $cmd->createNamedParameter($organizer, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
 		$cmd->executeStatement();
+	}
+
+	/**
+	 * UIDs are shared by every attendee's copy of an event, so invitations are attributed
+	 * by organizer. Like Principal::findByUri(), an address of several accounts belongs to none.
+	 */
+	private function getInvitationsOrganizer(string $principalUri): ?string {
+		$principalInformation = $this->principalBackend->getPrincipalPropertiesByPath($principalUri, [
+			'{http://sabredav.org/ns}email-address',
+		]);
+		$email = $principalInformation['{http://sabredav.org/ns}email-address'] ?? null;
+		if ($email === null || count($this->userManager->getByEmail($email)) !== 1) {
+			return null;
+		}
+		// the iTip broker stores the normalized, lower-cased mailto: address
+		return 'mailto:' . strtolower($email);
 	}
 
 	public function unshare(IShareable $shareable, string $principal): void {
@@ -4116,6 +4185,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					[],
 					[$principal]
 				));
+				$this->logShareAuditEvent($shareable->getResourceId(), $calendarData, [], [$principal]);
 			}
 		}, $this->db);
 	}
@@ -4141,5 +4211,54 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			return null;
 		}
 		return $federatedCalendar->toCalendarInfo();
+	}
+
+	private function logCalendarAuditEvent(string $message, int $calendarId, array $calendarData, string $operation): void {
+		$this->logAuditEvent($message, [
+			'calendarId' => $calendarId,
+			'owner' => $calendarData['principaluri'] ?? null,
+		], $operation);
+	}
+
+	/**
+	 * The birthday calendar is generated from the contacts, so its events are not logged.
+	 * Only the URI of the object is logged, never its content.
+	 */
+	private function logCalendarObjectAuditEvent(string $change, int $calendarId, array $calendarData, array $objectData, string $operation): void {
+		if (($calendarData['uri'] ?? null) === BirthdayService::BIRTHDAY_CALENDAR_URI) {
+			return;
+		}
+		$this->logAuditEvent('Calendar object "%s" in calendar "%s" of "%s" was ' . $change, [
+			'objectUri' => $objectData['uri'] ?? null,
+			'calendarId' => $calendarId,
+			'owner' => $calendarData['principaluri'] ?? null,
+		], $operation);
+	}
+
+	/**
+	 * @param list<array{href: string, ...}> $add
+	 * @param list<string> $remove
+	 */
+	private function logShareAuditEvent(int $calendarId, array $calendarData, array $add, array $remove): void {
+		$this->logAuditEvent('Shares of calendar "%s" of "%s" were updated, added: "%s", removed: "%s"', [
+			'calendarId' => $calendarId,
+			'owner' => $calendarData['principaluri'] ?? null,
+			'added' => $this->implodeShareHrefs($add),
+			'removed' => implode(', ', $remove),
+		], 'dav.calendar_share.updated');
+	}
+
+	/**
+	 * @param array<array{href: string, ...}> $shares
+	 */
+	private function implodeShareHrefs(array $shares): string {
+		return implode(', ', array_map(static fn (array $share): string => $share['href'], $shares));
+	}
+
+	/**
+	 * @param array<string, scalar|null> $parameters
+	 */
+	private function logAuditEvent(string $message, array $parameters, string $operation): void {
+		$this->dispatcher->dispatchTyped(new CriticalActionPerformedEvent($message, $parameters, false, $operation));
 	}
 }

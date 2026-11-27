@@ -15,6 +15,7 @@ use OCA\TwoFactorBackupCodes\Event\CodesGenerated;
 use OCA\TwoFactorBackupCodes\Service\BackupCodeStorage;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -57,13 +58,19 @@ class BackupCodeStorageTest extends TestCase {
 		$this->mapper->expects($this->exactly($number))
 			->method('insert')
 			->with($this->equalTo($row));
-		$this->eventDispatcher->expects($this->once())
+		$events = [];
+		$this->eventDispatcher->expects($this->exactly(2))
 			->method('dispatchTyped')
-			->with(
-				$this->equalTo(new CodesGenerated($user))
-			);
+			->willReturnCallback(function ($event) use (&$events): void {
+				$events[] = $event;
+			});
 
 		$codes = $this->storage->createCodes($user, $number);
+		$this->assertEquals(new CodesGenerated($user), $events[0]);
+		$this->assertInstanceOf(CriticalActionPerformedEvent::class, $events[1]);
+		$this->assertSame('twofactor_backupcodes.codes.generated', $events[1]->getOperation());
+		$this->assertSame(['userId' => 'fritz'], $events[1]->getParameters());
+		$this->assertSame('Two-factor backup codes were generated for user "%s"', $events[1]->getLogMessage());
 		$this->assertCount($number, $codes);
 		foreach ($codes as $code) {
 			$this->assertEquals('CODEABCDEF', $code);

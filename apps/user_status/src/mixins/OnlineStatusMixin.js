@@ -5,16 +5,18 @@
 
 import { showError } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
-import { mapState } from 'vuex'
+import { mapState, mapStores } from 'pinia'
 import { logger } from '../logger.ts'
+import { useUserStatusStore } from '../store/userStatus.ts'
 
 export default {
 	computed: {
-		...mapState({
-			statusType: (state) => state.userStatus.status,
-			statusIsUserDefined: (state) => state.userStatus.statusIsUserDefined,
-			customIcon: (state) => state.userStatus.icon,
-			customMessage: (state) => state.userStatus.message,
+		...mapStores(useUserStatusStore),
+		...mapState(useUserStatusStore, {
+			statusType: 'status',
+			statusIsUserDefined: 'statusIsUserDefined',
+			customIcon: 'icon',
+			customMessage: 'message',
 		}),
 
 		/**
@@ -65,7 +67,7 @@ export default {
 		 */
 		async changeStatus(statusType) {
 			try {
-				await this.$store.dispatch('setStatus', { statusType })
+				await this.userStatusStore.setStatus(statusType)
 			} catch (err) {
 				showError(t('user_status', 'There was an error saving the new status'))
 				logger.debug(err)

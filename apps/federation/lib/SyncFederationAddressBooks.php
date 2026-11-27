@@ -10,6 +10,7 @@ namespace OCA\Federation;
 
 use OCA\DAV\CardDAV\SyncService;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\OCS\IDiscoveryService;
 use Psr\Log\LoggerInterface;
 
@@ -18,6 +19,7 @@ class SyncFederationAddressBooks {
 		protected DbHandler $dbHandler,
 		private SyncService $syncService,
 		private IDiscoveryService $ocsDiscoveryService,
+		private IAppConfig $appConfig,
 		private LoggerInterface $logger,
 	) {
 	}
@@ -56,6 +58,7 @@ class SyncFederationAddressBooks {
 				}
 
 				do {
+					$previousSyncToken = $syncToken;
 					[$syncToken, $truncated] = $this->syncService->syncRemoteAddressBook(
 						$url,
 						$cardDavUser,
@@ -64,8 +67,18 @@ class SyncFederationAddressBooks {
 						$syncToken,
 						$targetBookId,
 						$targetPrincipal,
-						$targetBookProperties
+						$targetBookProperties,
+						$this->appConfig->getAppValueBool(ConfigLexicon::IGNORE_REMOTE_SYSTEM_ADDRESS_BOOK),
 					);
+					if ($truncated && ($syncToken === null || $syncToken === $previousSyncToken)) {
+						throw new \RuntimeException("Truncated sync response from $url did not advance the sync token");
+					}
+					if (!$full && $truncated && $syncToken !== null) {
+						// Keep the progress of completed pages in case a later page fails.
+						// A full sync must restart from scratch so pending cards get deleted.
+						$this->dbHandler->setServerSyncToken($url, $syncToken);
+						$oldSyncToken = $syncToken;
+					}
 				} while ($truncated);
 
 				if ($full) {

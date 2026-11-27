@@ -11,8 +11,7 @@ import { FileListFilter, registerFileListFilter } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { ShareType } from '@nextcloud/sharing'
 import { isPublicShare } from '@nextcloud/sharing/public'
-import wrap from '@vue/web-component-wrapper'
-import Vue from 'vue'
+import { defineCustomElement } from 'vue'
 import FileListFilterAccount from '../components/FileListFilterAccount.vue'
 
 // once files_sharing is migrated to the new frontend use the import instead:
@@ -177,20 +176,7 @@ export function registerAccountFilter() {
 		return
 	}
 
-	const WrappedComponent = wrap(Vue, FileListFilterAccount)
-	// In Vue 2, wrap doesn't support disabling shadow :(
-	// Disable with a hack
-	Object.defineProperty(WrappedComponent.prototype, 'attachShadow', {
-		value() {
-			return this
-		},
-	})
-	Object.defineProperty(WrappedComponent.prototype, 'shadowRoot', {
-		get() {
-			return this
-		},
-	})
-
+	const WrappedComponent = defineCustomElement(FileListFilterAccount, { shadowRoot: false })
 	customElements.define(tagName, WrappedComponent)
 	registerFileListFilter(new AccountFilter())
 }

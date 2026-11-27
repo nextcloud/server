@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace OCA\DAV\CalDAV\Federation;
 
+use OCA\DAV\AppInfo\Application;
+use OCA\DAV\ConfigLexicon;
 use OCP\GlobalScale\IConfig;
 use OCP\IAppConfig;
 
@@ -20,7 +22,7 @@ class CalendarFederationConfig {
 	}
 
 	public function isFederationEnabled(): bool {
-		return $this->appConfig->getValueBool('dav', 'enableCalendarFederation', true);
+		return $this->appConfig->getValueBool(Application::APP_ID, ConfigLexicon::ENABLE_CALENDAR_FEDERATION, true);
 	}
 
 	/**

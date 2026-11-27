@@ -240,7 +240,7 @@ class SetupManager implements ISetupManager {
 				$user = $mount->getUser();
 				return new Quota(['storage' => $storage, 'quotaCallback' => function () use ($user) {
 					return $user->getQuotaBytes();
-				}, 'root' => 'files', 'include_external_storage' => $quotaIncludeExternal]);
+				}, 'root' => 'files', 'include_external_storage' => $quotaIncludeExternal, 'user' => $user]);
 			}
 
 			return $storage;

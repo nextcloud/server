@@ -225,7 +225,6 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "Груповото споделяне е спряно от администратора",
     "Public link sharing is disabled by the administrator" : "Публичното споделяне на линкове е спряно от администратора",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Споделянето %1$s не бе успешно, защото вътрешния сървър не позволява споделяния от тип %2$s",
-    "Public upload disabled by the administrator" : "Публичното качване е е спряно от администратора",
-    "Via “{folder}”" : "Чрез “{folder}”"
+    "Public upload disabled by the administrator" : "Публичното качване е е спряно от администратора"
 },
 "nplurals=2; plural=(n != 1);");

@@ -159,7 +159,6 @@
     "Test Base DN" : "Testuoti DN šaką",
     "Listing and searching for users is constrained by these criteria:" : "Vartotojų paieška ir sąrašo pateikimas yra sukonstruota remiantis šiais kriterijais:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "Dažniausios objektų klasės vartotojams yra organizationalPerson, person, user, and inetOrgPerson. Jei nežinote, kurią objektų klasę pasirinkti susisiekite su administratoriumi.",
-    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Filtras nurodo, kurie LDAP naudotojai turės prieigą prie {instanceName} elemento.",
     "Verify settings and count users" : "Patikrinkite nustatymus ir suskaičiuokite vartotojus",
     "User count: {usersCount}" : "Vartotojų skaičius: {usersCount}",
     "Test Configuration" : "Bandyti konfigūraciją",
@@ -197,6 +196,7 @@
     "Mode switch" : "Veiksenos pakeitimas",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Režimo pakeitimas įjungs automatines LDAP užklausas. Priklausomai nuo LDAP dydžio tai gali užtrukti. Ar tikrai norite pakeisti režimą?",
     "Confirm" : "Patvirtinti",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Apibrėžia filtrą, kuris bus taikomas bandant prisijungti. `%%uid` prisijungimo veiksme pakeičia vartotojo vardą. Pavyzdys: `uid=%%uid`"
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Apibrėžia filtrą, kuris bus taikomas bandant prisijungti. `%%uid` prisijungimo veiksme pakeičia vartotojo vardą. Pavyzdys: `uid=%%uid`",
+    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Filtras nurodo, kurie LDAP naudotojai turės prieigą prie {instanceName} elemento."
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

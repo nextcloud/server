@@ -15,18 +15,13 @@ use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Collection;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAVACL\ACLTrait;
+use Sabre\DAVACL\IACL;
 use Sabre\Uri;
 
-class PublicCalendarRoot extends Collection {
+class PublicCalendarRoot extends Collection implements IACL {
+	use ACLTrait;
 
-	/**
-	 * PublicCalendarRoot constructor.
-	 *
-	 * @param CalDavBackend $caldavBackend
-	 * @param IL10N $l10n
-	 * @param IConfig $config
-	 * @param IAppConfig $appConfig
-	 */
 	public function __construct(
 		protected CalDavBackend $caldavBackend,
 		protected IL10N $l10n,
@@ -37,19 +32,17 @@ class PublicCalendarRoot extends Collection {
 	) {
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	#[\Override]
-	public function getName() {
+	public function getName(): string {
 		return 'public-calendars';
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	#[\Override]
-	public function getChild($name) {
+	public function getChild($name): PublicCalendar {
+		// Sharing via link is allowed by default, but if the option is set it should be checked.
+		if (!$this->appConfig->getValueBool('core', 'shareapi_allow_links', true)) {
+			throw new \Sabre\DAV\Exception\Forbidden();
+		}
 		$calendar = $this->caldavBackend->getPublicCalendar($name);
 		if (!$this->validateVisibility((string)$calendar['principaluri'])) {
 			throw new NotFound('Node with name \'' . $name . '\' could not be found');
@@ -57,12 +50,20 @@ class PublicCalendarRoot extends Collection {
 		return new PublicCalendar($this->caldavBackend, $calendar, $this->l10n, $this->config, $this->logger);
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	#[\Override]
-	public function getChildren() {
+	public function getChildren(): array {
 		return [];
+	}
+
+	#[\Override]
+	public function getACL(): array {
+		return [
+			[
+				'privilege' => '{DAV:}read',
+				'principal' => '{DAV:}all',
+				'protected' => true,
+			],
+		];
 	}
 
 	/**

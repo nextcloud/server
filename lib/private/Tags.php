@@ -165,16 +165,12 @@ class Tags implements ITags {
 
 	#[\Override]
 	public function getIdsForTag(int|string $tag): array|false {
-		if (is_numeric($tag)) {
-			$tagId = $tag;
-		} else {
-			$tag = trim($tag);
-			if ($tag === '') {
-				$this->logger->debug(__METHOD__ . ' Cannot use empty tag names', ['app' => 'core']);
-				return false;
-			}
-			$tagId = $this->getTagId($tag);
+		$tag = trim((string)$tag);
+		if ($tag === '') {
+			$this->logger->debug(__METHOD__ . ' Cannot use empty tag names', ['app' => 'core']);
+			return false;
 		}
+		$tagId = $this->getTagIdByIdOrName($tag);
 
 		if ($tagId === false) {
 			$l10n = Util::getL10N('core');
@@ -417,18 +413,15 @@ class Tags implements ITags {
 
 	#[\Override]
 	public function tagAs($objid, $tag, ?string $path = null): bool {
-		if (is_string($tag) && !is_numeric($tag)) {
-			$tag = trim($tag);
-			if ($tag === '') {
-				$this->logger->debug(__METHOD__ . ', Cannot add an empty tag');
-				return false;
-			}
-			if (!$this->hasTag($tag)) {
-				$this->add($tag);
-			}
+		$tag = trim((string)$tag);
+		if ($tag === '') {
+			$this->logger->debug(__METHOD__ . ', Cannot add an empty tag');
+			return false;
+		}
+		$tagId = $this->getTagIdByIdOrName($tag);
+		if ($tagId === false) {
+			$this->add($tag);
 			$tagId = $this->getTagId($tag);
-		} else {
-			$tagId = $tag;
 		}
 		$qb = $this->db->getQueryBuilder();
 		$qb->insert(self::RELATION_TABLE)
@@ -463,16 +456,12 @@ class Tags implements ITags {
 
 	#[\Override]
 	public function unTag($objid, $tag, ?string $path = null): bool {
-		if (is_string($tag) && !is_numeric($tag)) {
-			$tag = trim($tag);
-			if ($tag === '') {
-				$this->logger->debug(__METHOD__ . ', Tag name is empty');
-				return false;
-			}
-			$tagId = $this->getTagId($tag);
-		} else {
-			$tagId = $tag;
+		$tag = trim((string)$tag);
+		if ($tag === '') {
+			$this->logger->debug(__METHOD__ . ', Tag name is empty');
+			return false;
 		}
+		$tagId = $this->getTagIdByIdOrName($tag);
 
 		try {
 			$qb = $this->db->getQueryBuilder();
@@ -570,6 +559,24 @@ class Tags implements ITags {
 			return $this->tags[$key]->id ?? -1;
 		}
 		return false;
+	}
+
+	/**
+	 * Get a tag's ID from either its ID or its name.
+	 *
+	 * A numeric value is only accepted as ID if it is the ID of one of the loaded tags.
+	 *
+	 * @param string $tag The tag ID or name to look for.
+	 * @return int|false The tag's id or false if no matching tag is found.
+	 */
+	private function getTagIdByIdOrName(string $tag): int|false {
+		if (is_numeric($tag)) {
+			$key = $this->getTagById($tag);
+			if ($key !== false) {
+				return $this->tags[$key]->id ?? -1;
+			}
+		}
+		return $this->getTagId($tag);
 	}
 
 	/**

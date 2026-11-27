@@ -16,6 +16,7 @@ use OCA\DAV\Connector\Sabre\Node;
 use OCA\DAV\Connector\Sabre\SharesPlugin;
 use OCA\DAV\Upload\UploadFile;
 use OCP\Files\Folder;
+use OCP\Files\IHomeStorage;
 use OCP\Files\IRootFolder;
 use OCP\Files\IUserFolder;
 use OCP\Files\Mount\IMountPoint;
@@ -40,6 +41,7 @@ class SharesPluginTest extends \Test\TestCase {
 	private const TARGET_PARENT = 'files/user1/othersdir';
 	private const USER_ROOT = '/user1/files';
 	private const GROUP_FOLDER_MOUNT = '/user1/files/GF/';
+	private const HOME_MOUNT = '/user1/';
 
 	private \Sabre\DAV\Server $server;
 	private \Sabre\DAV\Tree&MockObject $tree;
@@ -320,6 +322,14 @@ class SharesPluginTest extends \Test\TestCase {
 		return $storage;
 	}
 
+	private function mockHomeStorage(): IHomeStorage&MockObject {
+		$storage = $this->createMock(IHomeStorage::class);
+		$storage->method('instanceOfStorage')
+			->willReturnCallback(static fn (string $class): bool => $class === IHomeStorage::class);
+
+		return $storage;
+	}
+
 	private function mockSourceNode(
 		IStorage $storage,
 		bool $shareable = false,
@@ -398,15 +408,25 @@ class SharesPluginTest extends \Test\TestCase {
 	/**
 	 * @param array<string, list<string>> $shareIdsByPath ids of the shares returned by getSharesBy() for a node path
 	 * @param array<string, list<string>> $receivedIdsByPath ids of the shares returned by getSharedWith() for a node path
+	 * @param array<string, list<string>> $reshareIdsByPath ids of the shares made by other users on a node of the user,
+	 *                                                      only returned by getSharesBy() when asked for reshares
 	 */
-	private function mockSharesByPath(array $shareIdsByPath, array $receivedIdsByPath): void {
+	private function mockSharesByPath(array $shareIdsByPath, array $receivedIdsByPath, array $reshareIdsByPath = []): void {
 		$sharesByPath = array_map(fn (array $ids): array => array_map($this->mockShare(...), $ids), $shareIdsByPath);
 		$receivedByPath = array_map(fn (array $ids): array => array_map($this->mockShare(...), $ids), $receivedIdsByPath);
+		$resharesByPath = array_map(fn (array $ids): array => array_map($this->mockShare(...), $ids), $reshareIdsByPath);
 
 		$this->shareManager->method('getSharesBy')
-			->willReturnCallback(function (string $userId, int $shareType, FileNode $node) use ($sharesByPath): array {
+			->willReturnCallback(function (string $userId, int $shareType, FileNode $node, bool $reshares) use ($sharesByPath, $resharesByPath): array {
 				$this->sharesRequestedFor[] = $node->getPath();
-				return $shareType === IShare::TYPE_USER ? ($sharesByPath[$node->getPath()] ?? []) : [];
+				if ($shareType !== IShare::TYPE_USER) {
+					return [];
+				}
+
+				return array_merge(
+					$sharesByPath[$node->getPath()] ?? [],
+					$reshares ? ($resharesByPath[$node->getPath()] ?? []) : [],
+				);
 			});
 		$this->shareManager->method('getSharedWith')
 			->willReturnCallback(static fn (string $userId, int $shareType, FileNode $node): array
@@ -638,6 +658,90 @@ class SharesPluginTest extends \Test\TestCase {
 		);
 
 		$result = $this->plugin->validateMoveOrCopy($davSource, $finalTargetPath);
+		$this->assertTrue($result);
+
+		foreach ($notLookedUp as $path) {
+			$this->assertNotContains($path, $this->sharesRequestedFor);
+		}
+	}
+
+	public static function validateMoveOrCopyFromHomeStorageProvider(): array {
+		// source parent, target folder, target mount point, share ids by path, received share ids by path,
+		// reshare ids by path, paths whose shares must not be looked up, allowed
+		return [
+			'target not shared' => [
+				'/user1/files/A', '/user1/files/B', self::HOME_MOUNT,
+				[], [], [], [], true,
+			],
+			'target below the same share' => [
+				'/user1/files/Pub/a', '/user1/files/Pub/b', self::HOME_MOUNT,
+				['/user1/files/Pub' => ['1']], [], [], ['/user1/files/Pub'], true,
+			],
+			'target is the shared folder containing the source' => [
+				'/user1/files/Pub/a', '/user1/files/Pub', self::HOME_MOUNT,
+				['/user1/files/Pub' => ['1']], [], [], ['/user1/files/Pub'], true,
+			],
+			'target is a new share' => [
+				'/user1/files/Other', '/user1/files/Pub', self::HOME_MOUNT,
+				['/user1/files/Pub' => ['1']], [], [], [], false,
+			],
+			'target below a new share' => [
+				'/user1/files/Other', '/user1/files/Pub/b', self::HOME_MOUNT,
+				['/user1/files/Pub' => ['1']], [], [], [], false,
+			],
+			'target below a reshare by a recipient' => [
+				'/user1/files/Pub/a', '/user1/files/Pub/b', self::HOME_MOUNT,
+				['/user1/files/Pub' => ['1']], [], ['/user1/files/Pub/b' => ['2']], [], false,
+			],
+			'received share' => [
+				'/user1/files/Pub/a', '/user1/files/Received', '/user1/files/Received/',
+				[], ['/user1/files/Received' => ['1']], [], [], false,
+			],
+		];
+	}
+
+	/**
+	 * A non-shareable node on the user's home storage, e.g. because sharing is disabled for the user
+	 */
+	#[DataProvider(methodName: 'validateMoveOrCopyFromHomeStorageProvider')]
+	public function testValidateMoveOrCopyFromHomeStorage(
+		string $sourceParentPath,
+		string $targetPath,
+		string $targetMountPoint,
+		array $shareIdsByPath,
+		array $receivedIdsByPath,
+		array $reshareIdsByPath,
+		array $notLookedUp,
+		bool $allowed,
+	): void {
+		$this->mockSharesByPath($shareIdsByPath, $receivedIdsByPath, $reshareIdsByPath);
+
+		if (!$allowed) {
+			$this->expectException(Forbidden::class);
+			$this->expectExceptionMessage('You cannot move a non-shareable node into a share');
+		}
+
+		$homeMount = $this->mockMount(self::HOME_MOUNT, false);
+		$targetMount = $targetMountPoint === self::HOME_MOUNT ? $homeMount : $this->mockMount($targetMountPoint, false);
+		$sourceNode = $this->mockSourceNode(
+			$this->mockHomeStorage(),
+			mountPoint: $homeMount,
+			parent: $this->mockFolder($sourceParentPath, $homeMount),
+		);
+
+		$davSource = 'files/user1' . substr($sourceParentPath, strlen(self::USER_ROOT)) . '/source.txt';
+		$davTargetParent = 'files/user1' . substr($targetPath, strlen(self::USER_ROOT));
+		$davTarget = $davTargetParent . '/source.txt';
+
+		$this->mockTree(
+			[
+				$davSource => $sourceNode,
+				$davTargetParent => $this->mockFolder($targetPath, $targetMount),
+			],
+			[$davTarget],
+		);
+
+		$result = $this->plugin->validateMoveOrCopy($davSource, $davTarget);
 		$this->assertTrue($result);
 
 		foreach ($notLookedUp as $path) {

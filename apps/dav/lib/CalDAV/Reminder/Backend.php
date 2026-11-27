@@ -50,12 +50,12 @@ class Backend {
 	 */
 	public function getRemindersToProcess():array {
 		$query = $this->db->getQueryBuilder();
-		$query->select(['cr.id', 'cr.calendar_id','cr.object_id','cr.is_recurring','cr.uid','cr.recurrence_id','cr.is_recurrence_exception','cr.event_hash','cr.alarm_hash','cr.type','cr.is_relative','cr.notification_date','cr.is_repeat_based','co.calendardata', 'c.displayname', 'c.principaluri', 'c.uri', 'c.disable_alarm_notifications'])
+		$query->select(['cr.id', 'cr.calendar_id','cr.object_id','cr.is_recurring','cr.uid','cr.recurrence_id','cr.is_recurrence_exception','cr.event_hash','cr.alarm_hash','cr.type','cr.is_relative','cr.notification_date','cr.is_repeat_based','co.calendardata', 'co.classification', 'c.displayname', 'c.principaluri', 'c.uri', 'c.disable_alarm_notifications'])
 			->from('calendar_reminders', 'cr')
 			->where($query->expr()->lte('cr.notification_date', $query->createNamedParameter($this->timeFactory->getTime())))
 			->join('cr', 'calendarobjects', 'co', $query->expr()->eq('cr.object_id', 'co.id'))
 			->join('cr', 'calendars', 'c', $query->expr()->eq('cr.calendar_id', 'c.id'))
-			->groupBy('cr.event_hash', 'cr.notification_date', 'cr.type', 'cr.id', 'cr.calendar_id', 'cr.object_id', 'cr.is_recurring', 'cr.uid', 'cr.recurrence_id', 'cr.is_recurrence_exception', 'cr.alarm_hash', 'cr.is_relative', 'cr.is_repeat_based', 'co.calendardata', 'c.displayname', 'c.principaluri', 'c.uri', 'c.disable_alarm_notifications');
+			->groupBy('cr.event_hash', 'cr.notification_date', 'cr.type', 'cr.id', 'cr.calendar_id', 'cr.object_id', 'cr.is_recurring', 'cr.uid', 'cr.recurrence_id', 'cr.is_recurrence_exception', 'cr.alarm_hash', 'cr.is_relative', 'cr.is_repeat_based', 'co.calendardata', 'co.classification', 'c.displayname', 'c.principaluri', 'c.uri', 'c.disable_alarm_notifications');
 		$stmt = $query->executeQuery();
 
 		return array_map(
@@ -232,6 +232,9 @@ class Backend {
 		$row['is_relative'] = (bool)$row['is_relative'];
 		$row['notification_date'] = (int)$row['notification_date'];
 		$row['is_repeat_based'] = (bool)$row['is_repeat_based'];
+		if (array_key_exists('classification', $row)) {
+			$row['classification'] = (int)$row['classification'];
+		}
 		if (array_key_exists('disable_alarm_notifications', $row)) {
 			$row['disable_alarm_notifications'] = (bool)$row['disable_alarm_notifications'];
 		}

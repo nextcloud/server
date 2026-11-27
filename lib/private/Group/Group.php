@@ -163,10 +163,6 @@ class Group implements IGroup {
 				$this->users[$user->getUID()] = $user;
 
 				$this->dispatcher->dispatchTyped(new UserAddedEvent($this, $user));
-
-				if ($this->emitter) {
-					$this->emitter->emit('\OC\Group', 'postAddUser', [$this, $user]);
-				}
 				return;
 			}
 		}
@@ -191,9 +187,6 @@ class Group implements IGroup {
 		}
 		if ($result) {
 			$this->dispatcher->dispatchTyped(new UserRemovedEvent($this, $user));
-			if ($this->emitter) {
-				$this->emitter->emit('\OC\Group', 'postRemoveUser', [$this, $user]);
-			}
 			if ($this->users) {
 				foreach ($this->users as $index => $groupUser) {
 					if ($groupUser->getUID() === $user->getUID()) {
@@ -333,9 +326,6 @@ class Group implements IGroup {
 		}
 		if ($result) {
 			$this->dispatcher->dispatchTyped(new GroupDeletedEvent($this));
-			if ($this->emitter) {
-				$this->emitter->emit('\OC\Group', 'postDelete', [$this]);
-			}
 		}
 		return $result;
 	}

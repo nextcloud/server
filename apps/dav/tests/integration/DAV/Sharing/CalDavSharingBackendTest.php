@@ -23,7 +23,9 @@ use OCP\ICacheFactory;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Server;
+use OCP\Share\IManager as IShareManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -53,6 +55,8 @@ class CalDavSharingBackendTest extends TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->principalBackend = $this->createMock(Principal::class);
+		$this->principalBackend->method('getPrincipalPropertiesByPath')
+			->willReturnCallback(static fn (string $path): array => ['uri' => $path]);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->cacheFactory->method('createInMemory')
 			->willReturn(new NullCache());
@@ -71,7 +75,12 @@ class CalDavSharingBackendTest extends TestCase {
 			$this->cacheFactory,
 			$this->sharingService,
 			$this->federationSharingService,
-			$this->logger
+			$this->logger,
+			$this->createConfiguredMock(IShareManager::class, [
+				'shareApiEnabled' => true,
+				'allowGroupSharing' => true,
+			]),
+			$this->createMock(IUserSession::class),
 		);
 
 		$this->removeFixtures();
@@ -95,15 +104,12 @@ class CalDavSharingBackendTest extends TestCase {
 		$calendar->method('getOwner')
 			->willReturn('principals/users/admin');
 
-		$this->principalBackend->method('findByUri')
-			->willReturn('principals/groups/alice_bob');
-
 		$this->groupManager->method('groupExists')
 			->willReturn(true);
 
 		$this->sharingBackend->updateShares(
 			$calendar,
-			[['href' => 'principals/groups/alice_bob']],
+			[['href' => 'principal:principals/groups/alice_bob']],
 			[],
 			[]
 		);
@@ -118,15 +124,12 @@ class CalDavSharingBackendTest extends TestCase {
 		$calendar->method('getOwner')
 			->willReturn('principals/users/admin');
 
-		$this->principalBackend->method('findByUri')
-			->willReturn('principals/groups/alice_bob');
-
 		$this->groupManager->method('groupExists')
 			->willReturn(true);
 
 		$this->sharingBackend->updateShares(
 			shareable: $calendar,
-			add: [['href' => 'principals/groups/alice_bob']],
+			add: [['href' => 'principal:principals/groups/alice_bob']],
 			remove: [],
 		);
 
@@ -135,7 +138,7 @@ class CalDavSharingBackendTest extends TestCase {
 		$this->sharingBackend->updateShares(
 			shareable: $calendar,
 			add: [],
-			remove: ['principals/groups/alice_bob'],
+			remove: ['principal:principals/groups/alice_bob'],
 		);
 
 		$this->assertCount(0, $this->sharingService->getShares(10001));
@@ -148,11 +151,6 @@ class CalDavSharingBackendTest extends TestCase {
 		$calendar->method('getOwner')
 			->willReturn('principals/users/admin');
 
-		$this->principalBackend->method('findByUri')
-			->willReturnMap([
-				['principals/groups/alice_bob', '', 'principals/groups/alice_bob'],
-				['principals/users/bob', '', 'principals/users/bob'],
-			]);
 		$this->principalBackend->method('getGroupMembership')
 			->willReturn([
 				'principals/groups/alice_bob',
@@ -168,7 +166,7 @@ class CalDavSharingBackendTest extends TestCase {
 		 */
 		$this->sharingBackend->updateShares(
 			shareable: $calendar,
-			add: [['href' => 'principals/groups/alice_bob']],
+			add: [['href' => 'principal:principals/groups/alice_bob']],
 			remove: [],
 		);
 
@@ -179,7 +177,7 @@ class CalDavSharingBackendTest extends TestCase {
 		 */
 		$this->sharingBackend->unshare(
 			shareable: $calendar,
-			principalUri: 'principals/users/bob'
+			principalUri: 'principal:principals/users/bob'
 		);
 
 		$this->assertCount(1, $this->sharingService->getShares(10001));
@@ -198,11 +196,6 @@ class CalDavSharingBackendTest extends TestCase {
 		$calendar->method('getOwner')
 			->willReturn('principals/users/admin');
 
-		$this->principalBackend->method('findByUri')
-			->willReturnMap([
-				['principals/groups/alice_bob', '', 'principals/groups/alice_bob'],
-				['principals/users/bob', '', 'principals/users/bob'],
-			]);
 		$this->principalBackend->method('getGroupMembership')
 			->willReturn([
 				'principals/groups/alice_bob',
@@ -220,7 +213,7 @@ class CalDavSharingBackendTest extends TestCase {
 		 */
 		$this->sharingBackend->updateShares(
 			shareable: $calendar,
-			add: [['href' => 'principals/users/bob']],
+			add: [['href' => 'principal:principals/users/bob']],
 			remove: [],
 		);
 
@@ -232,7 +225,7 @@ class CalDavSharingBackendTest extends TestCase {
 		 */
 		$this->sharingBackend->updateShares(
 			shareable: $calendar,
-			add: [['href' => 'principals/groups/alice_bob']],
+			add: [['href' => 'principal:principals/groups/alice_bob']],
 			remove: [],
 		);
 
@@ -244,7 +237,7 @@ class CalDavSharingBackendTest extends TestCase {
 		$this->sharingBackend->updateShares(
 			shareable: $calendar,
 			add: [],
-			remove: ['principals/users/bob'],
+			remove: ['principal:principals/users/bob'],
 		);
 
 		/*

@@ -14,10 +14,12 @@ use OCA\Files\Db\TransferOwnershipMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Notification\IAction;
 use OCP\Notification\IDismissableNotifier;
 use OCP\Notification\IManager;
@@ -34,6 +36,7 @@ final readonly class Notifier implements INotifier, IDismissableNotifier {
 		private IUserManager $userManager,
 		private IJobList $jobList,
 		private ITimeFactory $timeFactory,
+		private IEventDispatcher $eventDispatcher,
 	) {
 	}
 
@@ -294,6 +297,17 @@ final readonly class Notifier implements INotifier, IDismissableNotifier {
 		$this->notificationManager->notify($notification);
 
 		$this->mapper->delete($transferOwnership);
+
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Ownership transfer "%s" from user "%s" to user "%s" was rejected',
+			[
+				'transferId' => $transferOwnership->id,
+				'sourceUser' => $transferOwnership->sourceUser,
+				'targetUser' => $transferOwnership->targetUser,
+			],
+			false,
+			'files.ownership_transfer.rejected',
+		));
 	}
 
 	private function getUser(string $userId): IUser {

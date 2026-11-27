@@ -14,6 +14,7 @@ use OC\Files\View;
 use OCA\Federation\TrustedServers;
 use OCA\Files_Sharing\Controller\ShareAPIController;
 use OCA\Files_Sharing\External\Storage;
+use OCA\Files_Sharing\SharedMount;
 use OCA\Files_Sharing\SharedStorage;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
@@ -4654,6 +4655,12 @@ class ShareAPIControllerTest extends TestCase {
 		$this->invokePrivate($ocs, 'checkInheritedAttributes', [$share]);
 	}
 
+	private function createSharedMount(IShare ...$shares): SharedMount&MockObject {
+		$mount = $this->createMock(SharedMount::class);
+		$mount->method('getGroupedShares')->willReturn($shares);
+		return $mount;
+	}
+
 	public function testParentHideDownloadEnforcedOnChild(): void {
 		$ocs = $this->mockFormatShare();
 
@@ -4673,6 +4680,7 @@ class ShareAPIControllerTest extends TestCase {
 		$storage->method('instanceOfStorage')->with(SharedStorage::class)->willReturn(true);
 		$storage->method('getInstanceOfStorage')->with(SharedStorage::class)->willReturn($storage);
 		$storage->method('getShare')->willReturn($originalShare);
+		$node->method('getMountPoint')->willReturn($this->createSharedMount($originalShare));
 		$originalShare->method('getHideDownload')->willReturn(true); // Parent hides download
 		$originalShare->method('getAttributes')->willReturn(null);
 
@@ -4704,6 +4712,7 @@ class ShareAPIControllerTest extends TestCase {
 		$storage->method('instanceOfStorage')->with(SharedStorage::class)->willReturn(true);
 		$storage->method('getInstanceOfStorage')->with(SharedStorage::class)->willReturn($storage);
 		$storage->method('getShare')->willReturn($originalShare);
+		$node->method('getMountPoint')->willReturn($this->createSharedMount($originalShare));
 		$originalShare->method('getHideDownload')->willReturn(false); // Parent allows download
 		$originalShare->method('getAttributes')->willReturn(null);
 
@@ -4739,6 +4748,7 @@ class ShareAPIControllerTest extends TestCase {
 		$storage->method('instanceOfStorage')->with(SharedStorage::class)->willReturn(true);
 		$storage->method('getInstanceOfStorage')->with(SharedStorage::class)->willReturn($storage);
 		$storage->method('getShare')->willReturn($originalShare);
+		$node->method('getMountPoint')->willReturn($this->createSharedMount($originalShare));
 		$originalShare->method('getHideDownload')->willReturn(false);
 		$originalShare->method('getAttributes')->willReturn($attributes);
 		$attributes->method('getAttribute')->with('permissions', 'download')->willReturn(false); // Parent forbids download
@@ -4802,6 +4812,7 @@ class ShareAPIControllerTest extends TestCase {
 		$storage->method('instanceOfStorage')->with(SharedStorage::class)->willReturn(true);
 		$storage->method('getInstanceOfStorage')->with(SharedStorage::class)->willReturn($storage);
 		$storage->method('getShare')->willReturn($originalShare);
+		$node->method('getMountPoint')->willReturn($this->createSharedMount($originalShare));
 		$originalShare->method('getHideDownload')->willReturn(false); // Parent allows download
 		$originalShare->method('getAttributes')->willReturn(null);
 

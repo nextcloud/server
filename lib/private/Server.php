@@ -686,6 +686,8 @@ class Server extends ServerContainer {
 			return $manager;
 		});
 
+		$this->registerAlias(MountProviderCollection::class, IMountProviderCollection::class);
+
 		$this->registerService(IBus::class, static function (ContainerInterface $c): IBus {
 			$busClass = $c->get(IConfig::class)->getSystemValueString('commandbus');
 			if ($busClass) {

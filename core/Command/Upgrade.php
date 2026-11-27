@@ -252,7 +252,9 @@ class Upgrade extends Command {
 	 * originate from third-party apps outside of core's control.
 	 */
 	private function checkSchema(OutputInterface $output): void {
-		$findings = $this->schemaChecker->getFindings();
+		// Loading a disabled app's migration classes can end in an uncatchable
+		// fatal error (e.g. a missing trait), so leave them to db:schema:check.
+		$findings = $this->schemaChecker->getFindings(includeDisabledApps: false);
 		if ($findings === []) {
 			return;
 		}

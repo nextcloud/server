@@ -10,7 +10,6 @@ namespace OCA\DAV\Tests\unit\CalDAV\Schedule;
 
 use OC\L10N\L10N;
 use OC\URLGenerator;
-use OCA\DAV\CalDAV\EventComparisonService;
 use OCA\DAV\CalDAV\Schedule\IMipPlugin;
 use OCA\DAV\CalDAV\Schedule\IMipService;
 use OCP\Accounts\IAccountManager;
@@ -60,7 +59,6 @@ class IMipPluginCharsetTest extends TestCase {
 	private IUserManager&MockObject $userManager;
 
 	// Services
-	private EventComparisonService $eventComparisonService;
 	private IMipPlugin $imipPlugin;
 	private IMipService $imipService;
 
@@ -68,6 +66,8 @@ class IMipPluginCharsetTest extends TestCase {
 	private Message $itipMessage;
 
 	protected function setUp(): void {
+		parent::setUp();
+
 		// Used by IMipService and IMipPlugin
 		$today = new \DateTime('2025-06-15 14:30');
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
@@ -92,6 +92,10 @@ class IMipPluginCharsetTest extends TestCase {
 			->willReturn($l10n);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->userManager->method('getByEmail')->willReturn([]);
+		$message = new \OC\Mail\Message(new Email(), false);
+		$this->mailer = $this->createMock(IMailer::class);
+		$this->mailer->method('createMessage')
+			->willReturn($message);
 		$this->imipService = new IMipService(
 			$this->urlGenerator,
 			$this->db,
@@ -101,16 +105,10 @@ class IMipPluginCharsetTest extends TestCase {
 			$this->userManager,
 			$this->userConfig,
 			$this->appConfig,
+			$this->mailer,
 		);
 
-		// EventComparisonService
-		$this->eventComparisonService = new EventComparisonService();
-
 		// IMipPlugin
-		$message = new \OC\Mail\Message(new Email(), false);
-		$this->mailer = $this->createMock(IMailer::class);
-		$this->mailer->method('createMessage')
-			->willReturn($message);
 		$this->logger = new NullLogger();
 		$this->defaults = $this->createMock(Defaults::class);
 		$this->defaults->method('getName')
@@ -130,7 +128,6 @@ class IMipPluginCharsetTest extends TestCase {
 			$this->defaults,
 			$this->userSession,
 			$this->imipService,
-			$this->eventComparisonService,
 			$this->mailManager,
 			$this->getEmailValidatorWithStrictEmailCheck(),
 			$this->createMock(IAccountManager::class),

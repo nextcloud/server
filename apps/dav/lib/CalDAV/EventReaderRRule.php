@@ -11,6 +11,7 @@ namespace OCA\DAV\CalDAV;
 
 use DateTime;
 use DateTimeInterface;
+use Sabre\VObject\Settings;
 
 class EventReaderRRule extends \Sabre\VObject\Recur\RRuleIterator {
 
@@ -29,6 +30,11 @@ class EventReaderRRule extends \Sabre\VObject\Recur\RRuleIterator {
 		}
 		// evaluate if count value is higher than 0
 		if ($this->count > 0) {
+			// finding the last occurrence means iterating over every occurrence, so a
+			// count above what sabre is allowed to expand is treated like an endless rule
+			if (Settings::$maxRecurrences !== -1 && $this->count > Settings::$maxRecurrences) {
+				return new DateTime(CalDavBackend::MAX_DATE);
+			}
 			// temporarily store current recurrence date and counter
 			$currentReccuranceDate = $this->currentDate;
 			$currentCounter = $this->counter;
@@ -36,7 +42,7 @@ class EventReaderRRule extends \Sabre\VObject\Recur\RRuleIterator {
 			while ($this->counter <= ($this->count - 2)) {
 				$this->next();
 			}
-			// temporarly store last reccurance date
+			// temporary store last reccurance date
 			$lastReccuranceDate = $this->currentDate;
 			// restore current recurrence date and counter
 			$this->currentDate = $currentReccuranceDate;

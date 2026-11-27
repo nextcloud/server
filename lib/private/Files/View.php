@@ -583,11 +583,6 @@ class View {
 				Filesystem::signal_param_path => $this->getHookPath($path),
 				Filesystem::signal_param_run => &$run,
 			]);
-		} else {
-			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_update, [
-				Filesystem::signal_param_path => $this->getHookPath($path),
-				Filesystem::signal_param_run => &$run,
-			]);
 		}
 		\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_write, [
 			Filesystem::signal_param_path => $this->getHookPath($path),
@@ -598,10 +593,6 @@ class View {
 	protected function emit_file_hooks_post(bool $exists, string $path): void {
 		if (!$exists) {
 			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_create, [
-				Filesystem::signal_param_path => $this->getHookPath($path),
-			]);
-		} else {
-			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_update, [
 				Filesystem::signal_param_path => $this->getHookPath($path),
 			]);
 		}
@@ -675,7 +666,7 @@ class View {
 				return false;
 			}
 		} else {
-			$hooks = $this->file_exists($path) ? ['update', 'write'] : ['create', 'write'];
+			$hooks = $this->file_exists($path) ? ['write'] : ['create', 'write'];
 			return $this->basicOperation('file_put_contents', $path, $hooks, $data);
 		}
 	}
@@ -1902,32 +1893,29 @@ class View {
 		$providers = [
 			IShare::TYPE_USER,
 			IShare::TYPE_GROUP,
+			IShare::TYPE_LINK,
 			IShare::TYPE_EMAIL,
 			IShare::TYPE_CIRCLE,
 			IShare::TYPE_ROOM,
 			IShare::TYPE_DECK,
 		];
 		$shareManager = Server::get(IManager::class);
-		/** @var IShare[] $shares */
-		$shares = array_merge(...array_map(function (int $type) use ($shareManager, $user) {
-			return $shareManager->getSharesBy($user, $type);
-		}, $providers));
+		$rootFolder = Server::get(IRootFolder::class);
+		$userFolderPath = '/' . $user . '/files';
 
-		foreach ($shares as $share) {
+		for ($path = $targetPath; str_starts_with($path, $userFolderPath . '/'); $path = dirname($path)) {
 			try {
-				$sharedPath = $share->getNode()->getPath();
-			} catch (NotFoundException $e) {
-				// node is not found, ignoring
-				$this->logger->debug(
-					'Could not find the node linked to a share',
-					['app' => 'files', 'exception' => $e]);
+				$node = $rootFolder->get($path);
+			} catch (NotFoundException) {
 				continue;
 			}
-			if ($targetPath === $sharedPath || str_starts_with($targetPath, $sharedPath . '/')) {
-				$this->logger->debug(
-					'It is not allowed to move one mount point into a shared folder',
-					['app' => 'files']);
-				return false;
+			foreach ($providers as $type) {
+				if ($shareManager->getSharesBy($user, $type, $node, false, 1) !== []) {
+					$this->logger->debug(
+						'It is not allowed to move one mount point into a shared folder',
+						['app' => 'files']);
+					return false;
+				}
 			}
 		}
 

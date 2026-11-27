@@ -181,7 +181,7 @@ OC.L10N.register(
     "Warn before deleting a file" : "Advar, før en fil slettes",
     "WebDAV URL" : "WebDAV-adresse",
     "Create an app password" : "Opret en app-adgangskode",
-    "Required for WebDAV authentication because Two-Factor Authentication is enabled for this account." : "Påkrævet til WebDAV-godkendelse, fordi to-faktor-godkendelse er aktiveret for denne konto.",
+    "Required for WebDAV authentication because Two-Factor Authentication is enabled for this account." : "Kræves til WebDAV-godkendelse, fordi to-faktor-godkendelse er aktiveret for denne konto.",
     "How to access files using WebDAV" : "Sådan får du adgang til filer via WebDAV",
     "Total rows summary" : "Samlet antal rækker",
     "Toggle selection for all files and folders" : "Skift markering for alle filer og mapper",

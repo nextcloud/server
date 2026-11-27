@@ -23,6 +23,7 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 	private $response;
 	/** @var string */
 	private $responseXml = '';
+	private string $sharingModesXml = '';
 
 	/**
 	 * @param string $baseUrl
@@ -329,23 +330,106 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 	 */
 	#[Then(':user publicly shares the calendar named :name')]
 	public function publiclySharesTheCalendarNamed($user, $name) {
+		$this->sendPublishRequest($user, $name, 'publish-calendar');
+	}
+
+	#[When(':user unpublishes the calendar named :name')]
+	public function unpublishesTheCalendarNamed(string $user, string $name): void {
+		$this->sendPublishRequest($user, $name, 'unpublish-calendar');
+	}
+
+	private function sendPublishRequest(string $user, string $name, string $action): void {
+		$davUrl = $this->baseUrl . '/remote.php/dav/calendars/' . $user . '/' . $name;
+		$password = ($user === 'admin') ? 'admin' : '123456';
+
+		try {
+			$this->response = $this->client->request(
+				'POST',
+				$davUrl,
+				[
+					'body' => '<cs:' . $action . ' xmlns:cs="http://calendarserver.org/ns/"/>',
+					'auth' => [
+						$user,
+						$password,
+					],
+					'headers' => [
+						'Content-Type' => 'application/xml; charset=UTF-8',
+					],
+				]
+			);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
+	#[When(':user requests the sharing modes of the calendar named :name')]
+	public function requestsTheSharingModesOfTheCalendarNamed(string $user, string $name): void {
 		$davUrl = $this->baseUrl . '/remote.php/dav/calendars/' . $user . '/' . $name;
 		$password = ($user === 'admin') ? 'admin' : '123456';
 
 		$this->response = $this->client->request(
-			'POST',
+			'PROPFIND',
 			$davUrl,
 			[
-				'body' => '<cs:publish-calendar xmlns:cs="http://calendarserver.org/ns/"/>',
+				'body' => '<d:propfind xmlns:d="DAV:" xmlns:cs="http://calendarserver.org/ns/"><d:prop><cs:allowed-sharing-modes/><cs:publish-url/></d:prop></d:propfind>',
 				'auth' => [
 					$user,
 					$password,
 				],
 				'headers' => [
 					'Content-Type' => 'application/xml; charset=UTF-8',
+					'Depth' => '0',
 				],
 			]
 		);
+		$this->sharingModesXml = (string)$this->response->getBody();
+	}
+
+	/**
+	 * Requests the public link of a published calendar anonymously.
+	 * The link is looked up as the owner of the calendar.
+	 */
+	#[When(':user requests the public link of the calendar named :name')]
+	public function requestsThePublicLinkOfTheCalendarNamed(string $user, string $name): void {
+		$this->requestsTheSharingModesOfTheCalendarNamed($user, $name);
+		$publishUrl = $this->querySharingModes('//cs:publish-url/d:href');
+		if ($publishUrl->length !== 1) {
+			throw new \Exception('Calendar ' . $name . ' is not published');
+		}
+		$token = basename($publishUrl->item(0)->textContent);
+
+		try {
+			$this->response = $this->client->request(
+				'PROPFIND',
+				$this->baseUrl . '/remote.php/dav/public-calendars/' . $token,
+				['headers' => ['Depth' => '0']],
+			);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
+	#[Then('/^The calendar should (not )?be (shareable|publishable|published)$/')]
+	public function theCalendarShouldBe(string $not, string $mode): void {
+		$query = match ($mode) {
+			'shareable' => '//cs:allowed-sharing-modes/cs:can-be-shared',
+			'publishable' => '//cs:allowed-sharing-modes/cs:can-be-published',
+			'published' => '//cs:publish-url/d:href',
+		};
+		$expected = $not === '' ? 1 : 0;
+		$actual = $this->querySharingModes($query)->length;
+		if ($actual !== $expected) {
+			throw new \Exception(sprintf('Expected the calendar %sto be %s, got: %s', $not, $mode, $this->sharingModesXml));
+		}
+	}
+
+	private function querySharingModes(string $query): \DOMNodeList {
+		$document = new \DOMDocument();
+		$document->loadXML($this->sharingModesXml);
+		$xpath = new \DOMXPath($document);
+		$xpath->registerNamespace('d', 'DAV:');
+		$xpath->registerNamespace('cs', 'http://calendarserver.org/ns/');
+		return $xpath->query($query);
 	}
 
 	/**

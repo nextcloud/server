@@ -255,7 +255,8 @@ class UsersController extends Controller {
 		$this->initialState->provideInitialState('usersSettings', $serverData);
 
 		Util::addStyle('settings', 'settings');
-		Util::addScript('settings', 'vue-settings-users-management');
+		Util::addScript('settings', 'account-management');
+		Util::addStyle('settings', 'account-management');
 
 		return new TemplateResponse('settings', 'settings/empty', ['pageTitle' => $this->l10n->t('Settings')]);
 	}

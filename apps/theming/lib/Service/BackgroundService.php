@@ -82,7 +82,7 @@ class BackgroundService {
 		],
 		'hannah-maclean-soft-floral.jpg' => [
 			'attribution' => 'Soft floral (Hannah MacLean, CC0)',
-			'description' => 'Abstract background picture in yellow and white color whith a flower on it',
+			'description' => 'Abstract background picture in yellow and white color with a flower on it',
 			'attribution_url' => 'https://stocksnap.io/photo/soft-floral-XOYWCCW5PA',
 			'background_color' => '#e4d2c1',
 			'primary_color' => '#9f652f',

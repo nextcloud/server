@@ -15,6 +15,8 @@ use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\Core\Middleware\TwoFactorMiddleware;
 use OCP\AppFramework\App;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Teams\ITeamOwnedResourceProvider;
+use OCP\Teams\ITeamResourceProvider;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -144,6 +146,17 @@ class RegistrationContextTest extends TestCase {
 			],
 			$this->context->getUserMigrators(),
 		);
+	}
+
+	public function testRegisterTeamResourceProvider(): void {
+		$this->context->for('files')->registerTeamResourceProvider(ITeamResourceProvider::class);
+		$this->context->for('text')->registerTeamResourceProvider(ITeamOwnedResourceProvider::class);
+		$this->context->for('whiteboard')->registerTeamResourceProvider(ITeamOwnedResourceProvider::class);
+		$this->assertEquals([
+			new ServiceRegistration('files', ITeamResourceProvider::class),
+			new ServiceRegistration('text', ITeamOwnedResourceProvider::class),
+			new ServiceRegistration('whiteboard', ITeamOwnedResourceProvider::class),
+		], $this->context->getTeamResourceProviders());
 	}
 
 	public static function dataProvider_TrueFalse(): array {
