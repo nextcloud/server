@@ -275,7 +275,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 		}
 
 		$propPatch->handle(self::TAGS_PROPERTYNAME, function ($tagList) use ($node, $path) {
-			$this->updateTags($node->getId(), $tagList->getTags(), $path);
+			$this->updateTags($node->getId(), $tagList?->getTags() ?? [], $path);
 			return true;
 		});
 
