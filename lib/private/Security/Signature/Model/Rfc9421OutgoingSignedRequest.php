@@ -30,7 +30,7 @@ use OCP\Security\Signature\ISignatoryManager;
  *
  * Options from {@see ISignatoryManager::getOptions()}: `rfc9421.signingAlgorithm`,
  * `rfc9421.coveredComponents`, `rfc9421.contentDigestAlgorithm`,
- * `rfc9421.includeAlgParameter`, `dateHeader`.
+ * `rfc9421.includeAlgParameter`, `rfc9421.nonce`, `dateHeader`.
  */
 class Rfc9421OutgoingSignedRequest extends SignedRequest implements
 	IOutgoingSignedRequest,
@@ -83,6 +83,19 @@ class Rfc9421OutgoingSignedRequest extends SignedRequest implements
 			$this->getSignatory()->getKeyId(),
 			$this->signingAlgorithm,
 		);
+		$nonce = $options['rfc9421.nonce'] ?? null;
+		if ($nonce !== null) {
+			if (
+				!is_string($nonce)
+				|| $nonce === ''
+				|| strlen($nonce) > 255
+			) {
+				throw new SignatoryException(
+					'invalid RFC 9421 signature nonce',
+				);
+			}
+			$this->signatureParams['nonce'] = $nonce;
+		}
 
 		$this->signatureBaseString = SignatureBase::build(
 			$this->method,

@@ -15,6 +15,7 @@ use GuzzleHttp\Exception\RequestException;
 use JsonException;
 use OC\Core\AppInfo\ConfigLexicon;
 use OC\OCM\Model\OCMProvider;
+use OC\Security\Signature\Model\Rfc9421IncomingSignedResponse;
 use OC\Security\Signature\Model\Rfc9421OutgoingSignedResponse;
 use OCP\AppFramework\Attribute\Consumable;
 use OCP\AppFramework\Http;
@@ -376,6 +377,7 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 	 * @param IClient|null $client NULL to use default {@see IClient}
 	 * @param array|null $options options related to IClient
 	 * @param bool $signed FALSE to not auth the request
+	 * @param string|null $signatureNonce nonce for a request-bound signed exchange
 	 *
 	 * @throws OCMCapabilityException if remote does not support $capability
 	 * @throws OCMProviderException if remote ocm provider is disabled or invalid data returned
@@ -393,7 +395,23 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 		?IClient $client = null,
 		?array $options = null,
 		bool $signed = true,
+		?string $signatureNonce = null,
 	): IResponse {
+		if ($signatureNonce !== null && !$signed) {
+			throw new OCMRequestException(
+				'signed exchange requires a signed request',
+			);
+		}
+		if (
+			$signatureNonce !== null
+			&& (
+				$signatureNonce === ''
+				|| strlen($signatureNonce) > 255
+			)
+		) {
+			throw new OCMRequestException('invalid signature nonce');
+		}
+
 		$ocmProvider = $this->discover($remote);
 		if (!$ocmProvider->isEnabled()) {
 			throw new OCMProviderException('remote ocm provider is disabled');
@@ -414,15 +432,33 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 		}
 
 		try {
+			$method = strtolower($method);
 			$options = $options ?? [];
-			return match (strtolower($method)) {
-				'get' => $client->get($uri, $this->prepareOcmPayload($uri, 'get', $options, $body, $signed)),
-				'post' => $client->post($uri, $this->prepareOcmPayload($uri, 'post', $options, $body, $signed)),
-				'put' => $client->put($uri, $this->prepareOcmPayload($uri, 'put', $options, $body, $signed)),
-				'delete' => $client->delete($uri, $this->prepareOcmPayload($uri, 'delete', $options, $body, $signed)),
+			$requestOptions = $this->prepareOcmPayload(
+				$uri,
+				$method,
+				$options,
+				$body,
+				$signed,
+				$signatureNonce,
+			);
+			$response = match ($method) {
+				'get' => $client->get($uri, $requestOptions),
+				'post' => $client->post($uri, $requestOptions),
+				'put' => $client->put($uri, $requestOptions),
+				'delete' => $client->delete($uri, $requestOptions),
 				default => throw new OCMRequestException('unknown method'),
 			};
-		} catch (OCMRequestException|RequestException $e) {
+			if ($signatureNonce !== null) {
+				$response = $this->verifySignedResponse(
+					$response,
+					$method,
+					$uri,
+					$requestOptions,
+				);
+			}
+			return $response;
+		} catch (OCMProviderException|OCMRequestException|RequestException $e) {
 			throw $e;
 		} catch (Exception $e) {
 			$this->logger->warning('error while requesting remote ocm endpoint', ['exception' => $e]);
@@ -437,7 +473,14 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 	 *
 	 * @throws OCMProviderException
 	 */
-	private function prepareOcmPayload(string $uri, string $method, array $options, string $payload, bool $signed): array {
+	private function prepareOcmPayload(
+		string $uri,
+		string $method,
+		array $options,
+		string $payload,
+		bool $signed,
+		?string $signatureNonce,
+	): array {
 		$payload = array_merge($this->generateRequestOptions($options), ['body' => $payload]);
 		if (!$signed) {
 			return $payload;
@@ -448,6 +491,14 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 
 		$useRfc9421 = $ocmProvider->hasCapability('http-sig');
 		$hasPublicKey = $this->signatoryManager->getRemoteSignatory($origin) !== null;
+		if (
+			$signatureNonce !== null
+			&& !$useRfc9421
+		) {
+			throw new OCMProviderException(
+				'remote endpoint does not support RFC 9421',
+			);
+		}
 
 		if (!$useRfc9421 && !$hasPublicKey
 			&& $this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_ENFORCED, lazy: true)) {
@@ -455,11 +506,19 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 		}
 
 		if ($this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
+			if ($signatureNonce !== null) {
+				throw new OCMProviderException(
+					'signed requests are disabled',
+				);
+			}
 			return $payload;
 		}
 
 		$signatoryManager = $useRfc9421
-			? new Rfc9421SignatoryManager($this->signatoryManager)
+			? new Rfc9421SignatoryManager(
+				$this->signatoryManager,
+				$signatureNonce,
+			)
 			: $this->signatoryManager;
 
 		return $this->signatureManager->signOutgoingRequestIClientPayload(
@@ -468,6 +527,60 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 			$method,
 			$uri,
 		);
+	}
+
+	/**
+	 * @throws OCMRequestException
+	 */
+	private function verifySignedResponse(
+		IResponse $response,
+		string $requestMethod,
+		string $requestUri,
+		array $requestOptions,
+	): IResponse {
+		$requestSignatureInput
+			= $requestOptions['headers']['Signature-Input'] ?? null;
+		$requestSignature
+			= $requestOptions['headers']['Signature'] ?? null;
+		if (!is_string($requestSignatureInput) || !is_string($requestSignature)) {
+			throw new OCMRequestException(
+				'signed request context is unavailable',
+			);
+		}
+
+		try {
+			$signedResponse = new Rfc9421IncomingSignedResponse(
+				$response,
+				$requestMethod,
+				$requestUri,
+				$requestSignatureInput,
+				$requestSignature,
+				$this->signatoryManager->getOptions(),
+			);
+			$origin = $this->signatureManager->extractIdentityFromUri(
+				$requestUri,
+			);
+			$key = $this->signatoryManager->getRemoteKey(
+				$origin,
+				$signedResponse->getKeyId(),
+			);
+			if ($key === null) {
+				throw new IncomingRequestException(
+					'no JWK resolved for response keyid',
+				);
+			}
+			$signedResponse->verify($key);
+			return $signedResponse;
+		} catch (SignatureException $e) {
+			$this->logger->warning(
+				'signed OCM response could not be verified',
+				['exception' => $e],
+			);
+			throw new OCMRequestException(
+				'invalid signed OCM response',
+				previous: $e,
+			);
+		}
 	}
 
 	private function generateRequestOptions(array $options): array {

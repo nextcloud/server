@@ -79,64 +79,21 @@ class Rfc9421IncomingSignedRequest extends SignedRequest implements
 	) {
 		parent::__construct($body);
 
-		$signatureInputHeader = $request->getHeader('Signature-Input');
-		$signatureHeader = $request->getHeader('Signature');
-		if ($signatureInputHeader === '') {
-			throw new SignatureNotFoundException('missing Signature-Input header');
-		}
-		if ($signatureHeader === '') {
-			throw new SignatureNotFoundException('missing Signature header');
-		}
-
-		$inputs = self::parseSignatureInput($signatureInputHeader);
-		$signatures = self::parseSignature($signatureHeader);
-
-		// The OCM signature is identified by its integrity-protected
-		// `tag="ocm"` parameter, disregarding dictionary labels. A message
-		// carrying more than one such signature MUST be rejected; one
-		// without any is unsigned as far as OCM is concerned.
-		$tagged = [];
-		foreach ($inputs as $label => $entry) {
-			if (($entry['params']['tag'] ?? null) === 'ocm') {
-				$tagged[] = $label;
-			}
-		}
-		if (count($tagged) > 1) {
-			throw new IncomingRequestException('multiple signatures carrying tag="ocm" in Signature-Input');
-		}
-		if ($tagged === []) {
-			throw new SignatureNotFoundException('no signature carrying tag="ocm" in Signature-Input');
-		}
-		$this->label = $tagged[0];
-
-		// A duplicated dictionary label is collapsed to its last entry by
-		// RFC 8941 §4.2 parsing; that ambiguity on the OCM entry is
-		// rejected outright.
-		if (self::countLabel($signatureInputHeader, $this->label) > 1
-			|| self::countLabel($signatureHeader, $this->label) > 1) {
-			throw new IncomingRequestException(
-				'multiple "' . $this->label . '" entries in signature headers'
-			);
-		}
-
-		if (!isset($signatures[$this->label])) {
-			throw new IncomingRequestException('missing "' . $this->label . '" entry in Signature');
-		}
-
-		$entry = $inputs[$this->label];
-		$this->components = $entry['components'];
-		$this->signatureParams = $entry['params'];
-		$this->rawSignature = $signatures[$this->label];
+		$signature = self::parseOcmSignature(
+			$request->getHeader('Signature-Input'),
+			$request->getHeader('Signature'),
+		);
+		$this->label = $signature['label'];
+		$this->components = $signature['components'];
+		$this->signatureParams = $signature['params'];
+		$this->rawSignature = $signature['rawSignature'];
 
 		$this->verifyRequiredComponents();
-		$this->verifyTimestamps();
+		self::verifyTimestamps($this->signatureParams, $this->options);
 		$this->verifyContentDigestIfCovered($body);
 		$this->verifyContentLengthIfCovered($body);
 
-		$keyId = $this->signatureParams['keyid'] ?? null;
-		if (!is_string($keyId) || $keyId === '') {
-			throw new IncomingRequestException('missing keyid in Signature-Input');
-		}
+		$keyId = self::requireKeyId($this->signatureParams);
 		// keyid is opaque; the signer origin is set by the caller via setOrigin().
 
 		$paramsLine = SignatureBase::serializeSignatureParams($this->components, $this->signatureParams);
@@ -253,16 +210,20 @@ class Rfc9421IncomingSignedRequest extends SignedRequest implements
 		}
 	}
 
-	/** @throws IncomingRequestException on stale, future-dated, or missing `created` */
-	private function verifyTimestamps(): void {
-		$ttl = (int)($this->options['ttl'] ?? SignatureManager::DATE_TTL);
-		$skew = (int)($this->options['rfc9421.maxClockSkew'] ?? self::DEFAULT_MAX_FUTURE_SKEW);
+	/**
+	 * @param array<string, scalar> $params
+	 * @param array<string, mixed> $options
+	 * @throws IncomingRequestException on stale, future-dated, or missing `created`
+	 */
+	public static function verifyTimestamps(array $params, array $options = []): void {
+		$ttl = (int)($options['ttl'] ?? SignatureManager::DATE_TTL);
+		$skew = (int)($options['rfc9421.maxClockSkew'] ?? self::DEFAULT_MAX_FUTURE_SKEW);
 		$now = time();
 
-		if (!isset($this->signatureParams['created'])) {
+		if (!isset($params['created'])) {
 			throw new IncomingRequestException('signature missing required `created` parameter');
 		}
-		$created = (int)$this->signatureParams['created'];
+		$created = (int)$params['created'];
 		if ($created > $now + $skew) {
 			throw new IncomingRequestException('signature `created` is too far in the future');
 		}
@@ -270,8 +231,8 @@ class Rfc9421IncomingSignedRequest extends SignedRequest implements
 			throw new IncomingRequestException('signature is too old');
 		}
 
-		if (isset($this->signatureParams['expires'])) {
-			$expires = (int)$this->signatureParams['expires'];
+		if (isset($params['expires'])) {
+			$expires = (int)$params['expires'];
 			if ($expires < $now) {
 				throw new IncomingRequestException('signature has expired');
 			}
@@ -344,6 +305,63 @@ class Rfc9421IncomingSignedRequest extends SignedRequest implements
 	}
 
 	/**
+	 * @return array{label: string, components: list<string>, params: array<string, scalar>, rawSignature: string}
+	 */
+	public static function parseOcmSignature(
+		string $signatureInputHeader,
+		string $signatureHeader,
+	): array {
+		if ($signatureInputHeader === '') {
+			throw new SignatureNotFoundException('missing Signature-Input header');
+		}
+		if ($signatureHeader === '') {
+			throw new SignatureNotFoundException('missing Signature header');
+		}
+
+		$inputs = self::parseSignatureInput($signatureInputHeader);
+		$signatures = self::parseSignature($signatureHeader);
+		$tagged = [];
+		foreach ($inputs as $label => $entry) {
+			if (($entry['params']['tag'] ?? null) === 'ocm') {
+				$tagged[] = $label;
+			}
+		}
+		if (count($tagged) > 1) {
+			throw new IncomingRequestException('multiple signatures carrying tag="ocm" in Signature-Input');
+		}
+		if ($tagged === []) {
+			throw new SignatureNotFoundException('no signature carrying tag="ocm" in Signature-Input');
+		}
+
+		$label = $tagged[0];
+		if (self::countLabel($signatureInputHeader, $label) > 1
+			|| self::countLabel($signatureHeader, $label) > 1) {
+			throw new IncomingRequestException('multiple "' . $label . '" entries in signature headers');
+		}
+		if (!isset($signatures[$label])) {
+			throw new IncomingRequestException('missing "' . $label . '" entry in Signature');
+		}
+
+		return [
+			'label' => $label,
+			'components' => $inputs[$label]['components'],
+			'params' => $inputs[$label]['params'],
+			'rawSignature' => $signatures[$label],
+		];
+	}
+
+	/**
+	 * @param array<string, scalar> $params
+	 */
+	public static function requireKeyId(array $params): string {
+		$keyId = $params['keyid'] ?? null;
+		if (!is_string($keyId) || $keyId === '') {
+			throw new IncomingRequestException('missing keyid in Signature-Input');
+		}
+		return $keyId;
+	}
+
+	/**
 	 * @return array<string, array{components: list<string>, params: array<string, scalar>}>
 	 * @throws SignatureException
 	 */
@@ -364,6 +382,24 @@ class Rfc9421IncomingSignedRequest extends SignedRequest implements
 				$value = $item->getValue();
 				if (!is_string($value)) {
 					throw new SignatureException('component identifier in Signature-Input must be a string');
+				}
+				$req = false;
+				$key = null;
+				foreach ($item->getParameters() as $name => $parameter) {
+					if ($name === 'req' && $parameter === true) {
+						$req = true;
+					} elseif ($name === 'key' && is_string($parameter) && $parameter !== '') {
+						$key = $parameter;
+					} else {
+						throw new SignatureException('unsupported component identifier parameter');
+					}
+				}
+				// canonical parameter order, matching SignatureBase::serializeComponentIdentifier()
+				if ($key !== null) {
+					$value .= ';key=' . SignatureBase::serializeBareItem($key);
+				}
+				if ($req) {
+					$value .= ';req';
 				}
 				$components[] = $value;
 			}

@@ -22,6 +22,7 @@ use OCP\Security\Signature\Model\Signatory;
 final class Rfc9421SignatoryManager implements IJwkResolvingSignatoryManager {
 	public function __construct(
 		private readonly OCMSignatoryManager $delegate,
+		private readonly ?string $signatureNonce = null,
 	) {
 	}
 
@@ -32,7 +33,14 @@ final class Rfc9421SignatoryManager implements IJwkResolvingSignatoryManager {
 
 	#[\Override]
 	public function getOptions(): array {
-		return array_merge($this->delegate->getOptions(), ['rfc9421.format' => true]);
+		$options = array_merge(
+			$this->delegate->getOptions(),
+			['rfc9421.format' => true],
+		);
+		if ($this->signatureNonce !== null) {
+			$options['rfc9421.nonce'] = $this->signatureNonce;
+		}
+		return $options;
 	}
 
 	#[\Override]

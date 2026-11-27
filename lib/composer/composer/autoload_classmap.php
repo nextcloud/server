@@ -2366,6 +2366,7 @@ return array(
     'OC\\Security\\Signature\\Model\\IncomingSignedRequest' => $baseDir . '/lib/private/Security/Signature/Model/IncomingSignedRequest.php',
     'OC\\Security\\Signature\\Model\\OutgoingSignedRequest' => $baseDir . '/lib/private/Security/Signature/Model/OutgoingSignedRequest.php',
     'OC\\Security\\Signature\\Model\\Rfc9421IncomingSignedRequest' => $baseDir . '/lib/private/Security/Signature/Model/Rfc9421IncomingSignedRequest.php',
+    'OC\\Security\\Signature\\Model\\Rfc9421IncomingSignedResponse' => $baseDir . '/lib/private/Security/Signature/Model/Rfc9421IncomingSignedResponse.php',
     'OC\\Security\\Signature\\Model\\Rfc9421OutgoingSignedRequest' => $baseDir . '/lib/private/Security/Signature/Model/Rfc9421OutgoingSignedRequest.php',
     'OC\\Security\\Signature\\Model\\Rfc9421OutgoingSignedResponse' => $baseDir . '/lib/private/Security/Signature/Model/Rfc9421OutgoingSignedResponse.php',
     'OC\\Security\\Signature\\Model\\SignedRequest' => $baseDir . '/lib/private/Security/Signature/Model/SignedRequest.php',
