@@ -30,7 +30,7 @@ final class UpdateSharePermission extends SharingBase {
 
 	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
-		/** @var string $id */
+		/** @var non-empty-string $id */
 		$id = $input->getArgument('id');
 		/** @var class-string<ISharePermissionType> $class */
 		$class = $input->getArgument('class');

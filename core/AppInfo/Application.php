@@ -131,6 +131,14 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(UserDeletedEvent::class, UserDeletedDirectEditingTokenCleanupListener::class);
 		$context->registerEventListener(UserChangedEvent::class, UserDisabledDirectEditingTokenCleanupListener::class);
 
+		$this->registerSharing();
+
+		$context->registerEventListener(BeforeGroupDeletedEvent::class, GroupShareRecipientType::class);
+		$context->registerEventListener(DestroyingCircleEvent::class, TeamShareRecipientType::class);
+		$context->registerEventListener(BeforeUserDeletedEvent::class, UserShareRecipientType::class);
+	}
+
+	private function registerSharing(): void {
 		$registry = Server::get(ISharingRegistry::class);
 
 		$registry->registerRecipientType(Server::get(EmailShareRecipientType::class));
@@ -168,10 +176,6 @@ class Application extends App implements IBootstrap {
 		if (!Server::get(IAppConfig::class)->getValueBool('files_sharing', 'shareapi_exclude_reshare_from_edit')) {
 			$registry->markPermissionTypeCompatibleWithPermissionPreset(ReshareSharePermissionType::class, EditSharePermissionPreset::class);
 		}
-
-		$context->registerEventListener(BeforeGroupDeletedEvent::class, GroupShareRecipientType::class);
-		$context->registerEventListener(DestroyingCircleEvent::class, TeamShareRecipientType::class);
-		$context->registerEventListener(BeforeUserDeletedEvent::class, UserShareRecipientType::class);
 	}
 
 	#[\Override]

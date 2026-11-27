@@ -32,7 +32,7 @@ final class UpdateShareRecipientSecret extends SharingBase {
 
 	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
-		/** @var string $id */
+		/** @var non-empty-string $id */
 		$id = $input->getArgument('id');
 		/** @var class-string<IShareRecipientType> $class */
 		$class = $input->getArgument('class');
