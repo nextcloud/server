@@ -675,7 +675,7 @@ class Crypt {
 	 * @param \OpenSSLAsymmetricKey|\OpenSSLCertificate|array|string $privateKey
 	 * @throws MultiKeyDecryptException
 	 */
-	public function multiKeyDecryptLegacy(string $encKeyFile, string $shareKey, $privateKey): string {
+	public function multiKeyDecryptLegacy(string $encKeyFile, string $shareKey, #[\SensitiveParameter] $privateKey): string {
 		if (!$encKeyFile) {
 			throw new MultiKeyDecryptException('Cannot multikey decrypt empty plain content');
 		}
@@ -807,7 +807,7 @@ class Crypt {
 	 * @param \OpenSSLAsymmetricKey|\OpenSSLCertificate|array|string $private_key
 	 * @throws DecryptionFailedException
 	 */
-	private function opensslOpen(string $data, string &$output, string $encrypted_key, $private_key, string $cipher_algo): bool {
+	private function opensslOpen(string $data, string &$output, #[\SensitiveParameter] string $encrypted_key, #[\SensitiveParameter] $private_key, string $cipher_algo): bool {
 		$result = false;
 
 		// check if RC4 is used
