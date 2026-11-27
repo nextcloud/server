@@ -472,7 +472,7 @@ class DependencyAnalyzerTest extends TestCase {
 			[[], null, '5.5', null],
 			[[], '5.4', '5.5', null],
 			[['PHP 5.4.4 or higher is required.'], '5.4.4', null, null],
-			[['PHP with a version lower than 5.4.2 is required.'], null, '5.4.2', null],
+			[['PHP 5.4.2 or lower is required.'], null, '5.4.2', null],
 			[['64bit or higher PHP required.'], null, null, 64],
 			[[], '5.4', '5.4', null],
 		];

@@ -118,7 +118,7 @@ class DependencyAnalyzer {
 		if (isset($dependencies['php']['@attributes']['max-version'])) {
 			$maxVersion = $dependencies['php']['@attributes']['max-version'];
 			if ($this->compareBigger($this->platform->getPhpVersion(), $maxVersion)) {
-				$missing[] = $this->getL()->t('PHP with a version lower than %s is required.', [$maxVersion]);
+				$missing[] = $this->getL()->t('PHP %s or lower is required.', [$maxVersion]);
 			}
 		}
 		if (isset($dependencies['php']['@attributes']['min-int-size'])) {
