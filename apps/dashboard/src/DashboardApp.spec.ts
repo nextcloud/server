@@ -9,7 +9,7 @@ import type { Ref } from 'vue'
 
 import axios from '@nextcloud/axios'
 import { cleanup, fireEvent, render, screen } from '@testing-library/vue'
-import { flushPromises } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { moveArrayElement } from '@vueuse/integrations/useSortable'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
@@ -139,5 +139,87 @@ describe('DashboardApp.vue', () => {
 		expect(axios.post).toHaveBeenCalledWith(expect.stringContaining('/apps/dashboard/api/v3/layout'), {
 			layout: ['third', 'first', 'second'],
 		})
+	})
+
+	it('auto-saves changes from the shared picker on the personal dashboard', async () => {
+		render(DashboardApp)
+		await flushPromises()
+		await fireEvent.click(screen.getByRole('button', { name: 'Customize' }))
+		await fireEvent.click(await screen.findByRole('checkbox', { name: 'Second widget' }))
+
+		expect(axios.post).toHaveBeenCalledOnce()
+		expect(axios.post).toHaveBeenCalledWith(expect.stringContaining('/apps/dashboard/api/v3/layout'), {
+			layout: ['first', 'third'],
+		})
+	})
+
+	it('toggles statuses from the shared picker and shows the user status icon', async () => {
+		const wrapper = mount(DashboardApp, { attachTo: document.body })
+		await flushPromises()
+		const vm = wrapper.vm as unknown as { registerStatus: (app: string, callback: () => void) => void }
+		vm.registerStatus('weather', vi.fn())
+		vm.registerStatus('status', vi.fn())
+		await fireEvent.click(screen.getByRole('button', { name: 'Customize' }))
+		await fireEvent.click(await screen.findByRole('checkbox', { name: 'Weather' }))
+
+		expect(axios.post).toHaveBeenCalledWith(expect.stringContaining('/apps/dashboard/api/v3/statuses'), {
+			statuses: ['weather'],
+		})
+		expect(document.querySelector('label[for="status-checkbox-status"] .widget-choice__icon--custom')).not.toBeNull()
+		expect(document.querySelector('label[for="status-checkbox-weather"] .widget-choice__icon--custom')).toBeNull()
+		wrapper.unmount()
+	})
+
+	it('batches personal API widgets and refreshes only the ones that are due', async () => {
+		vi.useFakeTimers()
+		const hidden = vi.spyOn(document, 'hidden', 'get').mockReturnValue(false)
+		try {
+			vi.mocked(axios.get).mockResolvedValueOnce({ data: { ocs: { data: {
+				first: { id: 'first', title: 'First widget', item_api_versions: [2], reload_interval: 5 },
+				second: { id: 'second', title: 'Second widget', item_api_versions: [2], reload_interval: 0 },
+				third: { id: 'third', title: 'Third widget', item_api_versions: [1], reload_interval: 5 },
+			} } } })
+			const { unmount } = render(DashboardApp)
+			await flushPromises()
+			expect(axios.get).toHaveBeenNthCalledWith(2, expect.stringContaining('/apps/dashboard/api/v2/widget-items'), {
+				params: { widgets: ['first', 'second'] },
+				signal: expect.any(AbortSignal),
+			})
+
+			await vi.advanceTimersByTimeAsync(5000)
+			expect(axios.get).toHaveBeenNthCalledWith(3, expect.stringContaining('/apps/dashboard/api/v2/widget-items'), {
+				params: { widgets: ['first'] },
+				signal: expect.any(AbortSignal),
+			})
+			unmount()
+			await vi.advanceTimersByTimeAsync(5000)
+			expect(axios.get).toHaveBeenCalledTimes(3)
+		} finally {
+			hidden.mockRestore()
+			vi.useRealTimers()
+		}
+	})
+
+	it.each([401, 403, 404])('keeps personal API widgets after a %s refresh response', async (status) => {
+		vi.useFakeTimers()
+		const hidden = vi.spyOn(document, 'hidden', 'get').mockReturnValue(false)
+		try {
+			vi.mocked(axios.get)
+				.mockResolvedValueOnce({ data: { ocs: { data: {
+					first: { id: 'first', title: 'First API widget', item_api_versions: [2], reload_interval: 5 },
+				} } } })
+				.mockResolvedValueOnce({ data: { ocs: { data: { first: { items: [], emptyContentMessage: '', halfEmptyContentMessage: '' } } } } })
+				.mockRejectedValueOnce({ response: { status } })
+			render(DashboardApp)
+			await flushPromises()
+			expect(screen.getByText('First API widget')).toBeTruthy()
+
+			await vi.advanceTimersByTimeAsync(5000)
+			expect(axios.get).toHaveBeenCalledTimes(3)
+			expect(screen.getByText('First API widget')).toBeTruthy()
+		} finally {
+			hidden.mockRestore()
+			vi.useRealTimers()
+		}
 	})
 })
