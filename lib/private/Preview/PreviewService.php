@@ -105,13 +105,15 @@ class PreviewService {
 	}
 
 	/**
+	 * Delete all previews, optionally restricted to an mtime range (both bounds exclusive).
+	 *
 	 * @throws NotPermittedException
 	 * @throws Exception
 	 */
-	public function deleteAll(): void {
+	public function deleteAll(?int $mtimeBefore = null, ?int $mtimeAfter = null): void {
 		$lastId = '0';
 		while (true) {
-			$previews = $this->previewMapper->getPreviews($lastId, PreviewMapper::MAX_CHUNK_SIZE);
+			$previews = $this->previewMapper->getPreviews($lastId, PreviewMapper::MAX_CHUNK_SIZE, mtimeBefore: $mtimeBefore, mtimeAfter: $mtimeAfter);
 			$i = 0;
 
 			// FIXME: Should we use transaction here? Du to the I/O created when

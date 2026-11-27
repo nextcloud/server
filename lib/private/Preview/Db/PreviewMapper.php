@@ -293,9 +293,11 @@ class PreviewMapper extends QBMapper {
 	}
 
 	/**
+	 * @param ?int $mtimeBefore Only return previews with an mtime strictly before this timestamp
+	 * @param ?int $mtimeAfter Only return previews with an mtime strictly after this timestamp
 	 * @return \Generator<Preview>
 	 */
-	public function getPreviews(string $lastId, int $limit = self::MAX_CHUNK_SIZE, ?int $maxAgeDays = null): \Generator {
+	public function getPreviews(string $lastId, int $limit = self::MAX_CHUNK_SIZE, ?int $maxAgeDays = null, ?int $mtimeBefore = null, ?int $mtimeAfter = null): \Generator {
 		$qb = $this->db->getQueryBuilder();
 		$this->joinLocation($qb)
 			->where($qb->expr()->gt('p.id', $qb->createNamedParameter($lastId)))
@@ -310,6 +312,14 @@ class PreviewMapper extends QBMapper {
 					IQueryBuilder::PARAM_INT,
 				),
 			));
+		}
+
+		if ($mtimeBefore !== null) {
+			$qb->andWhere($qb->expr()->lt('p.mtime', $qb->createNamedParameter($mtimeBefore, IQueryBuilder::PARAM_INT)));
+		}
+
+		if ($mtimeAfter !== null) {
+			$qb->andWhere($qb->expr()->gt('p.mtime', $qb->createNamedParameter($mtimeAfter, IQueryBuilder::PARAM_INT)));
 		}
 
 		return $this->yieldEntities($qb);
