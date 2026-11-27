@@ -490,6 +490,25 @@ class Definitions {
 				],
 			],
 		],
+		'matrix' => [
+			'author' => 'Nextcloud Talk',
+			'app' => 'spreed',
+			'since' => '36.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '36.0.0',
+					'required' => true,
+					'description' => 'The Matrix user id (mxid) to mention Matrix users in Nextcloud Talk',
+					'example' => '@johndoe:matrix.nextcloud.com',
+				],
+				'name' => [
+					'since' => '36.0.0',
+					'required' => true,
+					'description' => 'The display name for the mentioned Matrix user',
+					'example' => 'John doe',
+				],
+			],
+		],
 		'open-graph' => [
 			'author' => 'Maxence Lange',
 			'app' => 'mood',
