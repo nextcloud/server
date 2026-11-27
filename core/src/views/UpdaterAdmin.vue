@@ -222,7 +222,7 @@ function reloadPage() {
 			</div>
 
 			<NcButton
-				aria-controlls="core-update-details"
+				aria-controls="core-update-details"
 				:aria-expanded="isShowingDetails"
 				variant="tertiary"
 				@click="isShowingDetails = !isShowingDetails">

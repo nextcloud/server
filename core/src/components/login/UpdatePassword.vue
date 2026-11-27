@@ -68,6 +68,8 @@ export default {
 		},
 	},
 
+	emits: ['done', 'update:username'],
+
 	data() {
 		return {
 			error: false,
