@@ -185,7 +185,7 @@ class WebhookListenerMapper extends QBMapper {
 	private function getAllConfiguredEventsFromDatabase(string $userId): array {
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->selectDistinct('event')
+		$qb->select('event')
 			->from($this->getTableName())
 			->where($qb->expr()->emptyString('user_id_filter'));
 
@@ -201,7 +201,7 @@ class WebhookListenerMapper extends QBMapper {
 			$configuredEvents[] = $event;
 		}
 
-		return $configuredEvents;
+		return array_values(array_unique($configuredEvents));
 	}
 
 	/**

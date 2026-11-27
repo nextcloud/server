@@ -169,4 +169,23 @@ class WebhookListenerMapperTest extends TestCase {
 		$this->assertEquals([$listener2], $this->mapper->getByEvent(NodeWrittenEvent::class, 'otherUser'));
 		$this->assertEquals([$listener2], $this->mapper->getByEvent(NodeWrittenEvent::class));
 	}
+
+	public function testGetAllConfiguredEventsWithoutDuplicates(): void {
+		foreach (['', 'alice'] as $userIdFilter) {
+			$this->mapper->addWebhookListener(
+				null,
+				'bob',
+				'POST',
+				'https://webhook.example.com/endpoint',
+				NodeWrittenEvent::class,
+				null,
+				$userIdFilter,
+				null,
+				AuthMethod::None,
+				null,
+			);
+		}
+
+		$this->assertEquals([NodeWrittenEvent::class], $this->mapper->getAllConfiguredEvents('alice'));
+	}
 }
