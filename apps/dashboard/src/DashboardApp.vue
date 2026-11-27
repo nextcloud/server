@@ -155,7 +155,9 @@ export default {
 
 	setup() {
 		const layout = ref(loadState('dashboard', 'layout').filter((panelId) => panels[panelId]))
-		const { widgets, items, loading, reload, refresh } = useDashboardWidgets({ widgetIds: () => layout.value })
+		const { widgets, items, loading, reloadWidgets, refreshWidgetItems } = useDashboardWidgets({
+			getSelectedWidgetIds: () => layout.value,
+		})
 		const modalPanelList = ref([])
 		const isModalDragging = ref(false)
 
@@ -217,8 +219,8 @@ export default {
 			apiWidgets: widgets,
 			apiWidgetItems: items,
 			loadingItems: loading,
-			loadApiWidgets: reload,
-			refreshApiItems: refresh,
+			reloadWidgets,
+			refreshWidgetItems,
 		}
 	},
 
@@ -329,7 +331,7 @@ export default {
 	},
 
 	async created() {
-		await this.loadApiWidgets()
+		await this.reloadWidgets()
 		this.$nextTick(() => this.rerenderPanels())
 	},
 
@@ -456,7 +458,7 @@ export default {
 			} else {
 				this.layout.push(panel.id)
 				if (this.isApiWidgetV2(panel.id)) {
-					void this.refreshApiItems([panel.id])
+					this.refreshWidgetItems([panel.id])
 				}
 			}
 			this.panels[panel.id].mounted = false

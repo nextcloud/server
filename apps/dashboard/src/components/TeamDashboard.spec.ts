@@ -13,7 +13,7 @@ import ApiDashboardWidget from './ApiDashboardWidget.vue'
 import TeamDashboard from './TeamDashboard.vue'
 import { fetchDashboardWidgetItems as fetchTeamDashboardItems, fetchDashboardWidgets as fetchTeamDashboardWidgets } from '../dashboardApi.ts'
 
-import '../team-dashboard.ts'
+import '../team-dashboard-widget.ts'
 
 const fetchTeamDashboardLayout = vi.fn<() => Promise<TeamDashboardLayout>>()
 const saveTeamDashboardLayout = vi.fn<(widgetIds: string[] | null) => Promise<void>>()
@@ -133,25 +133,29 @@ describe('TeamDashboard', () => {
 		wrapper.unmount()
 	})
 
-	it('clears widgets when a background reload reports that Dashboard is unavailable', async () => {
+	it('clears widgets and closes the picker when a background reload reports that Dashboard is unavailable', async () => {
 		const { wrapper } = render()
 		await flushPromises()
 		expect(wrapper.findAllComponents(ApiDashboardWidget)).toHaveLength(2)
+		await wrapper.get('button').trigger('click')
+		expect(wrapper.text()).toContain('Restore defaults')
 		vi.mocked(fetchTeamDashboardLayout).mockResolvedValueOnce({ ...layout(), available: false })
 		document.dispatchEvent(new Event('visibilitychange'))
 		await flushPromises()
 		expect(wrapper.findAllComponents(ApiDashboardWidget)).toHaveLength(0)
+		expect(wrapper.text()).not.toContain('Restore defaults')
 		expect(onUnavailable).toHaveBeenCalledOnce()
 		wrapper.unmount()
 	})
 
-	it.each([401, 403])('clears content after a %s response', async (status) => {
+	it.each([401, 403, 404])('clears content after a %s poll response and notifies the host only on 404', async (status) => {
 		const { wrapper } = render()
 		await flushPromises()
 		vi.mocked(fetchTeamDashboardItems).mockRejectedValueOnce({ response: { status } })
 		await vi.advanceTimersByTimeAsync(5000)
 		expect(wrapper.findAllComponents(ApiDashboardWidget)).toHaveLength(0)
 		expect(wrapper.text()).toContain('Could not load widgets')
+		expect(onUnavailable).toHaveBeenCalledTimes(status === 404 ? 1 : 0)
 		wrapper.unmount()
 	})
 

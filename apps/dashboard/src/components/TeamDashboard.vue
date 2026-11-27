@@ -4,12 +4,12 @@
 -->
 
 <script setup lang="ts">
-import type { TeamDashboardLayout, TeamDashboardOptions } from '../dashboardApi.ts'
+import type { TeamDashboardOptions } from '../dashboardApi.ts'
 
 import { mdiCogOutline, mdiRefresh } from '@mdi/js'
 import { t } from '@nextcloud/l10n'
 import { useEventListener } from '@vueuse/core'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
@@ -22,35 +22,20 @@ import { logger } from '../logger.ts'
 import { useDashboardWidgets } from '../useDashboardWidgets.ts'
 
 const { options } = defineProps<{ options: TeamDashboardOptions }>()
-const layout = ref<TeamDashboardLayout>()
+const { widgets, items, visible, loading, error, teamState, reloadWidgets } = useDashboardWidgets(options)
+const layout = computed(() => teamState.value?.status === 'ready' ? teamState.value.layout : undefined)
 const customizing = ref(false)
 const saving = ref(false)
 const saveError = ref(false)
 const draft = ref<string[]>([])
-const { widgets, items, visible, loading, error, reload } = useDashboardWidgets({
-	teamId: options.teamId,
-	widgetIds: () => layout.value?.widgetIds ?? null,
-	async prepare(signal) {
-		const next = await options.loadLayout()
-		if (signal.aborted) {
-			return false
-		}
-		layout.value = next
-		if (!next.canEdit) {
-			customizing.value = false
-		}
-		if (!next.available) {
-			options.onUnavailable()
-		}
-		return next.available
-	},
-	onAccessLost(status) {
-		layout.value = undefined
+
+watch(teamState, (state) => {
+	if (!layout.value?.canEdit) {
 		customizing.value = false
-		if (status === 404) {
-			options.onUnavailable()
-		}
-	},
+	}
+	if (state?.status === 'unavailable') {
+		options.onUnavailable()
+	}
 })
 
 const choices = computed(() => [
@@ -60,7 +45,7 @@ const choices = computed(() => [
 ])
 
 /** Start from the saved layout each time so Cancel discards the draft. */
-function openPicker() {
+function openWidgetPicker() {
 	draft.value = [...(layout.value?.widgetIds ?? Object.keys(widgets.value))]
 	saveError.value = false
 	customizing.value = true
@@ -72,7 +57,7 @@ function openPicker() {
  * @param id - Widget identifier
  * @param checked - Whether to include the widget
  */
-function toggle(id: string, checked: boolean) {
+function toggleWidgetSelection(id: string, checked: boolean) {
 	draft.value = checked ? [...new Set([...draft.value, id])] : draft.value.filter((entry) => entry !== id)
 }
 
@@ -81,7 +66,7 @@ function toggle(id: string, checked: boolean) {
  *
  * @param widgetIds - Selected widget IDs, or null for automatic defaults
  */
-async function save(widgetIds: string[] | null) {
+async function saveWidgetSelection(widgetIds: string[] | null) {
 	if (!layout.value?.canEdit || saving.value) {
 		return
 	}
@@ -90,7 +75,7 @@ async function save(widgetIds: string[] | null) {
 	try {
 		await options.saveLayout(widgetIds)
 		customizing.value = false
-		await reload()
+		await reloadWidgets()
 	} catch (reason) {
 		logger.error('Could not save team dashboard layout', { reason })
 		saveError.value = true
@@ -99,10 +84,10 @@ async function save(widgetIds: string[] | null) {
 	}
 }
 
-onMounted(() => void reload())
+onMounted(() => reloadWidgets())
 useEventListener(document, 'visibilitychange', () => {
 	if (!document.hidden) {
-		void reload(true)
+		reloadWidgets({ background: true })
 	}
 })
 </script>
@@ -111,7 +96,7 @@ useEventListener(document, 'visibilitychange', () => {
 	<div class="team-overview">
 		<header class="team-overview__header">
 			<h2>{{ t('dashboard', 'Overview') }}</h2>
-			<NcButton v-if="layout?.available && layout.canEdit" :disabled="loading || error || saving" @click="openPicker">
+			<NcButton v-if="layout?.canEdit" :disabled="loading || error || saving" @click="openWidgetPicker">
 				<template #icon>
 					<NcIconSvgWrapper :path="mdiCogOutline" />
 				</template>
@@ -121,7 +106,7 @@ useEventListener(document, 'visibilitychange', () => {
 		<NcLoadingIcon v-if="loading" :size="44" />
 		<NcEmptyContent v-else-if="error" :name="t('dashboard', 'Could not load widgets')">
 			<template #action>
-				<NcButton @click="reload()">
+				<NcButton @click="reloadWidgets()">
 					<template #icon>
 						<NcIconSvgWrapper :path="mdiRefresh" />
 					</template>
@@ -162,7 +147,7 @@ useEventListener(document, 'visibilitychange', () => {
 					:iconClass="choice.iconClass"
 					:label="choice.missing ? `${choice.title} (${t('dashboard', 'Unavailable')})` : choice.title"
 					:disabled="saving"
-					@change="toggle(choice.id, $event)" />
+					@change="toggleWidgetSelection(choice.id, $event)" />
 			</ul>
 			<p v-else>
 				{{ t('dashboard', 'No widgets available') }}
@@ -171,13 +156,13 @@ useEventListener(document, 'visibilitychange', () => {
 				{{ t('dashboard', 'Could not save widget selection') }}
 			</p>
 			<template #actions>
-				<NcButton :disabled="saving || layout?.widgetIds === null" @click="save(null)">
+				<NcButton :disabled="saving || layout?.widgetIds === null" @click="saveWidgetSelection(null)">
 					{{ t('dashboard', 'Restore defaults') }}
 				</NcButton>
 				<NcButton :disabled="saving" @click="customizing = false">
 					{{ t('dashboard', 'Cancel') }}
 				</NcButton>
-				<NcButton variant="primary" :disabled="saving" @click="save(draft)">
+				<NcButton variant="primary" :disabled="saving" @click="saveWidgetSelection(draft)">
 					{{ t('dashboard', 'Save') }}
 				</NcButton>
 			</template>
