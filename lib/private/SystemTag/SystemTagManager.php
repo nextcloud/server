@@ -64,9 +64,8 @@ class SystemTagManager implements ISystemTagManager {
 
 		$tags = [];
 
-		// note: not all databases will fail if it's a string or starts with a number
 		foreach ($tagIds as $tagId) {
-			if (!is_numeric($tagId)) {
+			if (!\is_int($tagId) && (!\is_string($tagId) || (string)(int)$tagId !== $tagId)) {
 				throw new \InvalidArgumentException('Tag id must be integer');
 			}
 		}
