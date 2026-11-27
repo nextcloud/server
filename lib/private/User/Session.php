@@ -336,9 +336,29 @@ class Session implements IUserSession, Emitter {
 	 */
 	#[\Override]
 	public function login($uid, $password) {
+		$this->dispatcher->dispatchTyped(new BeforeUserLoggedInEvent($uid, $password));
+		return $this->loginWithCredentials($uid, $password);
+	}
+
+	/**
+	 * Log a user in with a login name and either a password or an app token
+	 *
+	 * Callers dispatch BeforeUserLoggedInEvent themselves.
+	 *
+	 * @param string $uid
+	 * @param string $password
+	 * @return boolean
+	 * @throws LoginException
+	 */
+	protected function loginWithCredentials($uid, $password) {
 		$this->session->regenerateId();
 		if ($this->validateToken($password, $uid)) {
-			return $this->loginWithToken($password);
+			try {
+				$dbToken = $this->tokenProvider->getToken($password);
+			} catch (InvalidTokenException $ex) {
+				return false;
+			}
+			return $this->loginWithToken($dbToken, $this->getTokenLoginPassword($dbToken, $password));
 		}
 		return $this->loginWithPassword($uid, $password);
 	}
@@ -447,7 +467,7 @@ class Session implements IUserSession, Emitter {
 		}
 
 		// Try to login with this username and password
-		if (!$this->login($user, $password)) {
+		if (!$this->loginWithCredentials($user, $password)) {
 			// Failed, maybe the user used their email address
 			if (!filter_var($user, FILTER_VALIDATE_EMAIL)) {
 				$this->handleLoginFailed($throttler, $currentDelay, $remoteAddress, $user, $password);
@@ -461,7 +481,7 @@ class Session implements IUserSession, Emitter {
 					&& $this->validateTokenLoginName($userFromToken->getEMailAddress(), $dbToken);
 			} else {
 				$users = $this->manager->getByEmail($user);
-				$isValidEmailLogin = (\count($users) === 1 && $this->login($users[0]->getUID(), $password));
+				$isValidEmailLogin = (\count($users) === 1 && $this->loginWithCredentials($users[0]->getUID(), $password));
 			}
 
 			if (!$isValidEmailLogin) {
@@ -619,30 +639,27 @@ class Session implements IUserSession, Emitter {
 	}
 
 	/**
-	 * Log an user in with a given token (id)
+	 * Decrypt the login password stored in a token
 	 *
-	 * @param string $token
+	 * @return string the password, or an empty string for passwordless tokens
+	 */
+	private function getTokenLoginPassword(IToken $dbToken, string $token): string {
+		try {
+			return $this->tokenProvider->getPassword($dbToken, $token);
+		} catch (PasswordlessTokenException $ex) {
+			return '';
+		}
+	}
+
+	/**
+	 * Log an user in with a given token
+	 *
+	 * @param string $password the login password decrypted from the token
 	 * @return boolean
 	 * @throws LoginException if an app canceled the login process or the user is not enabled
 	 */
-	private function loginWithToken($token) {
-		try {
-			$dbToken = $this->tokenProvider->getToken($token);
-		} catch (InvalidTokenException $ex) {
-			return false;
-		}
+	private function loginWithToken(IToken $dbToken, string $password) {
 		$uid = $dbToken->getUID();
-
-		// When logging in with token, the password must be decrypted first before passing to login hook
-		$password = '';
-		try {
-			$password = $this->tokenProvider->getPassword($dbToken, $token);
-		} catch (PasswordlessTokenException $ex) {
-			// Ignore and use empty string instead
-		}
-
-		$this->dispatcher->dispatchTyped(new BeforeUserLoggedInEvent($dbToken->getLoginName(), $password));
-
 		$user = $this->manager->get($uid);
 		if (is_null($user)) {
 			// user does not exist
@@ -924,7 +941,9 @@ class Session implements IUserSession, Emitter {
 			return false;
 		}
 
-		if (!$this->loginWithToken($token)) {
+		$password = $this->getTokenLoginPassword($dbToken, $token);
+		$this->dispatcher->dispatchTyped(new BeforeUserLoggedInEvent($dbToken->getLoginName(), $password));
+		if (!$this->loginWithToken($dbToken, $password)) {
 			return false;
 		}
 		if (!$this->validateToken($token)) {
