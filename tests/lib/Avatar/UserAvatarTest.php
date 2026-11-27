@@ -46,7 +46,7 @@ class UserAvatarTest extends \Test\TestCase {
 	public static function avatarTextData(): array {
 		return [
 			['', '?'],
-			['matchish', 'M'],
+			['matchish', 'm'],
 			['Firstname Lastname', 'FL'],
 			['Firstname Lastname Rest', 'FL'],
 		];
@@ -241,7 +241,7 @@ class UserAvatarTest extends \Test\TestCase {
 		$svg = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 		<svg width="64" height="64" version="1.1" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
 			<rect width="100%" height="100%" fill="#e5f2f9"></rect>
-			<text x="50%" y="350" style="font-weight:normal;font-size:280px;font-family:\'Noto Sans\';text-anchor:middle;fill:#0082c9">A</text>
+			<text x="50%" y="350" style="font-weight:normal;font-size:280px;font-family:\'Noto Sans\';text-anchor:middle;fill:#0082c9">a</text>
 		</svg>';
 		$this->assertEquals($avatar, $svg);
 	}
