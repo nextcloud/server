@@ -79,7 +79,7 @@ class AccessTokenMapper extends Repository {
 			->update($this->getTableName())
 			->set('hashed_code', $qb->createNamedParameter(hash('sha512', $newCode)))
 			->set('encrypted_token', $qb->createNamedParameter($encryptedToken))
-			->set('token_count', $qb->createFunction('token_count + 1'))
+			->set('token_count', $qb->func()->add('token_count', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT)))
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('hashed_code', $qb->createNamedParameter(hash('sha512', $oldCode))));
 
