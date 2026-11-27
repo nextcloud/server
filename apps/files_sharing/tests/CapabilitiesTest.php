@@ -21,6 +21,7 @@ use OCP\IConfig;
 use OCP\IDateTimeZone;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
+use OCP\Import\IImportScope;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
@@ -95,6 +96,7 @@ class CapabilitiesTest extends \Test\TestCase {
 			$this->createMock(IDateTimeZone::class),
 			$appConfig,
 			$this->createMock(IDBConnection::class),
+			$this->createMock(IImportScope::class),
 		);
 
 		$cap = new Capabilities($config, $appConfig, $shareManager, $appManager);
