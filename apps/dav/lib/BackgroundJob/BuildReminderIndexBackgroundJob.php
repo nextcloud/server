@@ -9,10 +9,12 @@ declare(strict_types=1);
 
 namespace OCA\DAV\BackgroundJob;
 
+use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Reminder\ReminderService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\QueuedJob;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
@@ -73,6 +75,7 @@ class BuildReminderIndexBackgroundJob extends QueuedJob {
 			->from('calendarobjects')
 			->where($query->expr()->lte('id', $query->createNamedParameter($stopAt)))
 			->andWhere($query->expr()->gt('id', $query->createNamedParameter($offset)))
+			->andWhere($query->expr()->eq('calendartype', $query->createNamedParameter(CalDavBackend::CALENDAR_TYPE_CALENDAR, IQueryBuilder::PARAM_INT)))
 			->orderBy('id', 'ASC');
 
 		$result = $query->executeQuery();
