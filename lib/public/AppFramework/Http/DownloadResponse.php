@@ -32,8 +32,8 @@ class DownloadResponse extends Response {
 	public function __construct(string $filename, string $contentType, int $status = Http::STATUS_OK, array $headers = []) {
 		parent::__construct($status, $headers);
 
-		$sanitized = str_replace(['/', '\\'], '-', $filename);
-		$fallback = str_replace('%', '', (new UnicodeString($sanitized))->ascii()->toString());
+		$sanitized = preg_replace('/[\x00-\x1f\x7f]+/', ' ', str_replace(['/', '\\'], '-', $filename));
+		$fallback = preg_replace('/[^\x20-\x7e]|%/', '', (new UnicodeString($sanitized))->ascii()->toString());
 		$this->addHeader('Content-Disposition', HeaderUtils::makeDisposition(HeaderUtils::DISPOSITION_ATTACHMENT, $sanitized, $fallback));
 		$this->addHeader('Content-Type', $contentType);
 	}
