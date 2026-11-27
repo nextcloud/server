@@ -26,8 +26,9 @@ export function extractFilePaths(path: string): [string, string] {
  *
  * @param nodes - The nodes to summarize
  * @param hidden - The number of hidden nodes
+ * @param hideHiddenString - Whether to omit the hidden files text from the summary
  */
-export function getSummaryFor(nodes: Node[], hidden = 0): string {
+export function getSummaryFor(nodes: Node[], hidden = 0, hideHiddenString = false): string {
 	const fileCount = nodes.filter((node) => node.type === FileType.File).length
 	const folderCount = nodes.filter((node) => node.type === FileType.Folder).length
 
@@ -40,7 +41,7 @@ export function getSummaryFor(nodes: Node[], hidden = 0): string {
 		const folderSummary = n('files', '%n folder', '%n folders', folderCount)
 		summary.push(folderSummary)
 	}
-	if (hidden > 0) {
+	if (hidden > 0 && !hideHiddenString) {
 		// TRANSLATORS: This is the number of hidden files or folders
 		const hiddenSummary = n('files', '%n hidden', '%n hidden', hidden)
 		summary.push(hiddenSummary)
