@@ -54,6 +54,7 @@ use OC\Repair\Owncloud\MoveAvatars;
 use OC\Repair\Owncloud\SaveAccountsTableData;
 use OC\Repair\Owncloud\UpdateLanguageCodes;
 use OC\Repair\RemoveBrokenProperties;
+use OC\Repair\RemoveInvalidSystemTagMappings;
 use OC\Repair\RemoveLinkShares;
 use OC\Repair\RepairDavShares;
 use OC\Repair\RepairInvalidShares;
@@ -201,6 +202,7 @@ class Repair implements IOutput {
 			Server::get(ConfigKeyMigration::class),
 			Server::get(AddCleanupBackgroundJobsJob::class),
 			Server::get(AddCheckCodeIntegrityJob::class),
+			Server::get(RemoveInvalidSystemTagMappings::class),
 		];
 
 		if ($includeExpensive) {
