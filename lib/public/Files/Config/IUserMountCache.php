@@ -146,6 +146,13 @@ interface IUserMountCache {
 	public function removeMount(string $mountPoint, ?IUser $user = null): void;
 
 	/**
+	 * Remove all mounts for a given root id
+	 *
+	 * @since 36.0.0
+	 */
+	public function removeMountsForRoot(int $rootId): void;
+
+	/**
 	 * Register a new mountpoint for a user
 	 *
 	 * @since 33.0.0
