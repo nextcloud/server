@@ -8,10 +8,16 @@
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Files\FilenameValidator;
 use OC\Files\Filesystem;
+use OC\Files\Storage\Home;
+use OC\Files\Storage\Wrapper\Quota;
+use OC\Files\View;
+use OCP\Files\FileInfo;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\NotFoundException;
 use OCP\IBinaryFinder;
 use OCP\ICacheFactory;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\Server;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -270,7 +276,7 @@ class OC_Helper {
 				/** @var \OC\Files\Storage\Home $storage */
 				$user = $storage->getUser();
 			} else {
-				$user = \OC::$server->getUserSession()->getUser();
+				$user = self::getUserOfPath($rootInfo->getPath()) ?? \OC::$server->getUserSession()->getUser();
 			}
 			$quota = $user?->getQuotaBytes() ?? \OCP\Files\FileInfo::SPACE_UNKNOWN;
 			if ($quota !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
@@ -357,13 +363,31 @@ class OC_Helper {
 	}
 
 	/**
+	 * The user whose tree an absolute path is in, e.g. the user `alice` for `/alice/files/...`
+	 */
+	private static function getUserOfPath(string $path): ?IUser {
+		$userId = explode('/', ltrim($path, '/'))[0];
+		if ($userId === '') {
+			return null;
+		}
+		return Server::get(IUserManager::class)->get($userId);
+	}
+
+	/**
 	 * Get storage info including all mount points and quota
 	 *
 	 * @psalm-suppress LessSpecificReturnStatement Legacy code outputs weird types - manually validated that they are correct
 	 * @return StorageInfo
+	 * @throws NotFoundException
 	 */
 	private static function getGlobalStorageInfo(int|float $quota, IUser $user, IMountPoint $mount): array {
-		$rootInfo = \OC\Files\Filesystem::getFileInfo('', 'ext');
+		// the usage has to be read from the home of the user the quota belongs to,
+		// which is not necessarily the user of the current session
+		$view = new View('/' . $user->getUID() . '/files');
+		$rootInfo = $view->getFileInfo('', 'ext');
+		if (!$rootInfo instanceof FileInfo) {
+			throw new NotFoundException('The root directory of the user\'s files is missing');
+		}
 		/** @var int|float $used */
 		$used = $rootInfo['size'];
 		if ($used < 0) {
