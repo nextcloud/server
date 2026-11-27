@@ -17,14 +17,12 @@ const mountPoint = document.getElementById('user_status-menu-entry')
  *
  */
 function mountMenuEntry() {
-	const mountPoint = document.getElementById('user_status-menu-entry')
-	// TODO: fix me after Core migration to Vue 3
-	// In Vue 2 menu items were mounted in place to the menu items
-	// In Vue 3 they are mounted inside the menu item
-	// A workaround - replace the menu item with "display: contents" div
+	// The id is on the anchor of the core menu entry, replace the whole list item
+	// so the user status entry does not render nested inside another list item
+	const menuEntry = document.getElementById('user_status-menu-entry').closest('li')
 	const transparentMountPoint = document.createElement('div')
 	transparentMountPoint.style.display = 'contents'
-	mountPoint.replaceWith(transparentMountPoint)
+	menuEntry.replaceWith(transparentMountPoint)
 
 	createApp(UserStatus)
 		.use(pinia)
