@@ -10,6 +10,7 @@ namespace OCA\Theming\Tests\Controller;
 
 use OC\L10N\L10N;
 use OCA\Theming\Controller\ThemingController;
+use OCA\Theming\IconBuilder;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ITheme;
 use OCA\Theming\Service\ThemesService;
@@ -50,6 +51,7 @@ class ThemingControllerTest extends TestCase {
 	private ThemesService&MockObject $themesService;
 	private INavigationManager&MockObject $navigationManager;
 	private IEventDispatcher&MockObject $eventDispatcher;
+	private IconBuilder&MockObject $iconBuilder;
 
 	private ThemingController $themingController;
 
@@ -65,6 +67,7 @@ class ThemingControllerTest extends TestCase {
 		$this->themesService = $this->createMock(ThemesService::class);
 		$this->navigationManager = $this->createMock(INavigationManager::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$this->iconBuilder = $this->createMock(IconBuilder::class);
 
 		$timeFactory = $this->createMock(ITimeFactory::class);
 		$timeFactory->expects($this->any())
@@ -86,6 +89,7 @@ class ThemingControllerTest extends TestCase {
 			$this->themesService,
 			$this->navigationManager,
 			$this->eventDispatcher,
+			$this->iconBuilder,
 		);
 
 		parent::setUp();
@@ -793,12 +797,16 @@ class ThemingControllerTest extends TestCase {
 			->method('getBaseUrl')
 			->willReturn('localhost');
 		$this->urlGenerator
-			->expects($this->exactly(2))
+			->expects($this->once())
 			->method('linkToRoute')
-			->willReturnMap([
-				['theming.Icon.getTouchIcon', ['app' => 'core'], 'touchicon'],
-				['theming.Icon.getFavicon', ['app' => 'core'], 'favicon'],
-			]);
+			->with('theming.Icon.getTouchIcon', ['app' => 'core'])
+			->willReturn('touchicon');
+		$this->imageManager->method('hasImage')
+			->with('favicon')
+			->willReturn(false);
+		$this->imageManager->method('canConvert')
+			->with('PNG')
+			->willReturn(true);
 		$this->config
 			->expects($this->exactly(2))
 			->method('getSystemValueBool')
@@ -814,11 +822,6 @@ class ThemingControllerTest extends TestCase {
 						'type' => 'image/png',
 						'sizes' => '512x512'
 					],
-					[
-						'src' => 'favicon?v=0',
-						'type' => 'image/svg+xml',
-						'sizes' => '16x16'
-					]
 				],
 			'display_override' => [$standalone ? 'minimal-ui' : ''],
 			'display' => $standalone ? 'standalone' : 'browser',
@@ -829,6 +832,70 @@ class ThemingControllerTest extends TestCase {
 		]);
 		$response->cacheFor(3600);
 		$this->assertEquals($response, $this->themingController->getManifest('core'));
+	}
+
+	public static function dataGetManifestIcons(): array {
+		$touchIcon = file_get_contents(\OC::$SERVERROOT . '/core/img/favicon-touch.png');
+		$svg = ['src' => 'favicon?v=0', 'type' => 'image/svg+xml', 'sizes' => 'any'];
+		return [
+			'generated' => [false, '', true, null, null, null,
+				[['src' => 'touchicon?v=0', 'type' => 'image/png', 'sizes' => '512x512']]],
+			'default without Imagick' => [false, '', false, null, null, null,
+				[['src' => 'touchicon?v=0', 'type' => 'image/png', 'sizes' => '180x180']]],
+			// the SVG favicon is preferred, the PNG image is for browsers without SVG icons
+			'uploaded SVG' => [true, 'image/svg+xml', true, null, 512, 512,
+				[$svg, ['src' => 'manifesticon?v=0', 'type' => 'image/png', 'sizes' => '512x512']]],
+			'uploaded SVG not renderable' => [true, 'image/svg+xml', true, null, null, null,
+				[$svg, ['src' => 'touchicon?v=0', 'type' => 'image/png', 'sizes' => '512x512']]],
+			'uploaded SVG without Imagick' => [true, 'image/svg+xml', false, null, null, null, [$svg]],
+			// a raster favicon is not enlarged
+			'uploaded PNG' => [true, 'image/png', true, null, 252, 297,
+				[['src' => 'manifesticon?v=0', 'type' => 'image/png', 'sizes' => '252x252']]],
+			'uploaded PNG on the primary color' => [true, 'image/png', true, null, null, 144,
+				[['src' => 'touchicon?v=0', 'type' => 'image/png', 'sizes' => '144x144']]],
+			'uploaded PNG too small' => [true, 'image/png', true, null, null, null,
+				[['src' => 'touchicon?v=0', 'type' => 'image/png', 'sizes' => '512x512']]],
+			'uploaded PNG without Imagick' => [true, 'image/png', false, $touchIcon, null, null,
+				[['src' => 'touchicon?v=0', 'type' => 'image/png', 'sizes' => '180x180']]],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGetManifestIcons')]
+	public function testGetManifestIcons(bool $uploaded, string $mime, bool $canConvertPng, ?string $content, ?int $manifestIconSize, ?int $touchIconSize, array $expected): void {
+		$this->urlGenerator->method('linkToRoute')
+			->willReturnMap([
+				['theming.Icon.getTouchIcon', ['app' => 'core'], 'touchicon'],
+				['theming.Icon.getFavicon', ['app' => 'core'], 'favicon'],
+				['theming.Icon.getManifestIcon', [], 'manifesticon'],
+			]);
+		$this->imageManager->method('hasImage')
+			->with('favicon')
+			->willReturn($uploaded);
+		$this->imageManager->method('canConvert')
+			->with('PNG')
+			->willReturn($canConvertPng);
+		$this->imageManager->method('getImageMime')
+			->with('favicon')
+			->willReturn($mime);
+		$this->imageManager->method('isSvgImage')
+			->with('favicon')
+			->willReturn($mime === 'image/svg+xml');
+		$this->iconBuilder->method('getUploadedManifestIconSize')
+			->willReturn($manifestIconSize);
+		$this->iconBuilder->method('getUploadedTouchIconSize')
+			->willReturn($touchIconSize);
+		if ($content === null) {
+			$this->imageManager->expects($this->never())
+				->method('getImage');
+		} else {
+			$file = $this->createMock(ISimpleFile::class);
+			$file->method('getContent')->willReturn($content);
+			$this->imageManager->method('getImage')
+				->with('favicon')
+				->willReturn($file);
+		}
+
+		$this->assertSame($expected, $this->themingController->getManifest('core')->getData()['icons']);
 	}
 
 	/**

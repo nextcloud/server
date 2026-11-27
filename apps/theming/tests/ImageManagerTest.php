@@ -217,6 +217,56 @@ class ImageManagerTest extends TestCase {
 		$this->imageManager->getImage('logo');
 	}
 
+	public static function dataIsSvgImage(): array {
+		return [
+			['image/svg+xml', true],
+			['image/svg', true],
+			['image/png', false],
+			['', false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataIsSvgImage')]
+	public function testIsSvgImage(string $mime, bool $expected): void {
+		$this->appConfig->method('getAppValueString')
+			->with('faviconMime', '')
+			->willReturn($mime);
+		$this->assertSame($expected, $this->imageManager->isSvgImage('favicon'));
+	}
+
+	public static function dataCanRenderImage(): array {
+		return [
+			// mime, PNG support, SVG support, expected
+			['image/png', true, false, true],
+			['image/png', false, true, false],
+			['image/svg+xml', true, true, true],
+			['image/svg+xml', true, false, false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCanRenderImage')]
+	public function testCanRenderImage(string $mime, bool $png, bool $svg, bool $expected): void {
+		$imageManager = $this->getMockBuilder(ImageManager::class)
+			->setConstructorArgs([
+				$this->config,
+				$this->appData,
+				$this->urlGenerator,
+				$this->cacheFactory,
+				$this->logger,
+				$this->tempManager,
+				$this->createMock(BackgroundService::class),
+				$this->appConfig,
+			])
+			->onlyMethods(['canConvert'])
+			->getMock();
+		$imageManager->method('canConvert')
+			->willReturnMap([['PNG', $png], ['SVG', $svg]]);
+		$this->appConfig->method('getAppValueString')
+			->with('faviconMime', '')
+			->willReturn($mime);
+		$this->assertSame($expected, $imageManager->canRenderImage('favicon'));
+	}
+
 	public function testGetCacheFolder(): void {
 		$folder = $this->createMock(ISimpleFolder::class);
 		$this->appConfig->expects($this->once())
