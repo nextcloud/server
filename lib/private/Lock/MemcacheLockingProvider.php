@@ -64,10 +64,12 @@ class MemcacheLockingProvider extends AbstractLockingProvider {
 	public function acquireLock(string $path, int $type, ?string $readablePath = null): void {
 		if ($type === self::LOCK_SHARED) {
 			// save the old TTL to for `restoreTTL`
-			$this->oldTTLs[$path] = [
-				'ttl' => $this->getTTL($path),
-				'time' => $this->timeFactory->getTime()
-			];
+			if ($this->getOwnSharedLockCount($path) === 0) {
+				$this->oldTTLs[$path] = [
+					'ttl' => $this->getTTL($path),
+					'time' => $this->timeFactory->getTime()
+				];
+			}
 			if (!$this->memcache->inc($path)) {
 				throw new LockedException($path, null, $this->getExistingLockForException($path), $readablePath);
 			}
