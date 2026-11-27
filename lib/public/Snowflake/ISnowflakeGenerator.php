@@ -39,6 +39,7 @@ interface ISnowflakeGenerator {
 	 *
 	 * Each call to this method is guaranteed to return a different ID.
 	 *
+	 * @throws \InvalidArgumentException if the current time is before 2025-10-01, as such a time cannot be represented
 	 * @since 33.0
 	 */
 	public function nextId(): string;
