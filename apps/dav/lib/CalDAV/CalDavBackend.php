@@ -1239,6 +1239,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->from('calendarobjects', 'co')
 			->join('co', 'calendars', 'c', $query->expr()->eq('c.id', 'co.calendarid', IQueryBuilder::PARAM_INT))
 			->where($query->expr()->eq('c.principaluri', $query->createNamedParameter($principalUri)))
+			->andWhere($query->expr()->eq('co.calendartype', $query->createNamedParameter(self::CALENDAR_TYPE_CALENDAR, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT))
 			->andWhere($query->expr()->isNotNull('co.deleted_at'))
 			->andWhere($query->expr()->isNull('c.deleted_at'));
 		$stmt = $query->executeQuery();
@@ -1262,6 +1263,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->selectAlias('s.access', 'shareaccess')
 			->from('calendarobjects', 'co')
 			->join('co', 'calendars', 'c', $select->expr()->eq('c.id', 'co.calendarid', IQueryBuilder::PARAM_INT))
+			->andWhere($select->expr()->eq('co.calendartype', $select->createNamedParameter(self::CALENDAR_TYPE_CALENDAR, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT))
 			->andWhere($select->expr()->isNotNull('co.deleted_at'))
 			->andWhere($select->expr()->isNull('c.deleted_at'));
 		$this->applySharedCalendarFilters($select, $principals, $principalUri);
@@ -2805,6 +2807,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->join('co', 'calendars', 'c', $query->expr()->eq('c.id', 'co.calendarid', IQueryBuilder::PARAM_INT))
 			->where($query->expr()->eq('co.id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT))
 			->andWhere($query->expr()->eq('c.principaluri', $query->createNamedParameter($principalUri)))
+			->andWhere($query->expr()->eq('co.calendartype', $query->createNamedParameter(self::CALENDAR_TYPE_CALENDAR, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT))
 			->andWhere($query->expr()->isNotNull('co.deleted_at'));
 		$stmt = $query->executeQuery();
 		$row = $stmt->fetchAssociative();
@@ -2826,6 +2829,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->selectAlias('s.access', 'shareaccess')
 			->from('calendarobjects', 'co')
 			->join('co', 'calendars', 'c', $select->expr()->eq('c.id', 'co.calendarid', IQueryBuilder::PARAM_INT))
+			->andWhere($select->expr()->eq('co.calendartype', $select->createNamedParameter(self::CALENDAR_TYPE_CALENDAR, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT))
 			->andWhere($select->expr()->eq('co.id', $select->createNamedParameter($id, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT))
 			->andWhere($select->expr()->isNotNull('co.deleted_at'))
 			->andWhere($select->expr()->isNull('c.deleted_at'))
