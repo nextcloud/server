@@ -8,6 +8,7 @@
 
 namespace OC\Core\Command;
 
+use OC\App\DependencyAnalyzer;
 use OC\Console\TimestampFormatter;
 use OC\DB\MigratorExecuteSqlEvent;
 use OC\DB\SchemaChecker;
@@ -42,6 +43,7 @@ class Upgrade extends Command {
 		private IConfig $config,
 		private IURLGenerator $urlGenerator,
 		private SchemaChecker $schemaChecker,
+		private DependencyAnalyzer $dependencyAnalyzer,
 	) {
 		parent::__construct();
 	}
@@ -160,11 +162,11 @@ class Upgrade extends Command {
 			$updater->listen('\OC\Updater', 'dbUpgrade', function () use ($output): void {
 				$output->writeln('<info>Updated database</info>');
 			});
-			$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use ($output): void {
+			$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app, $info, $serverVersion) use ($output): void {
 				// Read per event, the overwrites are cleared during a major upgrade
 				$incompatibleOverwrites = $this->config->getSystemValue('app_install_overwrite', []);
 				if (!in_array($app, $incompatibleOverwrites, true)) {
-					$output->writeln('<comment>Disabled incompatible app: ' . $app . '</comment>');
+					$this->reportIncompatibleApp($output, $app, $info, $serverVersion);
 				}
 			});
 			$updater->listen('\OC\Updater', 'upgradeAppStoreApp', function ($app) use ($output): void {
@@ -220,6 +222,21 @@ class Upgrade extends Command {
 			$output->writeln('See the upgrade documentation: ' . $doc . ' for more information.');
 			return self::ERROR_UP_TO_DATE;
 		}
+	}
+
+	private function reportIncompatibleApp(OutputInterface $output, string $app, ?array $info, string $serverVersion): void {
+		$version = $info['version'] ?? 'unknown';
+		[$minVersion, $maxVersion] = $this->dependencyAnalyzer->getServerVersionRequirements($info ?? []);
+		if ($minVersion !== null && $maxVersion !== null) {
+			$requirements = $minVersion . ' to ' . $maxVersion;
+		} elseif ($minVersion !== null) {
+			$requirements = $minVersion . ' or later';
+		} elseif ($maxVersion !== null) {
+			$requirements = $maxVersion . ' or earlier';
+		} else {
+			$requirements = 'unknown';
+		}
+		$output->writeln("<comment>Disabled app $app $version for Nextcloud $serverVersion (declared compatibility: $requirements). A compatible update will be checked later in the upgrade.</comment>");
 	}
 
 	/**

@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace OC\Core\Controller;
 
+use OC\App\DependencyAnalyzer;
 use OC\Core\Listener\FeedBackHandler;
 use OC\DB\MigratorExecuteSqlEvent;
 use OC\Repair\Events\RepairAdvanceEvent;
@@ -20,6 +21,7 @@ use OC\Repair\Events\RepairStartEvent;
 use OC\Repair\Events\RepairStepEvent;
 use OC\Repair\Events\RepairWarningEvent;
 use OC\Updater;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
@@ -47,6 +49,8 @@ class UpdateController extends OCSController {
 		private readonly IEventDispatcher $dispatcher,
 		private readonly LoggerInterface $logger,
 		private readonly IUserSession $userSession,
+		private readonly IAppManager $appManager,
+		private readonly DependencyAnalyzer $dependencyAnalyzer,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -128,11 +132,23 @@ class UpdateController extends OCSController {
 		$this->updater->listen('\OC\Updater', 'appUpgrade', function ($app, $version) use ($eventSource): void {
 			$eventSource->send('success', $this->l->t('Updated "%1$s" to %2$s', [$app, $version]));
 		});
-		$this->updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use (&$incompatibleApps): void {
+		$this->updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app, $info, $serverVersion) use (&$incompatibleApps, $eventSource): void {
 			// Read per event, the overwrites are cleared during a major upgrade
 			$incompatibleOverwrites = $this->config->getSystemValue('app_install_overwrite', []);
 			if (!in_array($app, $incompatibleOverwrites, true)) {
 				$incompatibleApps[] = $app;
+				$version = $info['version'] ?? $this->l->t('unknown');
+				[$minVersion, $maxVersion] = $this->dependencyAnalyzer->getServerVersionRequirements($info ?? []);
+				if ($minVersion !== null && $maxVersion !== null) {
+					$requirements = $this->l->t('%1$s to %2$s', [$minVersion, $maxVersion]);
+				} elseif ($minVersion !== null) {
+					$requirements = $this->l->t('%s or later', [$minVersion]);
+				} elseif ($maxVersion !== null) {
+					$requirements = $this->l->t('%s or earlier', [$maxVersion]);
+				} else {
+					$requirements = $this->l->t('unknown');
+				}
+				$eventSource->send('notice', $this->l->t('Disabled app %1$s %2$s for Nextcloud %3$s (declared compatibility: %4$s). A compatible update will be checked later in the upgrade.', [$app, $version, $serverVersion, $requirements]));
 			}
 		});
 		$this->updater->listen('\OC\Updater', 'failure', function ($message) use ($eventSource): void {
@@ -168,7 +184,9 @@ class UpdateController extends OCSController {
 
 		$disabledApps = [];
 		foreach ($incompatibleApps as $app) {
-			$disabledApps[$app] = $this->l->t('%s (incompatible)', [$app]);
+			if (!$this->appManager->isEnabledForAnyone($app)) {
+				$disabledApps[$app] = $app;
+			}
 		}
 
 		if (!empty($disabledApps)) {

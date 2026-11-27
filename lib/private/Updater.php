@@ -12,6 +12,7 @@ namespace OC;
 
 use OC\App\AppManager;
 use OC\App\AppStore\Fetcher\AppFetcher;
+use OC\App\DependencyAnalyzer;
 use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC\DB\MigratorExecuteSqlEvent;
@@ -63,6 +64,7 @@ class Updater extends BasicEmitter {
 		private ?LoggerInterface $log,
 		private Installer $installer,
 		private IAppManager $appManager,
+		private DependencyAnalyzer $dependencyAnalyzer,
 	) {
 	}
 
@@ -352,12 +354,14 @@ class Updater extends BasicEmitter {
 	}
 
 	/**
-	 * check if the current enabled apps are compatible with the current
-	 * ownCloud version. disable them if not.
-	 * This is important if you upgrade ownCloud and have non ported 3rd
-	 * party apps installed.
+	 * Disables enabled third-party apps whose metadata is missing or incompatible
+	 * with the current server version. Auto-disabled apps are checked for updates
+	 * and re-enablement later in the upgrade.
 	 *
-	 * @throws \Exception
+	 * Skipped on the git release channel.
+	 *
+	 * @throws \UnexpectedValueException if a shipped app is missing or incompatible
+	 * @throws \Exception if an app cannot be disabled
 	 */
 	private function checkAppsRequirements(): void {
 		if ($this->serverVersion->getChannel() === 'git') {
@@ -375,7 +379,7 @@ class Updater extends BasicEmitter {
 					throw new \UnexpectedValueException('The files of the app "' . $app . '" were not correctly replaced before running the update');
 				}
 				$this->appManager->disableApp($app, true);
-				$this->emit('\OC\Updater', 'incompatibleAppDisabled', [$app]);
+				$this->emit('\OC\Updater', 'incompatibleAppDisabled', [$app, $info, $version]);
 			}
 		}
 	}
@@ -503,8 +507,16 @@ class Updater extends BasicEmitter {
 		$this->listen('\OC\Updater', 'dbUpgrade', function () use ($log): void {
 			$log->info('\OC\Updater::dbUpgrade: Updated database', ['app' => 'updater']);
 		});
-		$this->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use ($log): void {
-			$log->info('\OC\Updater::incompatibleAppDisabled: Disabled incompatible app: ' . $app, ['app' => 'updater']);
+		$this->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app, $info, $serverVersion) use ($log): void {
+			[$minVersion, $maxVersion] = $this->dependencyAnalyzer->getServerVersionRequirements($info ?? []);
+			$log->info('\OC\Updater::incompatibleAppDisabled: Disabled app {appId} {appVersion} for Nextcloud {serverVersion} (declared minimum: {minServerVersion}, maximum: {maxServerVersion}); a compatible update will be checked later in the upgrade', [
+				'app' => 'updater',
+				'appId' => $app,
+				'appVersion' => $info['version'] ?? 'unknown',
+				'serverVersion' => $serverVersion,
+				'minServerVersion' => $minVersion ?? 'unknown',
+				'maxServerVersion' => $maxVersion ?? 'unknown',
+			]);
 		});
 		$this->listen('\OC\Updater', 'checkAppStoreAppBefore', function ($app) use ($log): void {
 			$log->debug('\OC\Updater::checkAppStoreAppBefore: Checking for update of app "' . $app . '" in appstore', ['app' => 'updater']);
