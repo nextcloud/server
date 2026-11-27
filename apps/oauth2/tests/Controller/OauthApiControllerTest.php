@@ -245,6 +245,7 @@ final class OauthApiControllerTest extends TestCase {
 
 		$accessToken = new AccessToken();
 		$accessToken->clientId = 42;
+		$accessToken->tokenCount = 1;
 
 		$this->accessTokenMapper->method('getByCode')
 			->with('validrefresh')
@@ -279,6 +280,7 @@ final class OauthApiControllerTest extends TestCase {
 
 		$accessToken = new AccessToken();
 		$accessToken->clientId = 42;
+		$accessToken->tokenCount = 1;
 
 		$this->accessTokenMapper->method('getByCode')
 			->with('validrefresh')
@@ -309,6 +311,7 @@ final class OauthApiControllerTest extends TestCase {
 
 		$accessToken = new AccessToken();
 		$accessToken->clientId = 42;
+		$accessToken->tokenCount = 1;
 		$accessToken->tokenId = 1337;
 		$accessToken->encryptedToken = 'encryptedToken';
 
@@ -348,6 +351,7 @@ final class OauthApiControllerTest extends TestCase {
 		$accessToken = new AccessToken();
 		$accessToken->id = 21;
 		$accessToken->clientId = 42;
+		$accessToken->tokenCount = 1;
 		$accessToken->tokenId = 1337;
 		$accessToken->encryptedToken = 'encryptedToken';
 
@@ -454,6 +458,7 @@ final class OauthApiControllerTest extends TestCase {
 		$accessToken = new AccessToken();
 		$accessToken->id = 21;
 		$accessToken->clientId = 42;
+		$accessToken->tokenCount = 1;
 		$accessToken->tokenId = 1337;
 		$accessToken->encryptedToken = 'encryptedToken';
 
@@ -563,6 +568,7 @@ final class OauthApiControllerTest extends TestCase {
 		$accessToken = new AccessToken();
 		$accessToken->id = 21;
 		$accessToken->clientId = 42;
+		$accessToken->tokenCount = 1;
 		$accessToken->tokenId = 1337;
 		$accessToken->encryptedToken = 'encryptedToken';
 
@@ -674,6 +680,7 @@ final class OauthApiControllerTest extends TestCase {
 		$accessToken = new AccessToken();
 		$accessToken->id = 21;
 		$accessToken->clientId = 42;
+		$accessToken->tokenCount = 1;
 		$accessToken->tokenId = 1337;
 		$accessToken->encryptedToken = 'encryptedToken';
 
@@ -756,6 +763,7 @@ final class OauthApiControllerTest extends TestCase {
 		$accessToken = new AccessToken();
 		$accessToken->id = 21;
 		$accessToken->clientId = 42;
+		$accessToken->tokenCount = 1;
 		$accessToken->tokenId = 1337;
 		$accessToken->encryptedToken = 'encryptedToken';
 
