@@ -41,11 +41,13 @@ if (fileId !== null) {
 	// The router lands its first navigation, to the URL the page was opened
 	// with, asynchronously: a push made before it finishes is overwritten by it,
 	// and the shared file is never opened
+	const currentOpenFile = window.OCP.Files.Router.query.openfile
+	const openfile = currentOpenFile !== undefined && currentOpenFile.toLowerCase() === 'false' ? 'false' : 'true'
 	router.isReady()
 		.then(() => window.OCP.Files.Router.goToRoute(
 			'filelist',
 			{ ...window.OCP.Files.Router.params, token, fileid: String(fileId) },
-			{ ...window.OCP.Files.Router.query, openfile: 'true' },
+			{ ...window.OCP.Files.Router.query, openfile },
 		))
 		.catch((error) => logger.error('Could not open the shared file', { error }))
 }
