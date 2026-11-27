@@ -16,6 +16,7 @@ use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IRequest;
@@ -64,6 +65,16 @@ class CssControllerTest extends TestCase {
 			->willThrowException(new NotFoundException());
 
 		$result = $this->controller->getCss('file.css', 'myapp');
+
+		$this->assertInstanceOf(NotFoundResponse::class, $result);
+	}
+
+	public function testInvalidFolderName(): void {
+		$this->appData->method('getFolder')
+			->with('..')
+			->willThrowException(new NotPermittedException());
+
+		$result = $this->controller->getCss('.htpasswd', '..');
 
 		$this->assertInstanceOf(NotFoundResponse::class, $result);
 	}

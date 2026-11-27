@@ -22,6 +22,7 @@ use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IRequest;
@@ -54,7 +55,7 @@ class CssController extends Controller {
 			$folder = $this->appData->getFolder($appName);
 			$gzip = false;
 			$file = $this->getFile($folder, $fileName, $gzip);
-		} catch (NotFoundException) {
+		} catch (NotFoundException|NotPermittedException) {
 			return new NotFoundResponse();
 		}
 
