@@ -63,6 +63,102 @@ class AssemblyStreamTest extends \Test\TestCase {
 		$this->assertEquals(substr($expected, $offset), $content);
 	}
 
+	public function testSeekModesAndBoundaries(): void {
+		$stream = AssemblyStream::wrap([
+			$this->buildNode('0', 'abc'),
+			$this->buildNode('1', 'def'),
+		]);
+
+		$this->assertSame(0, fseek($stream, 3, SEEK_SET));
+		$this->assertSame(3, ftell($stream));
+		$this->assertSame(0, fseek($stream, 3, SEEK_SET));
+		$this->assertSame(3, ftell($stream));
+		$this->assertSame('def', stream_get_contents($stream));
+
+		$this->assertSame(0, fseek($stream, 0, SEEK_SET));
+		$this->assertSame('ab', fread($stream, 2));
+		$this->assertSame(2, ftell($stream));
+		$this->assertSame(0, fseek($stream, 1, SEEK_CUR));
+		$this->assertSame('def', stream_get_contents($stream));
+
+		$this->assertSame(0, fseek($stream, -2, SEEK_END));
+		$this->assertSame('ef', stream_get_contents($stream));
+
+		$this->assertSame(0, fseek($stream, 6, SEEK_SET));
+		$this->assertSame('', fread($stream, 1));
+		$this->assertSame(-1, fseek($stream, 7, SEEK_SET));
+		$this->assertSame(6, ftell($stream));
+	}
+
+	public function testNegativeSeekIsRejectedWithoutChangingPosition(): void {
+		$stream = AssemblyStream::wrap([
+			$this->buildNode('0', 'abcdef'),
+		]);
+		$this->assertSame('a', fread($stream, 1));
+
+		foreach ([
+			[-1, SEEK_SET],
+			[-2, SEEK_CUR],
+			[-7, SEEK_END],
+		] as [$offset, $whence]) {
+			$this->assertSame(-1, fseek($stream, $offset, $whence));
+			$this->assertSame(1, ftell($stream));
+		}
+	}
+
+	public function testEmptyAssemblyAndNegativeSeek(): void {
+		$stream = AssemblyStream::wrap([]);
+
+		$this->assertSame('', stream_get_contents($stream));
+		$this->assertSame(0, fseek($stream, 0, SEEK_SET));
+		$this->assertSame(-1, fseek($stream, -1, SEEK_SET));
+		$this->assertSame(0, ftell($stream));
+	}
+
+	public function testReadsFromResourceBackedNode(): void {
+		$data = 'resource-backed chunk';
+		$source = fopen('php://temp', 'w+');
+		fwrite($source, $data);
+		rewind($source);
+
+		$node = $this->getMockBuilder(File::class)
+			->onlyMethods(['getName', 'get', 'getSize'])
+			->getMock();
+		$node->method('getName')->willReturn('0');
+		$node->method('get')->willReturn($source);
+		$node->method('getSize')->willReturn(strlen($data));
+
+		$stream = AssemblyStream::wrap([$node]);
+		$this->assertSame($data, stream_get_contents($stream));
+	}
+
+	public function testThrowsWhenNodeStreamIsShorterThanReportedSize(): void {
+		$node = $this->getMockBuilder(File::class)
+			->onlyMethods(['getName', 'get', 'getSize'])
+			->getMock();
+		$node->method('getName')->willReturn('0');
+		$node->method('get')->willReturn('abc');
+		$node->method('getSize')->willReturn(5);
+
+		$stream = AssemblyStream::wrap([$node]);
+
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('Stream from assembly node shorter than expected');
+		stream_get_contents($stream);
+	}
+
+	public function testTellAndStatReportStreamPositionAndSize(): void {
+		$stream = AssemblyStream::wrap([
+			$this->buildNode('0', 'abc'),
+			$this->buildNode('1', 'def'),
+		]);
+
+		$this->assertSame(0, ftell($stream));
+		$this->assertSame(6, fstat($stream)['size']);
+		$this->assertSame('ab', fread($stream, 2));
+		$this->assertSame(2, ftell($stream));
+	}
+
 	public static function providesNodes(): array {
 		$data8k = self::makeData(8192);
 		$dataLess8k = self::makeData(8191);
