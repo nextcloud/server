@@ -19,13 +19,21 @@ class TeamFolderTest extends TestCase {
 		$this->assertSame(42, $folder->getId());
 		$this->assertSame('Engineering', $folder->getMountPoint());
 		$this->assertNull($folder->getQuota());
-		$this->assertSame(['id' => 42, 'quota' => null, 'mountPoint' => 'Engineering'], $folder->jsonSerialize());
+		$this->assertNull($folder->getRootFileId());
+		$this->assertSame(['id' => 42, 'quota' => null, 'mountPoint' => 'Engineering', 'rootFileId' => null], $folder->jsonSerialize());
 	}
 
 	public function testSerializesFolderQuota(): void {
 		$folder = new TeamFolder(42, 'Engineering', 1024);
 
 		$this->assertSame(1024, $folder->getQuota());
-		$this->assertSame(['id' => 42, 'quota' => 1024, 'mountPoint' => 'Engineering'], $folder->jsonSerialize());
+		$this->assertSame(['id' => 42, 'quota' => 1024, 'mountPoint' => 'Engineering', 'rootFileId' => null], $folder->jsonSerialize());
+	}
+
+	public function testSerializesFolderRootFileId(): void {
+		$folder = new TeamFolder(42, 'Engineering', 1024, 1337);
+
+		$this->assertSame(1337, $folder->getRootFileId());
+		$this->assertSame(['id' => 42, 'quota' => 1024, 'mountPoint' => 'Engineering', 'rootFileId' => 1337], $folder->jsonSerialize());
 	}
 }
