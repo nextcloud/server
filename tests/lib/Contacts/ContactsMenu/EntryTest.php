@@ -21,9 +21,9 @@ class EntryTest extends TestCase {
 		$this->entry = new Entry();
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testSetId(): void {
 		$this->entry->setId(123);
-		$this->addToAssertionCount(1);
 	}
 
 	public function testSetGetFullName(): void {
