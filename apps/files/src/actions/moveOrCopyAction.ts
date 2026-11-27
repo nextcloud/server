@@ -5,7 +5,7 @@
 
 import type { IFilePickerButton } from '@nextcloud/dialogs'
 import type { IFileAction, IFolder, INode } from '@nextcloud/files'
-import type { FileStat, ResponseDataDetailed, WebDAVClientError } from 'webdav'
+import type { FileStat, ResponseDataDetailed, WebDAVClient, WebDAVClientError } from 'webdav'
 import type { MoveCopyResult } from './moveOrCopyActionUtils.ts'
 
 import FolderMoveSvg from '@mdi/svg/svg/folder-move-outline.svg?raw'
@@ -26,6 +26,9 @@ import { canCopy, canMove, getQueue, MoveCopyAction } from './moveOrCopyActionUt
  * The message is intended to be shown to the user.
  */
 export class HintException extends Error {}
+
+const MOVE_POLL_INTERVAL = 10 * 1000
+const MOVE_POLL_TIMEOUT = 60 * 60 * 1000
 
 export const ACTION_COPY_MOVE = 'move-copy'
 
@@ -161,17 +164,18 @@ export async function* handleCopyMoveNodesTo(nodes: INode[], destination: IFolde
 		join(destination.dirname, destination.displayname).replace(/^\//, ''),
 	)
 	const queue = getQueue()
+	// A failure must not prevent the remaining nodes from being processed
+	const errors: Error[] = []
 	try {
 		for (const node of nodes) {
 			// Set loading state
 			node.status = NodeStatus.LOADING
-			yield queue.add(async () => {
+			const task = queue.add(async () => {
+				const client = getClient()
+				const currentPath = join(defaultRootPath, node.path)
+				const destinationPath = join(defaultRootPath, destination.path, nameMapping.get(node.source) ?? node.basename)
+
 				try {
-					const client = getClient()
-
-					const currentPath = join(defaultRootPath, node.path)
-					const destinationPath = join(defaultRootPath, destination.path, nameMapping.get(node.source) ?? node.basename)
-
 					if (method === MoveCopyAction.COPY) {
 						await client.copyFile(currentPath, destinationPath)
 						// If the node is copied into current directory the view needs to be updated
@@ -193,12 +197,21 @@ export async function* handleCopyMoveNodesTo(nodes: INode[], destination: IFolde
 					}
 				} catch (error) {
 					logger.debug(`Error while trying to ${method === MoveCopyAction.COPY ? 'copy' : 'move'} node`, { node, error })
+					// A proxy timeout does not abort the move on the server
+					if (method === MoveCopyAction.MOVE && error.response?.status === 504
+						&& await waitForMoveToComplete(client, currentPath, destinationPath)) {
+						emit('files:node:deleted', node)
+						return
+					}
+
 					if (error.response?.status === 412) {
 						throw new HintException(t('files', 'A file or folder with that name already exists in this folder'))
 					} else if (error.response?.status === 423) {
 						throw new HintException(t('files', 'The files are locked'))
 					} else if (error.response?.status === 404) {
 						throw new HintException(t('files', 'The file does not exist anymore'))
+					} else if (error.response?.status === 504) {
+						throw new HintException(t('files', 'The operation timed out but may still complete on the server. Check the destination folder later.'))
 					} else if ('response' in error && error.response) {
 						const parser = new DOMParser()
 						const text = await (error as WebDAVClientError).response!.text()
@@ -213,10 +226,44 @@ export async function* handleCopyMoveNodesTo(nodes: INode[], destination: IFolde
 					node.status = undefined
 				}
 			})
+
+			try {
+				yield await task
+			} catch (error) {
+				errors.push(error as Error)
+			}
 		}
 	} finally {
 		actionFinished()
 	}
+
+	if (errors.length > 0) {
+		throw errors.find((error) => error instanceof HintException && !!error.message) ?? errors[0]
+	}
+}
+
+/**
+ * Wait for a move that continues on the server after its request timed out.
+ * The move is complete once the source is gone and the destination exists.
+ *
+ * @param client - The WebDAV client
+ * @param source - The DAV path of the node being moved
+ * @param destination - The DAV path the node is moved to
+ * @return Whether the move completed within the time limit
+ */
+async function waitForMoveToComplete(client: WebDAVClient, source: string, destination: string): Promise<boolean> {
+	const deadline = Date.now() + MOVE_POLL_TIMEOUT
+	while (Date.now() < deadline) {
+		await new Promise((resolve) => setTimeout(resolve, MOVE_POLL_INTERVAL))
+		try {
+			if (!await client.exists(source) && await client.exists(destination)) {
+				return true
+			}
+		} catch (error) {
+			logger.debug('Could not check the progress of the move', { source, destination, error })
+		}
+	}
+	return false
 }
 
 /**
