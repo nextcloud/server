@@ -349,6 +349,78 @@ class IMipServiceTest extends TestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
+	public static function dataBuildBodyDataUpdateUnchangedLocation(): array {
+		return [
+			'plain text' => ['Room & Hall', 'Room &amp; Hall'],
+			'url' => ['https://example.com/room?a=1&b=2', '<a href="https://example.com/room?a=1&amp;b=2">https://example.com/room?a=1&amp;b=2</a>'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataBuildBodyDataUpdateUnchangedLocation')]
+	public function testBuildBodyDataUpdateUnchangedLocation(string $location, string $expectedLocationHtml): void {
+		$this->l10n->method('l')->willReturn('');
+		$this->l10n->method('n')->willReturn('');
+		$this->timeFactory->method('getDateTime')->willReturn(new \DateTime('20240630T000000'));
+
+		$vCalendarNew = clone $this->vCalendar1a;
+		$vCalendarNew->VEVENT[0]->add('LOCATION', $location);
+		$vCalendarOld = clone $vCalendarNew;
+
+		$actual = $this->service->buildBodyData($vCalendarNew->VEVENT[0], $vCalendarOld->VEVENT[0]);
+
+		$this->assertSame($expectedLocationHtml, $actual['meeting_location_html']);
+	}
+
+	public static function dataBuildBodyDataUpdateChangedLocation(): array {
+		return [
+			'url to url' => [
+				'https://example.com/old',
+				'https://example.com/new',
+				'<span style="text-decoration: line-through"><a href="https://example.com/old">https://example.com/old</a></span><br /><a href="https://example.com/new">https://example.com/new</a>',
+			],
+			'text to url' => [
+				'Room & Hall',
+				'https://example.com/new',
+				'<span style="text-decoration: line-through">Room &amp; Hall</span><br /><a href="https://example.com/new">https://example.com/new</a>',
+			],
+			'url to text' => [
+				'https://example.com/old',
+				'Room & Hall',
+				'<span style="text-decoration: line-through"><a href="https://example.com/old">https://example.com/old</a></span><br />Room &amp; Hall',
+			],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataBuildBodyDataUpdateChangedLocation')]
+	public function testBuildBodyDataUpdateChangedLocation(string $oldLocation, string $newLocation, string $expectedLocationHtml): void {
+		$this->l10n->method('l')->willReturn('');
+		$this->l10n->method('n')->willReturn('');
+		$this->timeFactory->method('getDateTime')->willReturn(new \DateTime('20240630T000000'));
+
+		$vCalendarNew = clone $this->vCalendar1a;
+		$vCalendarNew->VEVENT[0]->add('LOCATION', $newLocation);
+		$vCalendarOld = clone $this->vCalendar1a;
+		$vCalendarOld->VEVENT[0]->add('LOCATION', $oldLocation);
+
+		$actual = $this->service->buildBodyData($vCalendarNew->VEVENT[0], $vCalendarOld->VEVENT[0]);
+
+		$this->assertSame($expectedLocationHtml, $actual['meeting_location_html']);
+	}
+
+	public function testBuildBodyDataUpdateUnchangedTitleWithSpecialChars(): void {
+		$this->l10n->method('l')->willReturn('');
+		$this->l10n->method('n')->willReturn('');
+		$this->timeFactory->method('getDateTime')->willReturn(new \DateTime('20240630T000000'));
+
+		$vCalendarNew = clone $this->vCalendar1a;
+		$vCalendarNew->VEVENT[0]->SUMMARY->setValue('Lunch & Learn');
+		$vCalendarOld = clone $vCalendarNew;
+
+		$actual = $this->service->buildBodyData($vCalendarNew->VEVENT[0], $vCalendarOld->VEVENT[0]);
+
+		$this->assertSame('Lunch &amp; Learn', $actual['meeting_title_html']);
+	}
+
 	public function testBuildBodyDataUpdatedEscapesStrings(): void {
 		$this->l10n->method('l')
 			->willReturnCallback(static function (string $type, \DateTime $date):string {
