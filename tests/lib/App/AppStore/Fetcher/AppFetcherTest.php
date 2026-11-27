@@ -1935,6 +1935,87 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 		$this->assertEquals(self::$expectedResponse['data'], $this->fetcher->get());
 	}
 
+	public function testGetAllowUnstableDoesNotUseStableCache(): void {
+		$this->config->method('getSystemValueString')
+			->willReturnCallback(function ($key, $default) {
+				if ($key === 'version') {
+					return '11.0.0.2';
+				}
+				return $default;
+			});
+		$this->config
+			->method('getSystemValueBool')
+			->willReturnArgument(1);
+		$this->config->method('getAppValue')
+			->willReturnMap([
+				['settings', 'appstore-fetcher-lastFailure', '0', '0'],
+				['settings', 'appstore-timeout', '120', '120'],
+			]);
+
+		$stableRelease = ['version' => '1.0.0', 'isNightly' => false, 'rawPlatformVersionSpec' => '>=9 <=11', 'rawPhpVersionSpec' => '*'];
+		$nightlyRelease = ['version' => '1.1.0', 'isNightly' => true, 'rawPlatformVersionSpec' => '>=9 <=11', 'rawPhpVersionSpec' => '*'];
+
+		$stableFile = $this->createMock(ISimpleFile::class);
+		$stableFile
+			->method('getContent')
+			->willReturn(json_encode([
+				'data' => [['id' => 'myapp', 'releases' => [$stableRelease]]],
+				'timestamp' => 1200,
+				'ncversion' => '11.0.0.2',
+				'ETag' => '"myETag"',
+			]));
+		$unstableFile = $this->createMock(ISimpleFile::class);
+		$folder = $this->createMock(ISimpleFolder::class);
+		$folder
+			->method('getFile')
+			->willReturnCallback(function (string $fileName) use ($stableFile) {
+				if ($fileName === 'apps.json') {
+					return $stableFile;
+				}
+				throw new NotFoundException();
+			});
+		$folder
+			->expects($this->once())
+			->method('newFile')
+			->with('apps-unstable.json')
+			->willReturn($unstableFile);
+		$this->appData
+			->expects($this->once())
+			->method('getFolder')
+			->with('/')
+			->willReturn($folder);
+		$client = $this->createMock(IClient::class);
+		$this->clientService
+			->expects($this->once())
+			->method('newClient')
+			->willReturn($client);
+		$response = $this->createMock(IResponse::class);
+		$client
+			->expects($this->once())
+			->method('get')
+			->with('https://apps.nextcloud.com/api/v1/apps.json', ['timeout' => 120])
+			->willReturn($response);
+		$response->method('getStatusCode')
+			->willReturn(200);
+		$response->method('getBody')
+			->willReturn(json_encode([['id' => 'myapp', 'releases' => [$stableRelease, $nightlyRelease]]]));
+		$response->method('getHeader')
+			->with('ETag')
+			->willReturn('"myNewETag"');
+		$this->timeFactory
+			->method('getTime')
+			->willReturn(1499);
+
+		$unstableFile
+			->expects($this->once())
+			->method('putContent')
+			->willReturnCallback(function (string $content) use ($unstableFile): void {
+				$unstableFile->method('getContent')->willReturn($content);
+			});
+
+		$this->assertEquals([['id' => 'myapp', 'releases' => [$nightlyRelease]]], $this->fetcher->get(true));
+	}
+
 	public function testAppstoreDisabled(): void {
 		$this->config
 			->method('getSystemValueString')
