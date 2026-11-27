@@ -10,9 +10,9 @@ vi.mock('@nextcloud/capabilities', () => ({
 	getCapabilities: () => ({
 		files: {
 			forbidden_filename_characters: ['/', '\\', '>'],
-			forbidden_filenames: ['.htaccess'],
+			forbidden_filenames: ['.htaccess', 'a&b'],
 			forbidden_filename_basenames: ['con'],
-			forbidden_filename_extensions: ['.exe', '.~'],
+			forbidden_filename_extensions: ['.exe', '.~', '.a&b'],
 		},
 	}),
 }))
@@ -86,6 +86,14 @@ describe('getFilenameValidity', () => {
 
 		it('does not escape the matched character by default', () => {
 			expect(getFilenameValidity('inva>lid')).toBe('">" is not allowed inside a filename.')
+		})
+
+		it('escapes a reserved name when requested', () => {
+			expect(getFilenameValidity('a&b', true)).toBe('"a&amp;b" is a reserved name and not allowed for filenames.')
+		})
+
+		it('escapes a forbidden extension when requested', () => {
+			expect(getFilenameValidity('file.a&b', true)).toBe('".a&amp;b" is not an allowed filetype.')
 		})
 	})
 
