@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OC\Core\Listener;
 
+use OC\SystemConfig;
 use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -20,6 +21,7 @@ use OCP\IDBConnection;
 class AddMissingIndicesListener implements IEventListener {
 	public function __construct(
 		private readonly IDBConnection $connection,
+		private readonly SystemConfig $systemConfig,
 	) {
 	}
 
@@ -78,6 +80,18 @@ class AddMissingIndicesListener implements IEventListener {
 			'fs_name_hash',
 			['name']
 		);
+		if ($this->supportsBoundedFilesNameSearch()) {
+			$event->addMissingIndex(
+				'filecache',
+				'fs_storage_name_mtime_fileid',
+				['storage', 'name', 'mtime', 'fileid'],
+			);
+			$event->addMissingIndex(
+				'filecache',
+				'fs_storage_mtime_fileid_name',
+				['storage', 'mtime', 'fileid', 'name'],
+			);
+		}
 
 		$event->addMissingIndex(
 			'twofactor_providers',
@@ -235,5 +249,25 @@ class AddMissingIndicesListener implements IEventListener {
 			'taskp_tasks_scheduled',
 			['scheduled_at']
 		);
+	}
+
+	private function supportsBoundedFilesNameSearch(): bool {
+		if ($this->systemConfig->getValue('files_search_bounded_name', false) !== true
+			|| $this->connection->getDatabaseProvider(true) !== IDBConnection::PLATFORM_MARIADB) {
+			return false;
+		}
+
+		try {
+			$result = $this->connection->executeQuery('SELECT VERSION()');
+			try {
+				$version = $result->fetchOne();
+			} finally {
+				$result->closeCursor();
+			}
+		} catch (\Throwable) {
+			return false;
+		}
+
+		return is_string($version) && preg_match('/^10\\.11\\.[0-9]+(?:-|$)/', $version) === 1;
 	}
 }
