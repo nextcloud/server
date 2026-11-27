@@ -146,7 +146,11 @@ class Router implements IRouter {
 				$routingFiles = [];
 			}
 
-			if ($this->appManager->isEnabledForUser($app)) {
+			// Don't check whether the app is enabled for the current user here:
+			// apps may authenticate requests themselves after routing, so no user
+			// might be logged in yet. This matches the behaviour of loading all
+			// routes and of the CachingRouter.
+			if ($this->appManager->isEnabledForAnyone($app)) {
 				$this->loadAttributeRoutes($app);
 			}
 		}
