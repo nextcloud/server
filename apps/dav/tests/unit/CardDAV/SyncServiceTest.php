@@ -34,12 +34,14 @@ class SyncServiceTest extends TestCase {
 	protected CardDavBackend&MockObject $backend;
 	protected IUserManager&MockObject $userManager;
 	protected IDBConnection&MockObject $dbConnection;
-	protected LoggerInterface $logger;
+	protected LoggerInterface&MockObject $logger;
 	protected Converter&MockObject $converter;
 	protected IClient&MockObject $client;
 	protected IConfig&MockObject $config;
 	protected SyncService $service;
 	protected int $transactionDepth = 0;
+	/** @var list<array{uri: string, body: string, hrefs: list<string>}> */
+	protected array $multiGetRequests = [];
 
 	public function setUp(): void {
 		parent::setUp();
@@ -60,7 +62,7 @@ class SyncServiceTest extends TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->dbConnection = $this->createMock(IDBConnection::class);
 		$this->trackTransactionDepth($this->dbConnection);
-		$this->logger = new NullLogger();
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->converter = $this->createMock(Converter::class);
 		$this->client = $this->createMock(IClient::class);
 		$this->config = $this->createMock(IConfig::class);
@@ -94,6 +96,63 @@ class SyncServiceTest extends TestCase {
 
 	private function assertNotInTransaction(): void {
 		$this->assertSame(0, $this->transactionDepth, 'Expected no open transaction');
+	}
+
+	/**
+	 * @param array<string, string> $vCards vCard data keyed by href, returned for addressbook-multiget reports
+	 */
+	private function mockSyncAndMultiGetReports(Response $syncResponse, array $vCards): void {
+		$this->client->expects($this->never())
+			->method('get');
+		$this->client
+			->method('request')
+			->willReturnCallback(function (string $method, string $uri, array $options) use ($syncResponse, $vCards) {
+				if ($method === 'PROPFIND') {
+					$this->assertSame('0', $options['headers']['Depth']);
+					return $this->createSupportedReportSetResponse(true);
+				}
+				if (!str_contains($options['body'], 'addressbook-multiget')) {
+					return $syncResponse;
+				}
+
+				$request = new \DOMDocument();
+				$request->loadXML($options['body']);
+				$hrefs = [];
+				foreach ($request->getElementsByTagNameNS('DAV:', 'href') as $hrefElement) {
+					$hrefs[] = $hrefElement->textContent;
+				}
+				$this->multiGetRequests[] = ['uri' => $uri, 'body' => $options['body'], 'hrefs' => $hrefs];
+
+				$responses = '';
+				foreach (array_intersect_key($vCards, array_flip($hrefs)) as $href => $vCard) {
+					$responses .= '<d:response><d:href>' . $href . '</d:href><d:propstat><d:prop>'
+						. '<d:getetag>&quot;' . md5($vCard) . '&quot;</d:getetag>'
+						. '<card:address-data>' . str_replace("\r", '&#13;', htmlspecialchars($vCard, ENT_XML1)) . '</card:address-data>'
+						. '</d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response>';
+				}
+				$body = '<?xml version="1.0"?><d:multistatus xmlns:d="DAV:" xmlns:card="urn:ietf:params:xml:ns:carddav">' . $responses . '</d:multistatus>';
+				return new Response(new PsrResponse(
+					207,
+					['Content-Type' => 'application/xml; charset=utf-8', 'Content-Length' => strlen($body)],
+					$body
+				));
+			});
+	}
+
+	private function createSupportedReportSetResponse(bool $multiGetSupported): Response {
+		$reports = '<d:supported-report><d:report><d:sync-collection/></d:report></d:supported-report>';
+		if ($multiGetSupported) {
+			$reports .= '<d:supported-report><d:report><card:addressbook-multiget/></d:report></d:supported-report>';
+		}
+		$body = '<?xml version="1.0"?><d:multistatus xmlns:d="DAV:" xmlns:card="urn:ietf:params:xml:ns:carddav"><d:response>'
+			. '<d:href>/remote.php/dav/addressbooks/system/system/system/</d:href><d:propstat><d:prop>'
+			. '<d:supported-report-set>' . $reports . '</d:supported-report-set>'
+			. '</d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>';
+		return new Response(new PsrResponse(
+			207,
+			['Content-Type' => 'application/xml; charset=utf-8', 'Content-Length' => strlen($body)],
+			$body
+		));
 	}
 
 	public function testEmptySync(): void {
@@ -144,6 +203,8 @@ class SyncServiceTest extends TestCase {
 
 		$this->backend->method('getCard')
 			->willReturn(false);
+		$this->logger->expects($this->never())
+			->method('warning');
 
 		$body = '<?xml version="1.0"?>
 <d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns">
@@ -166,10 +227,6 @@ class SyncServiceTest extends TestCase {
 			$body
 		));
 
-		$this->client
-			->method('request')
-			->willReturn($reportResponse);
-
 		$vCard = 'BEGIN:VCARD
 VERSION:3.0
 PRODID:-//Sabre//Sabre VObject 4.5.4//EN
@@ -180,15 +237,9 @@ X-SOCIALPROFILE;TYPE=NEXTCLOUD;X-NC-SCOPE=v2-published:https://server2.internal/
 CLOUD:alice@server2.internal
 END:VCARD';
 
-		$getResponse = new Response(new PsrResponse(
-			200,
-			['Content-Type' => 'text/vcard; charset=utf-8', 'Content-Length' => strlen($vCard)],
-			$vCard,
-		));
-
-		$this->client
-			->method('get')
-			->willReturn($getResponse);
+		$this->mockSyncAndMultiGetReports($reportResponse, [
+			'/remote.php/dav/addressbooks/system/system/system/Database:alice.vcf' => $vCard,
+		]);
 
 		$token = $this->service->syncRemoteAddressBook(
 			'',
@@ -202,6 +253,124 @@ END:VCARD';
 		)[0];
 
 		$this->assertEquals('http://sabre.io/ns/sync/2', $token);
+	}
+
+	public function testSyncFetchesChangedCardsWithBatchedMultiGet(): void {
+		$responses = '';
+		$vCards = [];
+		for ($i = 0; $i < 101; $i++) {
+			$href = "/remote.php/dav/addressbooks/system/system/system/Database:user$i.vcf";
+			$responses .= "<d:response><d:href>$href</d:href><d:propstat><d:prop><d:getetag>&quot;$i&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response>";
+			$vCards[$href] = "BEGIN:VCARD\r\nVERSION:3.0\r\nUID:user$i\r\nFN:User & <$i>\r\nEND:VCARD\r\n";
+		}
+		// The remote no longer returns the last card, e.g. because it was deleted in the meantime
+		$missingHref = array_key_last($vCards);
+		unset($vCards[$missingHref]);
+
+		$body = '<?xml version="1.0"?><d:multistatus xmlns:d="DAV:">' . $responses . '<d:sync-token>http://sabre.io/ns/sync/5</d:sync-token></d:multistatus>';
+		$reportResponse = new Response(new PsrResponse(
+			207,
+			['Content-Type' => 'application/xml; charset=utf-8', 'Content-Length' => strlen($body)],
+			$body
+		));
+		$this->mockSyncAndMultiGetReports($reportResponse, $vCards);
+
+		$this->backend->method('getCard')
+			->willReturn(false);
+		$createdCards = [];
+		$this->backend->expects($this->exactly(100))
+			->method('createCard')
+			->willReturnCallback(function (int $addressBookId, string $cardUri, string $cardData) use (&$createdCards): void {
+				$createdCards[$cardUri] = $cardData;
+			});
+		$this->backend->expects($this->never())
+			->method('updateCard');
+		$this->backend->expects($this->never())
+			->method('deleteCard');
+		$this->logger->expects($this->once())
+			->method('warning')
+			->with(
+				$this->stringContains('did not return some changed cards'),
+				$this->callback(fn (array $context): bool => $context['cards'] === [$missingHref]),
+			);
+
+		$token = $this->service->syncRemoteAddressBook(
+			'https://server2.internal',
+			'system',
+			'remote.php/dav/addressbooks/system/system/system',
+			'1234567890',
+			'1',
+			'1',
+			'principals/system/system',
+			[]
+		)[0];
+
+		$this->assertEquals('http://sabre.io/ns/sync/5', $token);
+		$this->assertCount(2, $this->multiGetRequests);
+		$this->assertCount(100, $this->multiGetRequests[0]['hrefs']);
+		$this->assertSame([$missingHref], $this->multiGetRequests[1]['hrefs']);
+		foreach ($this->multiGetRequests as $request) {
+			$this->assertSame('https://server2.internal/remote.php/dav/addressbooks/system/system/system', $request['uri']);
+			$document = new \DOMDocument();
+			$document->loadXML($request['body']);
+			$this->assertSame('urn:ietf:params:xml:ns:carddav', $document->documentElement->namespaceURI);
+			$this->assertSame('addressbook-multiget', $document->documentElement->localName);
+			$this->assertSame(1, $document->getElementsByTagNameNS('urn:ietf:params:xml:ns:carddav', 'address-data')->length);
+		}
+		$this->assertArrayNotHasKey(basename($missingHref), $createdCards);
+		$this->assertSame($vCards['/remote.php/dav/addressbooks/system/system/system/Database:user0.vcf'], $createdCards['Database:user0.vcf']);
+	}
+
+	public function testSyncDownloadsCardsWhenMultiGetIsNotSupported(): void {
+		$href = '/remote.php/dav/addressbooks/system/system/system/Database:alice.vcf';
+		$body = '<?xml version="1.0"?><d:multistatus xmlns:d="DAV:"><d:response><d:href>' . $href . '</d:href><d:propstat><d:prop><d:getetag>&quot;1&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:sync-token>http://sabre.io/ns/sync/2</d:sync-token></d:multistatus>';
+		$reportResponse = new Response(new PsrResponse(
+			207,
+			['Content-Type' => 'application/xml; charset=utf-8', 'Content-Length' => strlen($body)],
+			$body
+		));
+		$vCard = "BEGIN:VCARD\r\nVERSION:3.0\r\nUID:alice\r\nFN:alice\r\nEND:VCARD\r\n";
+
+		$requestedMethods = [];
+		$this->client
+			->method('request')
+			->willReturnCallback(function (string $method) use ($reportResponse, &$requestedMethods) {
+				$requestedMethods[] = $method;
+				return $method === 'PROPFIND' ? $this->createSupportedReportSetResponse(false) : $reportResponse;
+			});
+		$this->config->method('getSystemValueInt')
+			->with('carddav_sync_request_timeout', IClient::DEFAULT_REQUEST_TIMEOUT)
+			->willReturn(90);
+		$this->client->expects($this->once())
+			->method('get')
+			->with(
+				'https://server2.internal' . $href,
+				$this->callback(fn (array $options): bool => $options['timeout'] === 90),
+			)
+			->willReturn(new Response(new PsrResponse(
+				200,
+				['Content-Type' => 'text/vcard; charset=utf-8', 'Content-Length' => strlen($vCard)],
+				$vCard,
+			)));
+
+		$this->backend->method('getCard')
+			->willReturn(false);
+		$this->backend->expects($this->once())
+			->method('createCard')
+			->with(1, 'Database:alice.vcf', $vCard);
+
+		$this->service->syncRemoteAddressBook(
+			'https://server2.internal',
+			'system',
+			'remote.php/dav/addressbooks/system/system/system',
+			'1234567890',
+			'1',
+			'1',
+			'principals/system/system',
+			[]
+		);
+
+		$this->assertSame(['REPORT', 'PROPFIND'], $requestedMethods);
 	}
 
 	public function testSyncWithUpdatedElement(): void {
@@ -237,10 +406,6 @@ END:VCARD';
 			$body
 		));
 
-		$this->client
-			->method('request')
-			->willReturn($reportResponse);
-
 		$vCard = 'BEGIN:VCARD
 VERSION:3.0
 PRODID:-//Sabre//Sabre VObject 4.5.4//EN
@@ -251,15 +416,9 @@ X-SOCIALPROFILE;TYPE=NEXTCLOUD;X-NC-SCOPE=v2-published:https://server2.internal/
 CLOUD:alice@server2.internal
 END:VCARD';
 
-		$getResponse = new Response(new PsrResponse(
-			200,
-			['Content-Type' => 'text/vcard; charset=utf-8', 'Content-Length' => strlen($vCard)],
-			$vCard,
-		));
-
-		$this->client
-			->method('get')
-			->willReturn($getResponse);
+		$this->mockSyncAndMultiGetReports($reportResponse, [
+			'/remote.php/dav/addressbooks/system/system/system/Database:alice.vcf' => $vCard,
+		]);
 
 		$token = $this->service->syncRemoteAddressBook(
 			'',
@@ -298,8 +457,9 @@ END:VCARD';
 			$body
 		));
 
-		$this->client
+		$this->client->expects($this->once())
 			->method('request')
+			->with('REPORT')
 			->willReturn($reportResponse);
 
 		$token = $this->service->syncRemoteAddressBook(
@@ -361,10 +521,6 @@ END:VCARD';
 			$body
 		));
 
-		$this->client
-			->method('request')
-			->willReturn($reportResponse);
-
 		$vCard = 'BEGIN:VCARD
 VERSION:3.0
 PRODID:-//Sabre//Sabre VObject 4.5.4//EN
@@ -375,15 +531,9 @@ X-SOCIALPROFILE;TYPE=NEXTCLOUD;X-NC-SCOPE=v2-published:https://server2.internal/
 CLOUD:alice@server2.internal
 END:VCARD';
 
-		$getResponse = new Response(new PsrResponse(
-			200,
-			['Content-Type' => 'text/vcard; charset=utf-8', 'Content-Length' => strlen($vCard)],
-			$vCard,
-		));
-
-		$this->client
-			->method('get')
-			->willReturn($getResponse);
+		$this->mockSyncAndMultiGetReports($reportResponse, [
+			'/remote.php/dav/addressbooks/system/system/system/Database:alice.vcf' => $vCard,
+		]);
 
 		$this->backend->method('getCards')
 			->willReturn([
