@@ -187,7 +187,14 @@ class AccessTest extends TestCase {
 		$this->ldap->expects($this->once())
 			->method('explodeDN')
 			->with($inputDN, 0)
-			->willReturn(explode(',', $inputDN));
+			->willReturn([
+				0 => 'uid=zaphod',
+				1 => 'cn=foobar',
+				2 => 'dc=my',
+				3 => 'dc=server',
+				4 => 'dc=com',
+				'count' => 5,
+			]);
 
 		$this->assertSame($domainDN, $this->access->getDomainDNFromDN($inputDN));
 	}
@@ -202,6 +209,38 @@ class AccessTest extends TestCase {
 			->willReturn(false);
 
 		$this->assertSame($expected, $this->access->getDomainDNFromDN($inputDN));
+	}
+
+	public function testGetDomainDNFromDNMatchesUppercaseDC(): void {
+		$inputDN = 'CN=John Doe,OU=staff,DC=example,DC=com';
+
+		$this->ldap->expects($this->once())
+			->method('explodeDN')
+			->with($inputDN, 0)
+			->willReturn([
+				0 => 'CN=John Doe',
+				1 => 'OU=staff',
+				2 => 'DC=example',
+				3 => 'DC=com',
+				'count' => 4,
+			]);
+
+		$this->assertSame('DC=example,DC=com', $this->access->getDomainDNFromDN($inputDN));
+	}
+
+	public function testGetDomainDNFromDNWithoutDomainComponentReturnsEmptyString(): void {
+		$inputDN = 'cn=John Doe,ou=staff';
+
+		$this->ldap->expects($this->once())
+			->method('explodeDN')
+			->with($inputDN, 0)
+			->willReturn([
+				0 => 'cn=John Doe',
+				1 => 'ou=staff',
+				'count' => 2,
+			]);
+
+		$this->assertSame('', $this->access->getDomainDNFromDN($inputDN));
 	}
 
 	public static function dnInputDataProvider(): array {
