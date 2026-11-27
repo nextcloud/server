@@ -881,6 +881,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Notification\\UnknownNotificationException' => __DIR__ . '/../../..' . '/lib/public/Notification/UnknownNotificationException.php',
         'OCP\\OCM\\Enum\\ParamType' => __DIR__ . '/../../..' . '/lib/public/OCM/Enum/ParamType.php',
         'OCP\\OCM\\Events\\LocalOCMDiscoveryEvent' => __DIR__ . '/../../..' . '/lib/public/OCM/Events/LocalOCMDiscoveryEvent.php',
+        'OCP\\OCM\\Events\\OCMEndpointRequestAuthenticationEvent' => __DIR__ . '/../../..' . '/lib/public/OCM/Events/OCMEndpointRequestAuthenticationEvent.php',
         'OCP\\OCM\\Events\\OCMEndpointRequestEvent' => __DIR__ . '/../../..' . '/lib/public/OCM/Events/OCMEndpointRequestEvent.php',
         'OCP\\OCM\\Events\\OCMNotificationReceivedEvent' => __DIR__ . '/../../..' . '/lib/public/OCM/Events/OCMNotificationReceivedEvent.php',
         'OCP\\OCM\\Events\\ResourceTypeRegisterEvent' => __DIR__ . '/../../..' . '/lib/public/OCM/Events/ResourceTypeRegisterEvent.php',

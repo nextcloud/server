@@ -197,6 +197,11 @@ class IncomingSignedRequest extends SignedRequest implements
 		return $this->request;
 	}
 
+	#[\Override]
+	public function getSignatureParams(): array {
+		return [];
+	}
+
 	/**
 	 * set the hostname at the source of the request,
 	 * based on the keyId defined in the signature header.

@@ -46,6 +46,7 @@ class Rfc9421RoundTripTest extends TestCase {
 			['@method', '@target-uri', 'content-digest', 'content-length'],
 			$in->getCoveredComponents(),
 		);
+		$this->assertSame('ocm', $in->getSignatureParams()['tag']);
 		$in->verify(); // throws on failure
 		$this->addToAssertionCount(1);
 	}

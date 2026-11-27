@@ -59,6 +59,14 @@ interface IIncomingSignedRequest extends ISignedRequest {
 	public function getKeyId(): string;
 
 	/**
+	 * Return integrity-protected signature parameters.
+	 *
+	 * @return array<string, scalar>
+	 * @since 36.0.0
+	 */
+	public function getSignatureParams(): array;
+
+	/**
 	 * confirm the current signed request's identity is correct
 	 *
 	 * @throws SignatureException

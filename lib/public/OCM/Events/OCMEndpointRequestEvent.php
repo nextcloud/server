@@ -12,6 +12,7 @@ use OCP\AppFramework\Attribute\Listenable;
 use OCP\AppFramework\Http\Response;
 use OCP\EventDispatcher\Event;
 use OCP\OCM\Enum\ParamType;
+use OCP\Security\Signature\IIncomingSignedRequest;
 
 /**
  * Use this event to catch and manage incoming OCM request
@@ -32,6 +33,7 @@ final class OCMEndpointRequestEvent extends Event {
 		string $path,
 		private readonly ?array $payload = null,
 		private readonly ?string $remote = null,
+		private readonly ?IIncomingSignedRequest $signedRequest = null,
 	) {
 		parent::__construct();
 
@@ -150,7 +152,14 @@ final class OCMEndpointRequestEvent extends Event {
 	 * @since 33.0.0
 	 */
 	public function getRemote(): ?string {
-		return $this->remote;
+		return $this->signedRequest?->getOrigin() ?? $this->remote;
+	}
+
+	/**
+	 * @since 36.0.0
+	 */
+	public function getSignedRequest(): ?IIncomingSignedRequest {
+		return $this->signedRequest;
 	}
 
 	/**
