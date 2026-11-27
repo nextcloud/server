@@ -15,8 +15,10 @@ use GuzzleHttp\Exception\RequestException;
 use JsonException;
 use OC\Core\AppInfo\ConfigLexicon;
 use OC\OCM\Model\OCMProvider;
+use OC\Security\Signature\Model\Rfc9421OutgoingSignedResponse;
 use OCP\AppFramework\Attribute\Consumable;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Response;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudIdManager;
 use OCP\Http\Client\IClient;
@@ -317,6 +319,29 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 				'claimed origin ' . $instance . ' does not match signed origin ' . $signedOrigin
 			);
 		}
+	}
+
+	/**
+	 * @inheritDoc
+	 *
+	 * @template S of Http::STATUS_*
+	 * @param S $status
+	 * @return Response<S, array<string, mixed>>
+	 */
+	#[\Override]
+	public function createSignedResponse(
+		IIncomingSignedRequest $request,
+		string $body,
+		int $status = Http::STATUS_OK,
+		string $contentType = 'application/json; charset=utf-8',
+	): Response {
+		return new Rfc9421OutgoingSignedResponse(
+			$body,
+			$request,
+			new Rfc9421SignatoryManager($this->signatoryManager),
+			$status,
+			$contentType,
+		);
 	}
 
 	/**

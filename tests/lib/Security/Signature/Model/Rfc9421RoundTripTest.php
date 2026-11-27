@@ -12,14 +12,18 @@ namespace Test\Security\Signature\Model;
 use Firebase\JWT\JWK;
 use OC\Security\Signature\Model\Rfc9421IncomingSignedRequest;
 use OC\Security\Signature\Model\Rfc9421OutgoingSignedRequest;
+use OC\Security\Signature\Model\Rfc9421OutgoingSignedResponse;
 use OC\Security\Signature\Rfc9421\Algorithm;
 use OC\Security\Signature\Rfc9421\ContentDigest;
+use OCP\AppFramework\Http;
 use OCP\IRequest;
 use OCP\Security\Signature\Enum\DigestAlgorithm;
 use OCP\Security\Signature\Enum\SignatureAlgorithm;
 use OCP\Security\Signature\Exceptions\IncomingRequestException;
 use OCP\Security\Signature\Exceptions\InvalidSignatureException;
+use OCP\Security\Signature\Exceptions\SignatureException;
 use OCP\Security\Signature\Exceptions\SignatureNotFoundException;
+use OCP\Security\Signature\IIncomingSignedRequest;
 use OCP\Security\Signature\ISignatoryManager;
 use OCP\Security\Signature\Model\Signatory;
 use Test\TestCase;
@@ -48,6 +52,187 @@ class Rfc9421RoundTripTest extends TestCase {
 		);
 		$in->verify(); // throws on failure
 		$this->addToAssertionCount(1);
+	}
+
+	public function testSignedResponseVerifiesAndBindsRequest(): void {
+		[$signatory, $jwk] = $this->ecdsaP256Material('https://sender.example.org/ocm#ecdsa-p256-sha256');
+		$signatoryManager = $this->makeSignatoryManager($signatory);
+		$requestSignatureInput = 'ocm=("@method" "@target-uri");created=1;keyid="remote";nonce="nonce-1";tag="ocm"';
+		$requestSignature = 'ocm=:' . base64_encode(random_bytes(64)) . ':';
+		$request = $this->mockRequest(
+			[
+				'Signature-Input' => $requestSignatureInput . ', proxy=("@method");created=1;keyid="proxy"',
+				'Signature' => $requestSignature . ', proxy=:' . base64_encode(random_bytes(64)) . ':',
+			],
+			'GET',
+			'/ocm/mls-key-packages?userId=alice%40sender.example.org',
+			'sender.example.org',
+		);
+		$incoming = $this->createMock(IIncomingSignedRequest::class);
+		$incoming->method('getRequest')->willReturn($request);
+		$response = new Rfc9421OutgoingSignedResponse(
+			'{"keyPackages":[]}',
+			$incoming,
+			$signatoryManager,
+		);
+
+		$headers = $response->getHeaders();
+		$this->assertStringContainsString('"@method";req', $headers['Signature-Input']);
+		$this->assertStringContainsString('"@target-uri";req', $headers['Signature-Input']);
+		$this->assertStringContainsString('"signature-input";key="ocm";req', $headers['Signature-Input']);
+		$this->assertStringContainsString('"signature";key="ocm";req', $headers['Signature-Input']);
+
+		$base = $response->getSignatureBaseString();
+		// only the ocm dictionary entries of the request are covered, not
+		// the proxy-added sibling entries
+		$this->assertStringContainsString('"signature-input";key="ocm";req: ' . $requestSignatureInput, $base);
+		$this->assertStringContainsString('"signature";key="ocm";req: ' . $requestSignature, $base);
+		$this->assertStringNotContainsString('proxy=', $base);
+
+		$this->assertSame(
+			1,
+			preg_match('/^ocm=:([^:]+):$/', $headers['Signature'], $matches),
+		);
+		$rawSignature = base64_decode($matches[1], true);
+		$this->assertIsString($rawSignature);
+		$this->assertTrue(Algorithm::verify(
+			$base,
+			$rawSignature,
+			$jwk,
+			null,
+		));
+		// a different request signature (e.g. a replayed response for
+		// another request to the same URI) must not verify
+		$this->assertFalse(Algorithm::verify(
+			str_replace($requestSignature, 'ocm=:' . base64_encode(random_bytes(64)) . ':', $base),
+			$rawSignature,
+			$jwk,
+			null,
+		));
+		$this->assertFalse(Algorithm::verify(
+			str_replace('nonce-1', 'nonce-2', $base),
+			$rawSignature,
+			$jwk,
+			null,
+		));
+	}
+
+	public function testSignedResponseResignsAfterMutation(): void {
+		[$signatory, $jwk] = $this->ecdsaP256Material('https://sender.example.org/ocm#ecdsa-p256-sha256');
+		$signatoryManager = $this->makeSignatoryManager($signatory);
+		$request = $this->mockRequest(
+			[
+				'Signature-Input' => 'ocm=("@method");created=1;keyid="remote";tag="ocm"',
+				'Signature' => 'ocm=:' . base64_encode(random_bytes(64)) . ':',
+			],
+			'GET',
+			'/ocm/mls-key-packages',
+			'sender.example.org',
+		);
+		$incoming = $this->createMock(IIncomingSignedRequest::class);
+		$incoming->method('getRequest')->willReturn($request);
+		$response = new Rfc9421OutgoingSignedResponse(
+			'{"error":"nope"}',
+			$incoming,
+			$signatoryManager,
+		);
+
+		$this->assertStringContainsString('"@status": 200', $response->getSignatureBaseString());
+
+		// a controller or middleware adjusting the response afterwards must
+		// not leave a stale signature behind
+		$response->setStatus(Http::STATUS_BAD_REQUEST);
+		$response->addHeader('Content-Type', 'application/problem+json');
+
+		$base = $response->getSignatureBaseString();
+		$this->assertStringContainsString('"@status": 400', $base);
+		$this->assertStringContainsString('"content-type": application/problem+json', $base);
+		$headers = $response->getHeaders();
+		$this->assertSame(400, $response->getStatus());
+		$this->assertSame('application/problem+json', $headers['Content-Type']);
+		$this->assertSame(
+			1,
+			preg_match('/^ocm=:([^:]+):$/', $headers['Signature'], $matches),
+		);
+		$this->assertTrue(Algorithm::verify(
+			$base,
+			base64_decode($matches[1], true),
+			$jwk,
+			null,
+		));
+	}
+
+	public function testSignedResponseWithCustomStatusAndContentType(): void {
+		[$signatory, $jwk] = $this->ecdsaP256Material('https://sender.example.org/ocm#ecdsa-p256-sha256');
+		$signatoryManager = $this->makeSignatoryManager($signatory);
+		$request = $this->mockRequest(
+			[
+				'Signature-Input' => 'ocm=("@method");created=1;keyid="remote";tag="ocm"',
+				'Signature' => 'ocm=:' . base64_encode(random_bytes(64)) . ':',
+			],
+			'POST',
+			'/ocm/shares',
+			'sender.example.org',
+		);
+		$incoming = $this->createMock(IIncomingSignedRequest::class);
+		$incoming->method('getRequest')->willReturn($request);
+		$response = new Rfc9421OutgoingSignedResponse(
+			'{"message":"forbidden"}',
+			$incoming,
+			$signatoryManager,
+			Http::STATUS_FORBIDDEN,
+			'application/json',
+		);
+
+		$this->assertSame(403, $response->getStatus());
+		$this->assertSame('{"message":"forbidden"}', $response->render());
+		$headers = $response->getHeaders();
+		$this->assertSame('application/json', $headers['Content-Type']);
+		$base = $response->getSignatureBaseString();
+		$this->assertStringContainsString('"@status": 403', $base);
+		$this->assertStringContainsString('"content-type": application/json', $base);
+		$this->assertSame(
+			1,
+			preg_match('/^ocm=:([^:]+):$/', $headers['Signature'], $matches),
+		);
+		$this->assertTrue(Algorithm::verify(
+			$base,
+			base64_decode($matches[1], true),
+			$jwk,
+			null,
+		));
+	}
+
+	public function testMalformedComponentIdentifierRejectedAsSignatureException(): void {
+		// a component name like "a;b" comes straight from the remote
+		// Signature-Input and must surface as SignatureException (mapped to
+		// a 400 with throttling), never as an uncaught
+		// InvalidArgumentException (HTTP 500)
+		$body = 'msg';
+		$headers = [
+			'Content-Digest' => ContentDigest::compute($body, ContentDigest::ALGO_SHA256),
+			'Content-Length' => (string)strlen($body),
+			'Signature-Input' => 'ocm=("@method" "@target-uri" "content-digest" "content-length" "a;b");created=' . time() . ';keyid="remote";tag="ocm"',
+			'Signature' => 'ocm=:' . base64_encode(random_bytes(64)) . ':',
+		];
+		$req = $this->mockRequest($headers, 'POST', '/ocm/shares', 'receiver.example.org');
+
+		$this->expectException(SignatureException::class);
+		new Rfc9421IncomingSignedRequest($body, $req);
+	}
+
+	public function testSignedResponseRequiresRfc9421Request(): void {
+		$incoming = $this->createMock(IIncomingSignedRequest::class);
+		$incoming->method('getRequest')->willReturn(
+			$this->mockRequest([], 'GET', '/ocm/mls-key-packages', 'sender.example.org'),
+		);
+
+		$this->expectException(IncomingRequestException::class);
+		new Rfc9421OutgoingSignedResponse(
+			'body',
+			$incoming,
+			$this->createMock(ISignatoryManager::class),
+		);
 	}
 
 	public function testEd25519VerifyAcceptedWhenSodiumLoaded(): void {
