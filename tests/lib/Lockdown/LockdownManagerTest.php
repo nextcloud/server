@@ -11,7 +11,9 @@ use OC\Authentication\Token\PublicKeyToken;
 use OC\Authentication\Token\TokenScopes;
 use OC\Lockdown\LockdownManager;
 use OCA\Files\TokenScopes as FilesTokenScopes;
+use OCA\Files_Sharing\TokenScopes as SharingTokenScopes;
 use OCP\Authentication\Token\IToken;
+use OCP\Constants;
 use OCP\ISession;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Test\TestCase;
@@ -99,6 +101,21 @@ class LockdownManagerTest extends TestCase {
 	#[DataProvider('isScoped')]
 	public function testIsScoped(array $scope, bool $expected): void {
 		$this->assertSame($expected, $this->managerWithScope($scope)->isScoped());
+	}
+
+	public static function filePermissions(): array {
+		return [
+			'legacy' => [[IToken::SCOPE_FILESYSTEM => true], Constants::PERMISSION_ALL],
+			'read only' => [[TokenScopes::KEY => [FilesTokenScopes::FILES_READ]], Constants::PERMISSION_READ],
+			'read and share' => [[TokenScopes::KEY => [FilesTokenScopes::FILES_READ, SharingTokenScopes::SHARES_WRITE]], Constants::PERMISSION_READ | Constants::PERMISSION_SHARE],
+			'read and write' => [[TokenScopes::KEY => [FilesTokenScopes::FILES_READ, FilesTokenScopes::FILES_WRITE]], Constants::PERMISSION_ALL & ~Constants::PERMISSION_SHARE],
+			'malformed' => [[TokenScopes::KEY => 'files:files:write'], Constants::PERMISSION_READ],
+		];
+	}
+
+	#[DataProvider('filePermissions')]
+	public function testFilePermissions(array $scope, int $expected): void {
+		$this->assertSame($expected, $this->managerWithScope($scope)->filePermissions());
 	}
 
 	private function managerWithScope(array $scope): LockdownManager {

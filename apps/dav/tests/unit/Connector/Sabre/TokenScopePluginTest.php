@@ -25,6 +25,7 @@ use Test\TestCase;
 
 class TokenScopePluginTest extends TestCase {
 	private const FILES = [FilesTokenScopes::FILES_READ, FilesTokenScopes::FILES_WRITE, FilesTokenScopes::DAV_READ, FilesTokenScopes::DAV_WRITE];
+	private const FILES_READ_ONLY = [FilesTokenScopes::FILES_READ, FilesTokenScopes::DAV_READ];
 	private const CALENDAR = [TokenScopes::CALENDAR_READ, TokenScopes::CALENDAR_WRITE];
 	private const CALENDAR_READ = [TokenScopes::CALENDAR_READ];
 	private const CONTACTS = [TokenScopes::CONTACTS_READ, TokenScopes::CONTACTS_WRITE];
@@ -58,6 +59,10 @@ class TokenScopePluginTest extends TestCase {
 			'files' => ['files/user0/a.txt', 'GET', self::FILES, true],
 			'files write' => ['files/user0/a.txt', 'PUT', self::FILES, true],
 			'files write without dav write' => ['files/user0/a.txt', 'PUT', [FilesTokenScopes::DAV_READ], false],
+			'read-only files' => ['files/user0/a.txt', 'GET', self::FILES_READ_ONLY, true],
+			'read-only delete of a share root' => ['files/user0/Shared', 'DELETE', self::FILES_READ_ONLY, false],
+			'read-only move of a mount root' => ['files/user0/Shared', 'MOVE', self::FILES_READ_ONLY, false],
+			'read-only favorite or ACL change' => ['files/user0/Group folder', 'PROPPATCH', self::FILES_READ_ONLY, false],
 			'files without dav' => ['files/user0/a.txt', 'GET', [FilesTokenScopes::FILES_READ, FilesTokenScopes::FILES_WRITE], false],
 			'files without files' => ['files/user0', 'PROPFIND', self::CALENDAR, false],
 			'uploads' => ['uploads/user0/1', 'MKCOL', self::FILES, true],

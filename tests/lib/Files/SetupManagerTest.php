@@ -11,8 +11,12 @@ use OC\Files\Cache\CacheEntry;
 use OC\Files\Cache\FileAccess;
 use OC\Files\Config\MountProviderCollection;
 use OC\Files\SetupManager;
+use OC\Files\Storage\Storage;
+use OC\Files\Storage\Wrapper\PermissionsMask;
+use OC\Lockdown\LockdownManager;
 use OC\Share20\ShareDisableChecker;
 use OCP\App\IAppManager;
+use OCP\Constants;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\ICachedMountInfo;
@@ -30,7 +34,7 @@ use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OCP\Lockdown\ILockdownManager;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Rule\InvokedCount;
 use PHPUnit\Framework\TestCase;
@@ -47,6 +51,8 @@ class SetupManagerTest extends TestCase {
 	private FileAccess&MockObject $fileAccess;
 	private MountProviderCollection&MockObject $mountProviderCollection;
 	private IMountManager&MockObject $mountManager;
+	private LockdownManager&MockObject $lockdownManager;
+	private IStorageFactory&MockObject $storageFactory;
 	private SetupManager $setupManager;
 	private IUser&MockObject $user;
 	private string $userId;
@@ -82,7 +88,8 @@ class SetupManagerTest extends TestCase {
 		$eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$eventDispatcher->method('addListener');
 		$this->userMountCache = $this->createMock(IUserMountCache::class);
-		$lockdownManager = $this->createMock(ILockdownManager::class);
+		$this->lockdownManager = $this->createMock(LockdownManager::class);
+		$this->storageFactory = $this->createMock(IStorageFactory::class);
 		$userSession = $this->createMock(IUserSession::class);
 		$cacheFactory = $this->createMock(ICacheFactory::class);
 		$cacheFactory->expects($this->once())
@@ -96,7 +103,7 @@ class SetupManagerTest extends TestCase {
 		$appManager = $this->createMock(IAppManager::class);
 		$this->fileAccess = $this->createMock(FileAccess::class);
 
-		$lockdownManager->method('canAccessFilesystem')->willReturn(true);
+		$this->lockdownManager->method('canAccessFilesystem')->willReturn(true);
 
 		$this->setupManager = new SetupManager(
 			$eventLogger,
@@ -105,7 +112,7 @@ class SetupManagerTest extends TestCase {
 			$this->userManager,
 			$eventDispatcher,
 			$this->userMountCache,
-			$lockdownManager,
+			$this->lockdownManager,
 			$userSession,
 			$cacheFactory,
 			$logger,
@@ -114,8 +121,38 @@ class SetupManagerTest extends TestCase {
 			$appManager,
 			$this->fileAccess,
 			$this->createMock(IAppConfig::class),
-			$this->createMock(IStorageFactory::class),
+			$this->storageFactory,
 		);
+	}
+
+	public static function tokenScopeMounts(): array {
+		return [
+			'user mount' => [Constants::PERMISSION_READ, '/user1/', Constants::PERMISSION_READ],
+			'root mount stays writable' => [Constants::PERMISSION_READ, '/', null],
+			'full access is not wrapped' => [Constants::PERMISSION_ALL, '/user1/', null],
+		];
+	}
+
+	#[DataProvider('tokenScopeMounts')]
+	public function testTokenScopeWrapper(int $filePermissions, string $mountPoint, ?int $expected): void {
+		$wrappers = [];
+		$this->storageFactory->method('addStorageWrapper')
+			->willReturnCallback(function (string $name, callable $wrapper) use (&$wrappers) {
+				$wrappers[$name] = $wrapper;
+				return true;
+			});
+		$this->lockdownManager->method('filePermissions')->willReturn($filePermissions);
+		$this->setupManager->setupRoot();
+
+		$storage = $this->createMock(Storage::class);
+		$storage->method('getPermissions')->willReturn(Constants::PERMISSION_ALL);
+		$wrapped = $wrappers['token_scope']($mountPoint, $storage, $this->createMock(IMountPoint::class));
+		if ($expected === null) {
+			$this->assertSame($storage, $wrapped);
+		} else {
+			$this->assertInstanceOf(PermissionsMask::class, $wrapped);
+			$this->assertSame($expected, $wrapped->getPermissions('files'));
+		}
 	}
 
 	public function testTearDown(): void {

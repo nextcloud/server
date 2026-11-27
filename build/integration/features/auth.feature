@@ -219,3 +219,24 @@ Feature: auth
 		Given a new client token limited to "files:files:read files:files:write files:dav:read files:dav:write files_trashbin:dav:read" is added
 		When requesting "/remote.php/dav/trashbin/user0/trash/" with "PROPFIND" using scoped basic token auth
 		Then the HTTP status code should be "207"
+
+	Scenario: a read-only files token lists shares
+		Given a new client token limited to "files:files:read files:dav:read" is added
+		When requesting "/ocs/v2.php/apps/files_sharing/api/v1/shares" with "GET" using scoped basic token auth
+		Then the HTTP status code should be "200"
+
+	Scenario: a read-only files token creates no folder over DAV
+		Given a new client token limited to "files:files:read files:dav:read" is added
+		When requesting "/remote.php/dav/files/user0/read-only" with "MKCOL" using scoped basic token auth
+		Then the HTTP status code should be "403"
+
+	Scenario: a files token without files write creates no folder even with DAV write
+		Given a new client token limited to "files:files:read files:dav:read files:dav:write" is added
+		When requesting "/remote.php/dav/files/user0/read-only" with "MKCOL" using scoped basic token auth
+		Then the HTTP status code should be "403"
+
+	Scenario: a read-only files token gets previews
+		Given user "user0" uploads file "data/green-square-256.png" to "/read-only-preview.png"
+		And a new client token limited to "files:files:read files:dav:read" is added
+		When requesting "/index.php/core/preview.png?file=/read-only-preview.png&x=32&y=32" with "GET" using scoped basic token auth
+		Then the HTTP status code should be "200"
