@@ -609,6 +609,10 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 		string $targetInternalPath,
 		bool $preserveMtime = false,
 	): bool {
+		if (!$sourceStorage->isReadable($sourceInternalPath)) {
+			return false;
+		}
+
 		// the shortcuts below copy the object verbatim, an encrypted source has to be
 		// read through its encryption wrapper instead
 		if ($sourceStorage->instanceOfStorage(Encryption::class)
