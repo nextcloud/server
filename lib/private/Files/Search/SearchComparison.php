@@ -20,7 +20,7 @@ class SearchComparison implements ISearchComparison {
 		private string $type,
 		private string $field,
 		/** @var ParamValue $value */
-		private \DateTime|int|string|bool|array $value,
+		private \DateTime|int|float|string|bool|array $value,
 		private string $extra = '',
 	) {
 	}
@@ -42,7 +42,7 @@ class SearchComparison implements ISearchComparison {
 	}
 
 	#[\Override]
-	public function getValue(): string|int|bool|\DateTime|array {
+	public function getValue(): string|int|float|bool|\DateTime|array {
 		return $this->value;
 	}
 
