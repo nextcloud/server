@@ -76,6 +76,11 @@ class LocalPreviewStorage implements IPreviewStorage {
 		// race. Deleting it would leave that one with a row but no file.
 	}
 
+	#[Override]
+	public function previewExists(Preview $preview): bool {
+		return is_file($this->constructPath($preview));
+	}
+
 	public function getRootFolder(): string {
 		return $this->config->getSystemValueString('datadirectory', OC::$SERVERROOT . '/data');
 	}

@@ -87,4 +87,47 @@ class ObjectStorePreviewStorageTest extends TestCase {
 		$this->assertSame('2', $previews[2]->getLocationId());
 		$this->assertSame('nc-preview-238', $previews[2]->getBucketName());
 	}
+
+	/**
+	 * Object-store existence checks are a network round-trip per preview, so
+	 * the DB row is treated as authoritative until a cheaper bulk check exists.
+	 */
+	public function testPreviewExistsAlwaysReturnsTrueWithoutQueryingObjectStore(): void {
+		$preview = $this->makePreview(locationId: 'loc-1');
+
+		$this->objectStoreConfig->expects($this->never())->method('getObjectStoreConfiguration');
+		$this->objectStoreConfig->expects($this->never())->method('buildObjectStore');
+
+		$this->assertTrue($this->createStorageForExistenceCheck()->previewExists($preview));
+	}
+
+	public function testPreviewExistsWhenLocationIdIsNull(): void {
+		$preview = $this->makePreview(locationId: null);
+
+		$this->objectStoreConfig->expects($this->never())->method('getObjectStoreConfiguration');
+		$this->objectStoreConfig->expects($this->never())->method('buildObjectStore');
+
+		$this->assertTrue($this->createStorageForExistenceCheck()->previewExists($preview));
+	}
+
+	private function makePreview(?string $locationId): Preview {
+		$preview = new Preview();
+		$preview->id = 'preview-id-1';
+		$preview->setFileId(42);
+		$preview->setWidth(1024);
+		$preview->setHeight(768);
+		$preview->setMax(true);
+		$preview->setCropped(false);
+		$preview->setMimetype('image/jpeg');
+		$preview->setObjectStoreName('preview');
+		$preview->setBucketName('preview-bucket');
+		if ($locationId !== null) {
+			$preview->setLocationId($locationId);
+		}
+		return $preview;
+	}
+
+	private function createStorageForExistenceCheck(): ObjectStorePreviewStorage {
+		return new ObjectStorePreviewStorage($this->objectStoreConfig, $this->config, $this->previewMapper);
+	}
 }
