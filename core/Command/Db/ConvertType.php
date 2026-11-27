@@ -13,13 +13,16 @@ use Doctrine\DBAL\Schema\AbstractAsset;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 use OC\DB\Connection;
+use OC\DB\ConnectionAdapter;
 use OC\DB\ConnectionFactory;
 use OC\DB\MigrationService;
+use OC\DB\MySqlTools;
 use OC\DB\PgSqlTools;
 use OCP\App\IAppManager;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\Types;
 use OCP\IConfig;
+use OCP\IURLGenerator;
 use OCP\Server;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
@@ -42,6 +45,8 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		protected IConfig $config,
 		protected ConnectionFactory $connectionFactory,
 		protected IAppManager $appManager,
+		protected IURLGenerator $urlGenerator,
+		protected MySqlTools $mySqlTools,
 	) {
 		parent::__construct();
 	}
@@ -101,6 +106,12 @@ class ConvertType extends Command implements CompletionAwareInterface {
 				InputOption::VALUE_REQUIRED,
 				'the maximum number of database rows to handle in a single query, bigger tables will be handled in chunks of this size. Lower this if the process runs out of memory during conversion.',
 				'1000'
+			)
+			->addOption(
+				'skip-utf8mb4-check',
+				null,
+				InputOption::VALUE_NONE,
+				'convert to MySQL even if the target database does not support 4-byte characters (utf8mb4)'
 			)
 		;
 	}
@@ -170,6 +181,10 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		$fromDB = Server::get(Connection::class);
 		$toDB = $this->getToDBConnection($input, $output);
 
+		if (!$this->checkTargetSupports4Byte($toDB, $input, $output)) {
+			return 1;
+		}
+
 		if ($input->getOption('clear-schema')) {
 			$this->clearSchema($toDB, $input, $output);
 		}
@@ -202,6 +217,23 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		$intersectingTables = array_intersect($toTables, $fromTables);
 		$this->convertDB($fromDB, $toDB, $intersectingTables, $input, $output);
 		return 0;
+	}
+
+	protected function checkTargetSupports4Byte(Connection $toDB, InputInterface $input, OutputInterface $output): bool {
+		if ($input->getArgument('type') !== 'mysql' || $this->mySqlTools->supports4ByteCharset(new ConnectionAdapter($toDB))) {
+			return true;
+		}
+
+		if ($input->getOption('skip-utf8mb4-check')) {
+			$output->writeln('<comment>The target MySQL database does not support 4-byte characters. Continuing because --skip-utf8mb4-check was given.</comment>');
+			return true;
+		}
+
+		$output->writeln('<error>The target MySQL database does not support 4-byte characters. To be able to handle 4-byte characters (like emojis) without issues in filenames or comments for example it is required to enable the 4-byte support in MySQL.</error>');
+		$output->writeln('For more information please read the documentation at ' . $this->urlGenerator->linkToDocs('admin-mysql-utf8mb4'));
+		$output->writeln('To convert anyway, run the command again with --skip-utf8mb4-check.');
+
+		return false;
 	}
 
 	protected function createSchema(Connection $fromDB, Connection $toDB, InputInterface $input, OutputInterface $output) {
