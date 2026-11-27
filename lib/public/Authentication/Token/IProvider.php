@@ -29,6 +29,16 @@ interface IProvider {
 	public function invalidateTokensOfUser(string $uid, ?string $clientName);
 
 	/**
+	 * invalidates (deletes) a single token of a user, e.g. one session or app password
+	 *
+	 * @param string $uid
+	 * @param int $id the token's database id, see IToken::getId()
+	 * @since 36.0.0
+	 * @return void
+	 */
+	public function invalidateTokenById(string $uid, int $id);
+
+	/**
 	 * Get a token by token string id
 	 *
 	 * @since 28.0.0
