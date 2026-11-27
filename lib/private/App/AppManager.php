@@ -173,7 +173,12 @@ class AppManager implements IAppManager {
 
 			$alwaysEnabledApps = $this->getAlwaysEnabledApps();
 			foreach ($alwaysEnabledApps as $appId) {
-				$values[$appId] = 'yes';
+				// Only force-enable when the admin has not explicitly disabled the app.
+				// An explicit 'no' in oc_appconfig is a deliberate admin decision that
+				// must be respected even for always-enabled (shipped) apps.
+				if (($values[$appId] ?? 'yes') !== 'no') {
+					$values[$appId] = 'yes';
+				}
 			}
 
 			$this->enabledAppsCache = array_filter($values, function ($value) {
