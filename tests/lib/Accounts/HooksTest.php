@@ -60,9 +60,6 @@ class HooksTest extends TestCase {
 			if ($setEmail) {
 				$property = $this->createMock(IAccountProperty::class);
 				$property->expects($this->atLeastOnce())
-					->method('getValue')
-					->willReturn($data[IAccountManager::PROPERTY_EMAIL]['value']);
-				$property->expects($this->atLeastOnce())
 					->method('setValue')
 					->with($params['value']);
 
@@ -76,9 +73,6 @@ class HooksTest extends TestCase {
 					->with($account);
 			} elseif ($setDisplayName) {
 				$property = $this->createMock(IAccountProperty::class);
-				$property->expects($this->atLeastOnce())
-					->method('getValue')
-					->willReturn($data[IAccountManager::PROPERTY_DISPLAYNAME]['value']);
 				$property->expects($this->atLeastOnce())
 					->method('setValue')
 					->with($params['value']);
@@ -98,6 +92,42 @@ class HooksTest extends TestCase {
 
 		$params['user'] = $this->createMock(IUser::class);
 		$this->hooks->changeUserHook($params['user'], $params['feature'], $params['value']);
+	}
+
+	public function testChangeUserHookPersistsDisplayNameAlreadyOnAccount(): void {
+		$property = $this->createMock(IAccountProperty::class);
+		$property->expects($this->once())
+			->method('setValue')
+			->with('newDisplayName');
+		$account = $this->createMock(IAccount::class);
+		$account->method('getProperty')
+			->with(IAccountManager::PROPERTY_DISPLAYNAME)
+			->willReturn($property);
+		$this->accountManager->method('getAccount')
+			->willReturn($account);
+		$this->accountManager->expects($this->once())
+			->method('updateAccount')
+			->with($account);
+
+		$this->hooks->changeUserHook($this->createMock(IUser::class), 'displayName', 'newDisplayName');
+	}
+
+	public function testChangeUserHookSkipsEmailAlreadyOnAccount(): void {
+		$property = $this->createMock(IAccountProperty::class);
+		$property->method('getValue')
+			->willReturn('mail@example.com');
+		$property->expects($this->never())
+			->method('setValue');
+		$account = $this->createMock(IAccount::class);
+		$account->method('getProperty')
+			->with(IAccountManager::PROPERTY_EMAIL)
+			->willReturn($property);
+		$this->accountManager->method('getAccount')
+			->willReturn($account);
+		$this->accountManager->expects($this->never())
+			->method('updateAccount');
+
+		$this->hooks->changeUserHook($this->createMock(IUser::class), 'eMailAddress', 'mail@example.com');
 	}
 
 	public static function dataTestChangeUserHook(): array {

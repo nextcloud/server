@@ -1048,28 +1048,38 @@ class UserTest extends \Test\TestCase {
 
 	public static function displayNameProvider(): array {
 		return [
-			['Roland Deschain', '', 'Roland Deschain', false],
-			['Roland Deschain', '', 'Roland Deschain', true],
-			['Roland Deschain', 'gunslinger@darktower.com', 'Roland Deschain (gunslinger@darktower.com)', false],
-			['Roland Deschain', 'gunslinger@darktower.com', 'Roland Deschain (gunslinger@darktower.com)', true],
+			// no stored display name: new record, no change announced
+			['Roland Deschain', '', 'Roland Deschain', false, '', null],
+			['Roland Deschain', 'gunslinger@darktower.com', 'Roland Deschain (gunslinger@darktower.com)', false, '', null],
+			// stored display name differs: change announced
+			['Roland Deschain', '', 'Roland Deschain', true, 'xxGunslingerxx', 'xxGunslingerxx'],
+			['Roland Deschain', 'gunslinger@darktower.com', 'Roland Deschain (gunslinger@darktower.com)', true, 'xxGunslingerxx', 'xxGunslingerxx'],
+			// user was known without display name: change announced, old value is the user id
+			['Roland Deschain', '', 'Roland Deschain', true, '', 'alice'],
+			['Roland Deschain', 'gunslinger@darktower.com', 'Roland Deschain (gunslinger@darktower.com)', true, '', 'alice'],
 		];
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'displayNameProvider')]
-	public function testComposeAndStoreDisplayName(string $part1, string $part2, string $expected, bool $expectTriggerChange): void {
+	public function testComposeAndStoreDisplayName(string $part1, string $part2, string $expected, bool $hasStoredName, string $oldName, ?string $expectedOldValue): void {
 		$this->userConfig->expects($this->once())
 			->method('setValueString');
-		$oldName = $expectTriggerChange ? 'xxGunslingerxx' : '';
+		$this->userConfig->expects($this->once())
+			->method('hasKey')
+			->with($this->user->getUsername(), 'user_ldap', 'displayName')
+			->willReturn($hasStoredName);
 		$this->userConfig->expects($this->once())
 			->method('getValueString')
 			->with($this->user->getUsername(), 'user_ldap', 'displayName', '')
 			->willReturn($oldName);
 
 		$ncUserObj = $this->createMock(\OC\User\User::class);
-		if ($expectTriggerChange) {
+		$ncUserObj->method('getUID')
+			->willReturn('alice');
+		if ($expectedOldValue !== null) {
 			$ncUserObj->expects($this->once())
 				->method('triggerChange')
-				->with('displayName', $expected);
+				->with('displayName', $expected, $expectedOldValue);
 		} else {
 			$ncUserObj->expects($this->never())
 				->method('triggerChange');
@@ -1095,5 +1105,28 @@ class UserTest extends \Test\TestCase {
 
 		$composedDisplayName = $this->user->composeAndStoreDisplayName($displayName);
 		$this->assertSame($composedDisplayName, $displayName);
+	}
+
+	public function testMarkDisplayNameMissing(): void {
+		$this->userConfig->expects($this->once())
+			->method('hasKey')
+			->with($this->user->getUsername(), 'user_ldap', 'displayName')
+			->willReturn(false);
+		$this->userConfig->expects($this->once())
+			->method('setValueString')
+			->with($this->user->getUsername(), 'user_ldap', 'displayName', '');
+
+		$this->user->markDisplayNameMissing();
+	}
+
+	public function testMarkDisplayNameMissingKeepsStoredName(): void {
+		$this->userConfig->expects($this->once())
+			->method('hasKey')
+			->with($this->user->getUsername(), 'user_ldap', 'displayName')
+			->willReturn(true);
+		$this->userConfig->expects($this->never())
+			->method('setValueString');
+
+		$this->user->markDisplayNameMissing();
 	}
 }
