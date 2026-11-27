@@ -79,6 +79,7 @@
     "Log out" : "Saioa itxi",
     "Sharing is not allowed." : "Partekatzea ez da onartzen.",
     "Sharing is not allowed for you." : "Zuretzat ez da onartzen partekatzea.",
+    "Cannot share with a disabled account." : "Ezin da partekatu desgaitutako kontu batekin.",
     "Sharing is only allowed with group members." : "Partekatzea onartzen da taldeko kideekin soilik.",
     "Sharing is only allowed within your own groups." : "Partekatzea soilik onartzen da zure taldeetan.",
     "Group sharing is not allowed." : "Ez da onartzen taldean partekatzea.",

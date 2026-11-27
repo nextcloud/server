@@ -263,6 +263,7 @@
     "A valid password must be provided" : "Musíte zadať platné heslo",
     "The Login is already being used" : "Prihlasovacie meno sa už používa",
     "Could not create account" : "Nepodarilo sa vytvoriť účet",
+    "Only the following characters are allowed in a Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "V prihlasovacom mene sú povolené iba tieto znaky: \"a-z\", \"A-Z\", \"0-9\", medzery a \"_.@-'\"",
     "A valid Login must be provided" : "Musíte zadať platné prihlasovacie meno.",
     "Login contains whitespace at the beginning or at the end" : "Prihlasovacie meno obsahuje medzeru na začiatku alebo na konci.",
     "Login must not consist of dots only" : "Prihlasovacie meno sa nesmie skladať len z bodiek",
