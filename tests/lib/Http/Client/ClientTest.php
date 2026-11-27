@@ -312,6 +312,20 @@ class ClientTest extends \Test\TestCase {
 		$this->assertEquals(418, $this->client->get('http://localhost/', $options)->getStatusCode());
 	}
 
+	public function testGetWithStreamOption(): void {
+		$this->setUpDefaultRequestOptions();
+
+		$options = array_merge($this->defaultRequestOptions, [
+			'stream' => true,
+		]);
+		$options['headers']['Accept-Encoding'] = 'gzip';
+
+		$this->getAutoMock(\GuzzleHttp\Client::class)->method('request')
+			->with('get', 'http://localhost/', $options)
+			->willReturn(new Response(418));
+		$this->assertEquals(418, $this->client->get('http://localhost/', ['stream' => true])->getStatusCode());
+	}
+
 	public function testPost(): void {
 		$this->setUpDefaultRequestOptions();
 

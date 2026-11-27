@@ -80,7 +80,7 @@ class Client implements IClient {
 		$headers = $options[RequestOptions::HEADERS] ?? [];
 		if (!isset($headers['Accept-Encoding'])) {
 			$acceptEnc = 'gzip';
-			if (((curl_version()['features'] ?? 0) & CURL_VERSION_BROTLI) === CURL_VERSION_BROTLI) {
+			if (empty($options[RequestOptions::STREAM]) && ((curl_version()['features'] ?? 0) & CURL_VERSION_BROTLI) === CURL_VERSION_BROTLI) {
 				$acceptEnc = 'br, ' . $acceptEnc;
 			}
 			$options[RequestOptions::HEADERS] = $headers; // ensure headers are present
