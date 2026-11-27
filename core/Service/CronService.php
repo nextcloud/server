@@ -167,7 +167,8 @@ class CronService {
 				return;
 			}
 
-			$message = 'Uncaught error when running job ' . $this->currentJob->getId() . ': ' . $error['message'];
+			$jobId = $this->currentJob?->getId();
+			$message = 'Uncaught error when running ' . ($jobId === null ? 'cron' : 'job ' . $jobId) . ': ' . $error['message'];
 			$this->logger->error($message);
 			$this->verboseOutput($message);
 			if ($this->currentJob instanceof IJob) {
