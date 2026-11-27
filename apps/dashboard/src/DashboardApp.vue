@@ -315,8 +315,11 @@ export default {
 	},
 
 	watch: {
-		callbacks() {
-			this.$nextTick(() => this.rerenderPanels())
+		callbacks: {
+			deep: true,
+			handler() {
+				this.$nextTick(() => this.rerenderPanels())
+			},
 		},
 
 		layout() {
