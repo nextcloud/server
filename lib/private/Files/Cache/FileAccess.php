@@ -160,7 +160,7 @@ class FileAccess implements IFileAccess {
 			// If the filecache table is sharded we need to check with a separate query if the parent is encrypted
 			$rows = [];
 			do {
-				while (count($rows) < 1000 && ($row = $files->fetchAssociative())) {
+				while (count($rows) < IQueryBuilder::MAX_IN_PARAMETERS && ($row = $files->fetchAssociative())) {
 					$rows[] = $row;
 				}
 				$parents = array_map(function ($row) {

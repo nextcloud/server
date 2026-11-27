@@ -981,8 +981,8 @@ class DefaultShareProvider implements
 
 			$start = 0;
 			while (true) {
-				$groups = array_slice($allGroups, $start, 1000);
-				$start += 1000;
+				$groups = array_slice($allGroups, $start, IQueryBuilder::MAX_IN_PARAMETERS);
+				$start += IQueryBuilder::MAX_IN_PARAMETERS;
 
 				if ($groups === []) {
 					break;

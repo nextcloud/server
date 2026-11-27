@@ -23,7 +23,7 @@ class CleanupOrphanedChildrenJob extends QueuedJob {
 	public const ARGUMENT_PARENT_ID = 'parentId';
 	public const ARGUMENT_LOG_MESSAGE = 'logMessage';
 
-	private const int BATCH_SIZE = 1000;
+	private const int BATCH_SIZE = IQueryBuilder::MAX_IN_PARAMETERS;
 
 	public function __construct(
 		ITimeFactory $time,

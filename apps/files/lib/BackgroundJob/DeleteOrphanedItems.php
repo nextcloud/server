@@ -61,7 +61,7 @@ class DeleteOrphanedItems extends TimedJob {
 			->where($deleteQuery->expr()->eq($idCol, $deleteQuery->createParameter('objectid')));
 
 		if ($this->connection->getShardDefinition('filecache')) {
-			$sourceIdChunks = $this->getItemIds($table, $idCol, $typeCol, 1000);
+			$sourceIdChunks = $this->getItemIds($table, $idCol, $typeCol, IQueryBuilder::MAX_IN_PARAMETERS);
 			foreach ($sourceIdChunks as $sourceIdChunk) {
 				$deletedSources = $this->findMissingSources($sourceIdChunk);
 				$deleteQuery->setParameter('objectid', $deletedSources, IQueryBuilder::PARAM_INT_ARRAY);
