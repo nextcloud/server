@@ -10,6 +10,7 @@ namespace OCA\Files_Sharing\Tests\Repair;
 use OC\Migration\NullOutput;
 use OCA\Files_Sharing\Repair\CleanupShareTarget;
 use OCA\Files_Sharing\Tests\TestCase;
+use OCP\Files\Config\IUserMountCache;
 use OCP\Files\NotFoundException;
 use OCP\Server;
 use OCP\Share\IShare;
@@ -59,6 +60,17 @@ class CleanupShareTargetTest extends TestCase {
 
 	public function testBasicRepair() {
 		$share = $this->createUserShare(self::TEST_FILES_SHARING_API_USER1, self::TEST_FOLDER_NAME . ' (2) (2) (2) (2)');
+
+		$this->cleanupShareTarget->run(new NullOutput());
+
+		$share = $this->shareManager->getShareById($share->getFullId());
+		$this->assertEquals(self::TEST_FOLDER_NAME, $share->getTarget());
+	}
+
+	public function testRepairWithoutCachedMount() {
+		$share = $this->createUserShare(self::TEST_FILES_SHARING_API_USER1, self::TEST_FOLDER_NAME . ' (2) (2) (2) (2)');
+		$mountPoint = '/' . self::TEST_FILES_SHARING_API_USER2 . '/files' . $share->getTarget() . '/';
+		Server::get(IUserMountCache::class)->removeMount($mountPoint);
 
 		$this->cleanupShareTarget->run(new NullOutput());
 
