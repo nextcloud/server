@@ -138,6 +138,7 @@ trait S3ConnectionTrait {
 
 		if ($this->params['s3-accelerate']) {
 			$options['use_accelerate_endpoint'] = true;
+			$options['endpoint'] = '';
 		} else {
 			$options['endpoint'] = $base_url;
 		}
