@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\DAV\CalDAV\WebcalCaching;
 
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\CalDAV\CalendarObjectEtagHelper;
 use OCA\DAV\CalDAV\Import\ImportService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use Psr\Log\LoggerInterface;
@@ -113,7 +114,8 @@ class RefreshWebcalService {
 
 				$sObject = $vObject->serialize();
 				$uid = $vBase->UID->getValue();
-				$etag = md5($sObject);
+
+				$etag = CalendarObjectEtagHelper::computeWithoutDtstamp($vObject);
 
 				// No existing object with this UID, create it
 				if (!isset($existingObjects[$uid])) {
