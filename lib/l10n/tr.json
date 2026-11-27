@@ -263,6 +263,7 @@
     "A valid password must be provided" : "Geçerli bir parola yazmalısınız",
     "The Login is already being used" : "Bu kullanıcı adı zaten var",
     "Could not create account" : "Hesap oluşturulamadı",
+    "Only the following characters are allowed in a Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Kullanıcı adında yalnızca şu karakterler kullanılabilir: \"a-z\", \"A-Z\", \"0-9\", boşluk ve \"_.@-'\"",
     "A valid Login must be provided" : "Geçerli bir kullanıcı adı yazmalısınız",
     "Login contains whitespace at the beginning or at the end" : "Kullanıcı adının başında ya da sonunda boşluk var",
     "Login must not consist of dots only" : "Kullanıcı adı yalnızca noktalardan oluşamaz",
