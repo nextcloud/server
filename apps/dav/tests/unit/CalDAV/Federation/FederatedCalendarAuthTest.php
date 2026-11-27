@@ -54,6 +54,12 @@ class FederatedCalendarAuthTest extends TestCase {
 				],
 				[true, 'principals/remote-users/abcdef123'],
 			],
+			[
+				'remote-calendars/abcdef123/cal1_shared_by_user1/event.ics',
+				self::encodeBasicAuthHeader(['abcdef123', 'token']),
+				[['uri' => 'cal1', 'principaluri' => 'principals/users/user1']],
+				[true, 'principals/remote-users/abcdef123'],
+			],
 
 			// Invalid basic auth header
 			[
@@ -104,6 +110,20 @@ class FederatedCalendarAuthTest extends TestCase {
 				'remote-calendars/abcdef123/cal1_shared_by_user1',
 				self::encodeBasicAuthHeader(['abcdef123', 'token']),
 				[['uri' => 'cal1', 'principaluri' => 'principals/users/user2']],
+				[false, 'Username or password was incorrect'],
+			],
+
+			// Sibling of the shared calendar with the same prefix
+			[
+				'remote-calendars/abcdef123/cal1_shared_by_user1-sibling',
+				self::encodeBasicAuthHeader(['abcdef123', 'token']),
+				[['uri' => 'cal1', 'principaluri' => 'principals/users/user1']],
+				[false, 'Username or password was incorrect'],
+			],
+			[
+				'remote-calendars/abcdef123/cal1_shared_by_user1-sibling/event.ics',
+				self::encodeBasicAuthHeader(['abcdef123', 'token']),
+				[['uri' => 'cal1', 'principaluri' => 'principals/users/user1']],
 				[false, 'Username or password was incorrect'],
 			],
 		];

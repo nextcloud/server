@@ -48,7 +48,8 @@ class FederatedCalendarAuth implements BackendInterface {
 			$ownerPrincipalUri = $row['principaluri'];
 			[, $ownerUserId] = \Sabre\Uri\split($ownerPrincipalUri);
 			$shareUri = $row['uri'] . '_shared_by_' . $ownerUserId;
-			if (str_starts_with($requestPath, "remote-calendars/$remoteUserPrincipalId/$shareUri")) {
+			$sharePath = "remote-calendars/$remoteUserPrincipalId/$shareUri";
+			if ($requestPath === $sharePath || str_starts_with($requestPath, "$sharePath/")) {
 				// Yes? -> return early
 				return $remoteUserPrincipalUri;
 			}

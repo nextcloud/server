@@ -162,7 +162,7 @@ class Server {
 		));
 		$this->server->addPlugin(new AnonymousOptionsPlugin());
 		$authPlugin = new Plugin();
-		$authPlugin->addBackend(new PublicAuth());
+		$authPlugin->addBackend(new PublicAuth(\OCP\Server::get(IUserSession::class)));
 		$this->server->addPlugin($authPlugin);
 
 		// allow setup of additional auth backends
@@ -198,7 +198,7 @@ class Server {
 		$this->server->addPlugin(new \Sabre\DAV\Sync\Plugin());
 
 		// acl
-		$acl = new DavAclPlugin();
+		$acl = new DavAclPlugin(restrictPublicPrincipal: true);
 		$acl->principalCollectionSet = [
 			'principals/users',
 			'principals/groups',

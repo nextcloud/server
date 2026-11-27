@@ -127,6 +127,16 @@ class PublicCalendarRootTest extends TestCase {
 		$this->assertEquals('public-calendars', $name);
 	}
 
+	public function testGetACL(): void {
+		$this->assertSame([
+			[
+				'privilege' => '{DAV:}read',
+				'principal' => '{DAV:}all',
+				'protected' => true,
+			],
+		], $this->publicCalendarRoot->getACL());
+	}
+
 	public function testGetChild(): void {
 		$calendar = $this->createPublicCalendar();
 

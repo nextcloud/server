@@ -23,6 +23,9 @@ use OCP\Federation\ICloudFederationProvider;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
 use OCP\Federation\IValidationAwareCloudFederationProvider;
+use OCP\OCM\IOCMDiscoveryService;
+use OCP\Security\Signature\Exceptions\SignatureException;
+use OCP\Security\Signature\ISignatureManager;
 use OCP\Share\Exceptions\ShareNotFound;
 use Psr\Log\LoggerInterface;
 
@@ -38,6 +41,8 @@ class CalendarFederationProvider implements ICloudFederationProvider, IValidatio
 		private readonly IJobList $jobList,
 		private readonly ICloudIdManager $cloudIdManager,
 		private readonly FederatedCalendarInvitationService $invitationService,
+		private readonly IOCMDiscoveryService $ocmDiscoveryService,
+		private readonly ISignatureManager $signatureManager,
 	) {
 	}
 
@@ -140,6 +145,18 @@ class CalendarFederationProvider implements ICloudFederationProvider, IValidatio
 			$calendar->setState(FederatedCalendarEntity::STATE_PENDING);
 			$calendar = $this->federatedCalendarMapper->insert($calendar);
 		} else {
+			if (!$this->isPartyToCalendar($share, $calendar)) {
+				$this->logger->warning('Received a federated calendar share for an existing calendar from an unrelated sender', [
+					'calendar' => $calendar->getRemoteUrl(),
+					'owner' => $share->getOwner(),
+				]);
+				throw new ProviderCouldNotAddShareException(
+					'Calendar is already shared with the sharee',
+					'',
+					Http::STATUS_FORBIDDEN,
+				);
+			}
+
 			$calendar->setToken($share->getShareSecret());
 			$calendar->setPermissions($permissions);
 			$calendar->setComponents($components);
@@ -235,6 +252,24 @@ class CalendarFederationProvider implements ICloudFederationProvider, IValidatio
 		}
 
 		return [];
+	}
+
+	/**
+	 * Owner and sharer of an incoming share are claims of the sender. Only accept changes to an
+	 * existing calendar if the share carries its current token or is signed by the hosting server.
+	 */
+	private function isPartyToCalendar(ICloudFederationShare $share, FederatedCalendarEntity $calendar): bool {
+		if (hash_equals($calendar->getToken(), $share->getShareSecret())) {
+			return true;
+		}
+
+		try {
+			$signedRequest = $this->ocmDiscoveryService->getIncomingSignedRequest($share->getOwner());
+			return $signedRequest !== null
+				&& $signedRequest->getOrigin() === $this->signatureManager->extractIdentityFromUri($calendar->getRemoteUrl());
+		} catch (SignatureException) {
+			return false;
+		}
 	}
 
 	/**
