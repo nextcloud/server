@@ -19,6 +19,20 @@ class Personal extends ASettings {
 
 	#[\Override]
 	public function getSection(): ?string {
-		return $this->manager->isUserScopeEnabled() ? 'workflow' : null;
+		if (!$this->manager->isUserScopeEnabled()) {
+			return null;
+		}
+
+		$operators = $this->manager->getOperatorList();
+		$availableOperators = array_filter(
+			$operators,
+			fn ($operator) => $operator->isAvailableForScope($this->getScope())
+		);
+
+		if (empty($availableOperators)) {
+			return null;
+		}
+
+		return 'workflow';
 	}
-}
+	}
