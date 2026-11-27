@@ -259,4 +259,16 @@ class ResponseTest extends \Test\TestCase {
 		$this->childResponse->throttle(['foo' => 'bar']);
 		$this->assertSame(['foo' => 'bar'], $this->childResponse->getThrottleMetadata());
 	}
+
+	public function testFlushEarlyIsOptIn(): void {
+		$this->assertFalse($this->childResponse->getFlushEarly());
+	}
+
+	public function testSetFlushEarly(): void {
+		$this->childResponse->setFlushEarly(true);
+		$this->assertTrue($this->childResponse->getFlushEarly());
+
+		$this->childResponse->setFlushEarly(false);
+		$this->assertFalse($this->childResponse->getFlushEarly());
+	}
 }
