@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OC\Authentication\Token;
 
 use OC\Authentication\Events\RemoteWipeFinished;
+use OC\Authentication\Events\RemoteWipeMarked;
 use OC\Authentication\Events\RemoteWipeStarted;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Exceptions\WipeTokenException;
@@ -40,6 +41,8 @@ class RemoteWipe {
 		$token->wipe();
 		$this->tokenProvider->updateToken($token);
 
+		$this->eventDispatcher->dispatchTyped(new RemoteWipeMarked($token));
+
 		return true;
 	}
 
@@ -63,6 +66,8 @@ class RemoteWipe {
 		foreach ($wipeable as $token) {
 			$token->wipe();
 			$this->tokenProvider->updateToken($token);
+
+			$this->eventDispatcher->dispatchTyped(new RemoteWipeMarked($token));
 		}
 
 		return true;
