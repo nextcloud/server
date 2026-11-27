@@ -4638,6 +4638,94 @@ class ManagerTest extends \Test\TestCase {
 		$manager->updateShare($share);
 	}
 
+	public function testUpdateShareLinkTokenEqualsUsername(): void {
+		$this->expectException(ShareTokenException::class);
+		$this->expectExceptionMessage('Unable to update share. Share token already exists');
+
+		$manager = $this->createManagerMock()
+			->onlyMethods([
+				'getShareById',
+				'generalChecks',
+				'pathCreateChecks',
+				'verifyPassword',
+				'validateExpirationDateLink',
+			])
+			->getMock();
+
+		$originalShare = $this->manager->newShare();
+		$originalShare->setShareType(IShare::TYPE_LINK)
+			->setToken('original')
+			->setPermissions(15);
+
+		$file = $this->createMock(File::class);
+		$file->method('getId')->willReturn(100);
+
+		$share = $this->manager->newShare();
+		$share->setProviderId('foo')
+			->setId('42')
+			->setShareType(IShare::TYPE_LINK)
+			->setToken('alice')
+			->setSharedBy('owner')
+			->setShareOwner('owner')
+			->setNode($file)
+			->setPermissions(15);
+
+		$manager->method('getShareById')->with('foo:42')->willReturn($originalShare);
+		$this->userManager->method('userExists')->with('alice')->willReturn(true);
+		$this->defaultProvider->expects($this->never())->method('update');
+
+		$manager->updateShare($share);
+	}
+
+	public function testUpdateShareLinkKeepsTokenWhenAUserTakesItsName(): void {
+		$manager = $this->createManagerMock()
+			->onlyMethods([
+				'getShareById',
+				'generalChecks',
+				'pathCreateChecks',
+				'verifyPassword',
+				'validateExpirationDateLink',
+			])
+			->getMock();
+
+		$originalShare = $this->manager->newShare();
+		$originalShare->setShareType(IShare::TYPE_LINK)
+			->setToken('alice')
+			->setPermissions(15);
+
+		$file = $this->createMock(File::class);
+		$file->method('getId')->willReturn(100);
+
+		$share = $this->manager->newShare();
+		$share->setProviderId('foo')
+			->setId('42')
+			->setShareType(IShare::TYPE_LINK)
+			->setToken('alice')
+			->setSharedBy('owner')
+			->setShareOwner('owner')
+			->setNode($file)
+			->setPermissions(15);
+
+		$manager->method('getShareById')->with('foo:42')->willReturn($originalShare);
+		$this->userManager->method('userExists')->willReturn(true);
+		$this->defaultProvider->expects($this->once())->method('update')->with($share)->willReturn($share);
+
+		$manager->updateShare($share);
+	}
+
+	public function testGenerateTokenSkipsUsernames(): void {
+		$this->secureRandom->method('generate')->willReturnOnConsecutiveCalls('alice', 'unused');
+
+		$manager = $this->createManagerMock()
+			->onlyMethods(['getShareByToken'])
+			->getMock();
+
+		$this->userManager->method('userExists')->willReturnCallback(static fn (string $token): bool => $token === 'alice');
+		$manager->method('getShareByToken')->willThrowException(new ShareNotFound());
+
+		$this->assertSame('unused', $manager->generateToken());
+	}
+
 	public function testUpdateShareLinkEnableSendPasswordByTalkWithNoPassword(): void {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('Cannot enable sending the password by Talk with an empty password');
