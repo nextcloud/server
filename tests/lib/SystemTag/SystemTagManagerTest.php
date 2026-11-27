@@ -285,11 +285,32 @@ class SystemTagManagerTest extends TestCase {
 	}
 
 
-	public function testGetInvalidTagIdFormat(): void {
+	public static function invalidTagIdFormatProvider(): array {
+		return [
+			'trailing characters' => ['%ssuffix'],
+			'fraction' => ['%s.5'],
+			'fraction of zero' => ['%s.0'],
+			'exponent' => ['%se0'],
+			'leading zero' => ['0%s'],
+			'leading whitespace' => [' %s'],
+			'trailing whitespace' => ['%s '],
+			'sign' => ['+%s'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('invalidTagIdFormatProvider')]
+	public function testGetInvalidTagIdFormat(string $format): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$tag1 = $this->tagManager->createTag('one', true, false);
-		$this->tagManager->getTagsByIds([$tag1->getId() . 'suffix']);
+		$this->tagManager->getTagsByIds([sprintf($format, $tag1->getId())]);
+	}
+
+	public function testGetInvalidTagIdType(): void {
+		$this->expectException(\InvalidArgumentException::class);
+
+		$tag1 = $this->tagManager->createTag('one', true, false);
+		$this->tagManager->getTagsByIds([(int)$tag1->getId() + 0.5]);
 	}
 
 	public static function updateTagProvider(): array {
