@@ -43,6 +43,8 @@ use Psr\Log\LoggerInterface;
  * @package OC\Files\Cache
  */
 class Scanner extends BasicEmitter implements IScanner {
+	public const FILE_ID_NOT_IN_CACHE = -1;
+
 	protected string $storageId;
 	protected ICache $cache;
 	/** @var bool $cacheActive Whether to perform cache operations */
@@ -210,7 +212,7 @@ class Scanner extends BasicEmitter implements IScanner {
 						unset($data['unencrypted_size']);
 					}
 					$newData = $data;
-					$fileId = -1;
+					$fileId = self::FILE_ID_NOT_IN_CACHE;
 				}
 				if (!empty($newData)) {
 					// Reset the checksum if the data has changed
@@ -253,20 +255,20 @@ class Scanner extends BasicEmitter implements IScanner {
 	 * @param int $fileId
 	 * @return int the id of the added file
 	 */
-	protected function addToCache($path, $data, $fileId = -1) {
+	protected function addToCache($path, $data, $fileId = self::FILE_ID_NOT_IN_CACHE) {
 		if (isset($data['scan_permissions'])) {
 			$data['permissions'] = $data['scan_permissions'];
 		}
 		$this->emit('\OC\Files\Cache\Scanner', 'addToCache', [$path, $this->storageId, $data, $fileId]);
 		if ($this->cacheActive) {
-			if ($fileId !== -1) {
+			if ($fileId === self::FILE_ID_NOT_IN_CACHE) {
+				return $this->cache->insert($path, $data);
+			} else {
 				$this->cache->update($fileId, $data);
 				return $fileId;
-			} else {
-				return $this->cache->insert($path, $data);
 			}
 		} else {
-			return -1;
+			return self::FILE_ID_NOT_IN_CACHE;
 		}
 	}
 
