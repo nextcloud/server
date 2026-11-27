@@ -400,8 +400,9 @@ export default defineComponent({
 				this.openedMenu = false
 			}
 
-			// a open the action menu
-			if (event.key === 'a' && !this.openedMenu) {
+			// Otherwise it's the `a` hotkey: open the action menu
+			// (matched by physical key, event.key may differ on non-Latin layouts, e.g. 'ф')
+			if (event.key !== 'Escape' && !this.openedMenu) {
 				this.openedMenu = true
 			}
 		},
