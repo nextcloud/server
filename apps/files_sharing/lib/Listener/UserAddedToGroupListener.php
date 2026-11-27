@@ -9,19 +9,26 @@ declare(strict_types=1);
 namespace OCA\Files_Sharing\Listener;
 
 use OCA\Files_Sharing\AppInfo\Application;
+use OCA\Files_Sharing\Notification\Notifier;
+use OCP\Config\IUserConfig;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\IConfig;
+use OCP\IUser;
+use OCP\Notification\IManager as INotificationManager;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 
 /** @template-implements IEventListener<UserAddedEvent> */
 class UserAddedToGroupListener implements IEventListener {
+	private const int SHARES_PER_PAGE = 50;
 
 	public function __construct(
-		private IManager $shareManager,
-		private IConfig $config,
+		private readonly IConfig $config,
+		private readonly IUserConfig $userConfig,
+		private readonly IManager $shareManager,
+		private readonly INotificationManager $notificationManager,
 	) {
 	}
 
@@ -30,13 +37,26 @@ class UserAddedToGroupListener implements IEventListener {
 			return;
 		}
 
+		if ($this->hasAutoAccept($event->getUser())) {
+			$this->handleAutoAccept($event);
+		} else {
+			$this->handleAcceptNotification($event);
+		}
+	}
+
+	private function hasAutoAccept(IUser $user): bool {
+		// If shares have to be accepted by default, then auto accept is disabled by default
+		$defaultAcceptSystemConfig = !$this->config->getSystemValueBool('sharing.enable_share_accept', false);
+		$acceptDefault = $this->userConfig->getValueBool($user->getUID(), Application::APP_ID, 'default_accept', $defaultAcceptSystemConfig);
+		return (!$this->config->getSystemValueBool('sharing.force_share_accept', false) && $acceptDefault);
+	}
+
+	/**
+	 * Handles auto-accepting shares for a user that has been added to a group.
+	 */
+	private function handleAutoAccept(UserAddedEvent $event): void {
 		$user = $event->getUser();
 		$group = $event->getGroup();
-
-		// This user doesn't have autoaccept so we can skip it all
-		if (!$this->hasAutoAccept($user->getUID())) {
-			return;
-		}
 
 		// Get all group shares this user has access to now to filter later
 		$shares = $this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_GROUP, null, -1);
