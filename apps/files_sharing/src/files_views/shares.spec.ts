@@ -37,12 +37,12 @@ describe('Sharing views definition', () => {
 		const shareOverviewView = navigation.views.find((view) => view.id === 'shareoverview') as View
 		const sharesChildViews = navigation.views.filter((view) => view.parent === 'shareoverview') as View[]
 
-		expect(navigation.register).toHaveBeenCalledTimes(7)
+		expect(navigation.register).toHaveBeenCalledTimes(6)
 
 		// one main view and no children
-		expect(navigation.views.length).toBe(7)
+		expect(navigation.views.length).toBe(6)
 		expect(shareOverviewView).toBeDefined()
-		expect(sharesChildViews.length).toBe(6)
+		expect(sharesChildViews.length).toBe(5)
 
 		expect(shareOverviewView?.id).toBe('shareoverview')
 		expect(shareOverviewView?.name).toBe('Shares')
@@ -58,7 +58,6 @@ describe('Sharing views definition', () => {
 			{ id: 'sharinglinks', name: 'Shared by link' },
 			{ id: 'filerequest', name: 'File requests' },
 			{ id: 'deletedshares', name: 'Deleted shares' },
-			{ id: 'pendingshares', name: 'Pending shares' },
 		]
 
 		sharesChildViews.forEach((view, index) => {
@@ -81,13 +80,13 @@ describe('Sharing views definition', () => {
 
 		expect(navigation.views.length).toBe(0)
 		registerSharingViews()
-		expect(navigation.register).toHaveBeenCalledTimes(6)
-		expect(navigation.views.length).toBe(6)
+		expect(navigation.register).toHaveBeenCalledTimes(5)
+		expect(navigation.views.length).toBe(5)
 
 		const shareOverviewView = navigation.views.find((view) => view.id === 'shareoverview') as View
 		const sharesChildViews = navigation.views.filter((view) => view.parent === 'shareoverview') as View[]
 		expect(shareOverviewView).toBeDefined()
-		expect(sharesChildViews.length).toBe(5)
+		expect(sharesChildViews.length).toBe(4)
 
 		expect(spy).toHaveBeenCalled()
 		expect(spy).toHaveBeenCalledWith('files', 'storageStats', { quota: -1 })
@@ -105,11 +104,11 @@ describe('Sharing views definition', () => {
 
 		expect(navigation.views.length).toBe(0)
 		registerSharingViews()
-		expect(navigation.register).toHaveBeenCalledTimes(6)
-		expect(navigation.views.length).toBe(6)
+		expect(navigation.register).toHaveBeenCalledTimes(5)
+		expect(navigation.views.length).toBe(5)
 
 		const sharesChildViews = navigation.views.filter((view) => view.parent === 'shareoverview') as View[]
-		expect(sharesChildViews.length).toBe(5)
+		expect(sharesChildViews.length).toBe(4)
 
 		const sharingByLinksView = navigation.views.find((view) => view.id === 'sharinglinks')
 		expect(sharingByLinksView).toBeUndefined()
@@ -134,7 +133,7 @@ describe('Sharing views contents', () => {
 		})
 
 		registerSharingViews()
-		expect(navigation.views.length).toBe(7)
+		expect(navigation.views.length).toBe(6)
 		for (const view of navigation.views) {
 			const content = await view.getContents('/', { signal: new AbortController().signal })
 			expect(content.contents).toStrictEqual([])
