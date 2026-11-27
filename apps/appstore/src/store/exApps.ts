@@ -5,7 +5,7 @@
 
 import type { IAppstoreExApp, IDeployDaemon, IExAppStatus } from '../apps.d.ts'
 
-import axios from '@nextcloud/axios'
+import axios, { isAxiosError } from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
@@ -39,6 +39,11 @@ export const useExAppsStore = defineStore('external-apps', () => {
 	let statusUpdater: number | null = null
 
 	/**
+	 * IDs of the apps whose status is being fetched
+	 */
+	const pendingStatusRequests = new Set<string>()
+
+	/**
 	 * Whether at least one of the configured daemons is accessible.
 	 */
 	const daemonAccessible = ref(loadState('appstore', 'defaultDaemonConfigAccessible', false))
@@ -56,6 +61,7 @@ export const useExAppsStore = defineStore('external-apps', () => {
 	const initializingOrDeployingApps = computed(() => apps.value
 		.filter((app) => app?.status?.action
 			&& app.status.type !== ''
+			&& !app.status.error
 			&& (app?.status?.action === 'deploy' || app.status.action === 'init' || app.status.action === 'healthcheck')))
 
 	/**
@@ -81,8 +87,9 @@ export const useExAppsStore = defineStore('external-apps', () => {
 		app.loading = true
 		try {
 			if (dockerDaemons.value.length === 1 && app.needsDownload) {
-				exAppApi.enableExApp(app, dockerDaemons[0])
-				app.daemon = dockerDaemons[0]
+				const daemon = dockerDaemons.value[0]!
+				await exAppApi.enableExApp(app, daemon)
+				app.daemon = daemon
 			} else if (app.needsDownload) {
 				const daemon = await spawnDialog(DaemonSelectionDialog, { app })
 				if (!daemon) {
@@ -106,7 +113,13 @@ export const useExAppsStore = defineStore('external-apps', () => {
 			app.removable = true
 			delete app.error
 
-			await fetchAppStatus(appId)
+			if (!(await fetchAppStatus(appId))) {
+				throw new Error(`App with id ${appId} is not registered`)
+			}
+			updateAppsStatus()
+		} catch (error) {
+			showRequestError(error)
+			throw error
 		} finally {
 			app.loading = false
 		}
@@ -128,6 +141,9 @@ export const useExAppsStore = defineStore('external-apps', () => {
 			await exAppApi.forceEnableExApp(appId)
 			await initialize(true)
 			app.active = false
+		} catch (error) {
+			showRequestError(error)
+			throw error
 		} finally {
 			app.loading = false
 		}
@@ -146,13 +162,16 @@ export const useExAppsStore = defineStore('external-apps', () => {
 		try {
 			await exAppApi.disableExApp(appId)
 			app.active = false
+		} catch (error) {
+			showRequestError(error)
+			throw error
 		} finally {
 			app.loading = false
 		}
 	}
 
 	/**
-	 * Uninstall an app by its id
+	 * Uninstall an app by its id, its data is kept
 	 *
 	 * @param appId - The app to uninstall
 	 */
@@ -164,17 +183,11 @@ export const useExAppsStore = defineStore('external-apps', () => {
 
 		app.loading = true
 		try {
-			await exAppApi.disableExApp(appId)
-			app.active = false
-			app.needsDownload = true
-			app.installed = false
-			app.daemon = null
-			app.status = {}
-			if (app.update !== null) {
-				updateCount.value--
-			}
-			delete app.update
-			delete app.error
+			await exAppApi.uninstallExApp(appId)
+			forgetInstallation(app)
+		} catch (error) {
+			showRequestError(error)
+			throw error
 		} finally {
 			app.loading = false
 		}
@@ -193,7 +206,7 @@ export const useExAppsStore = defineStore('external-apps', () => {
 
 		app.loading = true
 		try {
-			await axios.get(generateUrl(`/apps/app_api/apps/update/${appId}`))
+			await exAppApi.updateExApp(appId)
 			app.version = app.update || app.version
 			app.status = {
 				type: 'update',
@@ -206,9 +219,11 @@ export const useExAppsStore = defineStore('external-apps', () => {
 			updateCount.value--
 
 			await fetchAppStatus(appId)
+			updateAppsStatus()
 		} catch (error) {
 			logger.error('Failed to update ex app', { appId, error })
-			showError(t('appstore', 'Could not update the app. Please try again later.'))
+			showRequestError(error, t('appstore', 'Could not update the app. Please try again later.'))
+			throw error
 		} finally {
 			app.loading = false
 		}
@@ -268,6 +283,7 @@ export const useExAppsStore = defineStore('external-apps', () => {
 	async function fetchAllApps() {
 		try {
 			apps.value = await exAppApi.fetchApps()
+			updateAppsStatus()
 		} catch (error) {
 			logger.error('An error occurred while fetching apps', { error })
 			showError(t('appstore', 'An error occurred during the request. Unable to proceed.'))
@@ -278,34 +294,42 @@ export const useExAppsStore = defineStore('external-apps', () => {
 	 * Get the status of an external app.
 	 *
 	 * @param appId - The app ID to fetch the status for
+	 * @return Whether the app is still registered in AppAPI
 	 */
-	async function fetchAppStatus(appId: string) {
+	async function fetchAppStatus(appId: string): Promise<boolean> {
 		const app = getById(appId)
 		if (!app) {
 			logger.error('[app-api-store] app not found while fetching status', { appId })
-			return
+			return false
 		}
 
-		app.loading = true
+		pendingStatusRequests.add(appId)
 		try {
 			const status = await exAppApi.fetchAppStatus(appId)
 			app.status = status
+			if (status.init === 100 && !status.action && !status.error) {
+				// AppAPI enables an ExApp once its initialization finished
+				app.active = true
+			}
 			logger.debug('[app-api-store] initializingOrDeployingApps after setAppStatus', { initializingOrDeployingApps })
 			if (initializingOrDeployingApps.value.length === 0) {
 				logger.debug('[app-api-store] Clearing interval')
 				clearInterval(statusUpdater as number)
 				statusUpdater = null
 			}
-			if (app.status.error && initializingOrDeployingApps.value.length === 1) {
-				clearInterval(statusUpdater as number)
-				statusUpdater = null
+		} catch (error) {
+			logger.error('[app-api-store] Failed to fetch app status', { appId, error })
+			if (isAxiosError(error) && error.response?.status === 404) {
+				// AppAPI unregisters an ExApp whose deployment failed
+				forgetInstallation(app)
+				showRequestError(error)
+				updateAppsStatus()
+				return false
 			}
-		} catch (e) {
-			updateAppsStatus()
-			throw e
 		} finally {
-			app.loading = false
+			pendingStatusRequests.delete(appId)
 		}
+		return true
 	}
 
 	/**
@@ -313,6 +337,7 @@ export const useExAppsStore = defineStore('external-apps', () => {
 	 */
 	function updateAppsStatus() {
 		clearInterval(statusUpdater as number)
+		statusUpdater = null
 		if (initializingOrDeployingApps.value.length === 0) {
 			return
 		}
@@ -320,8 +345,59 @@ export const useExAppsStore = defineStore('external-apps', () => {
 		statusUpdater = window.setInterval(() => {
 			logger.debug('[app-api-store] initializingOrDeployingApps', { initializingOrDeployingApps })
 			for (const app of initializingOrDeployingApps.value) {
-				fetchAppStatus(app.id)
+				if (!pendingStatusRequests.has(app.id)) {
+					fetchAppStatus(app.id)
+				}
 			}
 		}, 2000)
 	}
+
+	/**
+	 * Reset an app that is no longer registered in AppAPI to its not installed state.
+	 * Apps that are not listed in the app store are removed from the list.
+	 *
+	 * @param app - The app that was unregistered
+	 */
+	function forgetInstallation(app: IAppstoreExApp) {
+		if (app.update) {
+			updateCount.value--
+		}
+		if (!app.appstore) {
+			apps.value = apps.value.filter(({ id }) => id !== app.id)
+			return
+		}
+		app.active = false
+		app.needsDownload = true
+		app.installed = false
+		app.daemon = null
+		app.status = {}
+		delete app.update
+		delete app.error
+	}
+
+	/**
+	 * Show the error message AppAPI sent for a failed request.
+	 * Errors that are not request errors (e.g. a cancelled dialog) are not shown.
+	 *
+	 * @param error - The error to show
+	 * @param fallback - The message to show if AppAPI sent none
+	 */
+	function showRequestError(error: unknown, fallback = t('appstore', 'An error occurred during the request. Unable to proceed.')) {
+		if (isAxiosError(error)) {
+			showError(getRequestErrorMessage(error) ?? fallback)
+		}
+	}
 })
+
+/**
+ * Get the error message AppAPI sent with a failed request, if any.
+ * AppAPI answers with `{ data: { message } }` or, for the status of an ExApp, with `{ error }`.
+ *
+ * @param error - The error thrown by the request
+ */
+function getRequestErrorMessage(error: unknown): string | undefined {
+	if (isAxiosError(error)) {
+		return error.response?.data?.data?.message ?? error.response?.data?.error
+	}
+	return undefined
+}

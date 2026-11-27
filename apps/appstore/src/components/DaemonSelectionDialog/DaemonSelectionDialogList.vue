@@ -9,12 +9,13 @@ import type { IDeployDaemon } from '../../apps.d.ts'
 import { t } from '@nextcloud/l10n'
 import DaemonSelectionDialogListEntry from './DaemonSelectionDialogListEntry.vue'
 import { useExAppsStore } from '../../store/exApps.ts'
+import { pinia } from '../../store/pinia.ts'
 
 defineEmits<{
 	selected: [daemon: IDeployDaemon]
 }>()
 
-const store = useExAppsStore()
+const store = useExAppsStore(pinia)
 </script>
 
 <template>

@@ -33,6 +33,14 @@ export function canInstall(app: IAppstoreApp | IAppstoreExApp) {
  * @param app - The app to check if uninstallable
  */
 export function canUninstall(app: IAppstoreApp | IAppstoreExApp) {
+	if (app.app_api && app.status.error) {
+		// AppAPI's uninstall disables a failed ExApp first, so it can be removed while enabled
+		return app.installed && app.removable
+	}
+	if (app.app_api && isDeploying(app)) {
+		// AppAPI does not offer to remove an ExApp while its deployment is running
+		return false
+	}
 	return app.installed && app.removable && !app.active
 }
 
@@ -78,7 +86,7 @@ export function canDisable(app: IAppstoreApp | IAppstoreExApp) {
  * @param app - The app to check if update-able
  */
 export function canUpdate(app: IAppstoreApp | IAppstoreExApp) {
-	return app.update !== undefined
+	return Boolean(app.update)
 }
 
 const restrictedTypes = ['filesystem', 'prelogin', 'authentication', 'logging', 'prevent_group_restriction']

@@ -16,12 +16,13 @@ import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcSelectUsers from '@nextcloud/vue/components/NcSelectUsers'
 import { useAppsStore } from '../store/apps.ts'
 import { useGroupsStore } from '../store/groups.ts'
+import { pinia } from '../store/pinia.ts'
 
 const { app } = defineProps<{ app: IAppstoreApp | IAppstoreExApp }>()
 const emit = defineEmits<{ close: [] }>()
 
-const store = useAppsStore()
-const groupsStore = useGroupsStore()
+const store = useAppsStore(pinia)
+const groupsStore = useGroupsStore(pinia)
 
 const loading = ref(false)
 const groups = ref<NcSelectUsersModel[]>([])
