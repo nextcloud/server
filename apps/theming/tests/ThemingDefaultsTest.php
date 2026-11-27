@@ -207,6 +207,28 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals($privacyUrl, $this->template->getPrivacyUrl());
 	}
 
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'legalUrlProvider')]
+	public function testGetCustomLinkText(string $customLinkText): void {
+		$this->appConfig
+			->expects($this->once())
+			->method('getAppValueString')
+			->with('customLinkText', '')
+			->willReturn($customLinkText);
+
+		$this->assertEquals($customLinkText, $this->template->getCustomLinkText());
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'legalUrlProvider')]
+	public function testGetCustomLinkUrl(string $customLinkUrl): void {
+		$this->appConfig
+			->expects($this->once())
+			->method('getAppValueString')
+			->with('customLinkUrl', '')
+			->willReturn($customLinkUrl);
+
+		$this->assertEquals($customLinkUrl, $this->template->getCustomLinkUrl());
+	}
+
 	public function testGetSloganWithDefault(): void {
 		$this->appConfig
 			->expects($this->once())
@@ -229,7 +251,7 @@ class ThemingDefaultsTest extends TestCase {
 
 	public function testGetShortFooter(): void {
 		$this->appConfig
-			->expects($this->exactly(5))
+			->expects($this->exactly(7))
 			->method('getAppValueString')
 			->willReturnMap([
 				['url', $this->defaults->getBaseUrl(), 'url'],
@@ -237,6 +259,8 @@ class ThemingDefaultsTest extends TestCase {
 				['slogan', $this->defaults->getSlogan(), 'Slogan'],
 				['imprintUrl', '', ''],
 				['privacyUrl', '', ''],
+				['customLinkText', '', ''],
+				['customLinkUrl', '', ''],
 			]);
 
 		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan', $this->template->getShortFooter());
@@ -245,7 +269,7 @@ class ThemingDefaultsTest extends TestCase {
 	public function testGetShortFooterEmptyUrl(): void {
 		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->appConfig
-			->expects($this->exactly(5))
+			->expects($this->exactly(7))
 			->method('getAppValueString')
 			->willReturnMap([
 				['url', $this->defaults->getBaseUrl(), ''],
@@ -253,6 +277,8 @@ class ThemingDefaultsTest extends TestCase {
 				['slogan', $this->defaults->getSlogan(), 'Slogan'],
 				['imprintUrl', '', ''],
 				['privacyUrl', '', ''],
+				['customLinkText', '', ''],
+				['customLinkUrl', '', ''],
 			]);
 
 		$this->assertEquals('<span class="entity-name">Name</span> – Slogan', $this->template->getShortFooter());
@@ -261,7 +287,7 @@ class ThemingDefaultsTest extends TestCase {
 	public function testGetShortFooterEmptySlogan(): void {
 		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->appConfig
-			->expects($this->exactly(5))
+			->expects($this->exactly(7))
 			->method('getAppValueString')
 			->willReturnMap([
 				['url', $this->defaults->getBaseUrl(), 'url'],
@@ -269,6 +295,8 @@ class ThemingDefaultsTest extends TestCase {
 				['slogan', $this->defaults->getSlogan(), ''],
 				['imprintUrl', '', ''],
 				['privacyUrl', '', ''],
+				['customLinkText', '', ''],
+				['customLinkUrl', '', ''],
 			]);
 
 		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a>', $this->template->getShortFooter());
@@ -277,7 +305,7 @@ class ThemingDefaultsTest extends TestCase {
 	public function testGetShortFooterImprint(): void {
 		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->appConfig
-			->expects($this->exactly(5))
+			->expects($this->exactly(7))
 			->method('getAppValueString')
 			->willReturnMap([
 				['url', $this->defaults->getBaseUrl(), 'url'],
@@ -285,6 +313,8 @@ class ThemingDefaultsTest extends TestCase {
 				['slogan', $this->defaults->getSlogan(), 'Slogan'],
 				['imprintUrl', '', 'https://example.com/imprint'],
 				['privacyUrl', '', ''],
+				['customLinkText', '', ''],
+				['customLinkUrl', '', ''],
 			]);
 
 		$this->l10n
@@ -298,7 +328,7 @@ class ThemingDefaultsTest extends TestCase {
 	public function testGetShortFooterPrivacy(): void {
 		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->appConfig
-			->expects($this->exactly(5))
+			->expects($this->exactly(7))
 			->method('getAppValueString')
 			->willReturnMap([
 				['url', $this->defaults->getBaseUrl(), 'url'],
@@ -306,6 +336,8 @@ class ThemingDefaultsTest extends TestCase {
 				['slogan', $this->defaults->getSlogan(), 'Slogan'],
 				['imprintUrl', '', ''],
 				['privacyUrl', '', 'https://example.com/privacy'],
+				['customLinkText', '', ''],
+				['customLinkUrl', '', ''],
 			]);
 
 		$this->l10n
@@ -319,7 +351,7 @@ class ThemingDefaultsTest extends TestCase {
 	public function testGetShortFooterAllLegalLinks(): void {
 		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->appConfig
-			->expects($this->exactly(5))
+			->expects($this->exactly(7))
 			->method('getAppValueString')
 			->willReturnMap([
 				['url', $this->defaults->getBaseUrl(), 'url'],
@@ -327,6 +359,8 @@ class ThemingDefaultsTest extends TestCase {
 				['slogan', $this->defaults->getSlogan(), 'Slogan'],
 				['imprintUrl', '', 'https://example.com/imprint'],
 				['privacyUrl', '', 'https://example.com/privacy'],
+				['customLinkText', '', ''],
+				['customLinkUrl', '', ''],
 			]);
 
 		$this->l10n
@@ -335,6 +369,79 @@ class ThemingDefaultsTest extends TestCase {
 			->willReturnArgument(0);
 
 		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan<br/><span class="footer__legal-links"><a href="https://example.com/imprint" class="legal" target="_blank" rel="noreferrer noopener">Legal notice</a> · <a href="https://example.com/privacy" class="legal" target="_blank" rel="noreferrer noopener">Privacy policy</a></span>', $this->template->getShortFooter());
+	}
+
+	public function testGetShortFooterCustomLink(): void {
+		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
+		$this->appConfig
+			->expects($this->exactly(7))
+			->method('getAppValueString')
+			->willReturnMap([
+				['url', $this->defaults->getBaseUrl(), 'url'],
+				['name', 'Nextcloud', 'Name'],
+				['slogan', $this->defaults->getSlogan(), 'Slogan'],
+				['imprintUrl', '', ''],
+				['privacyUrl', '', ''],
+				['customLinkText', '', 'Custom link'],
+				['customLinkUrl', '', 'https://example.com/custom'],
+			]);
+
+		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan<br/><span class="footer__legal-links"><a href="https://example.com/custom" class="legal" target="_blank" rel="noreferrer noopener">Custom link</a></span>', $this->template->getShortFooter());
+	}
+
+	public function testGetShortFooterCustomLinkMissingText(): void {
+		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
+		$this->appConfig
+			->expects($this->exactly(7))
+			->method('getAppValueString')
+			->willReturnMap([
+				['url', $this->defaults->getBaseUrl(), 'url'],
+				['name', 'Nextcloud', 'Name'],
+				['slogan', $this->defaults->getSlogan(), 'Slogan'],
+				['imprintUrl', '', ''],
+				['privacyUrl', '', ''],
+				['customLinkText', '', ''],
+				['customLinkUrl', '', 'https://example.com/custom'],
+			]);
+
+		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan', $this->template->getShortFooter());
+	}
+
+	public function testGetShortFooterCustomLinkMissingUrl(): void {
+		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
+		$this->appConfig
+			->expects($this->exactly(7))
+			->method('getAppValueString')
+			->willReturnMap([
+				['url', $this->defaults->getBaseUrl(), 'url'],
+				['name', 'Nextcloud', 'Name'],
+				['slogan', $this->defaults->getSlogan(), 'Slogan'],
+				['imprintUrl', '', ''],
+				['privacyUrl', '', ''],
+				['customLinkText', '', 'Custom link'],
+				['customLinkUrl', '', ''],
+			]);
+
+		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan', $this->template->getShortFooter());
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'invalidLegalUrlProvider')]
+	public function testGetShortFooterInvalidCustomLink(string $invalidCustomLinkUrl): void {
+		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
+		$this->appConfig
+			->expects($this->exactly(7))
+			->method('getAppValueString')
+			->willReturnMap([
+				['url', $this->defaults->getBaseUrl(), 'url'],
+				['name', 'Nextcloud', 'Name'],
+				['slogan', $this->defaults->getSlogan(), 'Slogan'],
+				['imprintUrl', '', ''],
+				['privacyUrl', '', ''],
+				['customLinkText', '', 'Custom link'],
+				['customLinkUrl', '', $invalidCustomLinkUrl],
+			]);
+
+		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan', $this->template->getShortFooter());
 	}
 
 	public static function invalidLegalUrlProvider(): array {
@@ -348,7 +455,7 @@ class ThemingDefaultsTest extends TestCase {
 	public function testGetShortFooterInvalidImprint(string $invalidImprintUrl): void {
 		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->appConfig
-			->expects($this->exactly(5))
+			->expects($this->exactly(7))
 			->method('getAppValueString')
 			->willReturnMap([
 				['url', $this->defaults->getBaseUrl(), 'url'],
@@ -356,6 +463,8 @@ class ThemingDefaultsTest extends TestCase {
 				['slogan', $this->defaults->getSlogan(), 'Slogan'],
 				['imprintUrl', '', $invalidImprintUrl],
 				['privacyUrl', '', ''],
+				['customLinkText', '', ''],
+				['customLinkUrl', '', ''],
 			]);
 
 		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan', $this->template->getShortFooter());
@@ -365,7 +474,7 @@ class ThemingDefaultsTest extends TestCase {
 	public function testGetShortFooterInvalidPrivacy(string $invalidPrivacyUrl): void {
 		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->appConfig
-			->expects($this->exactly(5))
+			->expects($this->exactly(7))
 			->method('getAppValueString')
 			->willReturnMap([
 				['url', $this->defaults->getBaseUrl(), 'url'],
@@ -373,6 +482,8 @@ class ThemingDefaultsTest extends TestCase {
 				['slogan', $this->defaults->getSlogan(), 'Slogan'],
 				['imprintUrl', '', ''],
 				['privacyUrl', '', $invalidPrivacyUrl],
+				['customLinkText', '', ''],
+				['customLinkUrl', '', ''],
 			]);
 
 		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan', $this->template->getShortFooter());

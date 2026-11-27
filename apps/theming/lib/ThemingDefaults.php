@@ -117,6 +117,14 @@ class ThemingDefaults extends \OC_Defaults {
 		return $this->appConfig->getAppValueString(ConfigLexicon::INSTANCE_PRIVACY_URL, '');
 	}
 
+	public function getCustomLinkText(): string {
+		return $this->appConfig->getAppValueString(ConfigLexicon::INSTANCE_CUSTOM_LINK_TEXT, '');
+	}
+
+	public function getCustomLinkUrl(): string {
+		return $this->appConfig->getAppValueString(ConfigLexicon::INSTANCE_CUSTOM_LINK_URL, '');
+	}
+
 	#[\Override]
 	public function getDocBaseUrl(): string {
 		return $this->appConfig->getAppValueString(ConfigLexicon::DOC_BASE_URL, $this->docBaseUrl);
@@ -148,6 +156,10 @@ class ThemingDefaults extends \OC_Defaults {
 				'text' => $this->l->t('Privacy policy'),
 				'url' => $this->getPrivacyUrl()
 			],
+			[
+				'text' => $this->getCustomLinkText(),
+				'url' => $this->getCustomLinkUrl()
+			],
 		];
 
 		$navigation = $this->navigationManager->getAll(INavigationManager::TYPE_GUEST);
@@ -162,7 +174,8 @@ class ThemingDefaults extends \OC_Defaults {
 		$legalLinks = '';
 		$divider = '';
 		foreach ($links as $link) {
-			if ($link['url'] !== ''
+			if ($link['text'] !== ''
+				&& $link['url'] !== ''
 				&& filter_var($link['url'], FILTER_VALIDATE_URL)
 			) {
 				$legalLinks .= $divider . '<a href="' . $link['url'] . '" class="legal" target="_blank"'

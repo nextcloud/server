@@ -70,6 +70,8 @@ class CapabilitiesTest extends TestCase {
 				'url' => 'url',
 				'imprintUrl' => 'https://imprint.example.com/',
 				'privacyUrl' => 'https://privacy.example.com/',
+				'customLinkText' => '',
+				'customLinkUrl' => '',
 				'slogan' => 'slogan',
 				'color' => '#FFFFFF',
 				'color-text' => '#000000',
@@ -99,6 +101,8 @@ class CapabilitiesTest extends TestCase {
 				'url' => 'url2',
 				'imprintUrl' => '',
 				'privacyUrl' => '',
+				'customLinkText' => '',
+				'customLinkUrl' => '',
 				'slogan' => 'slogan3',
 				'color' => '#01e4a0',
 				'color-text' => '#ffffff',
@@ -128,6 +132,8 @@ class CapabilitiesTest extends TestCase {
 				'url' => 'url2',
 				'imprintUrl' => '',
 				'privacyUrl' => '',
+				'customLinkText' => '',
+				'customLinkUrl' => '',
 				'slogan' => 'slogan3',
 				'color' => '#000000',
 				'color-text' => '#ffffff',
@@ -157,6 +163,8 @@ class CapabilitiesTest extends TestCase {
 				'url' => 'url2',
 				'imprintUrl' => '',
 				'privacyUrl' => '',
+				'customLinkText' => '',
+				'customLinkUrl' => '',
 				'slogan' => 'slogan3',
 				'color' => '#000000',
 				'color-text' => '#ffffff',
@@ -207,6 +215,12 @@ class CapabilitiesTest extends TestCase {
 		$this->theming->expects($this->once())
 			->method('getPrivacyUrl')
 			->willReturn($privacyUrl);
+		$this->theming->expects($this->once())
+			->method('getCustomLinkText')
+			->willReturn('');
+		$this->theming->expects($this->once())
+			->method('getCustomLinkUrl')
+			->willReturn('');
 		$this->theming->expects($this->once())
 			->method('getSlogan')
 			->willReturn($slogan);
