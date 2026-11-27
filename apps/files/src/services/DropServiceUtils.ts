@@ -185,7 +185,7 @@ function readDirectory(directory: FileSystemDirectoryEntry): Promise<FileSystemE
  *   non-default locations like team folders.
  */
 export async function createDirectoryIfNotExists(path: string, destination?: IFolder) {
-	const davUrl = destination?.source ?? join(defaultRemoteURL, defaultRootPath)
+	const davUrl = destination?.encodedSource ?? join(defaultRemoteURL, defaultRootPath)
 	const davRoot = destination?.root ?? defaultRootPath
 	const davClient = getClient(davUrl)
 	const dirExists = await davClient.exists(path)
