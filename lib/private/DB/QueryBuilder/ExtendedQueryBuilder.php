@@ -236,6 +236,12 @@ abstract class ExtendedQueryBuilder extends TypedQueryBuilder {
 	}
 
 	#[\Override]
+	public function addValues(array $values): self {
+		$this->builder->addValues($values);
+		return $this;
+	}
+
+	#[\Override]
 	public function having(...$having) {
 		$this->builder->having(...$having);
 		return $this;
