@@ -9,6 +9,7 @@ namespace Test\Files\ObjectStore;
 
 use Icewind\Streams\Wrapper;
 use OC\Files\ObjectStore\S3;
+use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\Server;
 
@@ -65,6 +66,18 @@ class S3Test extends ObjectStoreTestCase {
 		}
 
 		return new S3($config['arguments']);
+	}
+
+	public function testReadNonExistingThrowsNotFound(): void {
+		$s3 = $this->getInstance();
+
+		set_error_handler(fn (int $errno, string $errstr): bool => str_starts_with($errstr, 'fopen('));
+		try {
+			$this->expectException(NotFoundException::class);
+			$s3->readObject('non-existing');
+		} finally {
+			restore_error_handler();
+		}
 	}
 
 	public function testUploadNonSeekable(): void {
