@@ -60,6 +60,7 @@ const showCombined = computed(() => Boolean(profileEnabledGlobally)
 	&& visibility.value !== null
 	&& !props.additional)
 
+// TRANSLATORS Screen reader label of the button next to an account field. {property} is the lower-case name of the field, e.g. "phone number". Visibility = who sees it on the profile page; scope = how far it is shared (Private, Local, Federated, Published)
 const ariaLabel = computed(() => t('settings', 'Change visibility and scope of {property}', { property: props.readable.toLocaleLowerCase() }))
 
 const scopeIcon = computed(() => SCOPE_PROPERTY_ENUM[localScope.value].icon)
