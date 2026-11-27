@@ -53,6 +53,7 @@ use OC\Repair\Owncloud\MoveAvatars;
 use OC\Repair\Owncloud\SaveAccountsTableData;
 use OC\Repair\Owncloud\UpdateLanguageCodes;
 use OC\Repair\RemoveBrokenProperties;
+use OC\Repair\RemoveInvalidSystemTagMappings;
 use OC\Repair\RemoveLinkShares;
 use OC\Repair\RepairDavShares;
 use OC\Repair\RepairInvalidShares;
@@ -202,6 +203,7 @@ class Repair implements IOutput {
 			\OCP\Server::get(SanitizeAccountProperties::class),
 			\OCP\Server::get(AddMovePreviewJob::class),
 			\OCP\Server::get(ConfigKeyMigration::class),
+			\OCP\Server::get(RemoveInvalidSystemTagMappings::class),
 		];
 	}
 

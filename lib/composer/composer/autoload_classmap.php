@@ -2096,6 +2096,7 @@ return array(
     'OC\\Repair\\Owncloud\\SaveAccountsTableData' => $baseDir . '/lib/private/Repair/Owncloud/SaveAccountsTableData.php',
     'OC\\Repair\\Owncloud\\UpdateLanguageCodes' => $baseDir . '/lib/private/Repair/Owncloud/UpdateLanguageCodes.php',
     'OC\\Repair\\RemoveBrokenProperties' => $baseDir . '/lib/private/Repair/RemoveBrokenProperties.php',
+    'OC\\Repair\\RemoveInvalidSystemTagMappings' => $baseDir . '/lib/private/Repair/RemoveInvalidSystemTagMappings.php',
     'OC\\Repair\\RemoveLinkShares' => $baseDir . '/lib/private/Repair/RemoveLinkShares.php',
     'OC\\Repair\\RepairDavShares' => $baseDir . '/lib/private/Repair/RepairDavShares.php',
     'OC\\Repair\\RepairInvalidShares' => $baseDir . '/lib/private/Repair/RepairInvalidShares.php',
