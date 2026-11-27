@@ -226,6 +226,14 @@ trait S3ObjectTrait {
 			Utils::copyToStream($psrStream, $buffer, $this->putSizeLimit);
 			$buffer->seek(0);
 			if ($buffer->getSize() < $this->putSizeLimit) {
+				$expectedSize = isset($metaData['size']) ? (int)$metaData['size'] : null;
+				$actualSize = $buffer->getSize();
+				if ($expectedSize !== null && $actualSize !== $expectedSize) {
+					throw new \RuntimeException(
+						'Incomplete upload, expected ' . $expectedSize . ' bytes, buffered ' . $actualSize
+					);
+				}
+
 				// buffer is fully seekable, so use it directly for the small upload
 				$this->writeSingle($urn, $buffer, $metaData);
 			} else {
