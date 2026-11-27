@@ -13,6 +13,7 @@ use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use OC\OCM\OCMSignatoryManager;
 use OCA\CloudFederationAPI\Controller\TokenController;
+use OCA\FederatedFileSharing\OCM\UnifiedShareHandler;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -44,6 +45,7 @@ class TokenControllerTest extends TestCase {
 	private IAppConfig&MockObject $appConfig;
 	private IShareManager&MockObject $shareManager;
 	private ICloudIdManager&MockObject $cloudIdManager;
+	private UnifiedShareHandler&MockObject $unifiedShareHandler;
 
 	private TokenController $controller;
 
@@ -65,6 +67,7 @@ class TokenControllerTest extends TestCase {
 		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->shareManager = $this->createMock(IShareManager::class);
 		$this->cloudIdManager = $this->createMock(ICloudIdManager::class);
+		$this->unifiedShareHandler = $this->createMock(UnifiedShareHandler::class);
 
 		$this->controller = new TokenController(
 			$this->request,
@@ -76,6 +79,7 @@ class TokenControllerTest extends TestCase {
 			$this->appConfig,
 			$this->shareManager,
 			$this->cloudIdManager,
+			$this->unifiedShareHandler,
 		);
 	}
 

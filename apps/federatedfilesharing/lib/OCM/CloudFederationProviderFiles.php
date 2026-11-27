@@ -80,6 +80,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 		private readonly ISignatureManager $signatureManager,
 		private readonly OCMSignatoryManager $signatoryManager,
 		private readonly IAppConfig $appConfig,
+		private readonly UnifiedShareHandler $unifiedShareHandler,
 	) {
 	}
 
@@ -265,6 +266,14 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 
 	#[Override]
 	public function notificationReceived(string $notificationType, string $providerId, array $notification): array {
+		if ($this->unifiedShareHandler->isUnifiedProviderId($providerId)) {
+			return match ($notificationType) {
+				'SHARE_ACCEPTED' => $this->unifiedShareHandler->shareAccepted($providerId, $notification),
+				'SHARE_DECLINED' => $this->unifiedShareHandler->shareDeclined($providerId, $notification),
+				default => throw new BadRequestException([$notificationType]),
+			};
+		}
+
 		return match ($notificationType) {
 			'SHARE_ACCEPTED' => $this->shareAccepted($providerId, $notification),
 			'SHARE_DECLINED' => $this->shareDeclined($providerId, $notification),
@@ -713,9 +722,16 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 	): string {
 		$provider = $this->shareProviderFactory->getProviderForType(IShare::TYPE_REMOTE);
 		try {
+			// legacy share ('oc_share')
 			$share = $provider->getShareByToken($sharedSecret);
 		} catch (ShareNotFound) {
-			// Maybe we're dealing with a share federated from another server
+			// check if it's a unified share ('oc_sharing_share')
+			$unifiedShareRecipientCloudId = $this->unifiedShareHandler->getRemoteRecipientCloudId($sharedSecret);
+			if ($unifiedShareRecipientCloudId !== null) {
+				return $unifiedShareRecipientCloudId;
+			}
+
+			// check if it's a legacy external share ('oc_share_external')
 			$share = $this->externalShareManager->getShareByToken($sharedSecret);
 			if ($share === false) {
 				return '';

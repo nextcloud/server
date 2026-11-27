@@ -45,6 +45,11 @@ final class ShareRecipient {
 		public readonly ?ShareUser $initiator = null,
 		/** @var array<class-string<ISharePermissionType>, SharePermission> $permissions */
 		public readonly array $permissions = [],
+		/**
+		 * @var ?non-empty-string $id
+		 * @experimental 36.0.0
+		 */
+		public readonly ?string $id = null,
 	) {
 	}
 

@@ -211,9 +211,11 @@ final class ApiV1Controller extends OCSController {
 				$share = $this->manager->getShare($this->accessContext, $id);
 				$share = $this->manager->updateShareState($this->accessContext, $share, $shareState);
 				$this->dbConnection->commit();
+				$this->manager->dispatchPendingEvents();
 				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $this->accessContext));
 			} catch (Exception $exception) {
 				$this->dbConnection->rollBack();
+				$this->manager->discardPendingEvents();
 				throw $exception;
 			}
 		} catch (ShareOperationForbiddenException $shareOperationForbiddenException) {
@@ -359,9 +361,11 @@ final class ApiV1Controller extends OCSController {
 				$share = $this->manager->getShare($this->accessContext, $id);
 				$share = $this->manager->addShareRecipient($this->accessContext, $share, new ShareRecipient($class, $value, $instance));
 				$this->dbConnection->commit();
+				$this->manager->dispatchPendingEvents();
 				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $this->accessContext));
 			} catch (Exception $exception) {
 				$this->dbConnection->rollBack();
+				$this->manager->discardPendingEvents();
 				throw $exception;
 			}
 		} catch (ShareInvalidException $shareInvalidException) {

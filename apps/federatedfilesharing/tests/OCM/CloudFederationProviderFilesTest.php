@@ -13,6 +13,7 @@ use OC\OCM\OCMSignatoryManager;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\OCM\CloudFederationProviderFiles;
+use OCA\FederatedFileSharing\OCM\UnifiedShareHandler;
 use OCA\Federation\TrustedServers;
 use OCA\Files_Sharing\External\ExternalShareMapper;
 use OCA\Files_Sharing\External\Manager;
@@ -77,6 +78,7 @@ class CloudFederationProviderFilesTest extends TestCase {
 	private ISignatureManager&MockObject $signatureManager;
 	private OCMSignatoryManager&MockObject $signatoryManager;
 	private IAppConfig&MockObject $appConfig;
+	private UnifiedShareHandler&MockObject $unifiedShareHandler;
 
 	private CloudFederationProviderFiles $provider;
 
@@ -107,6 +109,7 @@ class CloudFederationProviderFilesTest extends TestCase {
 		$this->signatureManager = $this->createMock(ISignatureManager::class);
 		$this->signatoryManager = $this->createMock(OCMSignatoryManager::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->unifiedShareHandler = $this->createMock(UnifiedShareHandler::class);
 
 		$this->provider = new CloudFederationProviderFiles(
 			$this->appManager,
@@ -133,6 +136,7 @@ class CloudFederationProviderFilesTest extends TestCase {
 			$this->signatureManager,
 			$this->signatoryManager,
 			$this->appConfig,
+			$this->unifiedShareHandler,
 		);
 	}
 

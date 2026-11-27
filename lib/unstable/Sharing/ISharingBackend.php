@@ -83,11 +83,12 @@ interface ISharingBackend {
 	/**
 	 * Add a new recipient to a share.
 	 *
+	 * @return non-empty-string ID of the new recipient
 	 * @throws ShareInvalidException
 	 * @throws ShareNotFoundException
 	 * @experimental 35.0.0
 	 */
-	public function addShareRecipient(string $id, ShareRecipient $recipient): void;
+	public function addShareRecipient(string $id, ShareRecipient $recipient): string;
 
 	/**
 	 * Remove an existing recipient from a share.
@@ -180,6 +181,14 @@ interface ISharingBackend {
 	 * @experimental 35.0.0
 	 */
 	public function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?ShareState $filterState, ?ShareUserStatus $filterUserStatus, ?string $lastShareID, ?int $limit): array;
+
+	/**
+	 * Get the ID of the share that has a recipient with the secret.
+	 *
+	 * @return ?non-empty-string
+	 * @experimental 36.0.0
+	 */
+	public function getShareIdByRecipientSecret(string $secret): ?string;
 
 	/**
 	 * Check if a share ID belongs to this backend.
