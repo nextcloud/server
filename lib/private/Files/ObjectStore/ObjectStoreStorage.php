@@ -30,6 +30,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\ObjectStore\IObjectStoreMetaData;
 use OCP\Files\ObjectStore\IObjectStoreMultiPartUpload;
+use OCP\Files\ObjectStore\IObjectStoreStorage;
 use OCP\Files\Storage\IChunkedFileWrite;
 use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
@@ -38,7 +39,7 @@ use OCP\Server;
 use Override;
 use Psr\Log\LoggerInterface;
 
-class ObjectStoreStorage extends Common implements IChunkedFileWrite {
+class ObjectStoreStorage extends Common implements IChunkedFileWrite, IObjectStoreStorage {
 	use CopyDirectory;
 
 	protected IObjectStore $objectStore;
@@ -270,6 +271,7 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 	 *
 	 * @return string the unified resource name used to identify the object
 	 */
+	#[\Override]
 	public function getURN(int $fileId): string {
 		return $this->objectPrefix . $fileId;
 	}
@@ -604,6 +606,7 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 		return $totalWritten;
 	}
 
+	#[\Override]
 	public function getObjectStore(): IObjectStore {
 		return $this->objectStore;
 	}
