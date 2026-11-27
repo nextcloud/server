@@ -675,6 +675,19 @@ class AccountManager implements IAccountManager {
 	}
 
 	/**
+	 * Returns the display name as stored in the accounts table, whereas
+	 * getAccount() applies the display name of the user backend.
+	 */
+	public function getStoredDisplayName(IUser $user): ?string {
+		foreach ($this->getUser($user, false) as $property) {
+			if ($property['name'] === self::PROPERTY_DISPLAYNAME) {
+				return $property['value'];
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Converts value (phone number) in E.164 format when it was a valid number
 	 * @throws InvalidArgumentException When the phone number was invalid or no default region is set and the number doesn't start with a country code
 	 */

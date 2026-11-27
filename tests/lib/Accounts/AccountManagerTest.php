@@ -684,6 +684,52 @@ class AccountManagerTest extends TestCase {
 		$this->assertEquals($expected, $accountManager->getAccount($user));
 	}
 
+	public function testGetStoredDisplayName(): void {
+		$accountManager = $this->getInstance(['getUser']);
+		$user = $this->createMock(IUser::class);
+		$user->method('getDisplayName')
+			->willReturn('Backend Name');
+
+		$accountManager->expects($this->once())
+			->method('getUser')
+			->with($user, false)
+			->willReturn([
+				[
+					'value' => 'test@example.com',
+					'scope' => IAccountManager::SCOPE_PUBLISHED,
+					'verified' => IAccountManager::NOT_VERIFIED,
+					'name' => IAccountManager::PROPERTY_EMAIL,
+				],
+				[
+					'value' => 'Stored Name',
+					'scope' => IAccountManager::SCOPE_FEDERATED,
+					'verified' => IAccountManager::NOT_VERIFIED,
+					'name' => IAccountManager::PROPERTY_DISPLAYNAME,
+				],
+			]);
+
+		$this->assertSame('Stored Name', $accountManager->getStoredDisplayName($user));
+	}
+
+	public function testGetStoredDisplayNameWithoutDisplayName(): void {
+		$accountManager = $this->getInstance(['getUser']);
+		$user = $this->createMock(IUser::class);
+
+		$accountManager->expects($this->once())
+			->method('getUser')
+			->with($user, false)
+			->willReturn([
+				[
+					'value' => 'test@example.com',
+					'scope' => IAccountManager::SCOPE_PUBLISHED,
+					'verified' => IAccountManager::NOT_VERIFIED,
+					'name' => IAccountManager::PROPERTY_EMAIL,
+				],
+			]);
+
+		$this->assertNull($accountManager->getStoredDisplayName($user));
+	}
+
 	public static function dataParsePhoneNumber(): array {
 		return [
 			['0711 / 25 24 28-90', 'DE', '+4971125242890'],
