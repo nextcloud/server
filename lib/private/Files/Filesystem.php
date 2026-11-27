@@ -638,8 +638,13 @@ class Filesystem {
 		}
 
 		//normalize unicode if possible
-		if (!$keepUnicode) {
-			$path = \OC_Util::normalizeUnicode($path);
+		if (!$keepUnicode && !\Normalizer::isNormalized($path)) {
+			$normalizedPath = \Normalizer::normalize($path);
+			if ($normalizedPath === false) {
+				Server::get(LoggerInterface::class)->warning('normalizing failed for "' . $path . '"', ['app' => 'core']);
+			} else {
+				$path = $normalizedPath;
+			}
 		}
 
 		//add leading slash, if it is already there we strip it anyway

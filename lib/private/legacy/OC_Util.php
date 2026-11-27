@@ -552,6 +552,7 @@ class OC_Util {
 	 *
 	 * @param string $value a not normalized string
 	 * @return string The normalized string or the input if the normalization failed
+	 * @deprecated 36.0.0 use \Normalizer directly
 	 */
 	public static function normalizeUnicode(string $value): string {
 		if (Normalizer::isNormalized($value)) {

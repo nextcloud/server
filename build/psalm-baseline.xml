@@ -1462,10 +1462,6 @@
     </DeprecatedInterface>
   </file>
   <file src="apps/files_external/lib/Command/Notify.php">
-    <DeprecatedClass>
-      <code><![CDATA[\OC_Util::normalizeUnicode($parent)]]></code>
-      <code><![CDATA[\OC_Util::normalizeUnicode($path)]]></code>
-    </DeprecatedClass>
     <DeprecatedInterface>
       <code><![CDATA[Notify]]></code>
     </DeprecatedInterface>
