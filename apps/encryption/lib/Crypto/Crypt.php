@@ -149,7 +149,7 @@ class Crypt {
 		int $version,
 		string $position,
 	): string|false {
-		if (!$plainContent) {
+		if ($plainContent === '') {
 			$this->logger->error('Encryption Library, symmetrical encryption failed no content given',
 				['app' => 'encryption']);
 			return false;
@@ -215,7 +215,7 @@ class Crypt {
 			$options,
 			$iv);
 
-		if (!$encryptedContent) {
+		if ($encryptedContent === false) {
 			$error = 'Encryption (symmetric) of content failed';
 			$this->logger->error($error . openssl_error_string(),
 				['app' => 'encryption']);

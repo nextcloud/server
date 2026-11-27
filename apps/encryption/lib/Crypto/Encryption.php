@@ -215,7 +215,7 @@ class Encryption implements IEncryptionModule {
 			if (Scanner::isPartialFile($path)) {
 				self::$rememberVersion[$this->stripPartFileExtension($path)] = $this->version + 1;
 			}
-			if (!empty($this->writeCache)) {
+			if ($this->writeCache !== '') {
 				$result = $this->crypt->symmetricEncryptFileContent($this->writeCache, $this->fileKey, $this->version + 1, $position);
 				$this->writeCache = '';
 			}
@@ -269,7 +269,7 @@ class Encryption implements IEncryptionModule {
 	): string {
 		// If extra data is left over from the last round, make sure it
 		// is integrated into the next block
-		if ($this->writeCache) {
+		if ($this->writeCache !== '') {
 			// Concat writeCache to start of $data
 			$data = $this->writeCache . $data;
 
