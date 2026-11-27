@@ -165,6 +165,11 @@ class LazyFolder implements Folder {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
+	#[\Override]
+	public function getStorageId(): int {
+		return $this->__call(__FUNCTION__, func_get_args());
+	}
+
 	/**
 	 * @inheritDoc
 	 */
