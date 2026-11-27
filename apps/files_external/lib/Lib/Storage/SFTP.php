@@ -44,27 +44,6 @@ class SFTP extends Common {
 
 	public const COPY_CHUNK_SIZE = 8 * 1024 * 1024;
 
-	/**
-	 * @param string $host protocol://server:port
-	 * @return array [$server, $port]
-	 */
-	private function splitHost(string $host): array {
-		$input = $host;
-		if (!str_contains($host, '://')) {
-			// add a protocol to fix parse_url behavior with ipv6
-			$host = 'http://' . $host;
-		}
-
-		$parsed = parse_url($host);
-		if (is_array($parsed) && isset($parsed['port'])) {
-			return [$parsed['host'], $parsed['port']];
-		} elseif (is_array($parsed)) {
-			return [$parsed['host'], 22];
-		} else {
-			return [$input, 22];
-		}
-	}
-
 	public function __construct(array $parameters) {
 		if (!isset($parameters['host'])) {
 			throw new \InvalidArgumentException('Invalid configuration, no host provided');
@@ -112,53 +91,117 @@ class SFTP extends Common {
 	}
 
 	/**
-	 * Returns the connection.
+	 * @param string $host protocol://server:port
+	 * @return array [$server, $port]
+	 */
+	private function splitHost(string $host): array {
+		$input = $host;
+		if (!str_contains($host, '://')) {
+			// add a protocol to fix parse_url behavior with ipv6
+			$host = 'http://' . $host;
+		}
+
+		$parsed = parse_url($host);
+		if (is_array($parsed) && isset($parsed['port'])) {
+			return [$parsed['host'], $parsed['port']];
+		} elseif (is_array($parsed)) {
+			return [$parsed['host'], 22];
+		} else {
+			return [$input, 22];
+		}
+	}
+
+	protected function createSftpClient(): \phpseclib3\Net\SFTP {
+		return new \phpseclib3\Net\SFTP($this->host, $this->port);
+	}
+
+	/**
+	 * Return an authenticated SFTP client, connecting if necessary.
 	 *
-	 * @return \phpseclib3\Net\SFTP connected client instance
-	 * @throws \Exception when the connection failed
+	 * The server host key is checked before authentication. An existing client
+	 * is reused if it appears connected and authenticated.
+	 *
+	 * @throws \Exception If host-key verification or authentication fails
 	 */
 	public function getConnection(): \phpseclib3\Net\SFTP {
-		if (!is_null($this->client)) {
+		if (
+			$this->client instanceof \phpseclib3\Net\SFTP
+			&& $this->client->isConnected()
+			&& $this->client->isAuthenticated()
+		) {
 			return $this->client;
 		}
 
+		$this->client = null;
+		$client = $this->createSftpClient();
 		$hostKeys = $this->readHostKeys();
-		$this->client = new \phpseclib3\Net\SFTP($this->host, $this->port);
-
-		// The SSH Host Key MUST be verified before login().
-		$currentHostKey = $this->client->getServerPublicHostKey();
-		if (array_key_exists($this->host, $hostKeys)) {
-			if ($hostKeys[$this->host] !== $currentHostKey) {
-				throw new \Exception('Host public key does not match known key');
+		$phase = 'host key verification';
+		try {
+			// The SSH Host Key MUST be verified before login().
+			$currentHostKey = $client->getServerPublicHostKey();
+			if ($currentHostKey === false) {
+				throw new \Exception("Unable to retrieve host key from $this->host");
 			}
-		} else {
-			$hostKeys[$this->host] = $currentHostKey;
-			$this->writeHostKeys($hostKeys);
-		}
-
-		$login = false;
-		foreach ($this->auth as $auth) {
-			$login = $this->client->login($this->user, $auth);
-			if ($login === true) {
-				break;
+			if (array_key_exists($this->host, $hostKeys)) {
+				if ($hostKeys[$this->host] !== $currentHostKey) {
+					throw new \Exception("Host public key received for $this->host does not match known key");
+				}
+			} else {
+				$hostKeys[$this->host] = $currentHostKey;
+				// TODO: Persistent verification is not currently guaranteed.
+				$this->writeHostKeys($hostKeys);
 			}
-		}
 
-		if ($login === false) {
-			throw new \Exception('Login failed');
-		}
-		return $this->client;
+			$phase = 'authentication';
+			$login = false;
+			foreach ($this->auth as $auth) {
+				$login = $client->login($this->user, $auth);
+				if ($login === true) {
+					break;
+				}
+			}
+
+			if ($login === false) {
+				// TODO: Currently additional details are only vailable via logging and thus only to admins
+				throw new \Exception('Authentication failed');
+			}
+		} catch (\Exception $e) {
+			Server::get(LoggerInterface::class)->debug('SFTP connection failed', [
+				'sshHost' => $this->host,
+				'sshUser' => $this->user,
+				'phase' => $phase,
+				'sshError' => $client->getLastError(),
+				'exception' => $e,
+			]);
+			throw $e;
+ 		}
+
+		return $this->client = $client;
 	}
 
+	/**
+	 * Test whether the configured root directory can be listed.
+	 *
+	 * @throws \Exception If connecting or listing fails with an exception
+	 */
 	#[\Override]
 	public function test(): bool {
-		if (
-			!isset($this->host)
-			|| !isset($this->user)
-		) {
+		if (!isset($this->host) || !isset($this->user)) {
 			return false;
 		}
-		return $this->getConnection()->nlist() !== false;
+
+		$client = $this->getConnection();
+		$result = $client->nlist($this->absPath(''));
+		if ($result === false) {
+			// TODO: Currently additional details are only available via logging and thus only to admins
+			Server::get(LoggerInterface::class)->debug('SFTP availability test: root listing failed', [
+				'sshHost' => $this->host,
+				'sshUser' => $this->user,
+				'sftpError' => $client->getLastSFTPError(),
+			]);
+		}
+
+		return $result !== false;
 	}
 
 	#[\Override]
