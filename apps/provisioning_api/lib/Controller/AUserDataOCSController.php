@@ -346,7 +346,10 @@ abstract class AUserDataOCSController extends OCSController {
 					self::USER_FIELD_QUOTA => $storage['quota'],
 				];
 			} else {
-				$userFileInfo = $this->rootFolder->getUserFolder($userId)->getStorage()->getCache()->get('');
+				// Only files/ counts against the quota. On object store the home root
+				// also holds files_trashbin, files_versions and uploads.
+				$userFolder = $this->rootFolder->getUserFolder($userId);
+				$userFileInfo = $userFolder->getStorage()->getCache()->get($userFolder->getInternalPath());
 				$used = $userFileInfo->getSize();
 
 				if ($quota > 0) {
