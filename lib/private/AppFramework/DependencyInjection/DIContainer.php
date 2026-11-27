@@ -39,6 +39,8 @@ use OC\AppFramework\Utility\SimpleContainer;
 use OC\CapabilitiesManager;
 use OC\Core\Middleware\TwoFactorMiddleware;
 use OC\Diagnostics\EventLogger;
+use OC\FilesMetadata\Schema\MetadataSchemaManager;
+use OC\FilesMetadata\Schema\MetadataSchemaRegistry;
 use OC\Log\PsrLoggerAdapter;
 use OC\Server;
 use OC\Settings\AuthorizedGroupMapper;
@@ -52,6 +54,7 @@ use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\IAppData;
+use OCP\FilesMetadata\Schema\IMetadataSchemaManager;
 use OCP\Group\ISubAdmin;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -118,6 +121,14 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			/* Cannot be an alias because it uses LoggerInterface so it would infinite loop */
 			return new ScopedPsrLogger(
 				$c->get(PsrLoggerAdapter::class),
+				$c->get('appName')
+			);
+		});
+
+		$this->registerService(IMetadataSchemaManager::class, function (ContainerInterface $c) {
+			return new MetadataSchemaManager(
+				$c->get(MetadataSchemaRegistry::class),
+				$c->get(LoggerInterface::class),
 				$c->get('appName')
 			);
 		});
