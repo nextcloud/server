@@ -84,7 +84,7 @@ class PublicAuth extends AbstractBasic {
 
 			return $this->checkToken();
 		} catch (NotAuthenticated|MaxDelayReached $e) {
-			$this->throttler->registerAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress());
+			$this->throttler->registerUniqueAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress(), $userpass ?? '');
 			throw $e;
 		} catch (PreconditionFailed $e) {
 			$response->setHeader(
@@ -133,7 +133,7 @@ class PublicAuth extends AbstractBasic {
 			/** @var IShare $share */
 			$share = $this->shareManager->getShareByToken($token);
 		} catch (ShareNotFound $e) {
-			$this->throttler->registerAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress());
+			$this->throttler->registerUniqueAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress(), $token);
 			throw new NotFound();
 		}
 
@@ -147,7 +147,7 @@ class PublicAuth extends AbstractBasic {
 
 		// If the share is protected but user is not authenticated
 		if ($share->isPasswordProtected()) {
-			$this->throttler->registerAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress());
+			$this->throttler->registerUniqueAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress(), $token);
 			throw new NotAuthenticated();
 		}
 
@@ -173,7 +173,7 @@ class PublicAuth extends AbstractBasic {
 		try {
 			$share = $this->getShare();
 		} catch (ShareNotFound $e) {
-			$this->throttler->registerAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress());
+			$this->throttler->registerUniqueAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress(), [$username, $password]);
 			return false;
 		}
 
@@ -205,13 +205,13 @@ class PublicAuth extends AbstractBasic {
 					throw new NotAuthenticated('Cannot authenticate over ajax calls');
 				}
 
-				$this->throttler->registerAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress());
+				$this->throttler->registerUniqueAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress(), [$username, $password]);
 				return false;
 			} elseif ($share->getShareType() === IShare::TYPE_REMOTE) {
 				return true;
 			}
 
-			$this->throttler->registerAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress());
+			$this->throttler->registerUniqueAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress(), [$username, $password]);
 			return false;
 		}
 

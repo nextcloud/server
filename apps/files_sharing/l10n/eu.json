@@ -414,6 +414,7 @@
     "Share not found" : "Partekatzea ez da aurkitu",
     "Back to %s" : "Itzuli %s(e)ra",
     "Add to your Nextcloud" : "Gehitu zure Nextclouden",
+    "Cannot share with a disabled account." : "Ezin da partekatu desgaitutako kontu batekin.",
     "Group sharing is disabled by the administrator" : "Administratzaileak taldeekin partekatzea desgaitu du",
     "Public link sharing is disabled by the administrator" : "Administratzaileak estekak publikoki partekatzea desgaitu du",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : " %1$s partekatzeak huts egin du, atzealdeak %2$s motako partekatzeak ez dituelako onartzen",

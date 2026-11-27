@@ -206,7 +206,8 @@ class SharingMapper {
 				'ds.token',
 				$qb->createNamedParameter($token, IQueryBuilder::PARAM_STR),
 				IQueryBuilder::PARAM_STR,
-			));
+			))
+			->andWhere($qb->expr()->isNull('c.deleted_at'));
 		$result = $qb->executeQuery();
 		/** @var list<array{uri: string, principaluri: string}> $rows */
 		$rows = $result->fetchAllAssociative();

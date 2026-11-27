@@ -156,6 +156,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				if ($row['principaluri'] === $principalUri) {
 					continue;
 				}
+				// system address books can not be shared, ignore rows stored before that was enforced
+				if ($row['principaluri'] === 'principals/system/system') {
+					continue;
+				}
 
 				$readOnly = (int)$row['access'] === Backend::ACCESS_READ;
 				if (isset($addressBooks[$row['id']])) {

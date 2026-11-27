@@ -7,6 +7,7 @@
 
 namespace OCA\DAV\CalDAV;
 
+use OCA\DAV\CalDAV\Trashbin\Plugin as TrashbinPlugin;
 use Sabre\DAV\Exception\NotFound;
 
 class PublicCalendar extends Calendar {
@@ -19,7 +20,7 @@ class PublicCalendar extends Calendar {
 	public function getChild($name): PublicCalendarObject {
 		$obj = $this->caldavBackend->getCalendarObject($this->calendarInfo['id'], $name);
 
-		if (!$obj) {
+		if (!$obj || isset($obj[TrashbinPlugin::PROPERTY_DELETED_AT])) {
 			throw new NotFound('Calendar object not found');
 		}
 		if ($obj['classification'] === CalDavBackend::CLASSIFICATION_PRIVATE) {

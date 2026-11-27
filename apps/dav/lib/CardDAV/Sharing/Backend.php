@@ -15,6 +15,8 @@ use OCA\DAV\DAV\Sharing\Backend as SharingBackend;
 use OCP\ICacheFactory;
 use OCP\IGroupManager;
 use OCP\IUserManager;
+use OCP\IUserSession;
+use OCP\Share\IManager as IShareManager;
 use Psr\Log\LoggerInterface;
 
 class Backend extends SharingBackend {
@@ -27,7 +29,9 @@ class Backend extends SharingBackend {
 		private Service $service,
 		private FederationSharingService $federationSharingService,
 		private LoggerInterface $logger,
+		private IShareManager $shareManager,
+		private IUserSession $userSession,
 	) {
-		parent::__construct($this->userManager, $this->groupManager, $this->principalBackend, $this->remoteUserPrincipalBackend, $this->cacheFactory, $this->service, $this->federationSharingService, $this->logger);
+		parent::__construct($this->userManager, $this->groupManager, $this->principalBackend, $this->remoteUserPrincipalBackend, $this->cacheFactory, $this->service, $this->federationSharingService, $this->logger, $this->shareManager, $this->userSession);
 	}
 }

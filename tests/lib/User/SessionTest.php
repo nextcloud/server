@@ -12,6 +12,8 @@ use OC\AppFramework\Http\Request;
 use OC\Authentication\Events\LoginFailed;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
+use OC\Authentication\RememberLogin\RememberLoginToken;
+use OC\Authentication\RememberLogin\RememberLoginTokenMapper;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\PublicKeyToken;
 use OC\Security\CSRF\CsrfTokenManager;
@@ -21,6 +23,7 @@ use OC\User\Manager;
 use OC\User\Session;
 use OC\User\User;
 use OCA\DAV\Connector\Sabre\Auth;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Token\IToken;
@@ -61,6 +64,7 @@ class SessionTest extends TestCase {
 	private ILockdownManager&MockObject $lockdownManager;
 	private LoggerInterface&MockObject $logger;
 	private IEventDispatcher&MockObject $dispatcher;
+	private RememberLoginTokenMapper&MockObject $rememberLoginTokenMapper;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -82,6 +86,8 @@ class SessionTest extends TestCase {
 		$this->lockdownManager = $this->createMock(ILockdownManager::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
+		$this->rememberLoginTokenMapper = $this->createMock(RememberLoginTokenMapper::class);
+		$this->overwriteService(RememberLoginTokenMapper::class, $this->rememberLoginTokenMapper);
 		$this->userSession = $this->getMockBuilder(Session::class)
 			->setConstructorArgs([
 				$this->manager,
@@ -524,8 +530,8 @@ class SessionTest extends TestCase {
 
 		$this->throttler
 			->expects($this->once())
-			->method('registerAttempt')
-			->with('login', '192.168.0.1', ['user' => 'john']);
+			->method('registerUniqueAttempt')
+			->with('login', '192.168.0.1', ['john','doe'], ['user' => 'john']);
 		$this->dispatcher
 			->expects($this->exactly(2))
 			->method('dispatchTyped')
@@ -654,8 +660,8 @@ class SessionTest extends TestCase {
 
 		$this->throttler
 			->expects($this->once())
-			->method('registerAttempt')
-			->with('login', '192.168.0.1', ['user' => 'john']);
+			->method('registerUniqueAttempt')
+			->with('login', '192.168.0.1', ['john','doe'], ['user' => 'john']);
 
 		$this->dispatcher
 			->expects($this->exactly(2))
@@ -848,20 +854,25 @@ class SessionTest extends TestCase {
 			->method('get')
 			->with('foo')
 			->willReturn($user);
-		$this->config->expects($this->once())
-			->method('getUserKeys')
-			->with('foo', 'login_token')
-			->willReturn([$token]);
-		$this->config->expects($this->once())
-			->method('deleteUserValue')
-			->with('foo', 'login_token', $token);
+
+		$storedRememberLoginToken = new RememberLoginToken();
+		$storedRememberLoginToken->uid = 'foo';
+		$storedRememberLoginToken->token = $token;
+
+		$this->rememberLoginTokenMapper->expects($this->once())
+			->method('findByToken')
+			->with($token)
+			->willReturn($storedRememberLoginToken);
 		$this->random->expects($this->once())
 			->method('generate')
 			->with(32)
 			->willReturn('abcdefg123456');
-		$this->config->expects($this->once())
-			->method('setUserValue')
-			->with('foo', 'login_token', 'abcdefg123456', 10000);
+		$this->rememberLoginTokenMapper->expects($this->once())
+			->method('deleteByToken')
+			->with($token);
+		$this->rememberLoginTokenMapper->expects($this->once())
+			->method('insert')
+			->with($this->callback(fn (RememberLoginToken $newToken): bool => $newToken->uid === 'foo' && $newToken->token === 'abcdefg123456'));
 
 		$tokenObject = $this->createMock(IToken::class);
 		$tokenObject->expects($this->once())
@@ -944,15 +955,20 @@ class SessionTest extends TestCase {
 			->method('get')
 			->with('foo')
 			->willReturn($user);
-		$this->config->expects($this->once())
-			->method('getUserKeys')
-			->with('foo', 'login_token')
-			->willReturn([$token]);
-		$this->config->expects($this->once())
-			->method('deleteUserValue')
-			->with('foo', 'login_token', $token);
-		$this->config->expects($this->once())
-			->method('setUserValue'); // TODO: mock new random value
+
+		$storedRememberLoginToken = new RememberLoginToken();
+		$storedRememberLoginToken->uid = 'foo';
+		$storedRememberLoginToken->token = $token;
+
+		$this->rememberLoginTokenMapper->expects($this->once())
+			->method('findByToken')
+			->with($token)
+			->willReturn($storedRememberLoginToken);
+		$this->rememberLoginTokenMapper->expects($this->once())
+			->method('deleteByToken')
+			->with($token);
+		$this->rememberLoginTokenMapper->expects($this->once())
+			->method('insert');
 
 		$session->expects($this->once())
 			->method('getId')
@@ -1017,18 +1033,25 @@ class SessionTest extends TestCase {
 			->method('get')
 			->with('foo')
 			->willReturn($user);
-		$this->config->expects($this->once())
-			->method('getUserKeys')
-			->with('foo', 'login_token')
-			->willReturn([$token]);
+
+		$storedRememberLoginToken = new RememberLoginToken();
+		$storedRememberLoginToken->uid = 'foo';
+		$storedRememberLoginToken->token = $token;
+
+		$this->rememberLoginTokenMapper->expects($this->once())
+			->method('findByToken')
+			->with($token)
+			->willReturn($storedRememberLoginToken);
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with($oldSessionId)
 			->willThrowException(new InvalidTokenException());
 
-		$this->config->expects($this->once())
-			->method('deleteUserValue')
-			->with('foo', 'login_token', $token);
+		$this->rememberLoginTokenMapper->expects($this->once())
+			->method('deleteByToken')
+			->with($token);
+		$this->config->expects($this->never())
+			->method('deleteUserValue');
 		$this->tokenProvider->expects($this->never())
 			->method('renewSessionToken');
 		$userSession->expects($this->never())
@@ -1072,13 +1095,16 @@ class SessionTest extends TestCase {
 			->method('get')
 			->with('foo')
 			->willReturn($user);
+		$this->rememberLoginTokenMapper->expects($this->once())
+			->method('findByToken')
+			->with($token)
+			->willThrowException(new DoesNotExistException(''));
 		$this->config->expects($this->once())
 			->method('getUserKeys')
 			->with('foo', 'login_token')
-			->willReturn(['anothertoken']);
-		$this->config->expects($this->never())
-			->method('deleteUserValue')
-			->with('foo', 'login_token', $token);
+			->willReturn([]);
+		$this->rememberLoginTokenMapper->expects($this->never())
+			->method('deleteByToken');
 
 		$this->tokenProvider->expects($this->never())
 			->method('renewSessionToken');
@@ -1093,6 +1119,119 @@ class SessionTest extends TestCase {
 		$granted = $userSession->loginWithCookie('foo', $token, $oldSessionId);
 
 		$this->assertFalse($granted);
+	}
+
+	public function testRememberLoginTokenFromDifferentUser(): void {
+		$session = $this->createMock(Memory::class);
+		$manager = $this->createMock(Manager::class);
+		$userSession = $this->getMockBuilder(Session::class)
+			//override, otherwise tests will fail because of setcookie()
+			->onlyMethods(['setMagicInCookie'])
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->getMock();
+		$token = 'goodToken';
+		$oldSessionId = 'sess321';
+
+		$manager->expects($this->once())
+			->method('get')
+			->with('foo')
+			->willReturn($this->createMock(IUser::class));
+
+		$storedRememberLoginToken = new RememberLoginToken();
+		$storedRememberLoginToken->uid = 'bar';
+		$storedRememberLoginToken->token = $token;
+		$this->rememberLoginTokenMapper->expects($this->once())
+			->method('findByToken')
+			->with($token)
+			->willReturn($storedRememberLoginToken);
+		$this->logger->expects($this->once())
+			->method('warning')
+			->with('Tried to login using remember-me token from a different user');
+
+		$this->config->expects($this->never())
+			->method('getUserKeys');
+		$this->tokenProvider->expects($this->never())
+			->method('getToken');
+		$session->expects($this->never())
+			->method('regenerateId');
+		$this->rememberLoginTokenMapper->expects($this->never())
+			->method('deleteByToken');
+		$this->rememberLoginTokenMapper->expects($this->never())
+			->method('insert');
+		$userSession->expects($this->never())
+			->method('setMagicInCookie');
+
+		$this->assertFalse($userSession->loginWithCookie('foo', $token, $oldSessionId));
+	}
+
+	public function testRememberLoginLegacyToken(): void {
+		$session = $this->createMock(Memory::class);
+		$manager = $this->createMock(Manager::class);
+		$userSession = $this->getMockBuilder(Session::class)
+			//override, otherwise tests will fail because of setcookie()
+			->onlyMethods(['setMagicInCookie', 'setLoginName'])
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->getMock();
+		$token = 'legacyToken';
+		$oldSessionId = 'sess321';
+		$sessionId = 'sess123';
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('foo');
+		$manager->expects($this->once())
+			->method('get')
+			->with('foo')
+			->willReturn($user);
+
+		$this->rememberLoginTokenMapper->expects($this->once())
+			->method('findByToken')
+			->with($token)
+			->willThrowException(new DoesNotExistException(''));
+		$this->config->expects($this->once())
+			->method('getUserKeys')
+			->with('foo', 'login_token')
+			->willReturn(['otherToken', $token]);
+		$this->config->expects($this->once())
+			->method('deleteUserValue')
+			->with('foo', 'login_token', $token);
+
+		$oldTokenObject = $this->createMock(IToken::class);
+		$oldTokenObject->method('getUID')
+			->willReturn('foo');
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with($oldSessionId)
+			->willReturn($oldTokenObject);
+
+		$session->expects($this->once())
+			->method('regenerateId');
+		$this->rememberLoginTokenMapper->expects($this->never())
+			->method('deleteByToken');
+		$this->random->expects($this->once())
+			->method('generate')
+			->with(32)
+			->willReturn('abcdefg123456');
+		$this->rememberLoginTokenMapper->expects($this->once())
+			->method('insert')
+			->with($this->callback(fn (RememberLoginToken $newToken): bool => $newToken->uid === 'foo' && $newToken->token === 'abcdefg123456'));
+
+		$tokenObject = $this->createMock(IToken::class);
+		$tokenObject->method('getLoginName')
+			->willReturn('foobar');
+		$tokenObject->method('getId')
+			->willReturn(42);
+		$session->method('getId')
+			->willReturn($sessionId);
+		$this->tokenProvider->expects($this->once())
+			->method('renewSessionToken')
+			->with($oldSessionId, $sessionId)
+			->willReturn($tokenObject);
+		$userSession->expects($this->once())
+			->method('setMagicInCookie')
+			->with('foo', 'abcdefg123456');
+
+		$this->assertTrue($userSession->loginWithCookie('foo', $token, $oldSessionId));
 	}
 
 	public function testRememberLoginInvalidUser(): void {
@@ -1123,10 +1262,8 @@ class SessionTest extends TestCase {
 			->method('get')
 			->with('foo')
 			->willReturn(null);
-		$this->config->expects($this->never())
-			->method('getUserKeys')
-			->with('foo', 'login_token')
-			->willReturn(['anothertoken']);
+		$this->rememberLoginTokenMapper->expects($this->never())
+			->method('findByToken');
 
 		$this->tokenProvider->expects($this->never())
 			->method('renewSessionToken');
@@ -1386,10 +1523,13 @@ class SessionTest extends TestCase {
 			->method('generate')
 			->with(32)
 			->willReturn('LongRandomToken');
-		$this->config
+		$this->rememberLoginTokenMapper
 			->expects($this->once())
-			->method('setUserValue')
-			->with('UserUid', 'login_token', 'LongRandomToken', 10000);
+			->method('insert')
+			->with($this->callback(function (RememberLoginToken $rememberLoginToken): bool {
+				return $rememberLoginToken->uid === 'UserUid'
+					&& $rememberLoginToken->token === 'LongRandomToken';
+			}));
 		$this->userSession
 			->expects($this->once())
 			->method('setMagicInCookie')
@@ -1563,8 +1703,8 @@ class SessionTest extends TestCase {
 
 		$this->throttler
 			->expects($this->once())
-			->method('registerAttempt')
-			->with('login', '192.168.0.1', ['user' => 'john']);
+			->method('registerUniqueAttempt')
+			->with('login', '192.168.0.1', ['john','I-AM-A-PASSWORD'], ['user' => 'john']);
 		$this->dispatcher
 			->expects($this->exactly(2))
 			->method('dispatchTyped')
@@ -1626,8 +1766,8 @@ class SessionTest extends TestCase {
 
 		$this->throttler
 			->expects($this->once())
-			->method('registerAttempt')
-			->with('login', '192.168.0.1', ['user' => 'john@foo.bar']);
+			->method('registerUniqueAttempt')
+			->with('login', '192.168.0.1', ['john@foo.bar','I-AM-A-PASSWORD'], ['user' => 'john@foo.bar']);
 		$this->dispatcher
 			->expects($this->exactly(2))
 			->method('dispatchTyped')

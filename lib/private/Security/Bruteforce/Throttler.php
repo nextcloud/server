@@ -18,6 +18,7 @@ use OCP\IConfig;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\Bruteforce\MaxDelayReached;
+use OCP\Security\ICrypto;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -44,6 +45,7 @@ class Throttler implements IThrottler {
 		private IBackend $backend,
 		private BruteforceAllowList $allowList,
 		private IEventDispatcher $dispatcher,
+		private ICrypto $crypto,
 	) {
 	}
 
@@ -90,6 +92,37 @@ class Throttler implements IThrottler {
 			$action,
 			$metadata
 		);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	#[\Override]
+	public function registerUniqueAttempt(
+		string $action,
+		string $ip,
+		#[\SensitiveParameter]
+		array|string $identifier,
+		array $metadata = [],
+	): void {
+		$ipAddress = new IpAddress($ip);
+		$maxAgeHours = 48;
+
+		if (is_array($identifier)) {
+			$identifier = \json_encode($identifier);
+		}
+		if ($identifier === '' || $identifier === false) {
+			// Empty identifier or failed json encoding
+			$this->registerAttempt($action, $ip);
+			return;
+		}
+
+		$maxAgeTimestamp = (int)($this->timeFactory->getTime() - 3600 * $maxAgeHours);
+
+		$metadata['unique_hash'] = $this->crypto->calculateHMAC($identifier);
+		if ($this->backend->getAttempts($ipAddress->getSubnet(), $maxAgeTimestamp, $action, $metadata) === 0) {
+			$this->registerAttempt($action, $ip, $metadata);
+		}
 	}
 
 	/**
