@@ -9,6 +9,7 @@ import type { AppAction } from './index.ts'
 import { mdiAlertCircleCheckOutline } from '@mdi/js'
 import { t } from '@nextcloud/l10n'
 import { useAppsStore } from '../store/apps.ts'
+import { pinia } from '../store/pinia.ts'
 import { canForceEnable, canInstall, needForceEnable } from '../utils/appStatus.ts'
 
 export const actionForceEnable: AppAction = {
@@ -22,7 +23,7 @@ export const actionForceEnable: AppAction = {
 		return !canInstall(app) && canForceEnable(app) && needForceEnable(app)
 	},
 	async callback(app: IAppstoreApp | IAppstoreExApp) {
-		const store = useAppsStore()
+		const store = useAppsStore(pinia)
 		await store.enableApp(app.id, true)
 	},
 }

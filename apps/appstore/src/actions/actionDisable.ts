@@ -9,6 +9,7 @@ import type { AppAction } from './index.ts'
 import { mdiClose } from '@mdi/js'
 import { t } from '@nextcloud/l10n'
 import { useAppsStore } from '../store/apps.ts'
+import { pinia } from '../store/pinia.ts'
 import { canDisable } from '../utils/appStatus.ts'
 
 export const actionDisable: AppAction = {
@@ -18,7 +19,7 @@ export const actionDisable: AppAction = {
 	enabled: canDisable,
 	label: () => t('appstore', 'Disable'),
 	async callback(app: IAppstoreApp | IAppstoreExApp) {
-		const store = useAppsStore()
+		const store = useAppsStore(pinia)
 		await store.disableApp(app.id)
 	},
 }
