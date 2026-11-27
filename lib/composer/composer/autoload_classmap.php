@@ -2005,6 +2005,7 @@ return array(
     'OC\\Files\\Search\\QueryOptimizer\\PushDownNegation' => $baseDir . '/lib/private/Files/Search/QueryOptimizer/PushDownNegation.php',
     'OC\\Files\\Search\\QueryOptimizer\\QueryOptimizer' => $baseDir . '/lib/private/Files/Search/QueryOptimizer/QueryOptimizer.php',
     'OC\\Files\\Search\\QueryOptimizer\\QueryOptimizerStep' => $baseDir . '/lib/private/Files/Search/QueryOptimizer/QueryOptimizerStep.php',
+    'OC\\Files\\Search\\QueryOptimizer\\RepeatMergeDistributiveOperations' => $baseDir . '/lib/private/Files/Search/QueryOptimizer/RepeatMergeDistributiveOperations.php',
     'OC\\Files\\Search\\QueryOptimizer\\ReplacingOptimizerStep' => $baseDir . '/lib/private/Files/Search/QueryOptimizer/ReplacingOptimizerStep.php',
     'OC\\Files\\Search\\QueryOptimizer\\SimplifyEmptyIn' => $baseDir . '/lib/private/Files/Search/QueryOptimizer/SimplifyEmptyIn.php',
     'OC\\Files\\Search\\QueryOptimizer\\SplitLargeIn' => $baseDir . '/lib/private/Files/Search/QueryOptimizer/SplitLargeIn.php',

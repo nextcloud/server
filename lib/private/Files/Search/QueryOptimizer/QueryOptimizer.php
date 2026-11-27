@@ -20,7 +20,7 @@ class QueryOptimizer {
 			new PushDownNegation(),
 			new SimplifyEmptyIn(),
 			new PathPrefixOptimizer(),
-			new MergeDistributiveOperations(),
+			new RepeatMergeDistributiveOperations(),
 			new FlattenSingleArgumentBinaryOperation(),
 			new FlattenNestedBool(),
 			new OrEqualsToIn(),

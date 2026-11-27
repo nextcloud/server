@@ -163,4 +163,70 @@ class MergeDistributiveOperationsTest extends TestCase {
 
 		$this->assertEquals('(storage eq 1 and (path eq "foo" or path eq "bar" or (path eq "asd" and size gt "100")))', $operator->__toString());
 	}
+
+	public function testBasicOrOfAndsLaterArgument(): void {
+		$operator = new SearchBinaryOperator(
+			ISearchBinaryOperator::OPERATOR_OR,
+			[
+				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 1),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'foo'),
+				]),
+				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 2),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'foo'),
+				]),
+				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 3),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'foo'),
+				]),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 4),
+			]
+		);
+		$this->assertEquals('((storage eq 1 and path eq "foo") or (storage eq 2 and path eq "foo") or (storage eq 3 and path eq "foo") or storage eq 4)', $operator->__toString());
+
+		$this->optimizer->processOperator($operator);
+		$this->simplifier->processOperator($operator);
+
+		$this->assertEquals('((path eq "foo" and (storage eq 1 or storage eq 2 or storage eq 3)) or storage eq 4)', $operator->__toString());
+	}
+
+	public function testBasicOrOfAndsMixedArgument(): void {
+		$operator = new SearchBinaryOperator(
+			ISearchBinaryOperator::OPERATOR_OR,
+			[
+				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 1),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'foo'),
+				]),
+				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 2),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'foo'),
+				]),
+				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 3),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'foo'),
+				]),
+				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 4),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'bar'),
+				]),
+				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 4),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'asd'),
+				])
+			]
+		);
+		$this->assertEquals('((storage eq 1 and path eq "foo") or (storage eq 2 and path eq "foo") or (storage eq 3 and path eq "foo") or (storage eq 4 and path eq "bar") or (storage eq 4 and path eq "asd"))', $operator->__toString());
+
+		$this->optimizer->processOperator($operator);
+		$this->simplifier->processOperator($operator);
+
+		$this->assertEquals('((path eq "foo" and (storage eq 1 or storage eq 2 or storage eq 3)) or (storage eq 4 and path eq "bar") or (storage eq 4 and path eq "asd"))', $operator->__toString());
+
+		$this->optimizer->processOperator($operator);
+		$this->simplifier->processOperator($operator);
+
+		$this->assertEquals('((path eq "foo" and (storage eq 1 or storage eq 2 or storage eq 3)) or (storage eq 4 and (path eq "bar" or path eq "asd")))', $operator->__toString());
+	}
 }
