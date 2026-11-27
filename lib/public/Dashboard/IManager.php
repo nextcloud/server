@@ -27,4 +27,12 @@ interface IManager {
 	 * @return array<string, IWidget>
 	 */
 	public function getWidgets(): array;
+
+	/**
+	 * Discover team widgets without loading personal dashboard assets.
+	 *
+	 * @return array<string, ITeamWidget>
+	 * @since 36.0.0
+	 */
+	public function getTeamWidgets(): array;
 }

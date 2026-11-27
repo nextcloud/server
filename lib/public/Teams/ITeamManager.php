@@ -86,6 +86,13 @@ interface ITeamManager {
 	public function hasTeamSupport(): bool;
 
 	/**
+	 * Whether the user is an accepted direct or inherited member of the team.
+	 *
+	 * @since 36.0.0
+	 */
+	public function isMemberOfTeam(string $teamId, string $userId): bool;
+
+	/**
 	 * @since 35.0.0
 	 */
 	public function getTeam(string $teamId, ?string $userId = null): ?Team;
