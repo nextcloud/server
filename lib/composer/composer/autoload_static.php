@@ -1356,6 +1356,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Authentication\\Events\\AppPasswordCreatedEvent' => __DIR__ . '/../../..' . '/lib/private/Authentication/Events/AppPasswordCreatedEvent.php',
         'OC\\Authentication\\Events\\LoginFailed' => __DIR__ . '/../../..' . '/lib/private/Authentication/Events/LoginFailed.php',
         'OC\\Authentication\\Events\\RemoteWipeFinished' => __DIR__ . '/../../..' . '/lib/private/Authentication/Events/RemoteWipeFinished.php',
+        'OC\\Authentication\\Events\\RemoteWipeMarked' => __DIR__ . '/../../..' . '/lib/private/Authentication/Events/RemoteWipeMarked.php',
         'OC\\Authentication\\Events\\RemoteWipeStarted' => __DIR__ . '/../../..' . '/lib/private/Authentication/Events/RemoteWipeStarted.php',
         'OC\\Authentication\\Exceptions\\ExpiredTokenException' => __DIR__ . '/../../..' . '/lib/private/Authentication/Exceptions/ExpiredTokenException.php',
         'OC\\Authentication\\Exceptions\\InvalidProviderException' => __DIR__ . '/../../..' . '/lib/private/Authentication/Exceptions/InvalidProviderException.php',
