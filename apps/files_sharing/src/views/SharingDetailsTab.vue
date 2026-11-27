@@ -1133,7 +1133,10 @@ export default {
 				this.advancedSectionAccordionExpanded = true
 				this.setCustomPermissions = true
 			} else if (this.share.permissions) {
-				this.sharingPermission = this.share.permissions.toString()
+				const permissionsWithoutShare = this.share.permissions & ~ATOMIC_PERMISSIONS.SHARE
+				const isViewOnlyOrDrop = permissionsWithoutShare === this.bundledPermissions.READ_ONLY
+					|| permissionsWithoutShare === this.bundledPermissions.FILE_DROP
+				this.sharingPermission = (isViewOnlyOrDrop ? permissionsWithoutShare : this.share.permissions).toString()
 			}
 		},
 

@@ -100,3 +100,24 @@ describe('SharesMixin.data', () => {
 		await expect(state.updateQueue.add(async () => 'done')).resolves.toBe('done')
 	})
 })
+
+describe('SharesMixin.hasCustomPermissions', () => {
+	function check(permissions: number) {
+		const ctx = { share: { permissions }, config: { excludeReshareFromEdit: false } }
+		return (SharesMixin.computed.hasCustomPermissions as () => boolean).call(ctx)
+	}
+
+	it('treats a new link share (read and share) as view only', () => {
+		expect(check(17)).toBe(false)
+	})
+
+	it('treats read only and file drop as bundles', () => {
+		expect(check(1)).toBe(false)
+		expect(check(4)).toBe(false)
+	})
+
+	it('keeps other combinations custom', () => {
+		expect(check(3)).toBe(true)
+		expect(check(21)).toBe(true)
+	})
+})

@@ -10,7 +10,10 @@ import { ShareType } from '@nextcloud/sharing'
 import debounce from 'debounce'
 import PQueue from 'p-queue'
 import { markRaw } from 'vue'
-import { getBundledPermissions } from '../lib/SharePermissionsToolBox.js'
+import {
+	ATOMIC_PERMISSIONS,
+	getBundledPermissions,
+} from '../lib/SharePermissionsToolBox.js'
 import Share from '../models/Share.ts'
 import Config from '../services/ConfigService.ts'
 import logger from '../services/logger.ts'
@@ -143,7 +146,11 @@ export default {
 				basePermissions.READ_ONLY,
 				basePermissions.FILE_DROP,
 			]
+			// READ_ONLY and FILE_DROP never carry SHARE, so a link share created with it still matches.
+			const permissionsWithoutShare = this.share.permissions & ~ATOMIC_PERMISSIONS.SHARE
 			return !bundledPermissions.includes(this.share.permissions)
+				&& permissionsWithoutShare !== basePermissions.READ_ONLY
+				&& permissionsWithoutShare !== basePermissions.FILE_DROP
 		},
 		maxExpirationDateEnforced() {
 			if (this.isExpiryDateEnforced) {
