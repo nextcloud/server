@@ -19,6 +19,7 @@ use OCA\DAV\CalDAV\Integration\ExternalCalendar;
 use OCA\DAV\CalDAV\Integration\ICalendarProvider;
 use OCA\DAV\CalDAV\Outbox;
 use OCA\DAV\CalDAV\Trashbin\TrashbinHome;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\Schedule\Inbox;
@@ -430,5 +431,93 @@ class CalendarHomeTest extends TestCase {
 		$this->assertInstanceOf(TrashbinHome::class, $actual[2]);
 		$this->assertInstanceOf(FederatedCalendar::class, $actual[3]);
 		$this->assertInstanceOf(FederatedCalendar::class, $actual[4]);
+	}
+
+	public function testGetCalendarObjectByUIDOwnCalendar(): void {
+		$calendarHome = $this->createCalendarHomeWithAddresses();
+
+		$this->backend->expects(self::once())
+			->method('getCalendarObjectByUID')
+			->with('principals/users/organizer', 'event-uid')
+			->willReturn('personal/event.ics');
+		$this->backend->expects(self::never())
+			->method('getCalendarsForUser');
+
+		$this->assertSame('personal/event.ics', $calendarHome->getCalendarObjectByUID('event-uid'));
+	}
+
+	public static function sharedCalendarObjectProvider(): array {
+		$event = static fn (string $organizer, string $class = 'PUBLIC'): string => implode("\r\n", [
+			'BEGIN:VCALENDAR',
+			'VERSION:2.0',
+			'PRODID:-//Test//EN',
+			'BEGIN:VEVENT',
+			'UID:event-uid',
+			'DTSTAMP:20260101T000000Z',
+			'DTSTART:20260101T100000Z',
+			'CLASS:' . $class,
+			'ORGANIZER:' . $organizer,
+			'ATTENDEE:mailto:external@example.com',
+			'END:VEVENT',
+			'END:VCALENDAR',
+		]);
+
+		return [
+			'writable share, organized by user' => [false, $event('mailto:Organizer@Example.com'), 0, 'work_shared_by_owner/event.ics'],
+			'writable share, organized by user alias' => [false, $event('mailto:alias@example.com'), 0, 'work_shared_by_owner/event.ics'],
+			'writable share, organized by someone else' => [false, $event('mailto:owner@example.com'), 0, null],
+			'writable share, private event' => [false, $event('mailto:organizer@example.com', 'PRIVATE'), CalDavBackend::CLASSIFICATION_PRIVATE, null],
+			'read-only share' => [true, $event('mailto:organizer@example.com'), 0, null],
+		];
+	}
+
+	#[DataProvider(methodName: 'sharedCalendarObjectProvider')]
+	public function testGetCalendarObjectByUIDSharedCalendar(bool $readOnly, string $calendarData, int $classification, ?string $expected): void {
+		$calendarHome = $this->createCalendarHomeWithAddresses();
+
+		$this->backend->expects(self::once())
+			->method('getCalendarObjectByUID')
+			->with('principals/users/organizer', 'event-uid')
+			->willReturn(null);
+		$this->backend->expects(self::once())
+			->method('getCalendarsForUser')
+			->with('principals/users/organizer')
+			->willReturn([
+				[
+					'id' => 1,
+					'uri' => 'personal',
+					'{http://owncloud.org/ns}owner-principal' => 'principals/users/organizer',
+				],
+				[
+					'id' => 2,
+					'uri' => 'work_shared_by_owner',
+					'{http://owncloud.org/ns}owner-principal' => 'principals/users/owner',
+					'{http://owncloud.org/ns}read-only' => $readOnly,
+				],
+			]);
+		$this->backend->expects($readOnly ? self::never() : self::once())
+			->method('findCalendarObjectByUid')
+			->with(2, 'event-uid')
+			->willReturn([
+				'uri' => 'event.ics',
+				'calendardata' => $calendarData,
+				'classification' => $classification,
+			]);
+
+		$this->assertSame($expected, $calendarHome->getCalendarObjectByUID('event-uid'));
+	}
+
+	private function createCalendarHomeWithAddresses(): CalendarHome {
+		return new CalendarHome(
+			$this->backend,
+			[
+				'uri' => 'principals/users/organizer',
+				'{http://sabredav.org/ns}email-address' => 'organizer@example.com',
+				'{DAV:}alternate-URI-set' => ['mailto:alias@example.com'],
+			],
+			$this->logger,
+			$this->federatedCalendarFactory,
+			false
+		);
 	}
 }
