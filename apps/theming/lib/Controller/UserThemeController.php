@@ -114,9 +114,7 @@ class UserThemeController extends OCSController {
 			throw new OCSBadRequestException('Invalid theme id: ' . $themeId);
 		}
 
-		// If trying to toggle another theme but this is enforced
-		if ($this->config->getSystemValueString('enforce_theme', '') !== ''
-			&& $themes[$themeId]->getType() === ITheme::TYPE_THEME) {
+		if ($this->config->getSystemValueString('enforce_theme', '') !== '') {
 			throw new OCSForbiddenException('Theme switching is disabled');
 		}
 

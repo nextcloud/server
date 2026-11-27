@@ -34,7 +34,7 @@ class ThemeInjectionService {
 	}
 
 	public function injectHeaders(): void {
-		$themes = $this->themesService->getThemes();
+		$themes = $this->themesService->getInjectableThemes();
 		$defaultTheme = $themes[$this->defaultTheme->getId()];
 		$mediaThemes = array_filter($themes, function ($theme) {
 			// Check if the theme provides a media query
@@ -50,7 +50,7 @@ class ThemeInjectionService {
 		}
 
 		// Themes
-		foreach ($this->themesService->getThemes() as $theme) {
+		foreach ($themes as $theme) {
 			// Ignore default theme as already processed first
 			if ($theme->getId() === $this->defaultTheme->getId()) {
 				continue;
@@ -92,7 +92,7 @@ class ThemeInjectionService {
 		$metaHeaders = [];
 
 		// Meta headers
-		foreach ($this->themesService->getThemes() as $theme) {
+		foreach ($themes as $theme) {
 			if (!empty($theme->getMeta())) {
 				foreach ($theme->getMeta() as $meta) {
 					if (!isset($meta['name']) || !isset($meta['content'])) {

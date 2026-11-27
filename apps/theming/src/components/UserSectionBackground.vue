@@ -4,7 +4,7 @@
 -->
 
 <script setup lang="ts">
-import { mdiCheck, mdiImageEditOutline, mdiPaletteOutline, mdiUndo } from '@mdi/js'
+import { mdiArrowULeftTop, mdiCheck, mdiFolderOpenOutline, mdiPaletteOutline } from '@mdi/js'
 import axios from '@nextcloud/axios'
 import { getFilePickerBuilder } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
@@ -182,7 +182,7 @@ async function pickFile() {
 					:class="[$style.backgroundSelect__entry, $style.backgroundSelect__entryFilePicker]"
 					@click="pickFile">
 					<NcLoadingIcon v-if="loading === 'custom'" />
-					<NcIconSvgWrapper v-else :path="currentBackgroundImage === 'custom' ? mdiCheck : mdiImageEditOutline" />
+					<NcIconSvgWrapper v-else :path="currentBackgroundImage === 'custom' ? mdiCheck : mdiFolderOpenOutline" />
 				</button>
 
 				<!-- Custom color picker -->
@@ -216,7 +216,7 @@ async function pickFile() {
 					}"
 					@click="setDefault">
 					<NcLoadingIcon v-if="loading === 'default'" />
-					<NcIconSvgWrapper v-else :path="currentBackgroundImage === 'default' ? mdiCheck : mdiUndo" />
+					<NcIconSvgWrapper v-else :path="currentBackgroundImage === 'default' ? mdiCheck : mdiArrowULeftTop" />
 				</button>
 			</div>
 

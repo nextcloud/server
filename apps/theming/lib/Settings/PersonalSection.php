@@ -62,7 +62,7 @@ class PersonalSection implements IIconSection {
 	 */
 	#[\Override]
 	public function getName() {
-		return $this->l->t('Appearance and accessibility');
+		return $this->l->t('Accessibility & appearance');
 	}
 
 	/**

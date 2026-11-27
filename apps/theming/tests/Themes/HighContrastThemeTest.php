@@ -12,6 +12,7 @@ use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ITheme;
 use OCA\Theming\Service\BackgroundService;
+use OCA\Theming\Themes\DefaultTheme;
 use OCA\Theming\Themes\HighContrastTheme;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
@@ -106,11 +107,11 @@ class HighContrastThemeTest extends AccessibleThemeTestCase {
 	}
 
 	public function testGetId(): void {
-		$this->assertEquals('light-highcontrast', $this->theme->getId());
+		$this->assertEquals('highcontrast', $this->theme->getId());
 	}
 
 	public function testGetType(): void {
-		$this->assertEquals(ITheme::TYPE_THEME, $this->theme->getType());
+		$this->assertEquals(ITheme::TYPE_SUPPLEMENTARY, $this->theme->getType());
 	}
 
 	public function testGetTitle(): void {
@@ -127,5 +128,40 @@ class HighContrastThemeTest extends AccessibleThemeTestCase {
 
 	public function testGetMediaQuery(): void {
 		$this->assertEquals('(prefers-contrast: more)', $this->theme->getMediaQuery());
+	}
+
+	public function testGetCssVariablesOmitsUnchangedDefaults(): void {
+		$variables = $this->theme->getCSSVariables();
+
+		$this->assertSame('#000000', $variables['--color-main-text']);
+		$this->assertArrayNotHasKey('--color-main-background', $variables);
+		$this->assertArrayNotHasKey('--color-background-assistant', $variables);
+		$this->assertArrayNotHasKey('--font-face', $variables);
+	}
+
+	public function testGetCustomCssContainsDarkHighContrast(): void {
+		$css = $this->theme->getCustomCss();
+
+		$this->assertStringContainsString('&[data-theme-dark]', $css);
+		$this->assertStringContainsString('@media (prefers-color-scheme: dark)', $css);
+		$this->assertStringContainsString('--color-main-background:#000000', $css);
+		$this->assertStringContainsString('color-scheme:dark', $css);
+		$this->assertStringNotContainsString('--color-background-assistant', $css);
+	}
+
+	protected function cssVariables(): array {
+		$defaultTheme = new DefaultTheme(
+			$this->util,
+			$this->themingDefaults,
+			$this->userSession,
+			$this->urlGenerator,
+			$this->imageManager,
+			$this->config,
+			$this->l10n,
+			$this->appManager,
+			null,
+		);
+
+		return array_merge($defaultTheme->getCSSVariables(), $this->theme->getCSSVariables());
 	}
 }

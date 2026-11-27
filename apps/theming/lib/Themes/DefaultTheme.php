@@ -53,7 +53,7 @@ class DefaultTheme implements ITheme {
 
 	#[\Override]
 	public function getTitle(): string {
-		return $this->l->t('System default theme');
+		return $this->l->t('Automatic (system)');
 	}
 
 	#[\Override]
