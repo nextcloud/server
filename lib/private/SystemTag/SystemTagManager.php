@@ -410,17 +410,12 @@ class SystemTagManager implements ISystemTagManager {
 	#[\Override]
 	public function canUserSeeTag(ISystemTag $tag, ?IUser $user): bool {
 		// If no user, then we only show public tags
-		if (!$user && $tag->getAccessLevel() === ISystemTag::ACCESS_LEVEL_PUBLIC) {
-			return true;
+		if ($user === null) {
+			return $tag->getAccessLevel() === ISystemTag::ACCESS_LEVEL_PUBLIC;
 		}
 
 		if ($tag->isUserVisible()) {
 			return true;
-		}
-
-		// if not returned yet, and user is not logged in, then the tag is not visible
-		if ($user === null) {
-			return false;
 		}
 
 		if ($this->groupManager->isAdmin($user->getUID())) {
