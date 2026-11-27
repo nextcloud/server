@@ -837,10 +837,23 @@ class ThemingControllerTest extends TestCase {
 	private function getThemeStylesheet(array $meta, bool $plain, int $type = ITheme::TYPE_THEME): string {
 		$theme = $this->createMock(ITheme::class);
 		$theme->method('getType')->willReturn($type);
-		$theme->method('getCSSVariables')->willReturn(['--color-main-background' => '#000', '--font-face' => 'sans-serif']);
+		$theme->method('getCSSVariables')->willReturn(['--color-main-background' => '#000', '--font-face' => 'sans-serif', '--animation-quick' => '100ms']);
 		$theme->method('getCustomCss')->willReturn('');
 		$theme->method('getMeta')->willReturn($meta);
-		$this->themesService->method('getThemes')->willReturn(['dark' => $theme]);
+
+		$fontTheme = $this->createMock(ITheme::class);
+		$fontTheme->method('getType')->willReturn(ITheme::TYPE_FONT);
+		$fontTheme->method('getCSSVariables')->willReturn(['--font-face' => 'OpenDyslexic']);
+
+		$supplementaryTheme = $this->createMock(ITheme::class);
+		$supplementaryTheme->method('getType')->willReturn(ITheme::TYPE_SUPPLEMENTARY);
+		$supplementaryTheme->method('getCSSVariables')->willReturn(['--animation-quick' => '0']);
+
+		$this->themesService->method('getThemes')->willReturn([
+			'dark' => $theme,
+			'opendyslexic' => $fontTheme,
+			'reduced-motion' => $supplementaryTheme,
+		]);
 
 		return $this->themingController->getThemeStylesheet('dark', $plain)->render();
 	}
@@ -864,21 +877,33 @@ class ThemingControllerTest extends TestCase {
 		$this->assertStringNotContainsString('color-scheme', $css);
 	}
 
-	public function testGetThemeStylesheetKeepsFontFaceOnRoot(): void {
+	public function testGetThemeStylesheetKeepsAllVariablesOnRoot(): void {
 		$css = $this->getThemeStylesheet([], true);
 
 		$this->assertStringContainsString('--font-face:sans-serif;', $css);
+		$this->assertStringContainsString('--animation-quick:100ms;', $css);
 	}
 
-	public function testGetThemeStylesheetOmitsFontFaceForScopedColorTheme(): void {
+	public function testGetThemeStylesheetOmitsNonColorVariablesForScopedColorTheme(): void {
 		$css = $this->getThemeStylesheet([], false);
 
 		$this->assertStringNotContainsString('--font-face', $css);
+		$this->assertStringNotContainsString('--animation-quick', $css);
+		$this->assertStringContainsString('--color-main-background:#000;', $css);
 	}
 
-	public function testGetThemeStylesheetKeepsFontFaceForScopedFontTheme(): void {
-		$css = $this->getThemeStylesheet([], false, ITheme::TYPE_FONT);
+	public static function dataGetThemeStylesheetKeepsVariablesForScopedNonColorTheme(): array {
+		return [
+			[ITheme::TYPE_FONT],
+			[ITheme::TYPE_SUPPLEMENTARY],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGetThemeStylesheetKeepsVariablesForScopedNonColorTheme')]
+	public function testGetThemeStylesheetKeepsVariablesForScopedNonColorTheme(int $type): void {
+		$css = $this->getThemeStylesheet([], false, $type);
 
 		$this->assertStringContainsString('--font-face:sans-serif;', $css);
+		$this->assertStringContainsString('--animation-quick:100ms;', $css);
 	}
 }

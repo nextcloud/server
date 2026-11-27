@@ -23,6 +23,8 @@ use OCP\IUserSession;
 class DefaultTheme implements ITheme {
 	use CommonThemeTrait;
 
+	protected const FONT_FACE = "system-ui, -apple-system, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, Ubuntu, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'";
+
 	public string $defaultPrimaryColor;
 	public string $primaryColor;
 
@@ -204,7 +206,7 @@ class DefaultTheme implements ITheme {
 			'--color-element-assistant' => 'linear-gradient(214deg, #A569D3 12%, #00679E 39%, #422083 86%)', // Background of primary buttons to interact with the Assistant (e.g. generate content)
 			'--color-element-assistant-icon' => 'linear-gradient(214deg, #9669D3 15%, #00679E 40%, #492083 80%)', // The color used for the Assistant icon
 
-			'--font-face' => "system-ui, -apple-system, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, Ubuntu, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
+			'--font-face' => self::FONT_FACE,
 			'--default-font-size' => '15px',
 			'--font-size-small' => '13px',
 			// Default text font weight
@@ -216,7 +218,6 @@ class DefaultTheme implements ITheme {
 			// 1.5 * font-size for accessibility
 			'--default-line-height' => '1.5',
 
-			// TODO: support "(prefers-reduced-motion)"
 			'--animation-quick' => '100ms',
 			'--animation-slow' => '200ms',
 
