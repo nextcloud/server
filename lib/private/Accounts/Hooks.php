@@ -45,12 +45,11 @@ class Hooks implements IEventListener {
 			return;
 		}
 
-		if (isset($property)) {
-			if ($property->getValue() !== (string)$newValue) {
-				$property->setValue($newValue);
-			}
-			// The account may already carry the new display name from the user backend,
-			// updateAccount() compares against the stored data and only writes on changes.
+		// The account already carries the display name of the user backend, so it
+		// cannot tell whether the stored one is outdated. updateAccount() compares
+		// against the stored data and only writes on changes.
+		if (isset($property) && ($feature === 'displayName' || $property->getValue() !== (string)$newValue)) {
+			$property->setValue($newValue);
 			$this->accountManager->updateAccount($account);
 		}
 	}
