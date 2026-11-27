@@ -28,6 +28,7 @@ class RichTextFormatter implements IRichTextFormatter {
 			}
 			$replacements[] = match($parameter['type']) {
 				'user' => '@' . $parameter['name'],
+				'matrix' => str_starts_with(mb_trim($parameter['name']), '@') ? $parameter['name'] : '@' . $parameter['name'],
 				'file' => $parameter['path'] ?? $parameter['name'],
 				default => $parameter['name'],
 			};
