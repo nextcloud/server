@@ -85,6 +85,7 @@
     "Edit storage" : "Aldatu biltegiratzea",
     "Add storage" : "Gehitu biltegiratzea",
     "Folder name" : "Karpetaren izena",
+    "Without a restriction this storage is available to every account on this server." : "Murrizketarik gabe biltegiratze hau zerbitzari honetako kontu guztietan dago erabilgarri.",
     "Authentication" : "Autentifikazioa",
     "Cancel" : "Cancel",
     "Edit" : "Editatu",
