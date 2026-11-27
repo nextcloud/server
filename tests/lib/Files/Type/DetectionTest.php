@@ -103,6 +103,11 @@ class DetectionTest extends \Test\TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
+	public function testDetectStringIcon(): void {
+		$result = $this->detection->detectString(file_get_contents(\OC::$SERVERROOT . '/core/img/favicon.ico'));
+		$this->assertEquals('image/vnd.microsoft.icon', $result);
+	}
+
 	public static function dataMimeTypeCustom(): array {
 		return [
 			['123', 'foobar/123'],
