@@ -12,6 +12,7 @@ namespace OC\Collaboration\Collaborators;
 use OC\KnownUser\KnownUserService;
 use OCP\Contacts\IManager;
 use OCP\Federation\ICloudIdManager;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUserManager;
@@ -33,6 +34,7 @@ class UserByMailPlugin extends MailPlugin {
 		IUserSession $userSession,
 		IEmailValidator $emailValidator,
 		IUserManager $userManager,
+		IAppConfig $appConfig,
 		mixed $shareWithGroupOnlyExcludeGroupsList = [],
 	) {
 		parent::__construct(
@@ -44,6 +46,7 @@ class UserByMailPlugin extends MailPlugin {
 			$userSession,
 			$emailValidator,
 			$userManager,
+			$appConfig,
 			$shareWithGroupOnlyExcludeGroupsList,
 			IShare::TYPE_USER,
 		);

@@ -296,6 +296,10 @@ async function saveDisclaimer(text: string) {
 				</NcCheckboxRadioSwitch>
 			</fieldset>
 
+			<NcCheckboxRadioSwitch v-model="settings.showAccountEmail" type="switch">
+				{{ t('settings', 'Show email addresses of other accounts in the contacts menu and in account name autocompletion') }}
+			</NcCheckboxRadioSwitch>
+
 			<NcCheckboxRadioSwitch v-model="isDisclaimerEnabled" type="switch">
 				{{ t('settings', 'Show disclaimer text on the public link upload page (only shown when the file list is hidden)') }}
 			</NcCheckboxRadioSwitch>

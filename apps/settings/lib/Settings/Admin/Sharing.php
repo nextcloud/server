@@ -60,6 +60,7 @@ class Sharing implements IDelegatedSettings {
 			'restrictUserEnumerationFullMatchDisplayname' => $this->shareManager->matchDisplayName(),
 			'restrictUserEnumerationFullMatchEmail' => $this->shareManager->matchEmail(),
 			'restrictUserEnumerationFullMatchIgnoreSecondDN' => $this->shareManager->ignoreSecondDisplayName(),
+			'showAccountEmail' => $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_SHOW_ACCOUNT_EMAIL),
 			'enforceLinksPassword' => $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_PASSWORD_ENFORCED),
 			'enforceLinksPasswordExcludedGroups' => json_decode($excludedPasswordGroups) ?? [],
 			'enforceLinksPasswordExcludedGroupsEnabled' => $this->config->getSystemValueBool('sharing.allow_disabled_password_enforcement_groups', false),

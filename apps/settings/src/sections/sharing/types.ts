@@ -22,6 +22,7 @@ export interface ISharingSettings {
 	restrictUserEnumerationFullMatchDisplayname: boolean
 	restrictUserEnumerationFullMatchEmail: boolean
 	restrictUserEnumerationFullMatchIgnoreSecondDN: boolean
+	showAccountEmail: boolean
 	enforceLinksPassword: boolean
 	enforceLinksPasswordExcludedGroups: string[]
 	enforceLinksPasswordExcludedGroupsEnabled: boolean

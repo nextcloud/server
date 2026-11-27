@@ -7,6 +7,7 @@
 
 namespace OC\Collaboration\Collaborators;
 
+use OC\Core\AppInfo\ConfigLexicon;
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
@@ -173,10 +174,15 @@ readonly class UserPlugin implements ISearchPlugin {
 			$this->userStatusManager->getUserStatuses(array_keys($users)),
 		);
 
+		$showAccountEMail = $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_SHOW_ACCOUNT_EMAIL);
+
 		$result = ['wide' => [], 'exact' => []];
 		foreach ($users as $match) {
 			$match[2] ??= null;
 			[$type, $user, $uniqueDisplayName] = $match;
+			if (!$showAccountEMail) {
+				$uniqueDisplayName = null;
+			}
 
 			$displayName = $user->getDisplayName();
 			if ($uniqueDisplayName !== null) {
@@ -193,7 +199,7 @@ readonly class UserPlugin implements ISearchPlugin {
 					'shareType' => IShare::TYPE_USER,
 					'shareWith' => $user->getUID(),
 				],
-				'shareWithDisplayNameUnique' => $uniqueDisplayName ?? $user->getSystemEMailAddress() ?: $user->getUID(),
+				'shareWithDisplayNameUnique' => $uniqueDisplayName ?? ($showAccountEMail ? $user->getSystemEMailAddress() : null) ?: $user->getUID(),
 				'status' => $status,
 			];
 		}
