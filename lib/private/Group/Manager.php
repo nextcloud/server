@@ -17,7 +17,9 @@ use OCP\Group\Backend\IBatchMethodsBackend;
 use OCP\Group\Backend\ICreateNamedGroupBackend;
 use OCP\Group\Backend\IGroupDetailsBackend;
 use OCP\Group\Events\BeforeGroupCreatedEvent;
+use OCP\Group\Events\GroupChangedEvent;
 use OCP\Group\Events\GroupCreatedEvent;
+use OCP\Group\Events\GroupDeletedEvent;
 use OCP\GroupInterface;
 use OCP\ICacheFactory;
 use OCP\IDBConnection;
@@ -60,6 +62,10 @@ class Manager extends PublicEmitter implements IGroupManager {
 		private IUserSession $userSession,
 	) {
 		$this->displayNameCache = new DisplayNameCache($cacheFactory, $this);
+		// This instance is not the one files_sharing registers in the container.
+		// Without these listeners, getDisplayName() keeps the previous name.
+		$this->dispatcher->addListener(GroupChangedEvent::class, $this->displayNameCache->handle(...));
+		$this->dispatcher->addListener(GroupDeletedEvent::class, $this->displayNameCache->handle(...));
 
 		$this->listen('\OC\Group', 'preDelete', function (IGroup $group): void {
 			unset($this->cachedGroups[$group->getGID()]);

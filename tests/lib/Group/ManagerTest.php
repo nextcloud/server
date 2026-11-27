@@ -9,6 +9,7 @@
 namespace Test\Group;
 
 use OC\Group\Database;
+use OC\Memcache\ArrayCache;
 use OC\User\Manager;
 use OC\User\User;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -18,7 +19,10 @@ use OCP\Group\Backend\ICreateGroupBackend;
 use OCP\Group\Backend\IGroupDetailsBackend;
 use OCP\Group\Backend\IRemoveFromGroupBackend;
 use OCP\Group\Backend\ISearchableGroupBackend;
+use OCP\Group\Events\GroupChangedEvent;
 use OCP\GroupInterface;
+use OCP\ICacheFactory;
+use OCP\IGroup;
 use OCP\IUser;
 use OCP\Security\Ip\IRemoteAddress;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -873,5 +877,40 @@ class ManagerTest extends TestCase {
 		$this->assertNotNull($group);
 		$this->assertEquals('group2', $group->getGID());
 		$this->assertEquals('group2', $group->getDisplayName());
+	}
+
+	public function testCachedDisplayNameUpdatesWhenGroupIsRenamed(): void {
+		$backend = $this->getTestBackend(GroupInterface::GROUP_DETAILS);
+		$backend->expects($this->any())
+			->method('getGroupDetails')
+			->willReturn(['displayName' => 'joker']);
+
+		$listeners = [];
+		$dispatcher = $this->createMock(IEventDispatcher::class);
+		$dispatcher->method('addListener')->willReturnCallback(function (string $event, callable $listener) use (&$listeners): void {
+			$listeners[$event][] = $listener;
+		});
+
+		$cache = new ArrayCache('group-display');
+		$cacheFactory = $this->createMock(ICacheFactory::class);
+		$cacheFactory->method('createDistributed')->willReturn($cache);
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class, [
+			'dispatcher' => $dispatcher,
+			'cacheFactory' => $cacheFactory,
+		]);
+		$manager->addBackend($backend);
+
+		// The users list reads this cache. It must not keep the name from before the rename.
+		$this->assertSame('joker', $manager->getDisplayName('joker'));
+
+		$group = $manager->get('joker');
+		$this->assertNotNull($group);
+		foreach ($listeners[GroupChangedEvent::class] ?? [] as $listener) {
+			$listener(new GroupChangedEvent($group, 'displayName', 'jokery', 'joker'));
+		}
+
+		$this->assertSame('jokery', $manager->getDisplayName('joker'));
+		$this->assertSame('jokery', $cache->get('joker'));
 	}
 }

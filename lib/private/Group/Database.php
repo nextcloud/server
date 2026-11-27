@@ -259,12 +259,12 @@ class Database extends ABackend implements
 			->orderBy('gid', 'ASC');
 
 		if ($search !== '') {
-			$query->where($query->expr()->iLike('gid', $query->createNamedParameter(
-				'%' . $this->dbConn->escapeLikeParameter($search) . '%'
-			)));
-			$query->orWhere($query->expr()->iLike('displayname', $query->createNamedParameter(
-				'%' . $this->dbConn->escapeLikeParameter($search) . '%'
-			)));
+			// Match the immutable gid or the display name in a single predicate.
+			$pattern = '%' . $this->dbConn->escapeLikeParameter($search) . '%';
+			$query->where($query->expr()->orX(
+				$query->expr()->iLike('gid', $query->createNamedParameter($pattern)),
+				$query->expr()->iLike('displayname', $query->createNamedParameter($pattern)),
+			));
 		}
 
 		if ($limit > 0) {
@@ -591,6 +591,13 @@ class Database extends ABackend implements
 			->set('displayname', $query->createNamedParameter($displayName))
 			->where($query->expr()->eq('gid', $query->createNamedParameter($gid)));
 		$query->executeStatement();
+
+		// getDisplayName() prefers this map. A rename in the same request
+		// (the users page, then a details lookup) must not keep the old name.
+		$this->groupCache[$gid] = [
+			'gid' => $gid,
+			'displayname' => $displayName,
+		];
 
 		return true;
 	}

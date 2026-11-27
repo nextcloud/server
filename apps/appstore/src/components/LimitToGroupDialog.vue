@@ -36,8 +36,14 @@ watch(() => app, () => {
 		})
 }, { immediate: true })
 
-const availableGroups = computed(() => groupsStore.groups.filter((group) => !groups.value.includes(group)))
+const availableGroups = computed(() => groupsStore.groups.filter((group) => !groups.value.some((selected) => selected.id === group.id)))
 const onSearch = useDebounceFn(groupsStore.searchGroups, 400)
+
+// Selected groups are filled with { displayName: gid } until the details
+// request returns. Swap in the store entry once the display name is known.
+watch(() => groupsStore.groups, () => {
+	groups.value = groups.value.map((selected) => groupsStore.getGroupById(selected.id) ?? selected)
+})
 
 /**
  * Save the limitation of this app
