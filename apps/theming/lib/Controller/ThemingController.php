@@ -12,6 +12,7 @@ use OCA\Theming\ImageManager;
 use OCA\Theming\ITheme;
 use OCA\Theming\Service\ThemesService;
 use OCA\Theming\Settings\Admin;
+use OCA\Theming\ConfigLexicon;
 use OCA\Theming\ThemingDefaults;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
@@ -137,7 +138,7 @@ class ThemingController extends Controller {
 				if (!in_array($value, ['yes', 'true', 'no', 'false'], true)) {
 					$error = $this->l10n->t('%1$s should be true or false', ['disable-user-theming']);
 				} else {
-					$this->appConfig->setAppValueBool('disable-user-theming', $value === 'yes' || $value === 'true');
+					$this->themingDefaults->set(ConfigLexicon::USER_THEMING_DISABLED, $value);
 					$saved = true;
 				}
 				break;
