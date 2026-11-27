@@ -1933,7 +1933,6 @@ return array(
     'OC\\Files\\Cache\\HomeCache' => $baseDir . '/lib/private/Files/Cache/HomeCache.php',
     'OC\\Files\\Cache\\HomePropagator' => $baseDir . '/lib/private/Files/Cache/HomePropagator.php',
     'OC\\Files\\Cache\\LocalRootScanner' => $baseDir . '/lib/private/Files/Cache/LocalRootScanner.php',
-    'OC\\Files\\Cache\\MoveFromCacheTrait' => $baseDir . '/lib/private/Files/Cache/MoveFromCacheTrait.php',
     'OC\\Files\\Cache\\NullWatcher' => $baseDir . '/lib/private/Files/Cache/NullWatcher.php',
     'OC\\Files\\Cache\\Propagator' => $baseDir . '/lib/private/Files/Cache/Propagator.php',
     'OC\\Files\\Cache\\QuerySearchHelper' => $baseDir . '/lib/private/Files/Cache/QuerySearchHelper.php',

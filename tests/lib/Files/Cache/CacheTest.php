@@ -710,6 +710,15 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals($this->cache->getId(''), $this->cache->get('targetsub')->getParentId());
 	}
 
+	public function testMoveFromCacheFallbackThrowsWhenSourceEntryIsMissing(): void {
+		$jail = new CacheJail($this->cache2, 'folder');
+
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('Source path not found in cache: missing');
+
+		$this->cache->moveFromCache($jail, 'missing', 'target');
+	}
+
 	public function testCopyFromCachePreservesEncryptedVersion(): void {
 		$data = [
 			'size' => 100, 'mtime' => 50, 'mimetype' => 'foo/bar',
