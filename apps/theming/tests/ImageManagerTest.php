@@ -214,6 +214,8 @@ class ImageManagerTest extends TestCase {
 		$this->appConfig->expects($this->once())
 			->method('getAppValueString')->with('logoMime', '')
 			->willReturn('');
+		$this->appData->expects($this->never())
+			->method('getFolder');
 		$this->imageManager->getImage('logo');
 	}
 

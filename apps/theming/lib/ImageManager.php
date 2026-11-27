@@ -91,9 +91,12 @@ class ImageManager {
 	 */
 	public function getImage(string $key, bool $useSvg = true): ISimpleFile {
 		$mime = $this->getImageMime($key);
-		$folder = $this->getRootFolder()->getFolder('images');
+		if ($mime === '') {
+			throw new NotFoundException();
+		}
 
-		if ($mime === '' || !$folder->fileExists($key)) {
+		$folder = $this->getRootFolder()->getFolder('images');
+		if (!$folder->fileExists($key)) {
 			throw new NotFoundException();
 		}
 		// only convert SVG originals to PNG when SVG output is not desired;
