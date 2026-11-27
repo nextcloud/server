@@ -21,7 +21,7 @@ class Scanner extends \OC\Files\Cache\Scanner {
 
 	/**
 	 * Returns metadata from the shared storage, but
-	 * with permissions from the source storage.
+	 * with the unmasked permissions of the source storage.
 	 *
 	 * @param string $path path of the file for which to retrieve metadata
 	 *
@@ -33,8 +33,9 @@ class Scanner extends \OC\Files\Cache\Scanner {
 		if ($data === null) {
 			return null;
 		}
-		$internalPath = $this->storage->getUnjailedPath($path);
-		$data['permissions'] = $this->storage->getSourceStorage()->getPermissions($internalPath);
+		// the source storage can be masked for the current user, e.g. when they may not share
+		$data['permissions'] = $data['scan_permissions']
+			?? $this->storage->getSourceStorage()->getPermissions($this->storage->getUnjailedPath($path));
 		return $data;
 	}
 
