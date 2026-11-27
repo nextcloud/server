@@ -346,6 +346,50 @@ class TagsPluginTest extends \Test\TestCase {
 		$this->assertArrayNotHasKey(self::FAVORITE_PROPERTYNAME, $result);
 	}
 
+	public function testRemoveAllTags(): void {
+		$node = $this->createMock(Node::class);
+		$node->expects($this->any())
+			->method('getId')
+			->willReturn(123);
+
+		$this->tree->expects($this->any())
+			->method('getNodeForPath')
+			->with('/dummypath')
+			->willReturn($node);
+
+		$this->tagger->expects($this->once())
+			->method('getTagsForObjects')
+			->with($this->equalTo([123]))
+			->willReturn([123 => ['tag1', self::TAG_FAVORITE]]);
+
+		$this->tagger->expects($this->never())
+			->method('tagAs');
+
+		// it will untag tag1 and keep the favorite
+		$this->tagger->expects($this->once())
+			->method('unTag')
+			->with(123, 'tag1');
+
+		// empty or removed property
+		$propPatch = new \Sabre\DAV\PropPatch([
+			self::TAGS_PROPERTYNAME => null
+		]);
+
+		$this->plugin->handleUpdateProperties(
+			'/dummypath',
+			$propPatch
+		);
+
+		$propPatch->commit();
+
+		// all requested properties removed, as they were processed already
+		$this->assertEmpty($propPatch->getRemainingMutations());
+
+		$result = $propPatch->getResult();
+		$this->assertEquals(204, $result[self::TAGS_PROPERTYNAME]);
+		$this->assertArrayNotHasKey(self::FAVORITE_PROPERTYNAME, $result);
+	}
+
 	public function testUpdateFav(): void {
 		// this test will replace the existing tags "tagremove" with "tag1" and "tag2"
 		// and keep "tagkeep"
