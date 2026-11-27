@@ -38,6 +38,7 @@ class LookupPlugin implements ISearchPlugin {
 		$isGlobalScaleEnabled = $this->globalScaleConfig->isGlobalScaleEnabled();
 		$isLookupServerEnabled = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'no') === 'yes';
 		$hasInternetConnection = $this->config->getSystemValueBool('has_internet_connection', true);
+		$showEmailInLabel = $this->config->getAppValue('core', 'shareapi_lookup_label_show_email', 'no') === 'yes';
 
 		// If case of Global Scale we always search the lookup server
 		// TODO: Reconsider using the lookup server for non-global scale
@@ -80,7 +81,15 @@ class LookupPlugin implements ISearchPlugin {
 					continue;
 				}
 				$name = $lookup['name']['value'] ?? '';
-				$label = empty($name) ? $lookup['federationId'] : $name . ' (' . $lookup['federationId'] . ')';
+				$email = $lookup['email']['value'] ?? '';
+
+				if ($showEmailInLabel && $email !== '') {
+					$id = $email;
+				} else {
+					$id = $lookup['federationId'];
+				}
+				$label = $name === '' ? $id : $name . ' (' . $id . ')';
+
 				$result[] = [
 					'label' => $label,
 					'value' => [
