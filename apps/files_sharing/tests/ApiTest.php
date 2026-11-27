@@ -23,6 +23,7 @@ use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\Constants;
 use OCP\Files\Folder;
+use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
 use OCP\IAppConfig;
 use OCP\IConfig;
@@ -147,6 +148,7 @@ class ApiTest extends TestCase {
 			$tagManager,
 			$this->getEmailValidatorWithStrictEmailCheck(),
 			$trustedServers,
+			Server::get(IMimeTypeDetector::class),
 			$userId,
 		);
 	}

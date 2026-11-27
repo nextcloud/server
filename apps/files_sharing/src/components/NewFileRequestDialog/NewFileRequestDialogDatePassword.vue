@@ -82,6 +82,23 @@
 				{{ t('files_sharing', 'Your administrator has enforced a password protection.') }}
 			</p>
 		</fieldset>
+
+		<!-- Allowed file types -->
+		<fieldset class="file-request-dialog__allowed-file-types" data-cy-file-request-dialog-fieldset="allowed-file-types">
+			<legend>{{ t('files_sharing', 'Which file types can be uploaded?') }}</legend>
+			<NcCheckboxRadioSwitch
+				:modelValue="allowedFileTypes !== null"
+				:disabled="disabled"
+				@update:modelValue="$emit('update:allowedFileTypes', $event ? [] : null)">
+				{{ t('files_sharing', 'Limit allowed file types') }}
+			</NcCheckboxRadioSwitch>
+
+			<AllowedFileTypesSelect
+				v-if="allowedFileTypes !== null"
+				:disabled="disabled"
+				:modelValue="allowedFileTypes"
+				@update:modelValue="$emit('update:allowedFileTypes', $event)" />
+		</fieldset>
 	</div>
 </template>
 
@@ -99,6 +116,7 @@ import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
 import IconPasswordGen from 'vue-material-design-icons/AutoFix.vue'
 import IconInfo from 'vue-material-design-icons/Information.vue'
+import AllowedFileTypesSelect from '../AllowedFileTypesSelect.vue'
 import Config from '../../services/ConfigService.ts'
 import GeneratePassword from '../../utils/GeneratePassword.ts'
 
@@ -108,6 +126,7 @@ export default defineComponent({
 	name: 'NewFileRequestDialogDatePassword',
 
 	components: {
+		AllowedFileTypesSelect,
 		IconInfo,
 		IconPasswordGen,
 		NcButton,
@@ -135,11 +154,18 @@ export default defineComponent({
 			required: false,
 			default: null,
 		},
+
+		allowedFileTypes: {
+			type: Array as PropType<string[] | null>,
+			required: false,
+			default: null,
+		},
 	},
 
 	emits: [
 		'update:expirationDate',
 		'update:password',
+		'update:allowedFileTypes',
 	],
 
 	setup() {

@@ -27,6 +27,7 @@ use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\File;
 use OCP\Files\Folder;
+use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
 use OCP\Files\IUserFolder;
 use OCP\Files\Mount\IMountPoint;
@@ -108,6 +109,7 @@ class ShareAPIControllerTest extends TestCase {
 	private IMailer&MockObject $mailer;
 	private ITagManager&MockObject $tagManager;
 	private TrustedServers&MockObject $trustedServers;
+	private IMimeTypeDetector&MockObject $mimeTypeDetector;
 
 	protected function setUp(): void {
 		$this->shareManager = $this->createMock(IManager::class);
@@ -148,6 +150,16 @@ class ShareAPIControllerTest extends TestCase {
 		$this->mailer = $this->createMock(IMailer::class);
 		$this->tagManager = $this->createMock(ITagManager::class);
 		$this->trustedServers = $this->createMock(TrustedServers::class);
+		$this->mimeTypeDetector = $this->createMock(IMimeTypeDetector::class);
+		$this->mimeTypeDetector->method('getAllNamings')
+			->willReturn([
+				'_comment' => 'Array of human readable mimes.',
+				'application/pdf' => 'PDF document',
+				'application/vnd.oasis.opendocument.text' => 'ODT document',
+				'image/png' => 'PNG image',
+				'image/svg+xml' => 'SVG image',
+				'video/mp4' => 'MPEG-4 video',
+			]);
 
 		$this->ocs = new ShareAPIController(
 			$this->appName,
@@ -171,6 +183,7 @@ class ShareAPIControllerTest extends TestCase {
 			$this->tagManager,
 			$this->getEmailValidatorWithStrictEmailCheck(),
 			$this->trustedServers,
+			$this->mimeTypeDetector,
 			$this->currentUser,
 		);
 
@@ -200,6 +213,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->tagManager,
 				$this->getEmailValidatorWithStrictEmailCheck(),
 				$this->trustedServers,
+				$this->mimeTypeDetector,
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();
@@ -915,6 +929,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->tagManager,
 				$this->getEmailValidatorWithStrictEmailCheck(),
 				$this->trustedServers,
+				$this->mimeTypeDetector,
 				$this->currentUser,
 			])
 			->onlyMethods(['canAccessShare'])
@@ -1620,6 +1635,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->tagManager,
 				$this->getEmailValidatorWithStrictEmailCheck(),
 				$this->trustedServers,
+				$this->mimeTypeDetector,
 				$this->currentUser,
 			])
 			->onlyMethods(['formatShare'])
@@ -1982,6 +1998,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->tagManager,
 				$this->getEmailValidatorWithStrictEmailCheck(),
 				$this->trustedServers,
+				$this->mimeTypeDetector,
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();
@@ -2268,6 +2285,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->tagManager,
 				$this->getEmailValidatorWithStrictEmailCheck(),
 				$this->trustedServers,
+				$this->mimeTypeDetector,
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();
@@ -2340,6 +2358,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->tagManager,
 				$this->getEmailValidatorWithStrictEmailCheck(),
 				$this->trustedServers,
+				$this->mimeTypeDetector,
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();
@@ -2559,6 +2578,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->tagManager,
 				$this->getEmailValidatorWithStrictEmailCheck(),
 				$this->trustedServers,
+				$this->mimeTypeDetector,
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();
@@ -4871,6 +4891,55 @@ class ShareAPIControllerTest extends TestCase {
 	#[DataProvider('dataValidateToken')]
 	public function testValidateToken(string $token, bool $expected): void {
 		$this->assertSame($expected, $this->invokePrivate($this->ocs, 'validateToken', [$token]));
+	}
+
+	public static function dataValidateAllowedFileTypes(): array {
+		return [
+			'empty list' => [[], true],
+			'extension' => [['.pdf'], true],
+			'multi-part extension' => [['.tar.gz'], true],
+			'mime type' => [['application/pdf'], true],
+			'mime type is case insensitive' => [['Application/PDF'], true],
+			'mime types with suffix and dots' => [['image/svg+xml', 'application/vnd.oasis.opendocument.text'], true],
+			'mime type groups' => [['image/*', 'video/*'], true],
+			'mixed' => [['.pdf', 'image/*'], true],
+			'unknown mime type' => [['application/x-unknown'], false],
+			'unknown mime type group' => [['font/*'], false],
+			'comment key of the namings' => [['_comment'], false],
+			'string instead of list' => ['.pdf', false],
+			'map instead of list' => [['pdf' => '.pdf'], false],
+			'extension without dot' => [['pdf'], false],
+			'dot only' => [['.'], false],
+			'not a string' => [['.pdf', 42], false],
+			'incomplete mime type' => [['image/'], false],
+			'wildcard mime type' => [['*/*'], false],
+			'comma separated' => [['.pdf,.docx'], false],
+			'surrounding whitespace' => [[' .pdf'], false],
+		];
+	}
+
+	#[DataProvider('dataValidateAllowedFileTypes')]
+	public function testValidateAllowedFileTypes(mixed $allowedFileTypes, bool $expected): void {
+		$this->assertSame($expected, $this->invokePrivate($this->ocs, 'validateAllowedFileTypes', [$allowedFileTypes]));
+	}
+
+	public function testSetShareAttributesStoresAllowedFileTypes(): void {
+		$this->shareManager->method('newShare')->willReturn($this->newShare());
+		$attributes = json_encode([['scope' => 'upload', 'key' => 'allowed_types', 'value' => ['.pdf', 'image/*']]]);
+
+		$share = $this->invokePrivate($this->ocs, 'setShareAttributes', [$this->newShare(), $attributes]);
+
+		$this->assertSame(['.pdf', 'image/*'], $share->getAttributes()->getAttribute('upload', 'allowed_types'));
+	}
+
+	public function testSetShareAttributesRejectsInvalidAllowedFileTypes(): void {
+		$this->shareManager->method('newShare')->willReturn($this->newShare());
+		$attributes = json_encode([['scope' => 'upload', 'key' => 'allowed_types', 'value' => 'pdf']]);
+
+		$this->expectException(OCSBadRequestException::class);
+		$this->expectExceptionMessage('Allowed file types must be a list of file extensions like ".pdf" or MIME types known to the server like "image/*"');
+
+		$this->invokePrivate($this->ocs, 'setShareAttributes', [$this->newShare(), $attributes]);
 	}
 
 	/**
