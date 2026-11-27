@@ -193,6 +193,7 @@ import { useEnabledFileListActions } from '../composables/useFileListActions.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useNewFileMenuActions } from '../composables/useNewFileMenuActions.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
+import { getClipboardImages, shouldIgnoreClipboardPaste, uploadClipboardImages } from '../services/ClipboardUploadService.ts'
 import { useActiveStore } from '../store/active.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useFiltersStore } from '../store/filters.ts'
@@ -438,6 +439,15 @@ export default defineComponent({
 			return this.currentFolder?.attributes?.['quota-available-bytes'] === 0
 		},
 
+		cantUploadLabel() {
+			if (this.isQuotaExceeded) {
+				return t('files', 'You have used your space quota and cannot upload files anymore.')
+			} else if (!this.canUpload) {
+				return t('files', 'You do not have permission to upload or create files here.')
+			}
+			return null
+		},
+
 		showCustomEmptyView() {
 			return !this.loading && this.isEmptyDir && this.currentView?.emptyView !== undefined
 		},
@@ -505,6 +515,7 @@ export default defineComponent({
 	},
 
 	async mounted() {
+		document.addEventListener('paste', this.onClipboardPaste)
 		subscribe('files:node:updated', this.onUpdatedNode)
 
 		// reload on settings change
@@ -533,6 +544,7 @@ export default defineComponent({
 		unsubscribe('files:config:updated', this.fetchContent)
 		unsubscribe('files:filters:changed', this.filterDirContent)
 		unsubscribe('files:search:updated', this.onUpdateSearch)
+		document.removeEventListener('paste', this.onClipboardPaste)
 	},
 
 	methods: {
@@ -699,6 +711,64 @@ export default defineComponent({
 			} finally {
 				this.loadingAction = null
 			}
+		},
+
+		/**
+		 * Upload pasted clipboard images into the current folder.
+		 *
+		 * @param event - The clipboard paste event
+		 */
+		async onClipboardPaste(event: ClipboardEvent) {
+			if (!this.currentFolder
+				|| !this.currentView
+				|| this.loading
+				|| this.navigating
+				|| this.error
+				|| shouldIgnoreClipboardPaste(event)) {
+				return
+			}
+
+			if (getClipboardImages(event).length === 0) {
+				return
+			}
+
+			const expectedSource = this.directory === '/'
+				? this.filesStore.getRoot(this.currentView.id)?.source
+				: this.pathsStore.getPath(this.currentView.id, this.directory)
+
+			if (!expectedSource || expectedSource !== this.currentFolder.source) {
+				return
+			}
+
+			if (this.cantUploadLabel) {
+				event.preventDefault()
+				showError(this.cantUploadLabel)
+				return
+			}
+
+			// Capture the destination and view before uploading.
+			const folder = this.currentFolder
+			const source = folder.source
+			const view = this.currentView
+			const directory = this.directory
+
+			await uploadClipboardImages(event, {
+				folder,
+				getContents: async (path) => {
+					const controller = new AbortController()
+
+					const result = await view.getContents(
+						join(directory, path),
+						{ signal: controller.signal },
+					)
+
+					if (!path && result.folder.source !== source) {
+						throw new Error('Clipboard upload destination changed')
+					}
+
+					return result.contents
+				},
+			})
 		},
 	},
 })
