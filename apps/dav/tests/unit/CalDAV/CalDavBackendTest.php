@@ -1435,6 +1435,43 @@ EOD;
 		$this->assertEquals(null, $this->backend->getCalendarObject($subscriptionId, $uri, CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION));
 	}
 
+	public function testPurgeCachedEventsForSubscription(): void {
+		$subscriptionId = $this->createTestSubscription();
+		$uri = static::getUniqueID('calobj');
+		$calData = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:ownCloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:47d15e3ec8
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:Test Event
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		$this->backend->createCalendarObject($subscriptionId, $uri, $calData, CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION);
+		$object = $this->backend->getCalendarObject($subscriptionId, $uri, CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION);
+		$this->backend->purgeCachedEventsForSubscription($subscriptionId, [(int)$object['id']], [$uri]);
+
+		$this->assertEquals(null, $this->backend->getCalendarObject($subscriptionId, $uri, CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION));
+
+		$query = $this->db->getQueryBuilder();
+		$result = $query->select($query->func()->count('*'))
+			->from('calendarobjects_props')
+			->where($query->expr()->eq('objectid', $query->createNamedParameter((int)$object['id'])))
+			->executeQuery();
+		$count = (int)$result->fetchOne();
+		$result->closeCursor();
+
+		$this->assertSame(0, $count);
+	}
+
 	public static function providesPurgeInvitationsData(): array {
 		$all = ['mailto:other@example.org', 'mailto:user@example.org'];
 		$other = ['mailto:other@example.org'];
