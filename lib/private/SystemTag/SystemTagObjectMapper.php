@@ -148,7 +148,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		$tagsAssigned = [];
 		foreach ($tagIds as $tagId) {
 			try {
-				$query->setParameter('tagid', $tagId);
+				$query->setParameter('tagid', (int)$tagId, IQueryBuilder::PARAM_INT);
 				$query->executeStatement();
 				$tagsAssigned[] = $tagId;
 			} catch (Exception $e) {
