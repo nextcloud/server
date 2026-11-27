@@ -138,4 +138,14 @@ class TemplateControllerTest extends TestCase {
 		$this->expectException(NotLoggedInException::class);
 		$call($controller);
 	}
+
+	public function testPassesDestinationToTemplateListing(): void {
+		$this->manager->expects(self::once())->method('listTemplates')->with('/Team/Reports')->willReturn([]);
+		self::assertSame([], $this->controller->list('/Team/Reports')->getData());
+	}
+
+	public function testPassesDestinationToTemplateFields(): void {
+		$this->manager->expects(self::once())->method('listTemplateFields')->with(12, '/Team/Reports')->willReturn([]);
+		self::assertSame([], $this->controller->listTemplateFields(12, '/Team/Reports')->getData());
+	}
 }

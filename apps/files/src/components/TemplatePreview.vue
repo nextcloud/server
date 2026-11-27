@@ -56,6 +56,11 @@ export default {
 			default: false,
 		},
 
+		selectionKey: {
+			type: String,
+			default: null,
+		},
+
 		fileid: {
 			type: [String, Number],
 			required: true,
@@ -106,7 +111,7 @@ export default {
 		},
 
 		id() {
-			return `template-picker-${this.fileid}`
+			return `template-picker-${encodeURIComponent(this.selectionKey ?? this.fileid)}`
 		},
 
 		realPreviewUrl() {
@@ -132,7 +137,7 @@ export default {
 
 	methods: {
 		onCheck() {
-			this.$emit('check', this.fileid)
+			this.$emit('check', this.selectionKey ?? this.fileid)
 		},
 
 		onFailure() {
@@ -145,7 +150,7 @@ export default {
 
 		onClick() {
 			if (this.checked) {
-				this.$emit('confirmClick', this.fileid)
+				this.$emit('confirmClick', this.selectionKey ?? this.fileid)
 			}
 		},
 	},
