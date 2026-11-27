@@ -69,7 +69,11 @@ class RemoteWipe {
 			$token->wipe();
 			$this->tokenProvider->updateToken($token);
 
-			$this->eventDispatcher->dispatchTyped(new RemoteWipeMarked($token));
+			try {
+				$this->eventDispatcher->dispatchTyped(new RemoteWipeMarked($token));
+			} catch (\Throwable $e) {
+				$this->logger->error('Error while marking device for remote wipe', ['exception' => $e]);
+			}
 		}
 
 		return true;
