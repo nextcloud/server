@@ -22,6 +22,7 @@ use OCA\Theming\Themes\LightTheme;
 use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
+use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUser;
@@ -120,5 +121,41 @@ class UserThemeControllerTest extends TestCase {
 
 		$expected = new DataResponse();
 		$this->assertEquals($expected, $this->userThemeController->disableTheme($themeId));
+	}
+
+	public static function dataTestToggleThemeEnforced(): array {
+		return [
+			['enableTheme', 'dark', ITheme::TYPE_THEME, OCSForbiddenException::class],
+			['enableTheme', 'opendyslexic', ITheme::TYPE_FONT],
+			['enableTheme', 'reduced-motion', ITheme::TYPE_SUPPLEMENTARY],
+			['disableTheme', 'dark', ITheme::TYPE_THEME, OCSForbiddenException::class],
+			['disableTheme', 'opendyslexic', ITheme::TYPE_FONT],
+			['disableTheme', 'reduced-motion', ITheme::TYPE_SUPPLEMENTARY],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestToggleThemeEnforced')]
+	public function testToggleThemeEnforced(string $action, string $themeId, int $type, ?string $exception = null): void {
+		$theme = $this->createMock(ITheme::class);
+		$theme->method('getType')->willReturn($type);
+		$this->themesService
+			->expects($this->any())
+			->method('getThemes')
+			->willReturn([$themeId => $theme]);
+		$this->config
+			->expects($this->any())
+			->method('getSystemValueString')
+			->with('enforce_theme', '')
+			->willReturn('light');
+
+		$this->themesService
+			->expects($exception === null ? $this->once() : $this->never())
+			->method($action)
+			->with($theme);
+		if ($exception) {
+			$this->expectException($exception);
+		}
+
+		$this->assertEquals(new DataResponse(), $this->userThemeController->$action($themeId));
 	}
 }
