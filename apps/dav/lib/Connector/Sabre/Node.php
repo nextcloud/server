@@ -13,10 +13,13 @@ namespace OCA\DAV\Connector\Sabre;
 use OC\Files\Node\File;
 use OC\Files\Node\Folder;
 use OC\Files\View;
+use OCA\DAV\Connector\Sabre\Exception\FileLocked;
+use OCA\DAV\Connector\Sabre\Exception\Forbidden as DAVForbiddenException;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCP\Constants;
 use OCP\Files\DavUtil;
 use OCP\Files\FileInfo;
+use OCP\Files\ForbiddenException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMovableMount;
@@ -34,6 +37,7 @@ use OCP\Share\IManager;
 use RuntimeException;
 use Sabre\DAV\Exception;
 use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\INode;
 
 abstract class Node implements INode {
@@ -130,7 +134,8 @@ abstract class Node implements INode {
 	 * @throws Forbidden
 	 * @throws InvalidPath
 	 * @throws PreConditionNotMetException
-	 * @throws LockedException
+	 * @throws FileLocked
+	 * @throws ServiceUnavailable
 	 */
 	#[\Override]
 	public function setName($name): void {
@@ -147,8 +152,16 @@ abstract class Node implements INode {
 		// verify path of the target
 		$this->verifyPath($newPath);
 
-		if ($this->fileView->rename($this->path, $newPath) === false) {
-			throw new Exception('Failed to rename ' . $this->path . ' to ' . $newPath);
+		try {
+			if ($this->fileView->rename($this->path, $newPath) === false) {
+				throw new Exception('Failed to rename ' . $this->path . ' to ' . $newPath);
+			}
+		} catch (StorageNotAvailableException $e) {
+			throw new ServiceUnavailable($e->getMessage(), $e->getCode(), $e);
+		} catch (ForbiddenException $e) {
+			throw new DAVForbiddenException($e->getMessage(), $e->getRetry(), $e);
+		} catch (LockedException $e) {
+			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 		}
 
 		$this->path = $newPath;
