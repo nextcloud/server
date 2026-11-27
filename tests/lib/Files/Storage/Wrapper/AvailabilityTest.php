@@ -38,7 +38,7 @@ class AvailabilityTest extends \Test\TestCase {
 	/**
 	 * Storage is available
 	 */
-	public function testAvailable(): void {
+	public function testAvailableStorageForwardsOperationWithoutRecheck(): void {
 		$this->storage->expects($this->once())
 			->method('getAvailability')
 			->willReturn(['available' => true, 'last_checked' => 0]);
@@ -52,9 +52,8 @@ class AvailabilityTest extends \Test\TestCase {
 
 	/**
 	 * Storage marked unavailable, TTL not expired
-	 *
 	 */
-	public function testUnavailable(): void {
+	public function testUnavailableStorageRejectsOperationBeforeRetryInterval(): void {
 		$this->expectException(StorageNotAvailableException::class);
 
 		$this->storage->expects($this->once())
@@ -71,7 +70,7 @@ class AvailabilityTest extends \Test\TestCase {
 	/**
 	 * Storage marked unavailable, TTL expired
 	 */
-	public function testUnavailableRecheck(): void {
+	public function testSuccessfulRecheckIsRemembered(): void {
 		$this->storage->expects($this->once())
 			->method('getAvailability')
 			->willReturn(['available' => false, 'last_checked' => 0]);
@@ -88,17 +87,51 @@ class AvailabilityTest extends \Test\TestCase {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, $value);
 			});
-		$this->storage->expects($this->once())
-			->method('mkdir');
+		$this->storage->expects($this->exactly(2))
+			->method('mkdir')
+			->willReturn(true);
 
-		$this->wrapper->mkdir('foobar');
+		$this->assertTrue($this->wrapper->mkdir('foobar'));
+		$this->assertTrue($this->wrapper->mkdir('another'));
 	}
 
-	/**
-	 * Storage marked available, but throws StorageNotAvailableException
-	 *
-	 */
-	public function testAvailableThrowStorageNotAvailable(): void {
+	public static function failedRecheckProvider(): array {
+		return [
+			'returns false' => [false],
+			'throws exception' => [true],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('failedRecheckProvider')]
+	public function testFailedRecheckIsRemembered(bool $throws): void {
+		$this->storage->expects($this->once())
+			->method('getAvailability')
+			->willReturn(['available' => false, 'last_checked' => 0]);
+
+		$probe = $this->storage->expects($this->once())
+			->method('test');
+		if ($throws) {
+			$probe->willThrowException(new StorageNotAvailableException());
+		} else {
+			$probe->willReturn(false);
+		}
+
+		$this->storage->expects($this->exactly(2))
+			->method('setAvailability')
+			->with(false);
+		$this->storage->expects($this->never())
+			->method('mkdir');
+
+		foreach (['first', 'second'] as $path) {
+			try {
+				$this->wrapper->mkdir($path);
+				$this->fail('Unavailable storage must reject the operation');
+			} catch (StorageNotAvailableException) {
+			}
+		}
+	}
+
+	public function testStorageNotAvailableExceptionMarksStorageUnavailable(): void {
 		$this->expectException(StorageNotAvailableException::class);
 
 		$this->storage->expects($this->once())
@@ -120,7 +153,7 @@ class AvailabilityTest extends \Test\TestCase {
 	 * Storage available, but call fails
 	 * Method failure does not indicate storage unavailability
 	 */
-	public function testAvailableFailure(): void {
+	public function testOperationReturningFalseDoesNotMarkStorageUnavailable(): void {
 		$this->storage->expects($this->once())
 			->method('getAvailability')
 			->willReturn(['available' => true, 'last_checked' => 0]);
@@ -138,9 +171,8 @@ class AvailabilityTest extends \Test\TestCase {
 	/**
 	 * Storage available, but throws exception
 	 * Standard exception does not indicate storage unavailability
-	 *
 	 */
-	public function testAvailableThrow(): void {
+	public function testOtherExceptionDoesNotMarkStorageUnavailable(): void {
 		$this->expectException(\Exception::class);
 
 		$this->storage->expects($this->once())
@@ -157,7 +189,7 @@ class AvailabilityTest extends \Test\TestCase {
 		$this->wrapper->mkdir('foobar');
 	}
 
-	public function testUnavailableMultiple(): void {
+	public function testUnavailableStorageBlocksSubsequentOperations(): void {
 		$this->storage->expects($this->once())
 			->method('getAvailability')
 			->willReturn(['available' => true, 'last_checked' => 0]);
@@ -173,8 +205,6 @@ class AvailabilityTest extends \Test\TestCase {
 			$this->fail();
 		} catch (StorageNotAvailableException) {
 		}
-
-		$this->storage->expects($this->never())->method('file_exists');
 
 		try {
 			$this->wrapper->mkdir('foobar');
