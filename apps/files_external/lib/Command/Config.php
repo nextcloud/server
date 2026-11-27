@@ -29,24 +29,49 @@ class Config extends Base {
 	protected function configure(): void {
 		$this
 			->setName('files_external:config')
-			->setDescription('Manage backend configuration for a mount')
+			->setDescription('Get or set a global external storage configuration value')
 			->addArgument(
 				'mount_id',
 				InputArgument::REQUIRED,
-				'The id of the mount to edit'
+				'ID of the global mount to read or update'
 			)->addArgument(
 				'key',
 				InputArgument::REQUIRED,
-				'key of the config option to set/get'
+				'backend configuration key, or mountpoint/mount_point'
 			)->addArgument(
 				'value',
 				InputArgument::OPTIONAL,
-				'value to set the config option to; when omitted, the existing value is printed; with --value-from-file, this is treated as a file pat'
+				'value to set; omit to print the current value; with --value-from-file, this is a file path'
 			)->addOption(
 				'value-from-file',
 				null,
 				InputOption::VALUE_NONE,
-				'treat the value argument as a file path and read the config value from that file'
+				'read the value from the file specified by value'
+			)->setHelp(<<<'HELP'
+Gets or sets one backend configuration value on a global external storage
+mount.
+
+If value is omitted, the current value is printed. If value is provided, the
+configuration is updated. The special keys mountpoint and mount_point can be
+used to read or change the mount point.
+
+Use files_external:config for backend configuration values such as host,
+share, username, password, keys, and tokens. Use files_external:option for
+mount behavior such as readonly, previews, and sharing.
+
+Use --value-from-file when the value should be read from a file, for example
+for a long secret or certificate. JSON values such as true, false, numbers,
+arrays, and objects are decoded when they are supplied as valid JSON.
+
+Use files_external:list to find the mount ID.
+
+Examples:
+  occ files_external:config 1 host
+  occ files_external:config 1 host files.example.com
+  occ files_external:config 1 password 'secret'
+  occ files_external:config 1 private_key /path/to/key --value-from-file
+  occ files_external:config 1 mountpoint Documents
+HELP
 			);
 		parent::configure();
 	}
