@@ -250,7 +250,42 @@ class SystemTagManagerTest extends TestCase {
 
 	public function testCreateOverlongName(): void {
 		$tag = $this->tagManager->createTag('Zona circundante do Palácio Nacional da Ajuda (Jardim das Damas, Salão de Física, Torre Sineira, Paço Velho e Jardim Botânico)', true, true);
-		$this->assertSame('Zona circundante do Palácio Nacional da Ajuda (Jardim das Damas', $tag->getName()); // 63 characters but 64 bytes due to "á"
+		$this->assertSame('Zona circundante do Palácio Nacional da Ajuda (Jardim das Damas,', $tag->getName());
+		$this->assertSame($tag->getName(), $this->tagManager->getTag($tag->getName(), true, true)->getName());
+	}
+
+	public function testCreateMultibyteNameAtCharacterLimit(): void {
+		$name = str_repeat('a', 63) . 'б';
+		$tag = $this->tagManager->createTag($name, true, true);
+
+		$this->assertSame($name, $tag->getName());
+		$this->assertSameTag($tag, $this->tagManager->getTag($name, true, true));
+	}
+
+	public function testCreateOverlongMultibyteName(): void {
+		$name = str_repeat('б', 64);
+		$tag = $this->tagManager->createTag($name . 'я', true, true);
+
+		$this->assertSame($name, $tag->getName());
+		$this->assertSameTag($tag, $this->tagManager->getTag($name . 'я', true, true));
+	}
+
+	public function testUpdateOverlongName(): void {
+		$tag = $this->tagManager->createTag('initial', true, true);
+
+		$this->tagManager->updateTag(
+			$tag->getId(),
+			str_repeat('a', 63) . 'бя',
+			true,
+			true,
+			null,
+		);
+
+		$this->assertSame(str_repeat('a', 63) . 'б', $this->tagManager->getTag(
+			str_repeat('a', 63) . 'бя',
+			true,
+			true,
+		)->getName());
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('oneTagMultipleFlagsProvider')]
