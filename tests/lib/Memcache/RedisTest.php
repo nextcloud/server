@@ -65,24 +65,64 @@ class RedisTest extends Cache {
 		$this->instance = new Redis($this->getUniqueID());
 	}
 
+	private function assertTtlInRange(int $expected, int|false $actual): void {
+		$this->assertNotFalse($actual);
+		// allow for 1s of inaccuracy due to time moving forward
+		$this->assertGreaterThanOrEqual($expected - 1, $actual);
+		$this->assertLessThanOrEqual($expected, $actual);
+	}
+	
 	public function testScriptHashes(): void {
 		foreach (Redis::LUA_SCRIPTS as $script) {
 			$this->assertEquals(sha1($script[0]), $script[1]);
 		}
 	}
 
-	public function testCasTtlNotChanged(): void {
+	public function testCompareSetTtlUpdatesTtlWhenValueMatches(): void {
 		$this->instance->set('foo', 'bar', 50);
+
 		$this->assertTrue($this->instance->compareSetTTL('foo', 'bar', 100));
-		// allow for 1s of inaccuracy due to time moving forward
-		$this->assertLessThan(1, 100 - $this->instance->getTTL('foo'));
+
+		$ttl = $this->instance->getTTL('foo');
+		$this->assertTtlInRange(100, $ttl);
 	}
 
-	public function testCasTtlChanged(): void {
+	public function testCompareSetTtlDoesNotUpdateTtlWhenValueDiffers(): void {
 		$this->instance->set('foo', 'bar1', 50);
+
 		$this->assertFalse($this->instance->compareSetTTL('foo', 'bar', 100));
-		// allow for 1s of inaccuracy due to time moving forward
-		$this->assertLessThan(1, 50 - $this->instance->getTTL('foo'));
+
+		$ttl = $this->instance->getTTL('foo');
+		$this->assertTtlInRange(50, $ttl);
+	}
+
+	public function testCompareSetTtlZeroUsesDefaultTtl(): void {
+		$this->instance->set('foo', 'bar', 50);
+
+		$this->assertTrue($this->instance->compareSetTTL('foo', 'bar', 0));
+
+		$ttl = $this->instance->getTTL('foo');
+		$this->assertTtlInRange(Redis::DEFAULT_TTL, $ttl);
+	}
+
+	public function testCompareSetTtlIsClampedToMaxTtl(): void {
+		$expectedMaxTtl = 30 * 24 * 60 * 60;
+
+		$this->instance->set('foo', 'bar', 50);
+
+		$this->assertTrue($this->instance->compareSetTTL('foo', 'bar', $expectedMaxTtl + 1000));
+
+		$ttl = $this->instance->getTTL('foo');
+		$this->assertTtlInRange($expectedMaxTtl, $ttl);
+	}
+
+	public function testCompareSetTtlNegativeExpiresKeyImmediately(): void {
+		$this->instance->set('foo', 'bar', 50);
+
+		$this->assertTrue($this->instance->compareSetTTL('foo', 'bar', -1));
+		$this->assertFalse($this->instance->hasKey('foo'));
+		$this->assertNull($this->instance->get('foo'));
+		$this->assertFalse($this->instance->getTTL('foo'));
 	}
 
 	public function testClearWithPrefixOnlyRemovesMatchingKeys(): void {
