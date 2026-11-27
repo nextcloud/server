@@ -15,6 +15,7 @@ use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\ICertificateManager;
+use OCP\IConfig;
 use OCP\IUser;
 use OCP\OCM\IOCMDiscoveryService;
 use OCP\OCM\IOCMProvider;
