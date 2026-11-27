@@ -2487,6 +2487,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Talk\\ConversationOptions' => __DIR__ . '/../../..' . '/lib/private/Talk/ConversationOptions.php',
         'OC\\TaskProcessing\\Db\\Task' => __DIR__ . '/../../..' . '/lib/private/TaskProcessing/Db/Task.php',
         'OC\\TaskProcessing\\Db\\TaskMapper' => __DIR__ . '/../../..' . '/lib/private/TaskProcessing/Db/TaskMapper.php',
+        'OC\\TaskProcessing\\Listeners\\UserDeletedTaskCleanupListener' => __DIR__ . '/../../..' . '/lib/private/TaskProcessing/Listeners/UserDeletedTaskCleanupListener.php',
         'OC\\TaskProcessing\\Manager' => __DIR__ . '/../../..' . '/lib/private/TaskProcessing/Manager.php',
         'OC\\TaskProcessing\\RemoveOldTasksBackgroundJob' => __DIR__ . '/../../..' . '/lib/private/TaskProcessing/RemoveOldTasksBackgroundJob.php',
         'OC\\TaskProcessing\\SynchronousBackgroundJob' => __DIR__ . '/../../..' . '/lib/private/TaskProcessing/SynchronousBackgroundJob.php',

@@ -95,6 +95,18 @@ class TaskMapper extends QBMapper {
 		return $qb->executeStatement();
 	}
 
+	/**
+	 * @param string $userId
+	 * @return int the number of deleted tasks
+	 * @throws Exception
+	 */
+	public function deleteByUser(string $userId): int {
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete($this->tableName)
+			->where($qb->expr()->eq('user_id', $qb->createPositionalParameter($userId)));
+		return $qb->executeStatement();
+	}
+
 	#[\Override]
 	public function update(Entity $entity): Entity {
 		$entity->setLastUpdated($this->timeFactory->now()->getTimestamp());

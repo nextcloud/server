@@ -13,6 +13,7 @@ use OC\AppFramework\Bootstrap\ServiceRegistration;
 use OC\TaskProcessing\Db\Task as DbTask;
 use OC\TaskProcessing\Db\TaskMapper;
 use OC\TaskProcessing\Manager;
+use OC\TaskProcessing\Listeners\UserDeletedTaskCleanupListener;
 use OC\TaskProcessing\RemoveOldTasksBackgroundJob;
 use OC\TaskProcessing\SynchronousBackgroundJob;
 use OCP\App\IAppManager;
@@ -53,6 +54,7 @@ use OCP\TaskProcessing\ITaskType;
 use OCP\TaskProcessing\ITriggerableProvider;
 use OCP\TaskProcessing\ShapeDescriptor;
 use OCP\TaskProcessing\Task;
+use OCP\User\Events\UserDeletedEvent;
 use OCP\TaskProcessing\TaskTypes\TextToImage;
 use OCP\TaskProcessing\TaskTypes\TextToText;
 use OCP\TaskProcessing\TaskTypes\TextToTextSummary;
@@ -784,8 +786,10 @@ class TaskProcessingTest extends \Test\TestCase {
 	private IRootFolder $rootFolder;
 	private TaskMapper $taskMapper;
 	private IManager $manager;
+	private \OC\TextToImage\Manager $text2imageManager;
 
 	public const TEST_USER = 'testuser';
+	public const TEST_USER2 = 'testuser2';
 
 	#[\Override]
 	protected function setUp(): void {
@@ -833,7 +837,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->configureEventDispatcherMock();
 
-		$text2imageManager = new \OC\TextToImage\Manager(
+		$this->text2imageManager = new \OC\TextToImage\Manager(
 			$this->serverContainer,
 			$this->coordinator,
 			Server::get(LoggerInterface::class),
@@ -861,7 +865,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			$this->eventDispatcher,
 			Server::get(IAppDataFactory::class),
 			Server::get(IRootFolder::class),
-			$text2imageManager,
+			$this->text2imageManager,
 			$this->userMountCache,
 			Server::get(IClientService::class),
 			Server::get(IAppManager::class),
@@ -2001,5 +2005,146 @@ class TaskProcessingTest extends \Test\TestCase {
 
 		self::assertSame(0, $affected, 'lockTask must not claim a task that is no longer SCHEDULED');
 		self::assertEquals(Task::STATUS_SUCCESSFUL, $this->manager->getTask($id)->getStatus());
+	}
+
+	public function testTasksOfDeletedUserShouldBeCleanedUp(): void {
+		$userManager = Server::get(IUserManager::class);
+		if (!$userManager->userExists(self::TEST_USER2)) {
+			$userManager->createUser(self::TEST_USER2, 'test');
+		}
+
+		// Start from a clean slate for all three task tables
+		$db = Server::get(IDBConnection::class);
+		foreach (['taskprocessing_tasks', 'textprocessing_tasks', 'text2image_tasks'] as $table) {
+			$db->getQueryBuilder()->delete($table)->executeStatement();
+		}
+
+		$this->appConfig->setValueString('core', 'ai.taskprocessing_type_preferences', '', lazy: true);
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingTaskTypes')->willReturn([
+			new ServiceRegistration('test', AudioToImage::class)
+		]);
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
+			new ServiceRegistration('test', AsyncProvider::class)
+		]);
+
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->any())->method('getUID')->willReturn(self::TEST_USER);
+		$mount = $this->createMock(ICachedMountInfo::class);
+		$mount->expects($this->any())->method('getUser')->willReturn($user);
+		$user2 = $this->createMock(IUser::class);
+		$user2->expects($this->any())->method('getUID')->willReturn(self::TEST_USER2);
+		$mount2 = $this->createMock(ICachedMountInfo::class);
+		$mount2->expects($this->any())->method('getUser')->willReturn($user2);
+		$this->userMountCache->expects($this->any())->method('getMountsForFileId')
+			->willReturn([$mount, $mount2]);
+
+		// A finished task of the deleted user with an output file stored in appdata
+		$audioId = $this->getFile('audioInput', 'Hello')->getId();
+		$fileTask = new Task(AudioToImage::ID, ['audio' => $audioId], 'test', self::TEST_USER);
+		$this->manager->scheduleTask($fileTask);
+		$this->manager->setTaskResult($fileTask->getId(), null, ['spectrogram' => 'World']);
+		$fileTask = $this->manager->getTask($fileTask->getId());
+		$outputFileId = $fileTask->getOutput()['spectrogram'];
+		$appDataPath = '/' . $this->rootFolder->getAppDataDirectoryName() . '/';
+		$outputNode = $this->rootFolder->getFirstNodeByIdInPath($outputFileId, $appDataPath);
+		self::assertInstanceOf(File::class, $outputNode);
+
+		// A task exempt from the aging cleanup
+		$exemptTask = new Task(AudioToImage::ID, ['audio' => $audioId], 'test', self::TEST_USER);
+		$exemptTask->setAllowCleanup(false);
+		$this->manager->scheduleTask($exemptTask);
+
+		// A task that is still scheduled
+		$scheduledTask = new Task(AudioToImage::ID, ['audio' => $audioId], 'test', self::TEST_USER);
+		$this->manager->scheduleTask($scheduledTask);
+
+		// A task of another user that must survive the cleanup
+		$audioId2 = $this->rootFolder->getUserFolder(self::TEST_USER2)->newFile('audioInputOther', 'Hello')->getId();
+		$otherTask = new Task(AudioToImage::ID, ['audio' => $audioId2], 'test', self::TEST_USER2);
+		$this->manager->scheduleTask($otherTask);
+
+		// Legacy text processing and text to image tasks of the deleted user
+		$textProcessingTaskMapper = Server::get(\OC\TextProcessing\Db\TaskMapper::class);
+		$textProcessingTaskMapper->insert(\OC\TextProcessing\Db\Task::fromParams([
+			'type' => 'Test:Type',
+			'input' => 'Hello',
+			'status' => Task::STATUS_SUCCESSFUL,
+			'userId' => self::TEST_USER,
+			'appId' => 'test',
+			'lastUpdated' => time(),
+		]));
+		$textProcessingTaskMapper->insert(\OC\TextProcessing\Db\Task::fromParams([
+			'type' => 'Test:Type',
+			'input' => 'Hello',
+			'status' => Task::STATUS_SUCCESSFUL,
+			'userId' => self::TEST_USER2,
+			'appId' => 'test',
+			'lastUpdated' => time(),
+		]));
+		$t2iTaskMapper = Server::get(\OC\TextToImage\Db\TaskMapper::class);
+		$t2iTask = $t2iTaskMapper->insert(\OC\TextToImage\Db\Task::fromParams([
+			'input' => 'A cat',
+			'status' => Task::STATUS_SUCCESSFUL,
+			'userId' => self::TEST_USER,
+			'appId' => 'test',
+			'numberOfImages' => 2,
+			'completionExpectedAt' => new \DateTime(),
+			'lastUpdated' => new \DateTime(),
+		]));
+		$t2iTask2 = $t2iTaskMapper->insert(\OC\TextToImage\Db\Task::fromParams([
+			'input' => 'A dog',
+			'status' => Task::STATUS_SUCCESSFUL,
+			'userId' => self::TEST_USER2,
+			'appId' => 'test',
+			'numberOfImages' => 2,
+			'completionExpectedAt' => new \DateTime(),
+			'lastUpdated' => new \DateTime(),
+		]));
+
+		// A text to image result folder in appdata for the legacy task of the deleted user
+		$appData = Server::get(IAppDataFactory::class)->get('core');
+		try {
+			$t2iFolder = $appData->getFolder('text2image');
+		} catch (\OCP\Files\NotFoundException) {
+			$t2iFolder = $appData->newFolder('text2image');
+		}
+		$t2iFolder->newFolder((string)$t2iTask->getId());
+		try {
+			$t2iFolder->getFolder((string)$t2iTask->getId());
+		} catch (\OCP\Files\NotFoundException $e) {
+			self::fail('Test setup: the text to image task folder should exist before the cleanup');
+		}
+
+		$listener = new UserDeletedTaskCleanupListener(
+			$this->manager,
+			$textProcessingTaskMapper,
+			$this->text2imageManager,
+			Server::get(LoggerInterface::class),
+		);
+		$deletedUser = $userManager->get(self::TEST_USER);
+		self::assertNotNull($deletedUser);
+		$listener->handle(new UserDeletedEvent($deletedUser));
+
+		// All task processing tasks of the deleted user are gone, whatever their status
+		self::assertSame([], $this->taskMapper->findByUserAndTaskType(self::TEST_USER));
+		// The other user's task is kept
+		self::assertCount(1, $this->taskMapper->findByUserAndTaskType(self::TEST_USER2));
+		// The output file in appdata is gone
+		self::assertNull($this->rootFolder->getFirstNodeByIdInPath($outputFileId, $appDataPath));
+
+		// The legacy text processing rows of the deleted user are gone, the other user's are kept
+		self::assertSame([], $textProcessingTaskMapper->findUserTasksByApp(self::TEST_USER, 'test'));
+		self::assertCount(1, $textProcessingTaskMapper->findUserTasksByApp(self::TEST_USER2, 'test'));
+
+		// The legacy text to image rows of the deleted user are gone, the other user's are kept
+		self::assertSame([], $t2iTaskMapper->findUserTasksByApp(self::TEST_USER, 'test'));
+		self::assertCount(1, $t2iTaskMapper->findUserTasksByApp(self::TEST_USER2, 'test'));
+		// The result folder in appdata is gone
+		try {
+			$t2iFolder->getFolder((string)$t2iTask->getId());
+			self::fail('The text to image task folder was not removed');
+		} catch (\OCP\Files\NotFoundException $e) {
+			// expected
+		}
 	}
 }

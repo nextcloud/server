@@ -2446,6 +2446,7 @@ return array(
     'OC\\Talk\\ConversationOptions' => $baseDir . '/lib/private/Talk/ConversationOptions.php',
     'OC\\TaskProcessing\\Db\\Task' => $baseDir . '/lib/private/TaskProcessing/Db/Task.php',
     'OC\\TaskProcessing\\Db\\TaskMapper' => $baseDir . '/lib/private/TaskProcessing/Db/TaskMapper.php',
+    'OC\\TaskProcessing\\Listeners\\UserDeletedTaskCleanupListener' => $baseDir . '/lib/private/TaskProcessing/Listeners/UserDeletedTaskCleanupListener.php',
     'OC\\TaskProcessing\\Manager' => $baseDir . '/lib/private/TaskProcessing/Manager.php',
     'OC\\TaskProcessing\\RemoveOldTasksBackgroundJob' => $baseDir . '/lib/private/TaskProcessing/RemoveOldTasksBackgroundJob.php',
     'OC\\TaskProcessing\\SynchronousBackgroundJob' => $baseDir . '/lib/private/TaskProcessing/SynchronousBackgroundJob.php',
