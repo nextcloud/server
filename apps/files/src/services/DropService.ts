@@ -193,15 +193,9 @@ export async function onDropExternalFiles(root: RootDirectory, destination: IFol
  *
  * @param nodes - The nodes being dropped
  * @param destination - The destination folder
- * @param contents - The contents of the destination folder
  * @param isCopy - Whether the operation is a copy
  */
-export async function onDropInternalFiles(nodes: INode[], destination: IFolder, contents: INode[], isCopy = false) {
-	// Check for conflicts on root elements
-	if (getConflicts(nodes, contents).length !== 0) {
-		nodes = await resolveConflict(nodes, destination, contents)
-	}
-
+export async function onDropInternalFiles(nodes: INode[], destination: IFolder, isCopy = false) {
 	if (nodes.length === 0) {
 		logger.info('No files to process', { nodes })
 		showInfo(t('files', 'No files to process'))

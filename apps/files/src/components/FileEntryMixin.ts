@@ -548,19 +548,13 @@ export default defineComponent({
 				return
 			}
 
-			// We might not have the target directory fetched yet
-			const cachedContents = this.filesStore.getNodesByPath(this.activeView.id, this.source.path)
-			const contents = cachedContents.length === 0
-				? (await this.activeView!.getContents(this.source.path)).contents
-				: cachedContents
-
 			const isCopy = event.ctrlKey
 			this.dragover = false
 
 			logger.debug('Dropped', { event, folder: this.source, selection })
 
 			const nodes = selection.map((source) => this.filesStore.getNode(source)) as Node[]
-			await onDropInternalFiles(nodes, this.source, contents, isCopy)
+			await onDropInternalFiles(nodes, this.source, isCopy)
 
 			// Reset selection after we dropped the files
 			// if the dropped files are within the selection
