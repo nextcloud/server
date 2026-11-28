@@ -90,7 +90,7 @@
     "@nextcloud/vite-config": "^2.5.2",
     "@pinia/testing": "^2.0.2",
     "@playwright/test": "^1.65.1",
-    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/jest-dom": "^8.0.0",
     "@testing-library/vue": "^8.1.0",
     "@vitest/coverage-v8": "^5.1.0",
     "@vue/test-utils": "^2.4.6",
