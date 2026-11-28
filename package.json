@@ -60,7 +60,7 @@
     "@nextcloud/viewer": "^2.0.0-beta.21",
     "@nextcloud/vue": "^9.14.1",
     "@simplewebauthn/browser": "^14.0.0",
-    "@vueuse/core": "^15.0.0",
+    "@vueuse/core": "^15.1.0",
     "@vueuse/integrations": "^15.0.0",
     "browserslist-useragent-regexp": "^4.1.4",
     "color": "^5.0.3",
