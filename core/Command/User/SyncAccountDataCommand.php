@@ -7,9 +7,12 @@
 
 namespace OC\Core\Command\User;
 
+use OC\Accounts\AccountManager;
 use OC\Core\Command\Base;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\PropertyDoesNotExistException;
+use OCP\Files\NotFoundException;
+use OCP\IAvatarManager;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\User\Backend\IGetDisplayNameBackend;
@@ -20,7 +23,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 class SyncAccountDataCommand extends Base {
 	public function __construct(
 		protected IUserManager $userManager,
-		protected IAccountManager $accountManager,
+		protected AccountManager $accountManager,
+		protected IAvatarManager $avatarManager,
 	) {
 		parent::__construct();
 	}
@@ -64,7 +68,9 @@ class SyncAccountDataCommand extends Base {
 			} catch (PropertyDoesNotExistException) {
 				$displayNameProperty = null;
 			}
-			if (!$displayNameProperty || $displayNameProperty->getValue() !== $user->getDisplayName()) {
+			// The account already carries the display name of the backend, compare against the stored one
+			$storedDisplayName = $this->accountManager->getStoredDisplayName($user);
+			if (!$displayNameProperty || $storedDisplayName !== $user->getDisplayName()) {
 				$output->writeln($user->getUID() . ' - updating changed display name');
 				$account->setProperty(
 					IAccountManager::PROPERTY_DISPLAYNAME,
@@ -80,8 +86,21 @@ class SyncAccountDataCommand extends Base {
 		if ($changed) {
 			$this->accountManager->updateAccount($account);
 			$output->writeln($user->getUID() . ' - account data updated');
+			$this->resetGeneratedAvatar($user, $storedDisplayName);
 		} else {
 			$output->writeln($user->getUID() . ' - nothing to update');
+		}
+	}
+
+	/**
+	 * Generated avatars show the initials of the display name, uploaded ones are kept.
+	 */
+	private function resetGeneratedAvatar(IUser $user, ?string $oldDisplayName): void {
+		try {
+			$this->avatarManager->getAvatar($user->getUID())
+				->userChanged('displayName', $oldDisplayName, $user->getDisplayName());
+		} catch (NotFoundException) {
+			// no avatar to reset
 		}
 	}
 }
