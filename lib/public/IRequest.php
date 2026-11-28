@@ -45,6 +45,19 @@ interface IRequest {
 	public const USER_AGENT_CLIENT_ANDROID = '/^Mozilla\/5\.0 \(Android\) (?:ownCloud|Nextcloud)\-android\/([^ ]*).*$/';
 
 	/**
+	 * The Android app's image loader sends its user agent without a version.
+	 * @since 34.0.7
+	 */
+	public const USER_AGENT_CLIENT_ANDROID_NO_VERSION = '/^Mozilla\/5\.0 \(Android\) (?:ownCloud|Nextcloud)\-android$/';
+
+	/**
+	 * Web views the Android app opens for office editors send
+	 * "(Android <os version>) Mobile" instead of "(Android)".
+	 * @since 34.0.7
+	 */
+	public const USER_AGENT_CLIENT_ANDROID_WEBVIEW = '/^Mozilla\/5\.0 \(Android [^)]*\) Mobile (?:ownCloud|Nextcloud)\-android\/([^ ]*).*$/';
+
+	/**
 	 * @since 13.0.0
 	 * @since 28.0.0 The regex has a group matching the version number
 	 */
@@ -67,6 +80,13 @@ interface IRequest {
 	 * @since 28.0.0 The regex has a group matching the version number
 	 */
 	public const USER_AGENT_CLIENT_IOS = '/^Mozilla\/5\.0 \(iOS\) (?:ownCloud|Nextcloud)\-iOS\/([^ ]*).*$/';
+
+	/**
+	 * Web views the iOS app opens for office editors (OnlyOffice, Euro-Office,
+	 * Whiteboard) send "(iPhone) Mobile" or "(iPad)" instead of "(iOS)".
+	 * @since 34.0.7
+	 */
+	public const USER_AGENT_CLIENT_IOS_WEBVIEW = '/^Mozilla\/5\.0 \((?:iPhone|iPad)\)(?: Mobile)? (?:ownCloud|Nextcloud)\-iOS\/([^ ]*).*$/';
 
 	/**
 	 * @since 13.0.0
