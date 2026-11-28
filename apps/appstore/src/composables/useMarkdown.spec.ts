@@ -6,6 +6,16 @@
 import { expect, test } from 'vitest'
 import { useMarkdown } from './useMarkdown.ts'
 
+test('sanitizes raw HTML while preserving allowed formatting', () => {
+	const rendered = useMarkdown('<p><strong>bold</strong> <em>italic</em> <span>plain</span><img src="https://example.com/image.jpg"><script>alert(1)</script></p>')
+	expect(rendered.value).toMatchInlineSnapshot('"<p><strong>bold</strong> <em>italic</em> plain</p>"')
+})
+
+test('sanitizes raw HTML links while preserving safe URLs and attributes', () => {
+	const rendered = useMarkdown('<p><a href="javascript:alert(1)" onclick="alert(1)">unsafe</a> <a href="https://example.com" title="Example" onclick="alert(1)">safe</a></p>')
+	expect(rendered.value).toMatchInlineSnapshot('"<p><a>unsafe</a> <a href="https://example.com" title="Example">safe</a></p>"')
+})
+
 test('renders links', () => {
 	const rendered = useMarkdown('This is [a link](http://example.com)!')
 	expect(rendered.value).toMatchInlineSnapshot('"<p>This is <a href="http://example.com" rel="noreferrer noopener">a link</a>!</p>\n"')
