@@ -85,6 +85,14 @@ class PublicAuth extends AbstractBasic {
 			return $this->checkToken();
 		} catch (NotAuthenticated|MaxDelayReached $e) {
 			$this->throttler->registerUniqueAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress(), $userpass ?? '');
+			// Like the authenticated endpoint: many WebDAV clients only send the share
+			// password once challenged for it, and ajax calls get a dummy scheme so the
+			// browser does not open its login popup.
+			if ($e instanceof NotAuthenticated) {
+				$response->addHeader('WWW-Authenticate', $this->isAjax()
+					? 'DummyBasic realm="' . $this->realm . '"'
+					: 'Basic realm="' . $this->realm . '", charset="UTF-8"');
+			}
 			throw $e;
 		} catch (PreconditionFailed $e) {
 			$response->setHeader(
@@ -101,6 +109,10 @@ class PublicAuth extends AbstractBasic {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			throw new ServiceUnavailable("$class: $msg");
 		}
+	}
+
+	private function isAjax(): bool {
+		return in_array('XMLHttpRequest', explode(',', $this->request->getHeader('X-Requested-With')), true);
 	}
 
 	/**
