@@ -406,6 +406,7 @@ OC.L10N.register(
     "Share not found" : "Nie znaleziono udostępnienia",
     "Back to %s" : "Powrót do %s",
     "Add to your Nextcloud" : "Dodaj do swojego Nextcloud",
+    "Cannot share with a disabled account." : "Nie można udostępniać wyłączonemu kontu.",
     "Group sharing is disabled by the administrator" : "Udostępnianie grupowe jest wyłączone przez administratora",
     "Public link sharing is disabled by the administrator" : "Udostępnianie linków publicznych zostało wyłączone przez administratora",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Udostępnienie %1$s nie powiodło się, ponieważ zaplecze nie zezwala na udostępnianie typu %2$s",

@@ -389,7 +389,7 @@ OC.L10N.register(
     "This request was cancelled without granting access. You can close this window." : "A kérés hozzáférés biztosítása nélkül meg lett szakítva. Bezárhatja ezt az ablakot.",
     "Sign in to connect an app" : "Jelentkezzen be alkalmazás összekapcsolásához",
     "Allow account access?" : "Engedélyezi a fiókhozzáférést?",
-    "Check this connection request" : "Összekapcsolási kérés ellenőrzése",
+    "Check this connection request" : "Kapcsolódási kérés ellenőrzése",
     "The app’s request came from a different IP address than your browser. Someone could be trying to gain access to your account." : "Az alkalmazás kérése a böngészőtől eltérő IP-címről érkezett. Lehet, hogy valaki megpróbál hozzáférni a fiókjához.",
     "If you weren’t setting up an app or device, decline this request and contact your system administrator." : "Ha épp nem állított be alkalmazást vagy eszközt, akkor utasítsa el a kérést, és lépjen kapcsolatba a rendszergazdával.",
     "Why might the addresses differ?" : "Miért térhetnek el a címek?",
