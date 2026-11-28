@@ -66,7 +66,7 @@ final class GetShares extends SharingBase {
 			}
 		}
 
-		/** @var ?string $lastShareID */
+		/** @var ?non-empty-string $lastShareID */
 		$lastShareID = $input->getOption('last-share-id');
 		/** @var ?string $limit */
 		$limit = $input->getOption('limit');

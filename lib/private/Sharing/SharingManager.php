@@ -11,6 +11,8 @@ namespace OC\Sharing;
 
 use Exception;
 use NCU\Sharing\Event\SharesDefaultSetEvent;
+use NCU\Sharing\Event\SharesDeletedEvent;
+use NCU\Sharing\Event\SharesUpdatedEvent;
 use NCU\Sharing\Exception\ShareInvalidException;
 use NCU\Sharing\Exception\ShareOperationForbiddenException;
 use NCU\Sharing\ISharingBackend;
@@ -190,7 +192,10 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 		// No need to update the last updated timestamp, because the share will be deleted anyway.
 
-		$this->backend->onOwnerDeleted($owner);
+		$ids = $this->backend->onOwnerDeleted($owner);
+		if ($ids !== []) {
+			$this->eventDispatcher->dispatchTyped(new SharesDeletedEvent($ids));
+		}
 	}
 
 	#[\Override]
@@ -640,15 +645,17 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$time = $this->getTime();
 		$this->backend->setLastUpdated([$share->id], $time);
 
-		$value = $this->backend->updateShareProperty($share->id, $property);
+		$value = $property->value;
 		if ($propertyType instanceof ISharePropertyTypeModifyValue) {
-			$value = $propertyType->modifyValueOnLoad($value);
+			$value = $propertyType->modifyValueOnSave($this->backend->getSharePropertyValue($share->id, $property->class), $value);
 		}
 
 		$property = new ShareProperty(
 			$property->class,
 			$value,
 		);
+
+		$this->backend->updateShareProperty($share->id, $property);
 
 		$properties = $share->properties;
 		$properties[$property->class] = $property;
@@ -837,6 +844,8 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			'shareId' => $share->id,
 			'owner' => $share->owner->userId,
 		], 'unified_sharing.share.deleted');
+
+		$this->eventDispatcher->dispatchTyped(new SharesDeletedEvent([$share->id]));
 	}
 
 	/**
@@ -861,7 +870,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		?string $lastShareID,
 		?int $limit,
 	): array {
-		return $this->backend->getShares($accessContext, $filterSourceTypeClass, $filterSourceTypeValue, $filterState, $filterUserStatus, $lastShareID, $limit);
+		return $this->backend->getShares($accessContext, null, $filterSourceTypeClass, $filterSourceTypeValue, $filterState, $filterUserStatus, $lastShareID, $limit);
 	}
 
 	#[\Override]
@@ -1069,6 +1078,8 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 				}
 			}
 		}
+
+		$this->eventDispatcher->dispatchTyped(new SharesUpdatedEvent(array_map(static fn (Share $share): string => $share->id, $shares)));
 
 		return $shares;
 	}

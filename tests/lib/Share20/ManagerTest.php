@@ -56,6 +56,7 @@ use OCP\Share\Events\BeforeShareDeletedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareDeletedEvent;
 use OCP\Share\Events\ShareDeletedFromSelfEvent;
+use OCP\Share\Events\ShareUpdatedEvent;
 use OCP\Share\Exceptions\AlreadySharedException;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -1585,9 +1586,6 @@ class ManagerTest extends \Test\TestCase {
 		$future->add(new \DateInterval('P2D'));
 		$future->setTime(1, 2, 3);
 
-		$expected = clone $future;
-		$expected->setTime(23, 59, 59);
-
 		$share = $this->manager->newShare();
 		$share->setShareType($shareType);
 		$share->setExpirationDate($future);
@@ -1610,7 +1608,7 @@ class ManagerTest extends \Test\TestCase {
 
 		self::invokePrivate($this->manager, 'validateExpirationDateInternal', [$share]);
 
-		$this->assertEquals($expected, $share->getExpirationDate());
+		$this->assertEquals($future, $share->getExpirationDate());
 	}
 
 	#[DataProvider('validateExpirationDateInternalProvider')]
@@ -1619,16 +1617,13 @@ class ManagerTest extends \Test\TestCase {
 		$date->add(new \DateInterval('P5D'));
 		$date->setTime(1, 2, 3);
 
-		$expected = clone $date;
-		$expected->setTime(23, 59, 59);
-
 		$share = $this->manager->newShare();
 		$share->setShareType($shareType);
 		$share->setExpirationDate($date);
 
 		self::invokePrivate($this->manager, 'validateExpirationDateInternal', [$share]);
 
-		$this->assertEquals($expected, $share->getExpirationDate());
+		$this->assertEquals($date, $share->getExpirationDate());
 	}
 
 	#[DataProvider('validateExpirationDateInternalProvider')]
@@ -1680,9 +1675,6 @@ class ManagerTest extends \Test\TestCase {
 		$future->add(new \DateInterval('P5D'));
 		$future->setTime(1, 2, 3);
 
-		$expected = clone $future;
-		$expected->setTime(23, 59, 59);
-
 		$share = $this->manager->newShare();
 		$share->setShareType($shareType);
 		$share->setExpirationDate($future);
@@ -1705,7 +1697,7 @@ class ManagerTest extends \Test\TestCase {
 
 		self::invokePrivate($this->manager, 'validateExpirationDateInternal', [$share]);
 
-		$this->assertEquals($expected, $share->getExpirationDate());
+		$this->assertEquals($future, $share->getExpirationDate());
 	}
 
 	#[DataProvider('validateExpirationDateInternalProvider')]
@@ -1856,9 +1848,6 @@ class ManagerTest extends \Test\TestCase {
 		$future->add(new \DateInterval('P2D'));
 		$future->setTime(1, 2, 3);
 
-		$expected = clone $future;
-		$expected->setTime(23, 59, 59);
-
 		$share = $this->manager->newShare();
 		$share->setExpirationDate($future);
 
@@ -1875,7 +1864,7 @@ class ManagerTest extends \Test\TestCase {
 
 		self::invokePrivate($this->manager, 'validateExpirationDateLink', [$share]);
 
-		$this->assertEquals($expected, $share->getExpirationDate());
+		$this->assertEquals($future, $share->getExpirationDate());
 	}
 
 	public function testValidateExpirationDateNoDefault(): void {
@@ -1884,7 +1873,6 @@ class ManagerTest extends \Test\TestCase {
 		$date->setTime(1, 2, 3);
 
 		$expected = clone $date;
-		$expected->setTime(23, 59, 59);
 		$expected->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
 		$share = $this->manager->newShare();
@@ -1936,7 +1924,6 @@ class ManagerTest extends \Test\TestCase {
 		$future->setTime(1, 2, 3);
 
 		$expected = clone $future;
-		$expected->setTime(23, 59, 59);
 		$expected->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
 		$share = $this->manager->newShare();
@@ -1966,7 +1953,6 @@ class ManagerTest extends \Test\TestCase {
 
 		$expected = clone $future;
 		$expected->setTimezone($this->timezone);
-		$expected->setTime(23, 59, 59);
 		$expected->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
 		$share = $this->manager->newShare();
@@ -3189,7 +3175,10 @@ class ManagerTest extends \Test\TestCase {
 		$share->expects($this->once())
 			->method('setShareOwner')
 			->with('shareOwner');
-		$share->expects($this->once())
+		$share->expects($this->exactly(2))
+			->method('getTarget')
+			->willReturn('');
+		$share->expects($this->exactly(2))
 			->method('setTarget')
 			->with('/target');
 
@@ -3319,7 +3308,10 @@ class ManagerTest extends \Test\TestCase {
 		$share->expects($this->once())
 			->method('setShareOwner')
 			->with('shareOwner');
-		$share->expects($this->once())
+		$share->expects($this->exactly(2))
+			->method('getTarget')
+			->willReturn('');
+		$share->expects($this->exactly(2))
 			->method('setTarget')
 			->with('/target');
 
@@ -3705,7 +3697,10 @@ class ManagerTest extends \Test\TestCase {
 		$share->expects($this->once())
 			->method('setShareOwner')
 			->with('shareOwner');
-		$share->expects($this->once())
+		$share->expects($this->exactly(2))
+			->method('getTarget')
+			->willReturn('');
+		$share->expects($this->exactly(2))
 			->method('setTarget')
 			->with('/target');
 
@@ -4810,7 +4805,7 @@ class ManagerTest extends \Test\TestCase {
 			->with($share)
 			->willReturn($share);
 
-		$this->dispatcher->expects($this->never())->method('dispatchTyped');
+		$this->dispatcher->expects($this->once())->method('dispatchTyped')->with(self::callback(static fn (Event $event): bool => $event instanceof ShareUpdatedEvent));
 
 		$manager->updateShare($share);
 	}

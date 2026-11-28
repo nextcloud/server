@@ -10,15 +10,8 @@ declare(strict_types=1);
 namespace Test\Sharing;
 
 use NCU\Sharing\Property\ISharePropertyTypeModifyValue;
-use NCU\Sharing\Share;
 
 final class TestSharePropertyTypeModifyValue extends TestSharePropertyType1 implements ISharePropertyTypeModifyValue {
-
-	#[\Override]
-	public function getDefaultValue(Share $share): string {
-		return 'modify-on-save';
-	}
-
 	#[\Override]
 	public function modifyValueOnSave(?string $oldValue, ?string $newValue): ?string {
 		if ($newValue === 'modify-on-save') {
@@ -33,9 +26,9 @@ final class TestSharePropertyTypeModifyValue extends TestSharePropertyType1 impl
 	}
 
 	#[\Override]
-	public function modifyValueOnLoad(?string $value): ?string {
-		if ($value === 'modify-on-load') {
-			return 'modified-on-load';
+	public function modifyValueOnFormat(?string $value): ?string {
+		if ($value === 'modify-on-format') {
+			return 'modified-on-format';
 		}
 
 		return $value;
