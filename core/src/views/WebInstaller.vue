@@ -233,7 +233,7 @@ onMounted(() => {
 			<NcNoteCard v-show="config.adminpass !== ''" :type="passwordHelperType">
 				{{ passwordHelperText }}
 				<br>
-				{{ t('core', 'This is a basic estimate. It does not check for common passwords or most predictable patterns. After installation, you can configure password requirements using the Password Policy app.') }}
+				{{ t('core', 'Basic estimate only; common passwords and predictable patterns may score highly.') }}
 			</NcNoteCard>
 		</fieldset>
 
@@ -444,6 +444,8 @@ onMounted(() => {
 
 		<!-- Help note -->
 		<NcNoteCard data-cy-setup-form-note="help" type="info">
+			{{ t('core', 'After installation, use the Password Policy app to configure password requirements.') }}
+			<br>
 			{{ t('core', 'Need help?') }}
 			<a target="_blank" rel="noreferrer noopener" :href="links.adminInstall">{{ t('core', 'See the documentation') }} ↗</a>
 		</NcNoteCard>
