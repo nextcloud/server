@@ -24,6 +24,7 @@ const Url = Object.freeze({
 	uninstall: `${BASE_URL}/apps/uninstall`,
 	update: `${BASE_URL}/apps/update`,
 	bundleEnable: `${BASE_URL}/bundles/enable`,
+	refresh: `${BASE_URL}/apps/refresh`,
 })
 
 const queue = new PQueue({ concurrency: 1 })
@@ -110,6 +111,13 @@ export async function uninstallApp(appId: string) {
 export async function getApps() {
 	const { data } = await axios.get<OCSResponse<IAppstoreApp[]>>(Url.apps)
 	return data.ocs.data
+}
+
+/**
+ * Make the next listing ask the app store again instead of using the cache
+ */
+export async function refreshApps() {
+	await axios.post(Url.refresh)
 }
 
 /**
