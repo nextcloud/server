@@ -216,6 +216,30 @@ interface ISharingManager {
 	public function getShare(ShareAccessContext $accessContext, string $id): Share;
 
 	/**
+	 * Get the ID of the share that has a recipient with the secret.
+	 *
+	 * @return ?non-empty-string
+	 * @experimental 36.0.0
+	 */
+	public function getShareIdByRecipientSecret(string $secret): ?string;
+
+	/**
+	 * Dispatch the events of share changes made inside a transaction.
+	 *
+	 * Must be called after the outermost transaction was committed, otherwise the events stay pending.
+	 *
+	 * @experimental 36.0.0
+	 */
+	public function dispatchPendingEvents(): void;
+
+	/**
+	 * Discard the events of share changes made inside a transaction that was rolled back.
+	 *
+	 * @experimental 36.0.0
+	 */
+	public function discardPendingEvents(): void;
+
+	/**
 	 * Get multiple shares.
 	 *
 	 * @param ?class-string<IShareSourceType> $filterSourceTypeClass

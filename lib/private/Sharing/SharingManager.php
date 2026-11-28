@@ -10,7 +10,9 @@ declare(strict_types=1);
 namespace OC\Sharing;
 
 use Exception;
+use NCU\Sharing\Event\ShareRecipientAddedEvent;
 use NCU\Sharing\Event\SharesDefaultSetEvent;
+use NCU\Sharing\Event\ShareStateUpdatedEvent;
 use NCU\Sharing\Exception\ShareInvalidException;
 use NCU\Sharing\Exception\ShareOperationForbiddenException;
 use NCU\Sharing\ISharingBackend;
@@ -75,6 +77,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		private ClockInterface $clock,
 		private IManager $legacySharingManager,
 		private IConfig $config,
+		private PendingShareEvents $pendingEvents,
 	) {
 		$this->randomizer = new Randomizer();
 		$this->l10n = $l10nFactory->get('sharing');
@@ -206,6 +209,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 		$this->backend->updateShareState($share->id, $state);
 
+		$previousState = $share->state;
 		$share = new Share(
 			$share->id,
 			$share->owner,
@@ -224,6 +228,8 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			'shareId' => $share->id,
 			'state' => $state->value,
 		], 'unified_sharing.share.state_updated');
+
+		$this->dispatchOrQueueEvent(new ShareStateUpdatedEvent($share, $previousState));
 
 		return $share;
 	}
@@ -443,7 +449,16 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			);
 		}
 
-		$this->backend->addShareRecipient($share->id, $recipient);
+		$recipientId = $this->backend->addShareRecipient($share->id, $recipient);
+		$recipient = new ShareRecipient(
+			$recipient->class,
+			$recipient->value,
+			$recipient->instance,
+			$recipient->secret,
+			$recipient->initiator,
+			$recipient->permissions,
+			$recipientId,
+		);
 
 		$recipients = $share->recipients;
 		$recipients[] = $recipient;
@@ -469,6 +484,8 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			'recipientValue' => $recipient->value,
 			'instance' => $recipient->instance ?? 'local',
 		], 'unified_sharing.recipient.added');
+
+		$this->dispatchOrQueueEvent(new ShareRecipientAddedEvent($share, $recipient));
 
 		return $share;
 	}
@@ -598,6 +615,8 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 					$recipient->instance,
 					$secret,
 					$shareRecipient->initiator,
+					$shareRecipient->permissions,
+					$shareRecipient->id,
 				);
 			}
 		}
@@ -751,6 +770,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 					$shareRecipient->secret,
 					$shareRecipient->initiator,
 					$permissions,
+					$shareRecipient->id,
 				);
 
 				break;
@@ -849,6 +869,39 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	#[\Override]
 	public function getShare(ShareAccessContext $accessContext, string $id): Share {
 		return $this->backend->getShare($accessContext, $id);
+	}
+
+	#[\Override]
+	public function getShareIdByRecipientSecret(string $secret): ?string {
+		return $this->backend->getShareIdByRecipientSecret($secret);
+	}
+
+	#[\Override]
+	public function dispatchPendingEvents(): void {
+		if ($this->dbConnection->inTransaction()) {
+			return;
+		}
+
+		foreach ($this->pendingEvents->pull() as $event) {
+			$this->eventDispatcher->dispatchTyped($event);
+		}
+	}
+
+	#[\Override]
+	public function discardPendingEvents(): void {
+		$this->pendingEvents->pull();
+	}
+
+	/**
+	 * Queues the event if a transaction is open, since listeners should only see committed changes.
+	 * Otherwise it is dispatched immediately.
+	 */
+	private function dispatchOrQueueEvent(Event $event): void {
+		if ($this->dbConnection->inTransaction()) {
+			$this->pendingEvents->add($event);
+		} else {
+			$this->eventDispatcher->dispatchTyped($event);
+		}
 	}
 
 	#[\Override]

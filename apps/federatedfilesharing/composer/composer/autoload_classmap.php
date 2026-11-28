@@ -21,6 +21,7 @@ return array(
     'OCA\\FederatedFileSharing\\Notifications' => $baseDir . '/../lib/Notifications.php',
     'OCA\\FederatedFileSharing\\Notifier' => $baseDir . '/../lib/Notifier.php',
     'OCA\\FederatedFileSharing\\OCM\\CloudFederationProviderFiles' => $baseDir . '/../lib/OCM/CloudFederationProviderFiles.php',
+    'OCA\\FederatedFileSharing\\OCM\\UnifiedShareHandler' => $baseDir . '/../lib/OCM/UnifiedShareHandler.php',
     'OCA\\FederatedFileSharing\\Settings\\Admin' => $baseDir . '/../lib/Settings/Admin.php',
     'OCA\\FederatedFileSharing\\Settings\\Personal' => $baseDir . '/../lib/Settings/Personal.php',
     'OCA\\FederatedFileSharing\\Settings\\PersonalSection' => $baseDir . '/../lib/Settings/PersonalSection.php',

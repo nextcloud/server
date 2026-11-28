@@ -9,6 +9,8 @@ namespace OCA\CloudFederationAPI\Controller;
 
 use Firebase\JWT\JWT;
 use OC\OCM\OCMSignatoryManager;
+use OCA\FederatedFileSharing\OCM\UnifiedShareHandler;
+use OCA\Sharing\Federation\FederationSharingService;
 use OCP\AppFramework\ApiController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
@@ -49,6 +51,7 @@ class TokenController extends ApiController {
 		private readonly IAppConfig $appConfig,
 		private readonly IShareManager $shareManager,
 		private readonly ICloudIdManager $cloudIdManager,
+		private readonly UnifiedShareHandler $unifiedShareHandler,
 	) {
 		parent::__construct('cloud_federation_api', $request);
 	}
@@ -64,8 +67,13 @@ class TokenController extends ApiController {
 			return null;
 		}
 		try {
-			$share = $this->shareManager->getShareByToken($code);
-			$sharedWith = $share->getSharedWith();
+			try {
+				// legacy share ('oc_share')
+				$sharedWith = $this->shareManager->getShareByToken($code)->getSharedWith();
+			} catch (ShareNotFound) {
+				// not a legacy share, check if it's a unified share ('oc_sharing_share')
+				$sharedWith = $this->unifiedShareHandler->getRemoteRecipientCloudId($code);
+			}
 			if ($sharedWith === null || $sharedWith === '') {
 				return null;
 			}
@@ -197,14 +205,33 @@ class TokenController extends ApiController {
 
 		try {
 			$share = $this->shareManager->getShareByToken($refreshToken);
-			if (!in_array($share->getShareType(), [IShare::TYPE_REMOTE, IShare::TYPE_REMOTE_GROUP], true)
-				|| $share->getToken() === null
-				|| !hash_equals($share->getToken(), $refreshToken)
-			) {
-				return new DataResponse(
-					['error' => 'invalid_grant'],
-					Http::STATUS_UNAUTHORIZED
-				);
+		} catch (ShareNotFound) {
+			$share = null;
+		}
+
+		try {
+			if ($share !== null) {
+				// legacy share ('oc_share')
+				if (!in_array($share->getShareType(), [IShare::TYPE_REMOTE, IShare::TYPE_REMOTE_GROUP], true)
+					|| $share->getToken() === null
+					|| !hash_equals($share->getToken(), $refreshToken)
+				) {
+					return new DataResponse(
+						['error' => 'invalid_grant'],
+						Http::STATUS_UNAUTHORIZED
+					);
+				}
+
+				$subject = $share->getShareOwner();
+				$audience = $share->getSharedWith();
+				$clientId = $share->getId();
+			} else {
+				// not a legacy share, check if it's a unified share ('oc_sharing_share')
+				[$unifiedShare, $recipient] = $this->unifiedShareHandler->getShareAndRemoteRecipientBySecret($refreshToken) ?? throw new ShareNotFound();
+
+				$subject = $unifiedShare->owner->userId;
+				$audience = $recipient->value . '@' . $recipient->instance;
+				$clientId = FederationSharingService::PROVIDER_ID_PREFIX . ':' . $unifiedShare->id . ':' . $recipient->id;
 			}
 
 			$expiresIn = 3600;
@@ -222,9 +249,9 @@ class TokenController extends ApiController {
 
 			$payload = [
 				'iss' => $issuer,
-				'sub' => $share->getShareOwner(),
-				'aud' => $share->getSharedWith(),
-				'client_id' => $share->getId(),
+				'sub' => $subject,
+				'aud' => $audience,
+				'client_id' => $clientId,
 				'iat' => $issuedAt,
 				'exp' => $expiresAt,
 				'jti' => $this->random->generate(16, ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS),

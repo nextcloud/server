@@ -70,6 +70,7 @@ abstract class SharingBase extends Base {
 
 				$share = $closure();
 				$this->dbConnection->commit();
+				$this->manager->dispatchPendingEvents();
 
 				$data = $share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $this->accessContext);
 				$this->writeArrayInOutputFormat($input, $output, $data);
@@ -77,6 +78,7 @@ abstract class SharingBase extends Base {
 				return Base::SUCCESS;
 			} catch (Exception $exception) {
 				$this->dbConnection->rollBack();
+				$this->manager->discardPendingEvents();
 				throw $exception;
 			}
 		} catch (AShareException $aShareException) {

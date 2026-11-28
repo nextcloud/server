@@ -225,7 +225,7 @@ final readonly class SharingBackend implements ISharingBackend {
 	}
 
 	#[\Override]
-	public function addShareRecipient(string $id, ShareRecipient $recipient): void {
+	public function addShareRecipient(string $id, ShareRecipient $recipient): string {
 		$this->assertInTransaction();
 
 		if ($recipient->secret === null) {
@@ -236,11 +236,13 @@ final readonly class SharingBackend implements ISharingBackend {
 			throw new RuntimeException('The initiator must not be null.');
 		}
 
+		$recipientId = $this->snowflakeGenerator->nextId();
+
 		try {
 			$qb = $this->connection->getQueryBuilder();
 
 			$values = [
-				'id' => $qb->createNamedParameter($this->snowflakeGenerator->nextId()),
+				'id' => $qb->createNamedParameter($recipientId),
 				'share_id' => $qb->createNamedParameter($id),
 				'recipient_class_id' => $qb->createNamedParameter($this->classMapper->getClassId($recipient->class), IQueryBuilder::PARAM_INT),
 				'recipient_value' => $qb->createNamedParameter($recipient->value),
@@ -264,6 +266,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 			throw $exception;
 		}
+
+		return $recipientId;
 	}
 
 	#[\Override]
@@ -571,6 +575,29 @@ final readonly class SharingBackend implements ISharingBackend {
 		$this->assertInTransaction();
 
 		return $this->list($accessContext, null, $filterSourceTypeClass, $filterSourceTypeValue, $filterState, $filterUserStatus, $lastShareID, $limit);
+	}
+
+	#[\Override]
+	public function getShareIdByRecipientSecret(string $secret): ?string {
+		$this->assertInTransaction();
+
+		$qb = $this->connection->getQueryBuilder();
+
+		/** @var int|string|false $shareId */
+		$shareId = $qb
+			->select('share_id')
+			->from('sharing_share_recipients')
+			->where($qb->expr()->eq('recipient_secret', $qb->createNamedParameter($secret)))
+			->executeQuery()
+			->fetchOne();
+
+		if ($shareId === false) {
+			return null;
+		}
+
+		/** @var non-empty-string $shareId */
+		$shareId = (string)$shareId;
+		return $shareId;
 	}
 
 	#[\Override]
@@ -980,6 +1007,7 @@ final readonly class SharingBackend implements ISharingBackend {
 						$initiatorInstance,
 					),
 					[],
+					$recipientId,
 				);
 
 				$shareRecipientTypeClasses[$shareId] ??= [];
@@ -1037,6 +1065,7 @@ final readonly class SharingBackend implements ISharingBackend {
 					$recipient->secret,
 					$recipient->initiator,
 					$permissions,
+					$recipient->id,
 				);
 			}
 		}
