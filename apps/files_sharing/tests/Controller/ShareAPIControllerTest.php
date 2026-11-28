@@ -823,7 +823,7 @@ class ShareAPIControllerTest extends TestCase {
 			'file_source' => 2,
 			'file_target' => 'target',
 			'file_parent' => 3,
-			'token' => null,
+			'token' => 'token',
 			'expiration' => '2000-01-02 23:59:59',
 			'permissions' => 4,
 			'attributes' => null,
@@ -833,7 +833,7 @@ class ShareAPIControllerTest extends TestCase {
 			'path' => 'folder',
 			'storage' => 101,
 			'mail_send' => 0,
-			'url' => null,
+			'url' => 'url',
 			'uid_file_owner' => 'ownerId',
 			'note' => 'personal note',
 			'label' => 'first link share',
@@ -3900,8 +3900,8 @@ class ShareAPIControllerTest extends TestCase {
 		$expects = [
 			'password' => 'redacted',
 			'expiration' => '2001-01-02 00:00:00',
-			'token' => null,
-			'url' => null,
+			'token' => 'myToken',
+			'url' => 'myLink',
 			'label' => 'new link share',
 			'share_with' => 'redacted',
 		];
