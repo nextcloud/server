@@ -33,6 +33,20 @@ export default defineConfig([
 		},
 	},
 
+	// The @nextcloud/vue root entry keeps every module with side effects (e.g. the emoji data)
+	{
+		name: 'server/no-nextcloud-vue-root-import',
+		files: ['**/*.js', '**/*.ts', '**/*.vue'],
+		rules: {
+			'no-restricted-imports': ['error', {
+				paths: [{
+					name: '@nextcloud/vue',
+					message: 'Import from the component path instead, e.g. @nextcloud/vue/components/NcButton',
+				}],
+			}],
+		},
+	},
+
 	// Ensure that cjs files are treated as Node scripts
 	{
 		name: 'server/scripts-are-cjs',

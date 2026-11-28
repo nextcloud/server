@@ -8,11 +8,11 @@ import type { NcSelectUsersModel } from '@nextcloud/vue/components/NcSelectUsers
 import type { IAppstoreApp, IAppstoreExApp } from '../apps.d.ts'
 
 import { t } from '@nextcloud/l10n'
-import { NcLoadingIcon } from '@nextcloud/vue'
 import { useDebounceFn } from '@vueuse/core'
 import { computed, ref, watch } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcSelectUsers from '@nextcloud/vue/components/NcSelectUsers'
 import { useAppsStore } from '../store/apps.ts'
 import { useGroupsStore } from '../store/groups.ts'

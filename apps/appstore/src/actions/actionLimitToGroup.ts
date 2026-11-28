@@ -8,7 +8,7 @@ import type { AppAction } from './index.ts'
 
 import { mdiAccountGroup } from '@mdi/js'
 import { t } from '@nextcloud/l10n'
-import { spawnDialog } from '@nextcloud/vue'
+import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import { defineAsyncComponent } from 'vue'
 import { canLimitToGroups } from '../utils/appStatus.ts'
 

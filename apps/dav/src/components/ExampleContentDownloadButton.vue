@@ -4,7 +4,7 @@
  -->
 
 <script setup lang="ts">
-import { NcButton } from '@nextcloud/vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
 import IconDownload from 'vue-material-design-icons/TrayArrowDown.vue'
 
 defineProps<{

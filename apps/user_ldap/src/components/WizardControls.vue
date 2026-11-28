@@ -35,9 +35,10 @@
 
 <script lang="ts" setup>
 import { t } from '@nextcloud/l10n'
-import { NcButton, NcLoadingIcon } from '@nextcloud/vue'
 import { storeToRefs } from 'pinia'
 import { computed, ref, watch } from 'vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import Information from 'vue-material-design-icons/ContentCopy.vue'
 import { testConfiguration } from '../services/ldapConfigService.ts'
 import { useLDAPConfigsStore } from '../store/configs.ts'

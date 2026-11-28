@@ -7,8 +7,8 @@
 import type { IAuthMechanism } from '../../types.ts'
 
 import { t } from '@nextcloud/l10n'
-import { NcLoadingIcon } from '@nextcloud/vue'
 import { computed, ref, watch, watchEffect } from 'vue'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import ConfigurationEntry from './ConfigurationEntry.vue'
 import { ConfigurationFlag, ConfigurationType } from '../../types.ts'
 

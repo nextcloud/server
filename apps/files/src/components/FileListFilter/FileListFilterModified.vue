@@ -27,9 +27,9 @@
 import type { ITimePreset, ModifiedFilter } from '../../filters/ModifiedFilter.ts'
 
 import { t } from '@nextcloud/l10n'
-import { NcDateTimePicker } from '@nextcloud/vue'
 import { onMounted, onUnmounted, ref, watch } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
+import NcDateTimePicker from '@nextcloud/vue/components/NcDateTimePicker'
 
 const props = defineProps<{
 	filter: ModifiedFilter

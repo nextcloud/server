@@ -6,8 +6,9 @@
 <script setup lang="ts">
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
-import { NcNoteCard, NcSettingsSection } from '@nextcloud/vue'
 import { ref } from 'vue'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import SettingsAdminHomeStorage from '../components/SettingsAdminHomeStorage.vue'
 import SettingsAdminRecoveryKey from '../components/SettingsAdminRecoveryKey.vue'
 import SettingsAdminRecoveryKeyChange from '../components/SettingsAdminRecoveryKeyChange.vue'

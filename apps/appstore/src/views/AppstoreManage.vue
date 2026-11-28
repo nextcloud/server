@@ -6,11 +6,12 @@
 <script setup lang="ts">
 import { mdiUpdate } from '@mdi/js'
 import { t } from '@nextcloud/l10n'
-import { NcIconSvgWrapper, spawnDialog } from '@nextcloud/vue'
+import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import { computed, defineAsyncComponent } from 'vue'
 import { useRoute } from 'vue-router'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import AppGrid from '../components/AppGrid/AppGrid.vue'
 import AppTable from '../components/AppTable/AppTable.vue'
