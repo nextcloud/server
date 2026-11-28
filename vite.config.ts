@@ -231,7 +231,13 @@ export default createAppConfig(Object.fromEntries(viteModuleEntries), {
 						const appId = apps.length === 1 ? apps[0] : 'common'
 						return `${appId}-[name]-[hash][extname]`
 					},
-					experimentalMinChunkSize: 100 * 1024,
+					// keep lazily loaded locale data in its own chunks: Rollup would merge these
+					// small side-effect free chunks into chunks that load on every page
+					manualChunks(id) {
+						const locale = id.match(/@videojs\/core\/dist\/default\/i18n\/locales\/([^/]+)\.js$/)?.[1]
+						return locale ? `videojs-locale-${locale}` : undefined
+					},
+					experimentalMinChunkSize: 50 * 1024,
 					/* // with rolldown-vite:
 					advancedChunks: {
 						groups: [
