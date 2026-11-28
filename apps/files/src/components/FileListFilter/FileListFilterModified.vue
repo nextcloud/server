@@ -27,13 +27,15 @@
 import type { ITimePreset, ModifiedFilter } from '../../filters/ModifiedFilter.ts'
 
 import { t } from '@nextcloud/l10n'
-import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { defineAsyncComponent, onMounted, onUnmounted, ref, watch } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
-import NcDateTimePicker from '@nextcloud/vue/components/NcDateTimePicker'
 
 const props = defineProps<{
 	filter: ModifiedFilter
 }>()
+
+// Only shown for a custom range: keeps the date picker and the date-fns locales out of the files bundle
+const NcDateTimePicker = defineAsyncComponent(() => import('@nextcloud/vue/components/NcDateTimePicker'))
 
 const selectedOption = ref<typeof timePresets[number]>()
 watch(selectedOption, (preset) => {
