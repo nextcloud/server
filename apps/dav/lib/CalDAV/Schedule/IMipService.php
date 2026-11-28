@@ -12,6 +12,7 @@ use OC\URLGenerator;
 use OCA\DAV\CalDAV\EventReader;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Config\IUserConfig;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -19,6 +20,7 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory as L10NFactory;
 use OCP\Mail\EMailDetails;
 use OCP\Mail\IEMailTemplate;
+use OCP\Mail\IMailer;
 use OCP\Security\ISecureRandom;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
@@ -42,6 +44,32 @@ class IMipService {
 		'meeting_location' => 'LOCATION'
 	];
 
+	/**
+	 * Properties compared to build an instance's changed-property delta:
+	 * everything the invitation email can show a diff for
+	 * (SUMMARY/DESCRIPTION/LOCATION/URL via STRING_DIFF, DTSTART/DTEND/DURATION
+	 * for the "when" string), plus SEQUENCE/LAST-MODIFIED and the rest of
+	 * iTip's own significantChangeProperties (RRULE/RDATE/EXDATE/STATUS;
+	 * DUE is VTODO-only and not relevant to VEVENT invites).
+	 *
+	 * @var string[]
+	 */
+	private const array INSTANCE_DIFF_PROPERTIES = [
+		'SUMMARY',
+		'DESCRIPTION',
+		'LOCATION',
+		'URL',
+		'DTSTART',
+		'DTEND',
+		'DURATION',
+		'STATUS',
+		'RRULE',
+		'RDATE',
+		'EXDATE',
+		'SEQUENCE',
+		'LAST-MODIFIED',
+	];
+
 	public function __construct(
 		private URLGenerator $urlGenerator,
 		private IDBConnection $db,
@@ -51,6 +79,7 @@ class IMipService {
 		private readonly IUserManager $userManager,
 		private readonly IUserConfig $userConfig,
 		private readonly IAppConfig $appConfig,
+		private readonly IMailer $mailer,
 	) {
 		$language = $this->l10nFactory->findGenericLanguage();
 		$locale = $this->l10nFactory->findLocale($language);
@@ -90,6 +119,149 @@ class IMipService {
 	private function isLinkUrl(string $url): bool {
 		return filter_var($url, FILTER_VALIDATE_URL) !== false
 			&& (str_starts_with($url, 'http://') || str_starts_with($url, 'https://'));
+	}
+
+	public function instanceKey(VEvent $event): string {
+		return self::readPropertyWithDefault($event, 'UID', '') . '#' . self::readPropertyWithDefault($event, 'RECURRENCE-ID', '');
+	}
+
+	/**
+	 * Every VEVENT component directly in $calendar, in document order.
+	 *
+	 * @return list<VEvent>
+	 */
+	public function eventInstances(VCalendar $calendar): array {
+		return array_values(array_filter(
+			$calendar->getComponents(),
+			static fn ($component) => $component instanceof VEvent,
+		));
+	}
+
+	/**
+	 * Names of the RFC5545 properties that differ between $newEvent and
+	 * $oldEvent.
+	 *
+	 * @return string[]
+	 */
+	public function diffInstance(VEvent $newEvent, VEvent $oldEvent): array {
+		$changed = [];
+		foreach (self::INSTANCE_DIFF_PROPERTIES as $property) {
+			if (self::readPropertyWithDefault($newEvent, $property, '') !== self::readPropertyWithDefault($oldEvent, $property, '')) {
+				$changed[] = $property;
+			}
+		}
+		return $changed;
+	}
+
+	/**
+	 * Builds the full REQUEST invitation/update email, including the
+	 * old-vs-new diff and, when the recipient is eligible, the Accept/Decline
+	 * response buttons.
+	 */
+	public function buildRequestEmail(
+		Message $iTipMessage,
+		VEvent $vEvent,
+		?VEvent $oldVevent,
+		Property $attendee,
+		string $recipient,
+		?string $recipientName,
+		string $sender,
+		?string $senderName,
+		int $lastOccurrence,
+	): IEMailTemplate {
+		$data = $this->withRecipientNames($this->buildBodyData($vEvent, $oldVevent), $recipient, $recipientName, $sender, $senderName);
+
+		$template = $this->newTemplate(IMipPlugin::METHOD_REQUEST, $data, $senderName !== null ? $sender : '');
+		$this->addSubjectAndHeading($template, IMipPlugin::METHOD_REQUEST, $data['invitee_name'], $data['meeting_title'], $oldVevent !== null);
+		$this->addEventDetails($template, $vEvent, $data);
+
+		// Only add response buttons to invitation requests: Fix Issue #11230
+		if ($this->getAttendeeRsvpOrReqForParticipant($attendee)) {
+			/*
+			** Only offer invitation accept/reject buttons, which link back to the
+			** nextcloud server, to recipients who can access the nextcloud server via
+			** their internet/intranet.  Issue #12156
+			**
+			** The app setting is stored in the appconfig database table.
+			**
+			** For nextcloud servers accessible to the public internet, the default
+			** "invitation_link_recipients" value "yes" (all recipients) is appropriate.
+			**
+			** When the nextcloud server is restricted behind a firewall, accessible
+			** only via an internal network or via vpn, you can set "dav.invitation_link_recipients"
+			** to the email address or email domain, or comma separated list of addresses or domains,
+			** of recipients who can access the server.
+			**
+			** To always deliver URLs, set invitation_link_recipients to "yes".
+			** To suppress URLs entirely, set invitation_link_recipients to boolean "no".
+			*/
+			$recipientDomain = substr(strrchr($recipient, '@'), 1);
+			$invitationLinkRecipients = explode(',', preg_replace('/\s+/', '', strtolower($this->appConfig->getValueString('dav', 'invitation_link_recipients', 'yes'))));
+
+			if (strcmp('yes', $invitationLinkRecipients[0]) === 0
+				|| in_array(strtolower($recipient), $invitationLinkRecipients, true)
+				|| in_array(strtolower($recipientDomain), $invitationLinkRecipients, true)) {
+				$token = $this->createInvitationToken($iTipMessage, $vEvent, $lastOccurrence);
+				$this->addResponseButtons($template, $token);
+			}
+		}
+
+		$template->addFooter();
+		return $template;
+	}
+
+	/**
+	 * Builds the REPLY email an organizer receives when an attendee responds.
+	 */
+	public function buildReplyEmail(
+		Message $iTipMessage,
+		VEvent $vEvent,
+		string $recipient,
+		?string $recipientName,
+		string $sender,
+		?string $senderName,
+	): IEMailTemplate {
+		$data = $this->withRecipientNames($this->buildReplyBodyData($vEvent), $recipient, $recipientName, $sender, $senderName);
+
+		$template = $this->newTemplate(IMipPlugin::METHOD_REPLY, $data, $senderName !== null ? $sender : '');
+		$replyingAttendee = $this->getReplyingAttendee($iTipMessage);
+		$this->addSubjectAndHeading($template, IMipPlugin::METHOD_REPLY, $data['invitee_name'], $data['meeting_title'], false, $replyingAttendee);
+		$this->addEventDetails($template, $vEvent, $data);
+		$template->addFooter();
+		return $template;
+	}
+
+	/**
+	 * Builds the CANCEL email an attendee receives when dropped from an event.
+	 */
+	public function buildCancellationEmail(
+		VEvent $vEvent,
+		string $recipient,
+		?string $recipientName,
+		string $sender,
+		?string $senderName,
+	): IEMailTemplate {
+		$data = $this->withRecipientNames($this->buildCancelledBodyData($vEvent), $recipient, $recipientName, $sender, $senderName);
+
+		$template = $this->newTemplate(IMipPlugin::METHOD_CANCEL, $data, $senderName !== null ? $sender : '');
+		$this->addSubjectAndHeading($template, IMipPlugin::METHOD_CANCEL, $data['invitee_name'], $data['meeting_title'], false);
+		$this->addEventDetails($template, $vEvent, $data);
+		$template->addFooter();
+		return $template;
+	}
+
+	private function withRecipientNames(array $data, string $recipient, ?string $recipientName, string $sender, ?string $senderName): array {
+		$data['attendee_name'] = $recipientName ?: $recipient;
+		$data['invitee_name'] = $senderName ?: $sender;
+		return $data;
+	}
+
+	private function newTemplate(string $method, array $data, string $senderEmail): IEMailTemplate {
+		$template = $this->mailer->createEMailTemplate('dav.calendarInvite.' . $method, $data);
+		$template->setLanguage($this->getLanguageCode());
+		$template->addHeader();
+		$template->addBodySender($data['invitee_name'], $senderEmail);
+		return $template;
 	}
 
 	/**
@@ -448,7 +620,7 @@ class IMipService {
 		// generate localized when string
 		// TRANSLATORS
 		// Indicates when a calendar event will happen, shown on invitation emails
-		// Output produced in order, output varies depending on if the event is absolute or releative:
+		// Output produced in order, output varies depending on if the event is absolute or relative:
 		// Absolute: Every Month on the 1, 8 for the entire day
 		// Relative: Every Month on the First Sunday, Saturday for the entire day
 		// Absolute: Every Month on the 1, 8 for the entire day until December 31, 2024
@@ -521,7 +693,7 @@ class IMipService {
 		// generate localized when string
 		// TRANSLATORS
 		// Indicates when a calendar event will happen, shown on invitation emails
-		// Output produced in order, output varies depending on if the event is absolute or releative:
+		// Output produced in order, output varies depending on if the event is absolute or relative:
 		// Absolute: Every Year in July on the 1st for the entire day
 		// Relative: Every Year in July on the First Sunday, Saturday for the entire day
 		// Absolute: Every Year in July on the 1st for the entire day until July 31, 2026
@@ -1105,6 +1277,35 @@ class IMipService {
 			->executeStatement();
 
 		return $token;
+	}
+
+	/**
+	 * Delete the invitation tokens a CANCEL message revokes: all tokens of the
+	 * recipient for the event if the series is cancelled, otherwise only those
+	 * for the cancelled occurrences
+	 */
+	public function deleteInvitationTokens(Message $iTipMessage): void {
+		$recurrenceIds = [];
+		foreach ($this->eventInstances($iTipMessage->message) as $vEvent) {
+			if (!isset($vEvent->{'RECURRENCE-ID'})) {
+				$recurrenceIds = null;
+				break;
+			}
+			$recurrenceIds[] = $vEvent->{'RECURRENCE-ID'}->serialize();
+		}
+		if ($recurrenceIds === []) {
+			return;
+		}
+
+		$query = $this->db->getQueryBuilder();
+		$query->delete('calendar_invitations')
+			->where($query->expr()->eq('uid', $query->createNamedParameter($iTipMessage->uid)))
+			->andWhere($query->expr()->eq('attendee', $query->createNamedParameter($iTipMessage->recipient)))
+			->andWhere($query->expr()->eq('organizer', $query->createNamedParameter($iTipMessage->sender)));
+		if ($recurrenceIds !== null) {
+			$query->andWhere($query->expr()->in('recurrenceid', $query->createNamedParameter($recurrenceIds, IQueryBuilder::PARAM_STR_ARRAY)));
+		}
+		$query->executeStatement();
 	}
 
 	/**

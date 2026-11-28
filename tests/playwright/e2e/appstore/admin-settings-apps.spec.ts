@@ -22,6 +22,12 @@ test.describe('Settings: App management', () => {
 		await appstorePage.appsTable().waitFor({ state: 'visible', timeout: 10000 })
 	})
 
+	test.afterAll(async () => {
+		// Leave the apps the tests toggle in the state the other suites expect
+		await runOcc(['app:disable', 'testing'], { failOnError: false })
+		await runOcc(['app:enable', 'updatenotification'], { failOnError: false })
+	})
+
 	test('Can enable an installed app', async ({ page, appstorePage }) => {
 		// Intercept the enable app request
 		const enableRequest = page.waitForResponse((response) => response.url().includes('/ocs/v2.php/apps/appstore/api/v1/apps/enable'))

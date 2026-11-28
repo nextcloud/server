@@ -76,6 +76,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Controller\\DirectEditingViewController' => __DIR__ . '/..' . '/../lib/Controller/DirectEditingViewController.php',
         'OCA\\Files\\Controller\\FilenamesController' => __DIR__ . '/..' . '/../lib/Controller/FilenamesController.php',
         'OCA\\Files\\Controller\\OpenLocalEditorController' => __DIR__ . '/..' . '/../lib/Controller/OpenLocalEditorController.php',
+        'OCA\\Files\\Controller\\OpenedController' => __DIR__ . '/..' . '/../lib/Controller/OpenedController.php',
         'OCA\\Files\\Controller\\TemplateController' => __DIR__ . '/..' . '/../lib/Controller/TemplateController.php',
         'OCA\\Files\\Controller\\TransferOwnershipController' => __DIR__ . '/..' . '/../lib/Controller/TransferOwnershipController.php',
         'OCA\\Files\\Controller\\ViewController' => __DIR__ . '/..' . '/../lib/Controller/ViewController.php',
@@ -90,6 +91,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Event\\LoadSidebar' => __DIR__ . '/..' . '/../lib/Event/LoadSidebar.php',
         'OCA\\Files\\Exception\\TransferOwnershipException' => __DIR__ . '/..' . '/../lib/Exception/TransferOwnershipException.php',
         'OCA\\Files\\Helper' => __DIR__ . '/..' . '/../lib/Helper.php',
+        'OCA\\Files\\Listener\\BeforeAppConfigSetListener' => __DIR__ . '/..' . '/../lib/Listener/BeforeAppConfigSetListener.php',
         'OCA\\Files\\Listener\\LoadSearchPluginsListener' => __DIR__ . '/..' . '/../lib/Listener/LoadSearchPluginsListener.php',
         'OCA\\Files\\Listener\\LoadSidebarListener' => __DIR__ . '/..' . '/../lib/Listener/LoadSidebarListener.php',
         'OCA\\Files\\Listener\\NodeAddedToFavoriteListener' => __DIR__ . '/..' . '/../lib/Listener/NodeAddedToFavoriteListener.php',
@@ -102,6 +104,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Migration\\Version12101Date20221011153334' => __DIR__ . '/..' . '/../lib/Migration/Version12101Date20221011153334.php',
         'OCA\\Files\\Migration\\Version2003Date20241021095629' => __DIR__ . '/..' . '/../lib/Migration/Version2003Date20241021095629.php',
         'OCA\\Files\\Notification\\Notifier' => __DIR__ . '/..' . '/../lib/Notification/Notifier.php',
+        'OCA\\Files\\PublicCapabilities' => __DIR__ . '/..' . '/../lib/PublicCapabilities.php',
         'OCA\\Files\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
         'OCA\\Files\\Search\\FileAccountScopedSearchProvider' => __DIR__ . '/..' . '/../lib/Search/FileAccountScopedSearchProvider.php',
         'OCA\\Files\\Search\\FilesSearchProvider' => __DIR__ . '/..' . '/../lib/Search/FilesSearchProvider.php',
@@ -123,6 +126,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Sharing\\Property\\NodeGridViewSharePropertyType' => __DIR__ . '/..' . '/../lib/Sharing/Property/NodeGridViewSharePropertyType.php',
         'OCA\\Files\\Sharing\\Source\\NodeShareSourceMetadata' => __DIR__ . '/..' . '/../lib/Sharing/Source/NodeShareSourceMetadata.php',
         'OCA\\Files\\Sharing\\Source\\NodeShareSourceType' => __DIR__ . '/..' . '/../lib/Sharing/Source/NodeShareSourceType.php',
+        'OCA\\Files\\TokenScopes' => __DIR__ . '/..' . '/../lib/TokenScopes.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

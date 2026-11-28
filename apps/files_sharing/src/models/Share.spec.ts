@@ -4,7 +4,7 @@
  */
 
 import { describe, expect, it, vi } from 'vitest'
-import Vue from 'vue'
+import { computed, reactive } from 'vue'
 import Share from './Share.ts'
 
 vi.mock('../services/SharingService.ts', () => ({
@@ -22,21 +22,13 @@ describe('Share', () => {
 		expect(share.sendPasswordByTalk).toBe(true)
 	})
 
-	it('triggers reactive updates when sendPasswordByTalk is set', async () => {
-		const share = new Share({ id: 1 })
-		const vm = new Vue({
-			data: { state: share.state },
-			computed: {
-				enabled(): boolean {
-					return share.sendPasswordByTalk
-				},
-			},
-		})
-		expect(vm.enabled).toBe(false)
+	it('triggers reactive updates when sendPasswordByTalk is set', () => {
+		const share = reactive(new Share({ id: 1 }))
+		const enabled = computed(() => share.sendPasswordByTalk)
+		expect(enabled.value).toBe(false)
 
 		share.sendPasswordByTalk = true
-		await vm.$nextTick()
 
-		expect(vm.enabled).toBe(true)
+		expect(enabled.value).toBe(true)
 	})
 })

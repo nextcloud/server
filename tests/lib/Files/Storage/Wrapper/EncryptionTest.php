@@ -386,6 +386,42 @@ class EncryptionTest extends Storage {
 		return self::invokePrivate($instance, 'unencryptedSize');
 	}
 
+	public static function dataDirectDownload(): array {
+		return [
+			'encrypted file' => [new CacheEntry(['encrypted' => true, 'fileid' => 42]), false],
+			'unencrypted file' => [new CacheEntry(['encrypted' => false, 'fileid' => 42]), ['url' => 'https://example.com/42']],
+			'no cache entry' => [false, false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataDirectDownload')]
+	public function testGetDirectDownload(CacheEntry|false $cacheEntry, array|false $expected): void {
+		$cache = $this->createMock(Cache::class);
+		$cache->method('get')->with('/test.txt')->willReturn($cacheEntry);
+
+		$sourceStorage = $this->createMock(\OC\Files\Storage\Storage::class);
+		$sourceStorage->method('getDirectDownload')->with('/test.txt')->willReturn(['url' => 'https://example.com/42']);
+
+		$instance = $this->getInstanceWithMockedMethods(['getCache'], $sourceStorage);
+		$instance->method('getCache')->willReturn($cache);
+
+		$this->assertSame($expected, $instance->getDirectDownload('/test.txt'));
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataDirectDownload')]
+	public function testGetDirectDownloadById(CacheEntry|false $cacheEntry, array|false $expected): void {
+		$cache = $this->createMock(Cache::class);
+		$cache->method('get')->with(42)->willReturn($cacheEntry);
+
+		$sourceStorage = $this->createMock(\OC\Files\Storage\Storage::class);
+		$sourceStorage->method('getDirectDownloadById')->with('42')->willReturn(['url' => 'https://example.com/42']);
+
+		$instance = $this->getInstanceWithMockedMethods(['getCache'], $sourceStorage);
+		$instance->method('getCache')->willReturn($cache);
+
+		$this->assertSame($expected, $instance->getDirectDownloadById('42'));
+	}
+
 	public function testUnencryptedSizeIsForgottenOnceStoredInFileCache(): void {
 		$cachedUnencryptedSize = 0;
 

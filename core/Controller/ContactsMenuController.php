@@ -8,7 +8,9 @@
 namespace OC\Core\Controller;
 
 use Exception;
+use NCU\AppFramework\Http\Attribute\TokenScope;
 use OC\Contacts\ContactsMenu\Manager;
+use OC\Core\TokenScopes;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
@@ -19,6 +21,7 @@ use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\Teams\ITeamManager;
 
+#[TokenScope(scope: TokenScopes::PEOPLE_READ)]
 class ContactsMenuController extends Controller {
 	public function __construct(
 		IRequest $request,

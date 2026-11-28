@@ -14,7 +14,9 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\StreamResponse;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 
 class LogSettingsController extends Controller {
 
@@ -22,6 +24,7 @@ class LogSettingsController extends Controller {
 		string $appName,
 		IRequest $request,
 		private Log $log,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -39,6 +42,12 @@ class LogSettingsController extends Controller {
 		if (!$this->log instanceof Log) {
 			throw new \UnexpectedValueException('Log file not available');
 		}
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Log file was downloaded',
+			[],
+			false,
+			'settings.log.downloaded',
+		));
 		return new StreamResponse(
 			$this->log->getLogPath(),
 			Http::STATUS_OK,

@@ -56,7 +56,8 @@
 
 		<NcSettingsSection
 			v-if="mainOperations.length > 0"
-			:name="isAdminScope ? t('workflowengine', 'Configured flows') : t('workflowengine', 'Your flows')">
+			:name="isAdminScope ? t('workflowengine', 'Configured flows') : t('workflowengine', 'Your flows')"
+			:class="$style.operations">
 			<TransitionGroup v-if="rules.length > 0" v-bind="slideTransition">
 				<Rule v-for="rule in rules" :key="rule.id" :rule="rule" />
 			</TransitionGroup>
@@ -138,6 +139,10 @@ onMounted(() => {
 
 <style module lang="scss">
 @use "./../styles/operation.scss" as *;
+
+.operations {
+	width: calc(100% - var(--default-grid-baseline) * 7 * 2) !important;
+}
 
 .workflowengine {
 	border-bottom: 1px solid var(--color-border);

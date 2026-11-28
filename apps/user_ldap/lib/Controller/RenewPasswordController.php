@@ -104,7 +104,7 @@ class RenewPasswordController extends Controller {
 
 		try {
 			$userObject = $this->userManager->get($user);
-			if (!is_null($newPassword) && !is_null($userObject) && $userObject->setPassword($user, $newPassword)) {
+			if (!is_null($newPassword) && !is_null($userObject) && $userObject->setPassword($newPassword)) {
 				$this->session->set('loginMessages', [
 					[], [$this->l10n->t('Please login with the new password')]
 				]);

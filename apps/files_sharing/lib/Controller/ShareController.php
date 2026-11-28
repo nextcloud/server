@@ -8,9 +8,11 @@
 
 namespace OCA\Files_Sharing\Controller;
 
+use NCU\AppFramework\Http\Attribute\TokenScope;
 use OC\ServerNotAvailableException;
 use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCA\Files\TokenScopes;
 use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
 use OCA\Files_Sharing\Event\ShareLinkAccessedEvent;
 use OCP\Accounts\IAccountManager;
@@ -49,6 +51,7 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as ShareManager;
 use OCP\Share\IPublicShareTemplateFactory;
 use OCP\Share\IShare;
+use OCP\Util;
 
 /**
  * @package OCA\Files_Sharing\Controllers
@@ -329,6 +332,7 @@ class ShareController extends AuthPublicShareController {
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[NoSameSiteCookieRequired]
+	#[TokenScope(scope: TokenScopes::FILES_READ)]
 	public function downloadShare(string $token, ?string $files = null, string $path = ''): NotFoundResponse|RedirectResponse|DataResponse {
 		$this->userSession->setIncognitoMode(true);
 
@@ -391,7 +395,7 @@ class ShareController extends AuthPublicShareController {
 
 		$davPath = '';
 		if ($node !== $share->getNode()) {
-			$davPath = substr($node->getPath(), strlen($share->getNode()->getPath()));
+			$davPath = Util::encodePath(substr($node->getPath(), strlen($share->getNode()->getPath())));
 		}
 
 		$params = [];

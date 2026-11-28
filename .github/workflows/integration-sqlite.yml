@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   changes:
-    runs-on: ubuntu-latest-low
+    runs-on: ['ubuntu-latest', 'self-hosted']
 
     outputs:
       src: ${{ steps.changes.outputs.src}}
@@ -39,7 +39,7 @@ jobs:
               - 'core/shipped.json'
 
   integration-sqlite:
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
 
     needs: changes
     if: needs.changes.outputs.src != 'false'
@@ -70,10 +70,10 @@ jobs:
           - 'videoverification_features'
           - 'guests_features'
 
-        php-versions: ['8.3', '8.5']
+        php-versions: ['8.3', '8.6']
         guests-versions: ['main']
         spreed-versions: ['main']
-        activity-versions: ['master']
+        activity-versions: ['main']
 
     services:
       redis:
@@ -179,7 +179,7 @@ jobs:
   summary:
     permissions:
       contents: none
-    runs-on: ubuntu-latest-low
+    runs-on: ['ubuntu-latest', 'self-hosted']
     needs: [changes, integration-sqlite]
 
     if: always()

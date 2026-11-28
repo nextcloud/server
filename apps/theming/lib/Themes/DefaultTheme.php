@@ -73,7 +73,11 @@ class DefaultTheme implements ITheme {
 
 	#[\Override]
 	public function getMeta(): array {
-		return [];
+		// https://html.spec.whatwg.org/multipage/semantics.html#meta-color-scheme
+		return [[
+			'name' => 'color-scheme',
+			'content' => 'light',
+		]];
 	}
 
 	#[\Override]

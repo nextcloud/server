@@ -27,6 +27,14 @@ class DyslexiaFont extends DefaultTheme implements ITheme {
 		return $this->l->t('Dyslexia font');
 	}
 
+	/**
+	 * Only changes the font, the color scheme comes from the color theme
+	 */
+	#[\Override]
+	public function getMeta(): array {
+		return [];
+	}
+
 	#[\Override]
 	public function getEnableLabel(): string {
 		return $this->l->t('Enable dyslexia font');

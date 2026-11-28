@@ -9,6 +9,8 @@ import { createApp, defineAsyncComponent } from 'vue'
 const views = {
 	auth: defineAsyncComponent(() => import('./views/LoginFlowAuth.vue')),
 	grant: defineAsyncComponent(() => import('./views/LoginFlowGrant.vue')),
+	'auth-v2': defineAsyncComponent(() => import('./views/LoginFlowV2.vue')),
+	'grant-v2': defineAsyncComponent(() => import('./views/LoginFlowV2.vue')),
 	done: defineAsyncComponent(() => import('./views/LoginFlowDone.vue')),
 }
 

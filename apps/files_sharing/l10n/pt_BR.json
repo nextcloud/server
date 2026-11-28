@@ -146,7 +146,8 @@
     "Copy" : "Copiar",
     "Send link via email" : "Enviar link por e-mail",
     "Enter an email address or paste a list" : "Digite um endereço de e-mail ou cole uma lista",
-    "Remove email" : "Remover e-mail",
+    "Recipient emails" : "E-mails dos destinatários",
+    "Remove email: {email}" : "Remover e-mail: {email}",
     "Select a destination" : "Selecione um destino",
     "Select" : "Selecionar",
     "What are you requesting?" : "O que você está solicitando?",
@@ -289,7 +290,7 @@
     "Allow editing" : "Permitir edição",
     "Upload only" : "Somente upload",
     "Advanced settings" : "Configurações avançadas",
-    "Share label" : "Compartilhar etiqueta",
+    "Share label" : "Rótulo do compartilhamento",
     "Share link token" : "Token do link de compartilhamento",
     "Set the public share link token to something easy to remember or generate a new token. Tokens can be up to {maxLength} characters long and may only contain letters, numbers, and hyphens. It is not recommended to use a guessable token for shares which contain sensitive information." : "Defina o token do link de compartilhamento público com algo fácil de lembrar ou gere um novo token. Os tokens podem ter até {maxLength} caracteres e devem conter apenas letras, números e hífens. Não é recomendável usar um token fácil de adivinhar para compartilhamentos que contenham informações confidenciais.",
     "Generating…" : "Gerando…",
@@ -415,12 +416,13 @@
     "Share not found" : "Compartilhamento não encontrado",
     "Back to %s" : "Voltar para %s",
     "Add to your Nextcloud" : "Adicionar ao seu Nextcloud",
+    "Cannot share with a disabled account." : "Não é possível compartilhar com uma conta desativada.",
     "Group sharing is disabled by the administrator" : "O compartilhamento para grupos foi desabilitado pelo administrador",
     "Public link sharing is disabled by the administrator" : "O compartilhamento por link público foi desativado pelo administrador",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "O compartilhamento %1$s falhou porque a infraestrutura não permite compartilhamentos do tipo %2$s",
     "Public upload disabled by the administrator" : "Upload público foi desativado pelo administrador",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Os tokens devem conter pelo menos 1 caractere e podem incluir apenas letras, números ou um hífen",
-    "Via “{folder}”" : "Via “{folder}”",
+    "Remove email" : "Remover e-mail",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Defina o token do link de compartilhamento público para algo fácil de lembrar ou gere um novo token. Não é recomendado usar um token fácil de adivinhar para compartilhamentos que contenham informações confidenciais."
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

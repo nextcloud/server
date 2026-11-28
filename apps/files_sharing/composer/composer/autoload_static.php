@@ -78,7 +78,6 @@ class ComposerStaticInitFiles_Sharing
         'OCA\\Files_Sharing\\External\\Watcher' => __DIR__ . '/..' . '/../lib/External/Watcher.php',
         'OCA\\Files_Sharing\\Helper' => __DIR__ . '/..' . '/../lib/Helper.php',
         'OCA\\Files_Sharing\\Hooks' => __DIR__ . '/..' . '/../lib/Hooks.php',
-        'OCA\\Files_Sharing\\ISharedMountPoint' => __DIR__ . '/..' . '/../lib/ISharedMountPoint.php',
         'OCA\\Files_Sharing\\ISharedStorage' => __DIR__ . '/..' . '/../lib/ISharedStorage.php',
         'OCA\\Files_Sharing\\Listener\\BeforeDirectFileDownloadListener' => __DIR__ . '/..' . '/../lib/Listener/BeforeDirectFileDownloadListener.php',
         'OCA\\Files_Sharing\\Listener\\BeforeNodeReadListener' => __DIR__ . '/..' . '/../lib/Listener/BeforeNodeReadListener.php',
@@ -122,6 +121,7 @@ class ComposerStaticInitFiles_Sharing
         'OCA\\Files_Sharing\\SharedMount' => __DIR__ . '/..' . '/../lib/SharedMount.php',
         'OCA\\Files_Sharing\\SharedStorage' => __DIR__ . '/..' . '/../lib/SharedStorage.php',
         'OCA\\Files_Sharing\\SharesReminderJob' => __DIR__ . '/..' . '/../lib/SharesReminderJob.php',
+        'OCA\\Files_Sharing\\TokenScopes' => __DIR__ . '/..' . '/../lib/TokenScopes.php',
         'OCA\\Files_Sharing\\Updater' => __DIR__ . '/..' . '/../lib/Updater.php',
         'OCA\\Files_Sharing\\ViewOnly' => __DIR__ . '/..' . '/../lib/ViewOnly.php',
     );

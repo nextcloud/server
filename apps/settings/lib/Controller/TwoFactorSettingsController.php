@@ -14,7 +14,9 @@ use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 
 class TwoFactorSettingsController extends Controller {
 
@@ -22,6 +24,7 @@ class TwoFactorSettingsController extends Controller {
 		string $appName,
 		IRequest $request,
 		private MandatoryTwoFactor $mandatoryTwoFactor,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -35,6 +38,16 @@ class TwoFactorSettingsController extends Controller {
 		$this->mandatoryTwoFactor->setState(
 			new EnforcementState($enforced, $enforcedGroups, $excludedGroups)
 		);
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Two-factor authentication enforcement was set to "%s" with enforced groups "%s" and excluded groups "%s"',
+			[
+				'enforced' => $enforced ? 'enabled' : 'disabled',
+				'enforcedGroups' => implode(', ', $enforcedGroups),
+				'excludedGroups' => implode(', ', $excludedGroups),
+			],
+			false,
+			'auth.twofactor_enforcement.updated',
+		));
 
 		return new JSONResponse($this->mandatoryTwoFactor->getState());
 	}

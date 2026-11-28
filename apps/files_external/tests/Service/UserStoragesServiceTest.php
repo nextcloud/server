@@ -8,16 +8,18 @@
 
 namespace OCA\Files_External\Tests\Service;
 
-use OC\Files\Filesystem;
 use OC\User\User;
+use OCA\Files_External\Event\StorageCreatedEvent;
+use OCA\Files_External\Event\StorageDeletedEvent;
 use OCA\Files_External\Lib\StorageConfig;
-use OCA\Files_External\MountConfig;
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\StoragesService;
 use OCA\Files_External\Service\UserStoragesService;
+use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\Traits\UserTrait;
@@ -82,14 +84,8 @@ class UserStoragesServiceTest extends StoragesServiceTestCase {
 		$this->assertSame($storage->getMountOptions(), $newStorage->getMountOptions());
 		$this->assertEquals(0, $newStorage->getStatus());
 
-		// hook called once for user
-		$this->assertHookCall(
-			current(self::$hookCalls),
-			Filesystem::signal_create_mount,
-			$storage->getMountPoint(),
-			MountConfig::MOUNT_TYPE_USER,
-			$this->userId
-		);
+		$this->assertDispatchedEvents([StorageCreatedEvent::class, InvalidateMountCacheEvent::class]);
+		$this->assertEquals([$this->userId], $this->dispatchedEvents[0]->getNewConfig()->getApplicableUsers());
 
 		$nextStorage = $this->service->addStorage($storage);
 		$this->assertEquals($id + 1, $nextStorage->getId());
@@ -113,7 +109,7 @@ class UserStoragesServiceTest extends StoragesServiceTestCase {
 		$backendOptions['password'] = 'anotherPassword';
 		$newStorage->setBackendOptions($backendOptions);
 
-		self::$hookCalls = [];
+		$this->dispatchedEvents = [];
 
 		$newStorage = $this->service->updateStorage($newStorage);
 
@@ -123,50 +119,35 @@ class UserStoragesServiceTest extends StoragesServiceTestCase {
 		$this->assertEmpty($newStorage->getApplicableGroups());
 		$this->assertEquals(0, $newStorage->getStatus());
 
-		// no hook calls
-		$this->assertEmpty(self::$hookCalls);
+		$this->assertEmpty($this->dispatchedEvents);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'deleteStorageDataProvider')]
 	public function testDeleteStorage($backendOptions, $rustyStorageId): void {
 		parent::testDeleteStorage($backendOptions, $rustyStorageId);
 
-		// hook called once for user (first one was during test creation)
-		$this->assertHookCall(
-			self::$hookCalls[1],
-			Filesystem::signal_delete_mount,
-			'/mountpoint',
-			MountConfig::MOUNT_TYPE_USER,
-			$this->userId
-		);
+		$this->assertDispatchedEvents([
+			StorageCreatedEvent::class,
+			InvalidateMountCacheEvent::class,
+			StorageDeletedEvent::class,
+			InvalidateMountCacheEvent::class,
+		]);
+		$this->assertEquals('/mountpoint', $this->dispatchedEvents[2]->getOldConfig()->getMountPoint());
 	}
 
-	public function testHooksRenameMountPoint(): void {
+	public function testEventsRenameMountPoint(): void {
 		$storage = $this->makeTestStorageData();
 		$storage = $this->service->addStorage($storage);
 
 		$storage->setMountPoint('renamedMountpoint');
 
-		// reset calls
-		self::$hookCalls = [];
+		$this->dispatchedEvents = [];
 
 		$this->service->updateStorage($storage);
 
-		// hook called twice
-		$this->assertHookCall(
-			self::$hookCalls[0],
-			Filesystem::signal_delete_mount,
-			'/mountpoint',
-			MountConfig::MOUNT_TYPE_USER,
-			$this->userId
-		);
-		$this->assertHookCall(
-			self::$hookCalls[1],
-			Filesystem::signal_create_mount,
-			'/renamedMountpoint',
-			MountConfig::MOUNT_TYPE_USER,
-			$this->userId
-		);
+		$this->assertDispatchedEvents([StorageDeletedEvent::class, StorageCreatedEvent::class, InvalidateMountCacheEvent::class]);
+		$this->assertEquals('/mountpoint', $this->dispatchedEvents[0]->getOldConfig()->getMountPoint());
+		$this->assertEquals('/renamedMountpoint', $this->dispatchedEvents[1]->getNewConfig()->getMountPoint());
 	}
 
 	public function testGetAdminStorage(): void {
@@ -187,5 +168,25 @@ class UserStoragesServiceTest extends StoragesServiceTestCase {
 		$this->assertInstanceOf('\OCA\Files_External\Lib\StorageConfig', $this->globalStoragesService->getStorage($newStorage->getId()));
 
 		$this->service->getStorage($newStorage->getId());
+	}
+
+	public function testAuditEventsPersonalScope(): void {
+		$auditEvents = [];
+		$this->eventDispatcher->method('dispatchTyped')
+			->willReturnCallback(function (object $event) use (&$auditEvents): void {
+				if ($event instanceof CriticalActionPerformedEvent) {
+					$auditEvents[] = $event;
+				}
+			});
+
+		$storage = $this->service->addStorage($this->makeTestStorageData());
+		$this->service->removeStorage($storage->getId());
+
+		$this->assertCount(2, $auditEvents);
+		$this->assertSame('files_external.storage.created', $auditEvents[0]->getOperation());
+		$this->assertSame($this->userId, $auditEvents[0]->getParameters()['applicableUsers']);
+		$this->assertSame('personal', $auditEvents[0]->getParameters()['scope']);
+		$this->assertSame('files_external.storage.deleted', $auditEvents[1]->getOperation());
+		$this->assertSame('personal', $auditEvents[1]->getParameters()['scope']);
 	}
 }

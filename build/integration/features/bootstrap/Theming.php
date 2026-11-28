@@ -4,15 +4,17 @@
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+use Behat\Hook\AfterScenario;
+use Behat\Step\When;
+
 require __DIR__ . '/autoload.php';
 
 trait Theming {
 
 	private bool $undoAllThemingChangesAfterScenario = false;
 
-	/**
-	 * @AfterScenario
-	 */
+	#[AfterScenario]
 	public function undoAllThemingChanges() {
 		if (!$this->undoAllThemingChangesAfterScenario) {
 			return;
@@ -25,11 +27,11 @@ trait Theming {
 	}
 
 	/**
-	 * @When logged in admin uploads theming image for :key from file :source
 	 *
 	 * @param string $key
 	 * @param string $source
 	 */
+	#[When('logged in admin uploads theming image for :key from file :source')]
 	public function loggedInAdminUploadsThemingImageForFromFile(string $key, string $source) {
 		$this->undoAllThemingChangesAfterScenario = true;
 

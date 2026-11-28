@@ -4,6 +4,9 @@
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+use Behat\Hook\AfterScenario;
+use Behat\Step\Then;
+use Behat\Step\When;
 use PHPUnit\Framework\Assert;
 use Psr\Http\Message\StreamInterface;
 
@@ -13,14 +16,12 @@ trait Download {
 	/** @var string * */
 	private $downloadedFile;
 
-	/** @AfterScenario **/
+	#[AfterScenario]
 	public function cleanupDownloadedFile() {
 		$this->downloadedFile = null;
 	}
 
-	/**
-	 * @When user :user downloads zip file for entries :entries in folder :folder
-	 */
+	#[When('user :user downloads zip file for entries :entries in folder :folder')]
 	public function userDownloadsZipFileForEntriesInFolder($user, $entries, $folder) {
 		$folder = trim($folder, '/');
 		$this->asAn($user);
@@ -39,9 +40,7 @@ trait Download {
 		$body->close();
 	}
 
-	/**
-	 * @Then the downloaded file is a zip file
-	 */
+	#[Then('the downloaded file is a zip file')]
 	public function theDownloadedFileIsAZipFile() {
 		$this->getDownloadedFile();
 
@@ -51,9 +50,7 @@ trait Download {
 		);
 	}
 
-	/**
-	 * @Then the downloaded zip file is a zip32 file
-	 */
+	#[Then('the downloaded zip file is a zip32 file')]
 	public function theDownloadedZipFileIsAZip32File() {
 		$this->theDownloadedFileIsAZipFile();
 
@@ -65,9 +62,7 @@ trait Download {
 		);
 	}
 
-	/**
-	 * @Then the downloaded zip file is a zip64 file
-	 */
+	#[Then('the downloaded zip file is a zip64 file')]
 	public function theDownloadedZipFileIsAZip64File() {
 		$this->theDownloadedFileIsAZipFile();
 
@@ -79,9 +74,7 @@ trait Download {
 		);
 	}
 
-	/**
-	 * @Then the downloaded zip file contains a file named :fileName with the contents of :sourceFileName from :user data
-	 */
+	#[Then('the downloaded zip file contains a file named :fileName with the contents of :sourceFileName from :user data')]
 	public function theDownloadedZipFileContainsAFileNamedWithTheContentsOfFromData($fileName, $sourceFileName, $user) {
 		$fileHeaderRegExp = '/';
 		$fileHeaderRegExp .= "\x50\x4B\x03\x04"; // Local file header signature
@@ -119,9 +112,7 @@ trait Download {
 		);
 	}
 
-	/**
-	 * @Then the downloaded zip file contains a folder named :folderName
-	 */
+	#[Then('the downloaded zip file contains a folder named :folderName')]
 	public function theDownloadedZipFileContainsAFolderNamed($folderName) {
 		$folderHeaderRegExp = '/';
 		$folderHeaderRegExp .= "\x50\x4B\x03\x04"; // Local file header signature
@@ -139,9 +130,7 @@ trait Download {
 		);
 	}
 
-	/**
-	 * @Then the downloaded file has the content of :sourceFilename from :user data
-	 */
+	#[Then('the downloaded file has the content of :sourceFilename from :user data')]
 	public function theDownloadedFileHasContentOfUserFile($sourceFilename, $user) {
 		$this->getDownloadedFile();
 		$expectedFileContents = file_get_contents($this->getDataDirectory() . "/$user/files" . $sourceFilename);

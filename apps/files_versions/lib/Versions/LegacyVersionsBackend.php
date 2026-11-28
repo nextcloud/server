@@ -12,6 +12,7 @@ namespace OCA\Files_Versions\Versions;
 use Exception;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
+use OCA\Files_Sharing\External\Storage as ExternalShareStorage;
 use OCA\Files_Versions\Db\VersionEntity;
 use OCA\Files_Versions\Db\VersionsMapper;
 use OCA\Files_Versions\Storage;
@@ -74,6 +75,10 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 			if (!$file) {
 				throw new NotFoundException('version file not found for share owner');
 			}
+		} elseif ($storage->instanceOfStorage(ExternalShareStorage::class)) {
+			$this->logger->info('Version files not available for external shares');
+
+			return [];
 		} else {
 			$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 		}

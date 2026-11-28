@@ -7,14 +7,13 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 use Behat\Behat\Context\Context;
-use Behat\Behat\Context\SnippetAcceptingContext;
 
 require __DIR__ . '/autoload.php';
 
 /**
  * Features context.
  */
-class SharingContext implements Context, SnippetAcceptingContext {
+class SharingContext implements Context {
 	use WebDav;
 	use Trashbin;
 	use AppConfiguration;
@@ -34,6 +33,8 @@ class SharingContext implements Context, SnippetAcceptingContext {
 		$this->deleteServerConfig('files_sharing', 'outgoing_server2server_share_enabled');
 		$this->deleteServerConfig('core', 'shareapi_allow_view_without_download');
 		$this->deleteServerConfig('files_sharing', 'update_cutoff_time');
+		$this->deleteServerConfig('core', 'shareapi_exclude_groups');
+		$this->deleteServerConfig('core', 'shareapi_exclude_groups_list');
 
 		$this->runOcc(['config:system:delete', 'share_folder']);
 	}

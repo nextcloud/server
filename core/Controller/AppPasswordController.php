@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OC\Core\Controller;
 
+use OC\AppFramework\Http\Attributes\NoTokenScopeRequired;
 use OC\Authentication\Events\AppPasswordCreatedEvent;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
@@ -33,6 +34,7 @@ use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserManager;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
 
@@ -104,6 +106,12 @@ class AppPasswordController extends OCSController {
 		$this->eventDispatcher->dispatchTyped(
 			new AppPasswordCreatedEvent($generatedToken)
 		);
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'App password with ID "%s" and name "%s" was created',
+			['tokenId' => $generatedToken->getId(), 'tokenName' => $generatedToken->getName()],
+			false,
+			'auth.app_password.created',
+		));
 
 		return new DataResponse([
 			'apppassword' => $token
@@ -120,6 +128,7 @@ class AppPasswordController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'DELETE', url: '/apppassword', root: '/core')]
+	#[NoTokenScopeRequired]
 	public function deleteAppPassword(): DataResponse {
 		if (!$this->session->exists('app_password')) {
 			throw new OCSForbiddenException('no app password in use');
@@ -134,6 +143,12 @@ class AppPasswordController extends OCSController {
 		}
 
 		$this->tokenProvider->invalidateTokenById($token->getUID(), $token->getId());
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'App password with ID "%s" was deleted',
+			['tokenId' => $token->getId()],
+			false,
+			'auth.app_password.deleted',
+		));
 		return new DataResponse();
 	}
 
@@ -147,6 +162,7 @@ class AppPasswordController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'POST', url: '/apppassword/rotate', root: '/core')]
+	#[NoTokenScopeRequired]
 	public function rotateAppPassword(): DataResponse {
 		if (!$this->session->exists('app_password')) {
 			throw new OCSForbiddenException('no app password in use');
@@ -242,6 +258,12 @@ class AppPasswordController extends OCSController {
 		$this->eventDispatcher->dispatchTyped(
 			new AppPasswordCreatedEvent($generatedToken)
 		);
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'App password with ID "%s" and name "%s" was created',
+			['tokenId' => $generatedToken->getId(), 'tokenName' => $generatedToken->getName()],
+			false,
+			'auth.app_password.created',
+		));
 
 		return new DataResponse([
 			'apppassword' => $token

@@ -9,8 +9,10 @@ declare(strict_types=1);
 
 namespace OC\Core\Controller;
 
+use NCU\AppFramework\Http\Attribute\TokenScope;
 use OC\Core\Db\ProfileConfigMapper;
 use OC\Core\ResponseDefinitions;
+use OC\Core\TokenScopes;
 use OC\Profile\ProfileManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
@@ -106,6 +108,7 @@ class ProfileApiController extends OCSController {
 	#[ApiRoute(verb: 'GET', url: '/{targetUserId}', root: '/profile')]
 	#[BruteForceProtection(action: 'user')]
 	#[UserRateLimit(limit: 30, period: 120)]
+	#[TokenScope(scope: TokenScopes::PEOPLE_READ)]
 	public function getProfileFields(string $targetUserId): DataResponse {
 		$targetUser = $this->userManager->get($targetUserId);
 		if (!$targetUser instanceof IUser) {

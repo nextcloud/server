@@ -11,9 +11,11 @@ namespace OCA\Settings\Controller;
 use BadMethodCallException;
 use OC\Authentication\Exceptions\InvalidTokenException as OcInvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
+use OC\Authentication\Token\GrantableApps;
 use OC\Authentication\Token\INamedToken;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\RemoteWipe;
+use OC\Authentication\Token\TokenScopes;
 use OCA\Settings\Activity\Provider;
 use OCA\Settings\ConfigLexicon;
 use OCP\Activity\IManager;
@@ -28,11 +30,13 @@ use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\Authentication\Token\IToken;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use Psr\Log\LoggerInterface;
@@ -52,17 +56,21 @@ class AuthSettingsController extends Controller {
 		private LoggerInterface $logger,
 		private IConfig $serverConfig,
 		private IL10N $l,
+		private TokenScopes $tokenScopes,
+		private IEventDispatcher $eventDispatcher,
+		private GrantableApps $grantableApps,
 	) {
 		parent::__construct($appName, $request);
 	}
 
 	/**
 	 * @param bool $qrcodeLogin If set to true, the returned token could be (depending on server settings) a onetime password, that can only be used to get the actual app password a single time
+	 * @param list<string>|null $scopes Scopes the app password is limited to, null for all access. Ignored for QR code logins
 	 */
 	#[NoSubAdminRequired]
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired(strict: true)]
-	public function create(string $name = '', bool $qrcodeLogin = false): JSONResponse {
+	public function create(string $name = '', bool $qrcodeLogin = false, ?array $scopes = null): JSONResponse {
 		if ($this->checkAppToken()) {
 			return $this->getServiceNotAvailableResponse();
 		}
@@ -92,6 +100,7 @@ class AuthSettingsController extends Controller {
 			return $this->getServiceNotAvailableResponse();
 		}
 
+		$name = trim($name);
 		if ($qrcodeLogin) {
 			if ($this->appConfig->getAppValueBool(ConfigLexicon::LOGIN_QRCODE_ONETIME)) {
 				// TRANSLATORS Fallback name for the temporary app password when using the QR code login
@@ -109,7 +118,11 @@ class AuthSettingsController extends Controller {
 			return $this->getServiceNotAvailableResponse();
 		} else {
 			$type = IToken::PERMANENT_TOKEN;
-			$scope = null;
+			try {
+				$scope = $scopes === null ? null : $this->tokenScopes->updateScope([], [TokenScopes::KEY => $scopes], $this->grantableApps->getAppIds());
+			} catch (\InvalidArgumentException $e) {
+				return new JSONResponse(['message' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+			}
 		}
 
 		if (mb_strlen($name) > 128) {
@@ -131,6 +144,11 @@ class AuthSettingsController extends Controller {
 		$tokenData['canRename'] = true;
 
 		$this->publishActivity(Provider::APP_TOKEN_CREATED, $deviceToken->getId(), ['name' => $deviceToken->getName()]);
+		$this->auditLog(
+			'App password with ID "%s" and name "%s" was created',
+			['tokenId' => $deviceToken->getId(), 'tokenName' => $deviceToken->getName()],
+			'auth.app_password.created',
+		);
 
 		return new JSONResponse([
 			'token' => $token,
@@ -183,8 +201,10 @@ class AuthSettingsController extends Controller {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		$this->tokenProvider->invalidateTokenById($this->userId, $token->getId());
-		$this->publishActivity($subject, $token->getId(), ['name' => $token->getName()]);
+		$tokenId = $token->getId();
+		$this->tokenProvider->invalidateTokenById($this->userId, $tokenId);
+		$this->publishActivity($subject, $tokenId, ['name' => $token->getName()]);
+		$this->auditLog('App password with ID "%s" was deleted', ['tokenId' => $tokenId], 'auth.app_password.deleted');
 		return new JSONResponse([]);
 	}
 
@@ -218,8 +238,10 @@ class AuthSettingsController extends Controller {
 				continue;
 			}
 
-			$this->tokenProvider->invalidateTokenById($this->userId, $token->getId());
-			$revoked[] = $token->getId();
+			$tokenId = $token->getId();
+			$this->tokenProvider->invalidateTokenById($this->userId, $tokenId);
+			$revoked[] = $tokenId;
+			$this->auditLog('App password with ID "%s" was deleted', ['tokenId' => $tokenId], 'auth.app_password.deleted');
 		}
 
 		if ($revoked !== []) {
@@ -245,10 +267,40 @@ class AuthSettingsController extends Controller {
 		}
 
 		$currentName = $token->getName();
+		$currentScope = $token->getScopeAsArray();
 
-		if ($scope !== $token->getScopeAsArray()) {
-			$token->setScope([IToken::SCOPE_FILESYSTEM => $scope[IToken::SCOPE_FILESYSTEM]]);
-			$this->publishActivity($scope[IToken::SCOPE_FILESYSTEM] ? Provider::APP_TOKEN_FILESYSTEM_GRANTED : Provider::APP_TOKEN_FILESYSTEM_REVOKED, $token->getId(), ['name' => $currentName]);
+		if ($name !== $currentName) {
+			$name = trim($name);
+			if ($name === '') {
+				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+			}
+		}
+
+		try {
+			$newScope = $this->tokenScopes->updateScope($currentScope, $scope, $this->grantableApps->getAppIds());
+		} catch (\InvalidArgumentException $e) {
+			return new JSONResponse(['message' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+		}
+
+		if ($newScope !== $currentScope) {
+			$token->setScope($newScope);
+			$newScopes = $this->tokenScopes->fromBlob($newScope);
+			if ($newScopes !== $this->tokenScopes->fromBlob($currentScope)) {
+				$this->publishActivity(Provider::APP_TOKEN_SCOPES_CHANGED, $token->getId(), ['name' => $currentName]);
+				$this->auditLog(
+					'Scopes of app password with ID "%s" were changed to "%s"',
+					['tokenId' => $token->getId(), 'scopes' => $newScopes === null ? 'all' : implode(', ', $newScopes)],
+					'auth.app_password.scope_changed',
+				);
+			} elseif ($newScope[IToken::SCOPE_FILESYSTEM] !== ($currentScope[IToken::SCOPE_FILESYSTEM] ?? false)) {
+				// Only legacy tokens without scopes flip filesystem on its own
+				$this->publishActivity($newScope[IToken::SCOPE_FILESYSTEM] ? Provider::APP_TOKEN_FILESYSTEM_GRANTED : Provider::APP_TOKEN_FILESYSTEM_REVOKED, $token->getId(), ['name' => $currentName]);
+				$this->auditLog(
+					'Filesystem access of app password with ID "%s" was %s',
+					['tokenId' => $token->getId(), 'filesystemAccess' => $newScope[IToken::SCOPE_FILESYSTEM] ? 'granted' : 'revoked'],
+					'auth.app_password.scope_changed',
+				);
+			}
 		}
 
 		if (mb_strlen($name) > 128) {
@@ -261,7 +313,7 @@ class AuthSettingsController extends Controller {
 		}
 
 		$this->tokenProvider->updateToken($token);
-		return new JSONResponse([]);
+		return new JSONResponse(['scope' => $newScope]);
 	}
 
 	/**
@@ -284,6 +336,10 @@ class AuthSettingsController extends Controller {
 		} catch (BadMethodCallException $e) {
 			$this->logger->warning('could not publish activity', ['exception' => $e]);
 		}
+	}
+
+	private function auditLog(string $message, array $parameters, string $operation): void {
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent($message, $parameters, false, $operation));
 	}
 
 	/**
@@ -325,6 +381,7 @@ class AuthSettingsController extends Controller {
 		if (!$this->remoteWipe->markTokenForWipe($token)) {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
+		$this->auditLog('Remote wipe was requested for app password with ID "%s"', ['tokenId' => $token->getId()], 'auth.remote_wipe.requested');
 
 		return new JSONResponse([]);
 	}

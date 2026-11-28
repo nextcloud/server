@@ -7,6 +7,8 @@
 
 namespace OCP\Federation;
 
+use OCP\Constants;
+
 /**
  * Interface ICloudFederationFactory
  *
@@ -28,11 +30,12 @@ interface ICloudFederationFactory {
 	 * @param string $sharedSecret used to authenticate requests across servers
 	 * @param string $shareType ('group' or 'user' share)
 	 * @param $resourceType ('file', 'calendar',...)
+	 * @param int $permissions Nextcloud permission bitmask (since 36.0.0)
 	 * @return ICloudFederationShare
 	 *
 	 * @since 14.0.0
 	 */
-	public function getCloudFederationShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $sharedSecret, $shareType, $resourceType);
+	public function getCloudFederationShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $sharedSecret, $shareType, $resourceType, int $permissions = Constants::PERMISSION_READ);
 
 	/**
 	 * get a Cloud FederationNotification object to prepare a notification you

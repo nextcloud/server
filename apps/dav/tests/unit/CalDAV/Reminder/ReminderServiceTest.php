@@ -22,6 +22,7 @@ use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -368,6 +369,34 @@ EOD;
 		$this->timeFactory->expects($this->once())
 			->method('getDateTime')
 			->with()
+			->willReturn(DateTime::createFromFormat(DateTime::ATOM, '2016-06-08T00:00:00+00:00'));
+
+		$this->reminderService->onCalendarObjectCreate($objectData);
+	}
+
+	public static function dataRepeatIsBounded(): array {
+		return [
+			'repeat without duration' => ['REPEAT:9223372036854775807', 1],
+			'huge repeat with duration' => ["REPEAT:9223372036854775807\nDURATION:PT2M", 101],
+			'repeat above the limit' => ["REPEAT:200\nDURATION:PT2M", 101],
+			'repeat at the limit' => ["REPEAT:100\nDURATION:PT2M", 101],
+			'duration without repeat' => ['DURATION:PT2M', 1],
+		];
+	}
+
+	#[DataProvider('dataRepeatIsBounded')]
+	public function testOnCalendarObjectCreateRepeatIsBounded(string $repeat, int $expectedReminders): void {
+		$objectData = [
+			'calendardata' => str_replace("REPEAT:4\nDURATION:PT2M", $repeat, self::CALENDAR_DATA_REPEAT),
+			'id' => '42',
+			'calendarid' => '1337',
+			'component' => 'vevent',
+		];
+
+		$this->backend->expects($this->exactly($expectedReminders))
+			->method('insertReminder')
+			->willReturn(1);
+		$this->timeFactory->method('getDateTime')
 			->willReturn(DateTime::createFromFormat(DateTime::ATOM, '2016-06-08T00:00:00+00:00'));
 
 		$this->reminderService->onCalendarObjectCreate($objectData);
@@ -824,5 +853,196 @@ EOD;
 			->with(1);
 
 		$this->reminderService->processReminders();
+	}
+
+	public static function dataProcessRemindersRecipientsByClassification(): array {
+		return [
+			'public' => [CalDavBackend::CLASSIFICATION_PUBLIC, ['user002', 'user001']],
+			'confidential' => [CalDavBackend::CLASSIFICATION_CONFIDENTIAL, ['user002', 'user001']],
+			'private' => [CalDavBackend::CLASSIFICATION_PRIVATE, ['user001']],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataProcessRemindersRecipientsByClassification')]
+	public function testProcessRemindersRecipientsByClassification(int $classification, array $expectedRecipients): void {
+		$caldavBackend = $this->createMock(CalDavBackend::class);
+		$caldavBackend->method('getShares')
+			->with(1337)
+			->willReturn([
+				[
+					'{http://owncloud.org/ns}principal' => 'principals/users/user002',
+					'readOnly' => false,
+				],
+			]);
+		$reminderService = new ReminderService(
+			$this->backend,
+			$this->notificationProviderManager,
+			$this->userManager,
+			$this->groupManager,
+			$caldavBackend,
+			$this->timeFactory,
+			$this->config,
+			$this->logger,
+			$this->principalConnector,
+		);
+
+		$this->backend->expects($this->once())
+			->method('getRemindersToProcess')
+			->willReturn([[
+				'id' => 1,
+				'calendar_id' => 1337,
+				'object_id' => 42,
+				'uid' => 'wej2z68l9h',
+				'is_recurring' => false,
+				'recurrence_id' => 1465430400,
+				'is_recurrence_exception' => false,
+				'event_hash' => '5c70531aab15c92b52518ae10a2f78a4',
+				'alarm_hash' => 'de919af7429d3b5c11e8b9d289b411a6',
+				'type' => 'EMAIL',
+				'is_relative' => true,
+				'notification_date' => 1465429500,
+				'is_repeat_based' => false,
+				'calendardata' => self::CALENDAR_DATA,
+				'classification' => $classification,
+				'displayname' => 'Displayname 123',
+				'principaluri' => 'principals/users/user001',
+			]]);
+		$this->backend->method('isReminderMutedForPrincipal')->willReturn(false);
+
+		$this->config->method('getAppValue')
+			->with('dav', 'sendEventRemindersToSharedUsers', 'yes')
+			->willReturn('yes');
+
+		$owner = $this->createMock(IUser::class);
+		$owner->method('getUID')->willReturn('user001');
+		$sharee = $this->createMock(IUser::class);
+		$sharee->method('getUID')->willReturn('user002');
+		$this->userManager->method('get')
+			->willReturnMap([
+				['user001', $owner],
+				['user002', $sharee],
+			]);
+
+		$this->notificationProviderManager->method('hasProvider')
+			->with('EMAIL')
+			->willReturn(true);
+		$provider = $this->createMock(INotificationProvider::class);
+		$this->notificationProviderManager->expects($this->once())
+			->method('getProvider')
+			->with('EMAIL')
+			->willReturn($provider);
+		$provider->expects($this->once())
+			->method('send')
+			->with(
+				$this->anything(),
+				'Displayname 123',
+				$this->anything(),
+				$this->callback(fn (array $users): bool => array_map(fn (IUser $u): string => $u->getUID(), $users) === $expectedRecipients),
+			);
+
+		$this->timeFactory->method('getDateTime')
+			->willReturn(DateTime::createFromFormat(DateTime::ATOM, '2016-06-08T00:00:00+00:00'));
+
+		$reminderService->processReminders();
+	}
+
+	public function testProcessRemindersContinuesAfterFailingReminder(): void {
+		$calendarDataWithTextRecurrenceId = <<<EOD
+BEGIN:VCALENDAR
+PRODID:-//Nextcloud calendar v1.6.4
+BEGIN:VEVENT
+UID:text-recurrence-id
+DTSTAMP:20160602T133732
+DTSTART:20160609T100000Z
+RRULE:FREQ=DAILY;COUNT=3
+END:VEVENT
+BEGIN:VEVENT
+UID:text-recurrence-id
+DTSTAMP:20160602T133732
+RECURRENCE-ID;VALUE=TEXT:never
+DTSTART:20160610T100000Z
+END:VEVENT
+BEGIN:VEVENT
+UID:text-recurrence-id
+DTSTAMP:20160602T133732
+RECURRENCE-ID:20160611T100000Z
+DTSTART:20160611T100000Z
+BEGIN:VALARM
+ACTION:EMAIL
+TRIGGER;VALUE=DATE-TIME:20160608T000000Z
+END:VALARM
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		$this->backend->expects($this->once())
+			->method('getRemindersToProcess')
+			->willReturn([
+				[
+					'id' => 1,
+					'calendar_id' => 1338,
+					'object_id' => 43,
+					'uid' => 'text-recurrence-id',
+					'is_recurring' => true,
+					'recurrence_id' => 1465639200,
+					'is_recurrence_exception' => true,
+					'event_hash' => 'fbdb2726bc0f8470163de694a7b02c5b',
+					'alarm_hash' => '35b3eae8e792aa2209f0b4e1a302f105',
+					'type' => 'EMAIL',
+					'is_relative' => false,
+					'notification_date' => 1465344000,
+					'is_repeat_based' => false,
+					'calendardata' => $calendarDataWithTextRecurrenceId,
+					'displayname' => 'Displayname 456',
+					'principaluri' => 'principals/users/user002',
+				],
+				[
+					'id' => 2,
+					'calendar_id' => 1337,
+					'object_id' => 42,
+					'uid' => 'wej2z68l9h',
+					'is_recurring' => false,
+					'recurrence_id' => 1465430400,
+					'is_recurrence_exception' => false,
+					'event_hash' => '5c70531aab15c92b52518ae10a2f78a4',
+					'alarm_hash' => 'de919af7429d3b5c11e8b9d289b411a6',
+					'type' => 'EMAIL',
+					'is_relative' => true,
+					'notification_date' => 1465429500,
+					'is_repeat_based' => false,
+					'calendardata' => self::CALENDAR_DATA,
+					'displayname' => 'Displayname 123',
+					'principaluri' => 'principals/users/user001',
+				],
+			]);
+		$this->notificationProviderManager->method('hasProvider')
+			->with('EMAIL')
+			->willReturn(true);
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user001');
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with('user001')
+			->willReturn($user);
+		$provider = $this->createMock(INotificationProvider::class);
+		$provider->expects($this->once())
+			->method('send')
+			->with($this->anything(), 'Displayname 123', [], [$user]);
+		$this->notificationProviderManager->method('getProvider')
+			->with('EMAIL')
+			->willReturn($provider);
+		$this->logger->expects($this->once())
+			->method('error')
+			->with($this->anything(), $this->callback(fn (array $context): bool => $context['id'] === 1 && $context['exception'] instanceof \Throwable));
+		$removedReminders = [];
+		$this->backend->expects($this->exactly(2))
+			->method('removeReminder')
+			->willReturnCallback(function (int $reminderId) use (&$removedReminders): void {
+				$removedReminders[] = $reminderId;
+			});
+
+		$this->reminderService->processReminders();
+
+		$this->assertSame([1, 2], $removedReminders);
 	}
 }

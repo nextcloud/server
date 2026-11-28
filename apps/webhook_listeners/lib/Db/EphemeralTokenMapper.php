@@ -100,7 +100,7 @@ class EphemeralTokenMapper extends QBMapper {
 		$olderThan = $this->time->getTime() - $token_lifetime;
 		try {
 			$tokensToDelete = $this->getOlderThan($olderThan);
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			$this->logger->error('Webhook token deletion failed: ' . $e->getMessage(), ['exception' => $e]);
 			return;
 		}
@@ -108,9 +108,17 @@ class EphemeralTokenMapper extends QBMapper {
 		$this->logger->debug('Invalidating ephemeral webhook tokens older than ' . date('c', $olderThan), ['app' => 'webhook_listeners']);
 		foreach ($tokensToDelete as $token) {
 			try {
-				$this->tokenMapper->delete($this->tokenMapper->getTokenById($token->getTokenId())); // delete token itself
+				try {
+					$this->tokenMapper->delete($this->tokenMapper->getTokenById($token->getTokenId())); // delete token itself
+				} catch (DoesNotExistException $e) {
+					// token is already gone, e.g. revoked by its user or removed together with the account
+					$this->logger->info(
+						'Auth token {authTokenId} referenced by ephemeral webhook token {webhookTokenId} no longer exists (probably revoked or deleted with its user); removing the webhook token entry',
+						['authTokenId' => $token->getTokenId(), 'webhookTokenId' => $token->getId(), 'exception' => $e]
+					);
+				}
 				$this->delete($token); // delete db row in webhook_tokens
-			} catch (Exception $e) {
+			} catch (\Exception $e) {
 				$this->logger->error('Webhook token deletion failed: ' . $e->getMessage(), ['exception' => $e]);
 			}
 

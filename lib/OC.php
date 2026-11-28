@@ -18,6 +18,7 @@ use OC\Share20\UserDeletedListener;
 use OC\Share20\UserRemovedListener;
 use OC\User\DisabledUserException;
 use OCP\App\Events\AppsLoadedEvent;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\BeforeFileSystemSetupEvent;
 use OCP\Files\ISetupManager;
@@ -266,7 +267,6 @@ class OC {
 			// render error page
 			$template = Server::get(ITemplateManager::class)->getTemplate('', 'update.user', 'guest');
 			\OCP\Util::addScript('core', 'maintenance');
-			\OCP\Util::addScript('core', 'common');
 			\OCP\Util::addStyle('core', 'guest');
 			$template->printPage();
 			die();
@@ -314,7 +314,6 @@ class OC {
 			&& $_GET['IKnowThatThisIsABigInstanceAndTheUpdateRequestCouldRunIntoATimeoutAndHowToRestoreABackup'] === 'IAmSuperSureToDoThis';
 
 		Util::addTranslations('core');
-		Util::addScript('core', 'common');
 		Util::addScript('core', 'main');
 		Util::addStyle('core', 'main');
 		Util::addScript('core', 'update');
@@ -463,15 +462,11 @@ class OC {
 		$sessionName = OC_Util::getInstanceId();
 
 		try {
-			$logger = null;
-			if (Server::get(\OC\SystemConfig::class)->getValue('installed', false)) {
-				$logger = logger('core');
-			}
-
 			// set the session name to the instance id - which is unique
 			$session = new \OC\Session\Internal(
 				$sessionName,
-				$logger,
+				logger('core'),
+				Server::get(ITimeFactory::class),
 			);
 
 			$cryptoWrapper = Server::get(\OC\Session\CryptoWrapper::class);
@@ -779,7 +774,14 @@ class OC {
 		self::handleAuthHeaders();
 
 		// setup the basic server
-		self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);
+		/** @psalm-suppress RedundantPropertyInitializationCheck The server is first initialized here */
+		if (!isset(self::$server)) {
+			self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);
+		} else {
+			set_exception_handler(null);
+			set_error_handler(null);
+			self::$server->reset();
+		}
 		self::$server->boot();
 
 		self::oneTimeChecks();
@@ -825,7 +827,7 @@ class OC {
 			} else {
 				set_error_handler([$errorHandler, 'onError']);
 			}
-			register_shutdown_function([$errorHandler, 'onShutdown']);
+			self::$server->registerShutdownFunction($errorHandler->onShutdown(...));
 			set_exception_handler($exceptionHandler);
 		}
 
@@ -924,11 +926,8 @@ class OC {
 			$appManager->loadApp('settings');
 		}
 
-		//make sure temporary files are cleaned up
-		$tmpManager = Server::get(\OCP\ITempManager::class);
-		register_shutdown_function([$tmpManager, 'clean']);
 		$lockProvider = Server::get(\OCP\Lock\ILockingProvider::class);
-		register_shutdown_function([$lockProvider, 'releaseAll']);
+		self::$server->registerShutdownFunction($lockProvider->releaseAll(...));
 
 		$host = $request->getInsecureServerHost();
 		/**
@@ -974,11 +973,11 @@ class OC {
 		$eventLogger->log('init', 'OC::init', $loaderStart, microtime(true));
 		$eventLogger->start('runtime', 'Runtime');
 		$eventLogger->start('request', 'Full request after boot');
-		register_shutdown_function(function () use ($eventLogger) {
+		self::$server->registerShutdownFunction(static function () use ($eventLogger) {
 			$eventLogger->end('request');
 		});
 
-		register_shutdown_function(function () use ($config) {
+		self::$server->registerShutdownFunction(static function () use ($config) {
 			$memoryPeak = memory_get_peak_usage();
 			$debugModeEnabled = $config->getSystemValueBool('debug', false);
 			$memoryLimit = null;

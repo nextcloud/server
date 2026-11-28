@@ -88,6 +88,11 @@ ResponseDefinitions.php             @provokateurin @nextcloud/server-backend
 /lib/public/UserStatus              @nickvergessen @nextcloud/talk-backend @nextcloud/idp
 */Notifications/*                   @nickvergessen @nextcloud/talk-backend
 
+# Integration team
+/apps/appstore                      @lukasdotcom @oleksandr-nc
+/apps/comment                       @lukasdotcom @marcelklehr
+/apps/webhook_listeners             @janepie @julien-nc
+
 # Groupware team
 /build/integration/dav_features/caldav.feature            @ChristophWurst @SebastianKrupinski @tcitworld
 /build/integration/dav_features/carddav.feature           @hamza221 @SebastianKrupinski
@@ -107,6 +112,7 @@ ResponseDefinitions.php             @provokateurin @nextcloud/server-backend
 # Security team
 /build/psalm-baseline-security.xml                        @nickvergessen @nextcloud/server-backend
 /resources/codesigning                                    @nickvergessen @mgallien @miaulalala
+/build/ca-bundle-etag.txt                                 @nickvergessen @miaulalala
 /resources/config/ca-bundle.crt                           @nickvergessen @miaulalala
 
 # App maintainers
@@ -137,5 +143,5 @@ ResponseDefinitions.php             @provokateurin @nextcloud/server-backend
 /apps/user_ldap/appinfo/info.xml                          @come-nc @blizzz
 /apps/user_status/appinfo/info.xml                        @Antreesy @nickvergessen
 /apps/weather_status/appinfo/info.xml                     @julien-nc @juliusknorr
-/apps/webhook_listeners/appinfo/info.xml                  @janepie @julien-nc
+/apps/webhook_listeners                                   @janepie @julien-nc
 /apps/workflowengine/appinfo/info.xml                     @blizzz @juliusknorr

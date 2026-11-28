@@ -1072,6 +1072,9 @@ class DefaultShareProvider implements
 			/*
 			 * Resolve all group shares to user specific shares
 			 */
+			if ($shares2 === []) {
+				return [];
+			}
 			$shares = $this->resolveGroupShares($shares2, $userId, $path, $forChildren);
 		} else {
 			throw new BackendError('Invalid backend');
@@ -1179,7 +1182,7 @@ class DefaultShareProvider implements
 	/**
 	 * Update the data from group shares with any per-user modifications
 	 *
-	 * @param array<int, Share> $shareMap shares indexed by share id
+	 * @param non-empty-array<int, Share> $shareMap shares indexed by share id
 	 * @param $userId
 	 * @return Share[] The updates shares if no update is found for a share return the original
 	 */

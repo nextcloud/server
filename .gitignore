@@ -83,6 +83,7 @@ RCS/*
 *.backup*
 .php_cs.cache
 .php-cs-fixer.cache
+.claude/
 
 # kdevelop
 .kdev

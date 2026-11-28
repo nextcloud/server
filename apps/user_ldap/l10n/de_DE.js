@@ -22,7 +22,7 @@ OC.L10N.register(
     "_Binding failed for this LDAP configuration: %s_::_Binding failed for %n LDAP configurations: %s_" : ["Bindung für diese LDAP-Konfiguration fehlgeschlagen: %s","Bindung für %n LDAP-Konfigurationen fehlgeschlagen: %s"],
     "_Searching failed for this LDAP configuration: %s_::_Searching failed for %n LDAP configurations: %s_" : ["Die Suche für diese LDAP-Konfigurationen ist fehlgeschlagen: %s","Die Suche für %n LDAP-Konfigurationen ist fehlgeschlagen: %s"],
     "_There is an inactive LDAP configuration: %s_::_There are %n inactive LDAP configurations: %s_" : ["Es gibt eine inaktive LDAP-Konfiguration: %s","Es gibt %n inaktive LDAP-Konfigurationen: %s"],
-    "_Binding and searching works on the configured LDAP connection (%s)_::_Binding and searching works on all of the %n configured LDAP connections (%s)_" : ["Bindung und Suche funktionieren mit der eingerichteten LDAP-Verbindung (%s)","Bindung und Suchen funktioniert auf allen der %nkonfigurierten LDAP-Verbindungen (%s)"],
+    "_Binding and searching works on the configured LDAP connection (%s)_::_Binding and searching works on all of the %n configured LDAP connections (%s)_" : ["Bindung und Suche funktionieren mit der eingerichteten LDAP-Verbindung (%s)","Bindung und Suche funktionieren mit allen %n eingerichteten LDAP-Verbindungen (%s)"],
     "Invalid LDAP UUIDs" : "Ungültige LDAP-UUIDs",
     "None found" : "Keine gefunden",
     "Invalid UUIDs of LDAP accounts or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Es wurden ungültige UUIDs von LDAP-Konten oder -Gruppen gefunden. Bitte überprüfen Sie Ihre \"UUID-Erkennung überschreiben\"-Einstellungen im Expertenteil der LDAP-Konfiguration und verwenden Sie \"occ ldap:update-uuid\", um sie zu aktualisieren.",
@@ -126,8 +126,8 @@ OC.L10N.register(
     "Verify settings and count the groups" : "Überprüfen Sie die Einstellungen und zählen Sie die Gruppen",
     "User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command-line validation): {filter}" : "Benutzer nicht gefunden. Bitte überprüfen Sie Ihre Anmelde-Attribute und Benutzernamen. Wirksamer Filter (zum Kopieren und Einfügen bei der Überprüfung auf der Kommandozeile): {filter}",
     "User found and settings verified." : "Benutzer gefunden und Einstellungen überprüft.",
-    "Consider narrowing your search, as it encompassed many users, only the first one of whom will be able to log in." : "Erwägen Sie, Ihre Suche einzugrenzen, da sie viele Benutzer umfaßte. Nur der erste wird sich anmelden können.",
-    "An unspecified error occurred. Please check log and settings." : "Es ist ein ein nicht näher spezifizierter Fehler aufgetreten. Bitte prüfen Sie die Protokolldatei und die Einstellungen.",
+    "Consider narrowing your search, as it encompassed many users, only the first one of whom will be able to log in." : "Erwägen Sie, Ihre Suche einzugrenzen, da sie viele Benutzer umfasste. Nur der erste wird sich anmelden können.",
+    "An unspecified error occurred. Please check log and settings." : "Es ist ein nicht näher spezifizierter Fehler aufgetreten. Bitte prüfen Sie die Protokolldatei und die Einstellungen.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "Der Suchfilter ist ungültig, möglicherweise bestehen Eingabefehler wie z. B. eine ungerade Anzahl von geöffneten und geschlossenen Klammern. Bitte überarbeiten.",
     "A connection error to LDAP/AD occurred. Please check host, port and credentials." : "Es ist ein Verbindungsfehler zum LDAP/AD aufgetreten, bitte überprüfen Sie Host, Port und Anmeldeinformationen.",
     "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP/AD." : "Der \"%u id\" Platzhalter fehlt. Er wird durch den Anmeldenamen ersetzt, wenn LDAP/AD abgefragt wird.",
@@ -165,7 +165,7 @@ OC.L10N.register(
     "Test Base DN" : "Base DN testen",
     "Listing and searching for users is constrained by these criteria:" : "Auflistung und Suche nach Nutzern ist eingeschränkt durch folgende Kriterien:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "Die häufigsten Objektklassen für Benutzer sind organizationalPerson, person, user und inetOrgPerson. Wenn Sie nicht sicher, welche Objektklasse Sie wählen sollen, fragen Sie bitte Ihren Verzeichnis-Admin.",
-    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Der Filter gibt an, welche LDAP-Benutzer Zugriff auf die {instanceName}-Instanz haben sollen.",
+    "The filter specifies which LDAP users are listed in the {instanceName} instance. To control who can log in, use the Login Attributes tab." : "Der Filter legt fest, welche LDAP-Benutzer in der {instanceName}-Instanz aufgeführt werden. Um zu steuern, wer sich anmelden darf, die Registerkarte „Anmeldeattribute“ verwenden.",
     "Verify settings and count users" : "Einstellungen überprüfen und Benutzer zählen",
     "User count: {usersCount}" : "Benutzeranzahl: {usersCount}",
     "Test Configuration" : "Testkonfiguration",
@@ -203,6 +203,7 @@ OC.L10N.register(
     "Mode switch" : "Modus umschalten",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Das Umschalten des Modus ermöglicht automatische LDAP-Abfragen. Abhängig von Ihrer LDAP-Größe können diese einige Zeit in Anspruch nehmen. Wollen Sie immer noch den Modus wechseln?",
     "Confirm" : "Bestätigen",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Bestimmt den Filter, welcher bei einer Anmeldung angewandt wird. `%%uid` ersetzt den Benutzernamen bei der Anmeldung. Beispiel: `uid=%%uid`"
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Bestimmt den Filter, welcher bei einer Anmeldung angewandt wird. `%%uid` ersetzt den Benutzernamen bei der Anmeldung. Beispiel: `uid=%%uid`",
+    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Der Filter gibt an, welche LDAP-Benutzer Zugriff auf die {instanceName}-Instanz haben sollen."
 },
 "nplurals=2; plural=(n != 1);");

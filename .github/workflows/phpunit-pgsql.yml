@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   phpunit-pgsql:
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
 
     strategy:
       fail-fast: false
@@ -25,7 +25,7 @@ jobs:
           - postgres-versions: '14'
             php-versions: '8.3'
           - postgres-versions: '18'
-            php-versions: '8.5'
+            php-versions: '8.6'
 
     name: PostgreSQL ${{ matrix.postgres-versions }} (PHP ${{ matrix.php-versions }}) - database tests
 

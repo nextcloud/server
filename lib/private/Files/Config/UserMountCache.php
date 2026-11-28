@@ -557,8 +557,26 @@ class UserMountCache implements IUserMountCache {
 		return $result;
 	}
 
+	private function loadMountInfo(IUser $user, string $mountPoint): ?CachedMountInfo {
+		$builder = $this->connection->getQueryBuilder();
+		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_id', 'f.path', 'mount_provider_class')
+			->from('mounts', 'm')
+			->innerJoin('m', 'filecache', 'f', $builder->expr()->eq('m.root_id', 'f.fileid'))
+			->where($builder->expr()->eq('user_id', $builder->createNamedParameter($user->getUID())))
+			->andWhere($builder->expr()->eq('mount_point_hash', $builder->createNamedParameter(hash('xxh128', $mountPoint), IQueryBuilder::PARAM_STR)));
+
+		$row = $query->executeQuery()->fetch();
+		return $row ? $this->dbRowToMountInfo($row) : null;
+	}
+
 	#[\Override]
 	public function removeMount(string $mountPoint, ?IUser $user = null): void {
+		if ($user) {
+			$mount = $this->loadMountInfo($user, $mountPoint);
+		} else {
+			$mount = null;
+		}
+
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('mounts')
 			->where($query->expr()->eq('mount_point_hash', $query->createNamedParameter(hash('xxh128', $mountPoint))));
@@ -571,6 +589,10 @@ class UserMountCache implements IUserMountCache {
 		if (count($parts) > 3) {
 			[, $userId] = $parts;
 			unset($this->mountsForUsers[$userId]);
+		}
+
+		if ($user && $mount) {
+			$this->eventDispatcher->dispatchTyped(new UserMountRemovedEvent($mount));
 		}
 	}
 
@@ -596,12 +618,24 @@ class UserMountCache implements IUserMountCache {
 
 		try {
 			$query->executeStatement();
+
 			unset($this->mountsForUsers[$user->getUID()]);
 		} catch (DbalException $e) {
 			if ($e->getReason() !== DbalException::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
 				throw $e;
 			}
 		}
+
+		$cachedMount = new CachedMountInfo(
+			$user,
+			$rootCacheEntry->getStorageId(),
+			$rootCacheEntry->getId(),
+			$mountPoint,
+			$mountProvider,
+			$mountId,
+			$rootCacheEntry->getPath(),
+		);
+		$this->eventDispatcher->dispatchTyped(new UserMountAddedEvent($cachedMount));
 	}
 
 	/**

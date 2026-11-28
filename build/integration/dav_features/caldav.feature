@@ -15,7 +15,7 @@ Feature: caldav
     When "user0" requests calendar "admin/MyCalendar" on the endpoint "/remote.php/dav/calendars/"
     Then The CalDAV HTTP status code should be "404"
     And The exception is "Sabre\DAV\Exception\NotFound"
-    And The error message is "Calendar with name 'MyCalendar' could not be found"
+    And The error message is "Node with name 'MyCalendar' could not be found"
 
   Scenario: Accessing a not shared calendar of another user via the legacy endpoint
     Given user "user0" exists
@@ -24,7 +24,7 @@ Feature: caldav
     When "user0" requests calendar "admin/MyCalendar" on the endpoint "/remote.php/caldav/calendars/"
     Then The CalDAV HTTP status code should be "404"
     And The exception is "Sabre\DAV\Exception\NotFound"
-    And The error message is "Calendar with name 'MyCalendar' could not be found"
+    And The error message is "Node with name 'MyCalendar' could not be found"
 
   Scenario: Accessing a not existing calendar of another user
     Given user "user0" exists
@@ -67,7 +67,7 @@ Feature: caldav
     When "user0" sends a create calendar request to "admin/MyCalendar2" on the endpoint "/remote.php/dav/calendars/"
     Then The CalDAV HTTP status code should be "404"
     And The exception is "Sabre\DAV\Exception\NotFound"
-    And The error message is "Node with name 'admin' could not be found"
+    And The error message is "Node with name 'MyCalendar2' could not be found"
 
   Scenario: Create calendar request for existing calendar of another user
     Given user "user0" exists
@@ -76,7 +76,7 @@ Feature: caldav
     When "user0" sends a create calendar request to "admin/MyCalendar2" on the endpoint "/remote.php/dav/calendars/"
     Then The CalDAV HTTP status code should be "404"
     And The exception is "Sabre\DAV\Exception\NotFound"
-    And The error message is "Node with name 'admin' could not be found"
+    And The error message is "Node with name 'MyCalendar2' could not be found"
 
   Scenario: Update a principal's schedule-default-calendar-URL
     Given user "user0" exists
@@ -92,3 +92,47 @@ Feature: caldav
     Given user "first-login" exists
     When "first-login" requests calendar "first-login/personal" on the endpoint "/remote.php/dav/calendars/"
     Then The CalDAV HTTP status code should be "207"
+
+  Scenario: Publishing a calendar is forbidden when link sharing is disabled
+    Given parameter "shareapi_allow_links" of app "core" is set to "no"
+    When "admin" creates a calendar named "MyCalendar"
+    Then The CalDAV HTTP status code should be "201"
+    When "admin" requests the sharing modes of the calendar named "MyCalendar"
+    Then The calendar should be shareable
+    And The calendar should not be publishable
+    When "admin" publicly shares the calendar named "MyCalendar"
+    Then The CalDAV HTTP status code should be "403"
+    When "admin" requests the sharing modes of the calendar named "MyCalendar"
+    Then The calendar should not be published
+
+  Scenario: Published calendars are blocked but can be unpublished when link sharing gets disabled
+    Given "admin" creates a calendar named "MyCalendar"
+    And "admin" publicly shares the calendar named "MyCalendar"
+    And The CalDAV HTTP status code should be "202"
+    When "admin" requests the public link of the calendar named "MyCalendar"
+    Then The CalDAV HTTP status code should be "207"
+    Given parameter "shareapi_allow_links" of app "core" is set to "no"
+    When "admin" requests the public link of the calendar named "MyCalendar"
+    Then The CalDAV HTTP status code should be "403"
+    When "admin" unpublishes the calendar named "MyCalendar"
+    Then The CalDAV HTTP status code should be "200"
+    When "admin" requests the sharing modes of the calendar named "MyCalendar"
+    Then The calendar should not be published
+
+  Scenario: Users of a group excluded from link sharing cannot publish calendars
+    Given user "user0" exists
+    And group "group1" exists
+    And user "user0" belongs to group "group1"
+    And link sharing is disabled for group "group1"
+    When "user0" creates a calendar named "MyCalendar"
+    Then The CalDAV HTTP status code should be "201"
+    When "user0" requests the sharing modes of the calendar named "MyCalendar"
+    Then The calendar should be shareable
+    And The calendar should not be publishable
+    When "user0" publicly shares the calendar named "MyCalendar"
+    Then The CalDAV HTTP status code should be "403"
+    When "admin" creates a calendar named "MyCalendar"
+    And "admin" requests the sharing modes of the calendar named "MyCalendar"
+    Then The calendar should be publishable
+    When "admin" publicly shares the calendar named "MyCalendar"
+    Then The CalDAV HTTP status code should be "202"

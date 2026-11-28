@@ -63,7 +63,7 @@ abstract class Entity {
 	}
 
 	/**
-	 * @return array<string, Types::*> with attribute and type
+	 * @return array<string, 'bigint'|'binary'|'blob'|'boolean'|'date'|'date_immutable'|'datetime'|'datetime_immutable'|'datetimetz'|'datetimetz_immutable'|'decimal'|'float'|'guid'|'integer'|'json'|'smallint'|'string'|'text'|'time'|'time_immutable'|'timestamp_immutable'|'tinyint'> with attribute and type
 	 * @since 7.0.0
 	 */
 	public function getFieldTypes(): array {
@@ -143,7 +143,6 @@ abstract class Entity {
 			}
 		}
 		$this->$name = $args[0];
-
 	}
 
 	/**
@@ -155,8 +154,7 @@ abstract class Entity {
 		if (property_exists($this, $name)) {
 			return $this->$name;
 		} else {
-			throw new \BadFunctionCallException($name
-				. ' is not a valid attribute');
+			throw new \BadFunctionCallException($name . ' is not a valid attribute');
 		}
 	}
 
@@ -175,8 +173,7 @@ abstract class Entity {
 		} elseif ($this->isGetterForBoolProperty($methodName)) {
 			return $this->getter(lcfirst(substr($methodName, 2)));
 		} else {
-			throw new \BadFunctionCallException($methodName
-				. ' does not exist');
+			throw new \BadFunctionCallException($methodName . ' does not exist');
 		}
 	}
 
@@ -272,8 +269,7 @@ abstract class Entity {
 				'int' => ColumnType::Integer,
 				'bool' => ColumnType::Boolean,
 				'double' => ColumnType::Float,
-				'array',
-				'object' => ColumnType::String,
+				'array', 'object' => ColumnType::String,
 			};
 		}
 

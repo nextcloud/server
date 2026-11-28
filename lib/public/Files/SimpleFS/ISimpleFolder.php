@@ -25,6 +25,14 @@ interface ISimpleFolder {
 	public function getDirectoryListing(): array;
 
 	/**
+	 * Get all the folders in a folder
+	 *
+	 * @return ISimpleFolder[]
+	 * @since 36.0.0
+	 */
+	public function getFolderListing(): array;
+
+	/**
 	 * Check if a file with $name exists
 	 *
 	 * @param string $name

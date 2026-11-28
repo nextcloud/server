@@ -8,7 +8,7 @@
 
 namespace OCP\Comments;
 
-use OCP\AppFramework\Attribute\Consumable;
+use OCP\AppFramework\Attribute\Listenable;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IWebhookCompatibleEvent;
 
@@ -19,7 +19,7 @@ use OCP\EventDispatcher\IWebhookCompatibleEvent;
  *
  * In the future, once the deprecated methods are removed, this class will be abstract.
  */
-#[Consumable(since: '9.0.0')]
+#[Listenable(since: '9.0.0')]
 class CommentsEvent extends Event implements IWebhookCompatibleEvent {
 	/**
 	 * @since 11.0.0

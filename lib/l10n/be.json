@@ -141,7 +141,6 @@
     "Dec." : "Снеж",
     "The Login is already being used" : "Лагін ужо выкарыстоўваецца",
     "Could not create account" : "Не ўдалося стварыць уліковы запіс",
-    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "У лагіне дазволеныя толькі наступныя сімвалы: \"a-z\", \"A-Z\", \"0-9\", прабелы і \"_.@-'\"",
     "Login contains whitespace at the beginning or at the end" : "Лагін змяшчае прабелы ў пачатку або ў канцы",
     "Login must not consist of dots only" : "Лагін не можа змяшчаць толькі кропкі",
     "Username is too long" : "Імя карыстальніка занадта доўгае",
@@ -222,6 +221,7 @@
     "You cannot share your root folder" : "Нельга абагуліць каранёвую папку",
     "Public upload is not allowed" : "Публічнае запампоўванне забаронена",
     "Sharing is disabled" : "Абагульванне адключана",
+    "Only the following characters are allowed in an Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "У лагіне дазволеныя толькі наступныя сімвалы: \"a-z\", \"A-Z\", \"0-9\", прабелы і \"_.@-'\"",
     "Application is not enabled" : "Праграма не ўключана",
     "Authentication error" : "Памылка аўтэнтыфікацыі",
     "Token expired. Please reload page." : "Токен пратэрмінаваны. Перазагрузіце старонку."

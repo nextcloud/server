@@ -162,7 +162,6 @@ OC.L10N.register(
     "An error occurred during the request. Unable to proceed." : "İstek yapılırken bir sorun çıktı. İşlem sürdürülemiyor.",
     "Could not update an exApp. Please try again later." : "Bir exApp güncellenemedi. Lütfen bir süre sonra yeniden deneyin.",
     "Could not update {app}. Please try again later." : "{app} güncellenemedi. Lütfen bir süre sonra yeniden deneyin.",
-    "Could not update an app. Please try again later." : "Bir uygulama güncellenemedi. Lütfen bir süre sonra yeniden deneyin.",
-    "Failed to update app {appName}" : "{appName} uygulaması güncellenemedi"
+    "Could not update an app. Please try again later." : "Bir uygulama güncellenemedi. Lütfen bir süre sonra yeniden deneyin."
 },
 "nplurals=2; plural=(n > 1);");

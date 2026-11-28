@@ -96,6 +96,19 @@ class SimpleFolderTest extends \Test\TestCase {
 		$this->assertInstanceOf(ISimpleFile::class, $result[1]);
 	}
 
+	public function testGetFolderListing(): void {
+		$this->folder->newFile('file1');
+		$this->folder->newFolder('folder1');
+		$this->folder->newFolder('folder2');
+
+		$result = $this->simpleFolder->getFolderListing();
+		$this->assertCount(2, $result);
+		$this->assertContainsOnlyInstancesOf(ISimpleFolder::class, $result);
+		$names = array_map(static fn (ISimpleFolder $folder): string => $folder->getName(), $result);
+		sort($names);
+		$this->assertEquals(['folder1', 'folder2'], $names);
+	}
+
 	public function testGetFolder(): void {
 		$this->folder->newFolder('exists');
 

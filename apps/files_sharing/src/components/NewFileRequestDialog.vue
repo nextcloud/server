@@ -9,6 +9,7 @@
 		data-cy-file-request-dialog
 		:close-on-click-outside="false"
 		:name="currentStep !== STEP.LAST ? t('files_sharing', 'Create a file request') : t('files_sharing', 'File request created')"
+		:setReturnFocus="returnFocusTarget"
 		size="normal"
 		@closing="onCancel">
 		<!-- Header -->
@@ -30,17 +31,17 @@
 			@submit.prevent.stop="">
 			<FileRequestIntro
 				v-show="currentStep === STEP.FIRST"
+				v-model:destination="destination"
+				v-model:label="label"
+				v-model:note="note"
 				:context="context"
-				:destination.sync="destination"
-				:disabled="loading"
-				:label.sync="label"
-				:note.sync="note" />
+				:disabled="loading" />
 
 			<FileRequestDatePassword
 				v-show="currentStep === STEP.SECOND"
-				:disabled="loading"
-				:expiration-date.sync="expirationDate"
-				:password.sync="password" />
+				v-model:expiration-date="expirationDate"
+				v-model:password="password"
+				:disabled="loading" />
 
 			<FileRequestFinish
 				v-if="share"
@@ -186,6 +187,8 @@ export default defineComponent({
 		},
 	},
 
+	emits: ['close'],
+
 	setup() {
 		return {
 			STEP,
@@ -226,6 +229,10 @@ export default defineComponent({
 	},
 
 	methods: {
+		returnFocusTarget(): HTMLElement | null {
+			return document.querySelector<HTMLElement>('.upload-picker button')
+		},
+
 		onPageNext() {
 			const form = this.$refs.form as HTMLFormElement
 

@@ -44,6 +44,6 @@ class ApiHelperTest extends \Test\TestCase {
 			->method('getScriptName')
 			->willReturn($scriptName);
 
-		$this->assertEquals($expected, $this->invokePrivate(new ApiHelper, 'isV2', [$request]));
+		$this->assertEquals($expected, $this->invokePrivate(ApiHelper::class, 'isV2', [$request]));
 	}
 }

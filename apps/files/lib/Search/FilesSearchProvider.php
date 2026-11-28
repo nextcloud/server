@@ -138,6 +138,7 @@ class FilesSearchProvider implements IFilteringProvider {
 				);
 				$searchResultEntry->addAttribute('fileId', (string)$result->getId());
 				$searchResultEntry->addAttribute('path', $path);
+				$searchResultEntry->addAttribute('lastModified', (new \DateTimeImmutable('@' . $result->getMTime()))->format(\DateTimeInterface::ATOM));
 				return $searchResultEntry;
 			}, $userFolder->search($fileQuery)),
 			$query->getCursor() + $query->getLimit()

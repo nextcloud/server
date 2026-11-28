@@ -159,7 +159,6 @@
     "Test Base DN" : "Rileva DN base",
     "Listing and searching for users is constrained by these criteria:" : "L'elencazione e la ricerca di utenti è vincolata da questi criteri:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "Le classi di oggetti più comuni per gli utenti sono organizationalPerson, person, user, e inetOrgPerson. Se non sei sicuro su quale classe di oggetti selezionare, consulta l'amministratore della tua directory.",
-    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Il filtro specifica quali utenti LDAP devono avere accesso all'istanza {instanceName}.",
     "Verify settings and count users" : "Verifica le impostazioni e conta gli utenti",
     "User count: {usersCount}" : "Conteggio utenti: {usersCount}",
     "Test Configuration" : "Prova configurazione",
@@ -195,6 +194,7 @@
     "Mode switch" : "Cambio modalità",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Il cambio di modalità abiliterà le query LDAP automatiche. In base alla dimensione di LDAP, potrebbero richiedere del tempo. Vuoi ancora cambiare modalità?",
     "Confirm" : "Conferma",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Definisce il filtro da applicare quando si tenta l'accesso. `%%uid` sostituisce il nome utente nell'azione di accesso. Esempio: `uid=%%uid`"
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Definisce il filtro da applicare quando si tenta l'accesso. `%%uid` sostituisce il nome utente nell'azione di accesso. Esempio: `uid=%%uid`",
+    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Il filtro specifica quali utenti LDAP devono avere accesso all'istanza {instanceName}."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

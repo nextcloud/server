@@ -103,6 +103,10 @@ class FederationSharingServiceTest extends TestCase {
 			->with('host1')
 			->willReturn($hostUser);
 
+		$this->sharingMapper->expects(self::once())
+			->method('getSharesByPrincipalsAndResource')
+			->with(['principals/remote-users/cmVtb3RlMUBuZXh0Y2xvdWQucmVtb3Rl'], 10, 'calendar')
+			->willReturn([]);
 		$this->random->expects(self::once())
 			->method('generate')
 			->with(32)
@@ -178,6 +182,130 @@ class FederationSharingServiceTest extends TestCase {
 			$shareable,
 			'principals/remote-users/cmVtb3RlMUBuZXh0Y2xvdWQucmVtb3Rl',
 			3, // Read-only
+		);
+	}
+
+	public function testShareWithKeepsTokenOfExistingShare(): void {
+		$shareable = $this->createMock(Calendar::class);
+		$shareable->method('getOwner')
+			->willReturn('principals/users/host1');
+		$shareable->method('getName')
+			->willReturn('cal1');
+		$shareable->method('getResourceId')
+			->willReturn(10);
+		$shareable->method('getProperties')
+			->willReturnCallback(static fn (array $props) => match ($props[0]) {
+				'{DAV:}displayname' => ['{DAV:}displayname' => 'Calendar 1'],
+				'{http://apple.com/ns/ical/}calendar-color' => [
+					'{http://apple.com/ns/ical/}calendar-color' => '#ff0000',
+				],
+				'{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set' => [
+					'{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set' => new SupportedCalendarComponentSet([
+						'VEVENT',
+						'VTODO',
+					]),
+				]
+			});
+
+		$this->config->expects(self::once())
+			->method('isOutgoingServer2serverShareEnabled')
+			->willReturn(true);
+
+		$hostUser = $this->createMock(IUser::class);
+		$hostUser->method('getCloudId')
+			->willReturn('host1@nextcloud.host');
+		$hostUser->method('getDisplayName')
+			->willReturn('Host 1');
+		$hostUser->method('getUID')
+			->willReturn('host1');
+		$this->userManager->expects(self::once())
+			->method('get')
+			->with('host1')
+			->willReturn($hostUser);
+
+		$this->sharingMapper->expects(self::once())
+			->method('getSharesByPrincipalsAndResource')
+			->with(['principals/remote-users/cmVtb3RlMUBuZXh0Y2xvdWQucmVtb3Rl'], 10, 'calendar')
+			->willReturn([[
+				'principaluri' => 'principals/remote-users/cmVtb3RlMUBuZXh0Y2xvdWQucmVtb3Rl',
+				'type' => 'calendar',
+				'access' => 3,
+				'resourceid' => 10,
+				'token' => 'existing-token',
+			]]);
+		$this->random->expects(self::never())
+			->method('generate');
+
+		$share = $this->createMock(ICloudFederationShare::class);
+		$share->expects(self::once())
+			->method('getProtocol')
+			->willReturn([
+				'preservedValue1' => 'foobar',
+				'preservedValue2' => 'baz',
+			]);
+		$share->expects(self::once())
+			->method('setProtocol')
+			->with([
+				'preservedValue1' => 'foobar',
+				'preservedValue2' => 'baz',
+				'version' => 'v1',
+				'url' => 'https://nextcloud.host/remote.php/dav/remote-calendars/cmVtb3RlMUBuZXh0Y2xvdWQucmVtb3Rl/cal1_shared_by_host1',
+				'displayName' => 'Calendar 1',
+				'color' => '#ff0000',
+				'access' => 2,
+				'components' => 'VEVENT,VTODO',
+			]);
+		$this->federationFactory->expects(self::once())
+			->method('getCloudFederationShare')
+			->with(
+				'remote1@nextcloud.remote',
+				'cal1',
+				'Calendar 1',
+				'calendar',
+				'host1@nextcloud.host',
+				'Host 1',
+				'host1@nextcloud.host',
+				'Host 1',
+				'existing-token',
+				'user',
+				'calendar',
+			)
+			->willReturn($share);
+
+		$this->url->expects(self::once())
+			->method('linkTo')
+			->with('', 'remote.php')
+			->willReturn('/remote.php');
+		$this->url->expects(self::once())
+			->method('getAbsoluteURL')
+			->with('/remote.php/dav/remote-calendars/cmVtb3RlMUBuZXh0Y2xvdWQucmVtb3Rl/cal1_shared_by_host1')
+			->willReturn('https://nextcloud.host/remote.php/dav/remote-calendars/cmVtb3RlMUBuZXh0Y2xvdWQucmVtb3Rl/cal1_shared_by_host1');
+
+		$response = $this->createMock(IResponse::class);
+		$response->method('getStatusCode')
+			->willReturn(201);
+		$this->federationManager->expects(self::once())
+			->method('sendCloudShare')
+			->with($share)
+			->willReturn($response);
+
+		$this->sharingMapper->expects(self::once())
+			->method('deleteShare')
+			->with(10, 'calendar', 'principals/remote-users/cmVtb3RlMUBuZXh0Y2xvdWQucmVtb3Rl');
+		$this->sharingMapper->expects(self::once())
+			->method('shareWithToken')
+			->with(
+				10,
+				'calendar',
+				2,
+				'principals/remote-users/cmVtb3RlMUBuZXh0Y2xvdWQucmVtb3Rl',
+				'existing-token',
+			);
+
+		$this->federationSharingService->shareWith(
+			$shareable,
+			'principals/remote-users/cmVtb3RlMUBuZXh0Y2xvdWQucmVtb3Rl',
+			2, // Read-write
 		);
 	}
 
@@ -398,18 +526,16 @@ class FederationSharingServiceTest extends TestCase {
 	}
 
 	public function testShareWithWithOutgoingServer2serverShareDisabled(): void {
-		$shareable = $this->createMock(Calendar::class);
-		$shareable->method('getOwner')
-			->willReturn('principals/users/host1');
-		$shareable->method('getName')
-			->willReturn('cal1');
+		$shareable = $this->createDowngradeTestCalendar();
 
 		$this->config->expects(self::once())
 			->method('isOutgoingServer2serverShareEnabled')
 			->willReturn(false);
 
-		$this->userManager->expects(self::never())
-			->method('get');
+		$this->mockHostUser();
+		$this->sharingMapper->expects(self::once())
+			->method('getSharesByPrincipalsAndResource')
+			->willReturn([]);
 
 		$this->federationManager->expects(self::never())
 			->method('sendCloudShare');
@@ -499,6 +625,249 @@ class FederationSharingServiceTest extends TestCase {
 
 		$this->federationManager->expects(self::never())
 			->method('sendCloudShare');
+		$this->sharingMapper->expects(self::never())
+			->method('deleteShare');
+		$this->sharingMapper->expects(self::never())
+			->method('shareWithToken');
+
+		$this->federationSharingService->shareWith(
+			$shareable,
+			'principals/remote-users/cmVtb3RlMUBuZXh0Y2xvdWQucmVtb3Rl',
+			3, // Read-only
+		);
+	}
+
+	private function createDowngradeTestCalendar(): Calendar&MockObject {
+		$shareable = $this->createMock(Calendar::class);
+		$shareable->method('getOwner')
+			->willReturn('principals/users/host1');
+		$shareable->method('getName')
+			->willReturn('cal1');
+		$shareable->method('getResourceId')
+			->willReturn(10);
+		$shareable->method('getProperties')
+			->willReturn([]);
+		return $shareable;
+	}
+
+	private function mockHostUser(): void {
+		$hostUser = $this->createMock(IUser::class);
+		$hostUser->method('getCloudId')
+			->willReturn('host1@nextcloud.host');
+		$hostUser->method('getDisplayName')
+			->willReturn('Host 1');
+		$hostUser->method('getUID')
+			->willReturn('host1');
+		$this->userManager->method('get')
+			->with('host1')
+			->willReturn($hostUser);
+	}
+
+	private function mockExistingShare(int $access): void {
+		$this->sharingMapper->expects(self::once())
+			->method('getSharesByPrincipalsAndResource')
+			->with(['principals/remote-users/cmVtb3RlMUBuZXh0Y2xvdWQucmVtb3Rl'], 10, 'calendar')
+			->willReturn([[
+				'principaluri' => 'principals/remote-users/cmVtb3RlMUBuZXh0Y2xvdWQucmVtb3Rl',
+				'type' => 'calendar',
+				'access' => $access,
+				'resourceid' => 10,
+				'token' => 'existing-token',
+			]]);
+		$this->random->expects(self::never())
+			->method('generate');
+	}
+
+	private function mockCloudShare(): ICloudFederationShare&MockObject {
+		$share = $this->createMock(ICloudFederationShare::class);
+		$share->method('getProtocol')
+			->willReturn([]);
+		$this->federationFactory->expects(self::once())
+			->method('getCloudFederationShare')
+			->willReturn($share);
+		$this->url->method('linkTo')
+			->willReturn('/remote.php');
+		$this->url->method('getAbsoluteURL')
+			->willReturnArgument(0);
+		return $share;
+	}
+
+	public static function provideRemoteFailureData(): array {
+		return [
+			'exception' => [null],
+			'service unavailable' => [503],
+			'bad request' => [400],
+		];
+	}
+
+	private function mockRemoteFailure(ICloudFederationShare $share, ?int $statusCode): void {
+		if ($statusCode === null) {
+			$this->federationManager->expects(self::once())
+				->method('sendCloudShare')
+				->with($share)
+				->willThrowException(new OCMProviderException());
+			return;
+		}
+
+		$response = $this->createMock(IResponse::class);
+		$response->method('getStatusCode')
+			->willReturn($statusCode);
+		$this->federationManager->expects(self::once())
+			->method('sendCloudShare')
+			->with($share)
+			->willReturn($response);
+	}
+
+	#[DataProvider(methodName: 'provideRemoteFailureData')]
+	public function testShareWithDowngradesExistingShareIfRemoteFails(?int $statusCode): void {
+		$shareable = $this->createDowngradeTestCalendar();
+		$this->config->method('isOutgoingServer2serverShareEnabled')
+			->willReturn(true);
+		$this->mockHostUser();
+		$this->mockExistingShare(2);
+		$share = $this->mockCloudShare();
+		$this->mockRemoteFailure($share, $statusCode);
+
+		$this->sharingMapper->expects(self::once())
+			->method('deleteShare')
+			->with(10, 'calendar', 'principals/remote-users/cmVtb3RlMUBuZXh0Y2xvdWQucmVtb3Rl');
+		$this->sharingMapper->expects(self::once())
+			->method('shareWithToken')
+			->with(
+				10,
+				'calendar',
+				3,
+				'principals/remote-users/cmVtb3RlMUBuZXh0Y2xvdWQucmVtb3Rl',
+				'existing-token',
+			);
+
+		$this->federationSharingService->shareWith(
+			$shareable,
+			'principals/remote-users/cmVtb3RlMUBuZXh0Y2xvdWQucmVtb3Rl',
+			3, // Read-only
+		);
+	}
+
+	public function testShareWithDowngradesExistingShareIfOutgoingServer2serverShareDisabled(): void {
+		$shareable = $this->createDowngradeTestCalendar();
+		$this->config->method('isOutgoingServer2serverShareEnabled')
+			->willReturn(false);
+		$this->mockHostUser();
+		$this->mockExistingShare(2);
+
+		$this->federationManager->expects(self::never())
+			->method('sendCloudShare');
+		$this->sharingMapper->expects(self::once())
+			->method('deleteShare')
+			->with(10, 'calendar', 'principals/remote-users/cmVtb3RlMUBuZXh0Y2xvdWQucmVtb3Rl');
+		$this->sharingMapper->expects(self::once())
+			->method('shareWithToken')
+			->with(
+				10,
+				'calendar',
+				3,
+				'principals/remote-users/cmVtb3RlMUBuZXh0Y2xvdWQucmVtb3Rl',
+				'existing-token',
+			);
+
+		$this->federationSharingService->shareWith(
+			$shareable,
+			'principals/remote-users/cmVtb3RlMUBuZXh0Y2xvdWQucmVtb3Rl',
+			3, // Read-only
+		);
+	}
+
+	public function testShareWithDowngradesExistingShareIfRemoteAccepts(): void {
+		$shareable = $this->createDowngradeTestCalendar();
+		$this->config->method('isOutgoingServer2serverShareEnabled')
+			->willReturn(true);
+		$this->mockHostUser();
+		$this->mockExistingShare(2);
+		$share = $this->mockCloudShare();
+
+		$response = $this->createMock(IResponse::class);
+		$response->method('getStatusCode')
+			->willReturn(201);
+		$this->federationManager->expects(self::once())
+			->method('sendCloudShare')
+			->with($share)
+			->willReturn($response);
+
+		$this->sharingMapper->expects(self::atLeastOnce())
+			->method('deleteShare')
+			->with(10, 'calendar', 'principals/remote-users/cmVtb3RlMUBuZXh0Y2xvdWQucmVtb3Rl');
+		$this->sharingMapper->expects(self::atLeastOnce())
+			->method('shareWithToken')
+			->with(
+				10,
+				'calendar',
+				3,
+				'principals/remote-users/cmVtb3RlMUBuZXh0Y2xvdWQucmVtb3Rl',
+				'existing-token',
+			);
+
+		$this->federationSharingService->shareWith(
+			$shareable,
+			'principals/remote-users/cmVtb3RlMUBuZXh0Y2xvdWQucmVtb3Rl',
+			3, // Read-only
+		);
+	}
+
+	#[DataProvider(methodName: 'provideRemoteFailureData')]
+	public function testShareWithKeepsExistingShareOnFailedUpgrade(?int $statusCode): void {
+		$shareable = $this->createDowngradeTestCalendar();
+		$this->config->method('isOutgoingServer2serverShareEnabled')
+			->willReturn(true);
+		$this->mockHostUser();
+		$this->mockExistingShare(3);
+		$share = $this->mockCloudShare();
+		$this->mockRemoteFailure($share, $statusCode);
+
+		$this->sharingMapper->expects(self::never())
+			->method('deleteShare');
+		$this->sharingMapper->expects(self::never())
+			->method('shareWithToken');
+
+		$this->federationSharingService->shareWith(
+			$shareable,
+			'principals/remote-users/cmVtb3RlMUBuZXh0Y2xvdWQucmVtb3Rl',
+			2, // Read-write
+		);
+	}
+
+	public function testShareWithKeepsReadOnlyShareIfRemoteFails(): void {
+		$shareable = $this->createDowngradeTestCalendar();
+		$this->config->method('isOutgoingServer2serverShareEnabled')
+			->willReturn(true);
+		$this->mockHostUser();
+		$this->mockExistingShare(3);
+		$share = $this->mockCloudShare();
+		$this->mockRemoteFailure($share, 503);
+
+		$this->sharingMapper->expects(self::never())
+			->method('deleteShare');
+		$this->sharingMapper->expects(self::never())
+			->method('shareWithToken');
+
+		$this->federationSharingService->shareWith(
+			$shareable,
+			'principals/remote-users/cmVtb3RlMUBuZXh0Y2xvdWQucmVtb3Rl',
+			3, // Read-only
+		);
+	}
+
+	public function testShareWithDoesNotTouchSharesOfNonCalendarShareable(): void {
+		$shareable = $this->createMock(IShareable::class);
+		$shareable->method('getOwner')
+			->willReturn('principals/users/host1');
+		$shareable->method('getResourceId')
+			->willReturn(10);
+		$this->config->method('isOutgoingServer2serverShareEnabled')
+			->willReturn(false);
+		$this->mockHostUser();
+
+		$this->sharingMapper->expects(self::never())
+			->method('getSharesByPrincipalsAndResource');
 		$this->sharingMapper->expects(self::never())
 			->method('deleteShare');
 		$this->sharingMapper->expects(self::never())

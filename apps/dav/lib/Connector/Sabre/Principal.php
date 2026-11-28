@@ -15,7 +15,6 @@ use OCA\Circles\Model\Circle;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Traits\PrincipalProxyTrait;
 use OCP\Accounts\IAccountManager;
-use OCP\Accounts\IAccountProperty;
 use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\App\IAppManager;
 use OCP\Constants;
@@ -250,24 +249,24 @@ class Principal implements BackendInterface {
 		$ignoreSecondDisplayName = $this->shareManager->ignoreSecondDisplayName();
 		$matchEmail = $this->shareManager->matchEmail();
 
+		$currentUser = $this->userSession->getUser();
+		$shareWithGroupMembersOnly = $this->shareManager->shareWithGroupMembersOnly();
+		if ($shareWithGroupMembersOnly && !$currentUser instanceof IUser) {
+			return [];
+		}
+
+		// Groups excluded from the group members only restriction do not count as common groups
+		$currentUserGroups = [];
+		if (($shareWithGroupMembersOnly || $limitEnumerationGroup) && $currentUser instanceof IUser) {
+			$currentUserGroups = array_values(array_diff(
+				$this->groupManager->getUserGroupIds($currentUser),
+				$this->shareManager->shareWithGroupMembersOnlyExcludeGroupsList()
+			));
+		}
+
 		// If sharing is restricted to group members only,
 		// return only members that have groups in common
-		$restrictGroups = false;
-		$currentUser = $this->userSession->getUser();
-		if ($this->shareManager->shareWithGroupMembersOnly()) {
-			if (!$currentUser instanceof IUser) {
-				return [];
-			}
-
-			$restrictGroups = $this->groupManager->getUserGroupIds($currentUser);
-		}
-
-		$currentUserGroups = [];
-		if ($limitEnumerationGroup) {
-			if ($currentUser instanceof IUser) {
-				$currentUserGroups = $this->groupManager->getUserGroupIds($currentUser);
-			}
-		}
+		$restrictGroups = $shareWithGroupMembersOnly ? $currentUserGroups : false;
 
 		$searchLimit = $this->config->getSystemValueInt('sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT);
 		if ($searchLimit <= 0) {
@@ -289,22 +288,7 @@ class Principal implements BackendInterface {
 								return true;
 							}
 
-							if ($limitEnumerationPhone
-								&& $currentUser instanceof IUser
-								&& $this->knownUserService->isKnownToUser($currentUser->getUID(), $user->getUID())) {
-								// Synced phonebook match
-								return true;
-							}
-
-							if (!$limitEnumerationGroup) {
-								// No limitation on enumeration, all allowed
-								return true;
-							}
-
-							return !empty($currentUserGroups) && !empty(array_intersect(
-								$this->groupManager->getUserGroupIds($user),
-								$currentUserGroups
-							));
+							return $this->canEnumerateUser($currentUser, $user, $limitEnumerationGroup, $limitEnumerationPhone, $currentUserGroups);
 						});
 					}
 
@@ -342,22 +326,7 @@ class Principal implements BackendInterface {
 								return true;
 							}
 
-							if ($limitEnumerationPhone
-								&& $currentUser instanceof IUser
-								&& $this->knownUserService->isKnownToUser($currentUser->getUID(), $user->getUID())) {
-								// Synced phonebook match
-								return true;
-							}
-
-							if (!$limitEnumerationGroup) {
-								// No limitation on enumeration, all allowed
-								return true;
-							}
-
-							return !empty($currentUserGroups) && !empty(array_intersect(
-								$this->groupManager->getUserGroupIds($user),
-								$currentUserGroups
-							));
+							return $this->canEnumerateUser($currentUser, $user, $limitEnumerationGroup, $limitEnumerationPhone, $currentUserGroups);
 						});
 					}
 
@@ -407,6 +376,33 @@ class Principal implements BackendInterface {
 	}
 
 	/**
+	 * Whether the current user may find the given user by a partial search,
+	 * following the enumeration restrictions to groups and phone book matches
+	 *
+	 * @param string[] $currentUserGroups
+	 */
+	private function canEnumerateUser(?IUser $currentUser, IUser $user, bool $limitEnumerationGroup, bool $limitEnumerationPhone, array $currentUserGroups): bool {
+		if (!$limitEnumerationGroup && !$limitEnumerationPhone) {
+			// No limitation on enumeration, all allowed
+			return true;
+		}
+
+		if ($limitEnumerationPhone
+			&& $currentUser instanceof IUser
+			&& $this->knownUserService->isKnownToUser($currentUser->getUID(), $user->getUID())) {
+			// Synced phonebook match
+			return true;
+		}
+
+		return $limitEnumerationGroup
+			&& !empty($currentUserGroups)
+			&& !empty(array_intersect(
+				$this->groupManager->getUserGroupIds($user),
+				$currentUserGroups
+			));
+	}
+
+	/**
 	 * @param string $prefixPath
 	 * @param array $searchProperties
 	 * @param string $test
@@ -429,7 +425,7 @@ class Principal implements BackendInterface {
 	/**
 	 * @param string $uri
 	 * @param string $principalPrefix
-	 * @return string
+	 * @return string|null
 	 */
 	#[\Override]
 	public function findByUri($uri, $principalPrefix) {
@@ -448,7 +444,10 @@ class Principal implements BackendInterface {
 				return null;
 			}
 
-			$restrictGroups = $this->groupManager->getUserGroupIds($user);
+			$restrictGroups = array_values(array_diff(
+				$this->groupManager->getUserGroupIds($user),
+				$this->shareManager->shareWithGroupMembersOnlyExcludeGroupsList(),
+			));
 		}
 
 		if (str_starts_with($uri, 'mailto:')) {
@@ -472,9 +471,23 @@ class Principal implements BackendInterface {
 		if (str_starts_with($uri, 'principal:')) {
 			$principal = substr($uri, 10);
 			$principal = $this->getPrincipalByPath($principal);
-			if ($principal !== null) {
-				return $principal['uri'];
+			if ($principal === null) {
+				return null;
 			}
+
+			if ($restrictGroups !== false) {
+				[$prefix, $name] = \Sabre\Uri\split($principal['uri']);
+				if ($prefix === $this->principalPrefix) {
+					$user = $this->userManager->get(urldecode($name));
+					if ($user === null || count(array_intersect($this->groupManager->getUserGroupIds($user), $restrictGroups)) === 0) {
+						return null;
+					}
+				} elseif ($prefix === 'principals/groups' && !in_array(urldecode($name), $restrictGroups, true)) {
+					return null;
+				}
+			}
+
+			return $principal['uri'];
 		}
 
 		return null;
@@ -515,7 +528,13 @@ class Principal implements BackendInterface {
 
 		if ($wantsProperty('{DAV:}alternate-URI-set')) {
 			$account = $this->accountManager->getAccount($user);
-			$alternativeEmails = array_map(static fn (IAccountProperty $property) => 'mailto:' . $property->getValue(), $account->getPropertyCollection(IAccountManager::COLLECTION_EMAIL)->getProperties());
+			$alternativeEmails = [];
+			foreach ($account->getPropertyCollection(IAccountManager::COLLECTION_EMAIL)->getProperties() as $property) {
+				// Additional addresses only identify the user once they have been verified
+				if ($property->getLocallyVerified() === IAccountManager::VERIFIED) {
+					$alternativeEmails[] = 'mailto:' . $property->getValue();
+				}
+			}
 			if (!empty($alternativeEmails)) {
 				$principal['{DAV:}alternate-URI-set'] = $alternativeEmails;
 			}

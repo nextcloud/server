@@ -361,7 +361,7 @@ OC.L10N.register(
     "Type" : "Tür",
     "Created new folder \"{name}\"" : "\"{name}\" yeni klasörü oluşturuldu",
     "Unable to initialize the templates directory" : "Kalıp klasörü hazırlanamadı",
-    "Create templates folder" : "Kalıplar klasörü oluştur",
+    "Create templates folder" : "Kalıplar klasörü oluşturulsun",
     "Templates" : "Kalıplar",
     "New template folder" : "Yeni kalıp klasörü",
     "In folder" : "Klasörde",

@@ -615,6 +615,10 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 		string $targetInternalPath,
 		bool $preserveMtime = false,
 	): bool {
+		if (!$sourceStorage->isReadable($sourceInternalPath)) {
+			return false;
+		}
+
 		// the shortcuts below copy the object verbatim, an encrypted source has to be
 		// read through its encryption wrapper instead
 		if ($sourceStorage->instanceOfStorage(Encryption::class)
@@ -645,6 +649,10 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 
 	#[\Override]
 	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath, ?ICacheEntry $sourceCacheEntry = null): bool {
+		if (!$sourceStorage->isDeletable($sourceInternalPath)) {
+			return false;
+		}
+
 		$sourceCache = $sourceStorage->getCache();
 
 		// An encrypted source has to be read through its encryption wrapper: the metadata

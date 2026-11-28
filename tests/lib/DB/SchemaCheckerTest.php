@@ -16,15 +16,19 @@ use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use OC\DB\Connection;
 use OC\DB\SchemaChecker;
+use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
 use OCP\IDBConnection;
+use OCP\Server;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
+#[Group('DB')]
 class SchemaCheckerTest extends \Test\TestCase {
 	private Connection&MockObject $connection;
 	private IAppConfig&MockObject $appConfig;
@@ -160,5 +164,33 @@ class SchemaCheckerTest extends \Test\TestCase {
 		$result = self::invokePrivate($this->schemaChecker, 'isOptionalIndexFinding', [$finding, $optionalIndexNames]);
 
 		$this->assertSame($expected, $result);
+	}
+
+	public static function dataGetFindingsDisabledApps(): array {
+		return [
+			'disabled apps included' => [true],
+			'disabled apps skipped' => [false],
+		];
+	}
+
+	#[DataProvider('dataGetFindingsDisabledApps')]
+	public function testGetFindingsOnlyReplaysDisabledAppsWhenIncluded(bool $includeDisabledApps): void {
+		$schemaChecker = new SchemaChecker(
+			Server::get(Connection::class),
+			$this->appConfig,
+			$this->appManager,
+			$this->eventDispatcher,
+			$this->logger,
+		);
+		$this->appManager->method('getEnabledApps')->willReturn([]);
+		$this->appConfig->expects($includeDisabledApps ? $this->once() : $this->never())
+			->method('getAppInstalledVersions')
+			->willReturn(['disabled_app' => '1.0.0']);
+		$this->appManager->expects($includeDisabledApps ? $this->once() : $this->never())
+			->method('getAppPath')
+			->with('disabled_app')
+			->willThrowException(new AppPathNotFoundException());
+
+		$schemaChecker->getFindings('migrations', $includeDisabledApps);
 	}
 }

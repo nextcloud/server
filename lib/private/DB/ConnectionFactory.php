@@ -142,8 +142,9 @@ class ConnectionFactory {
 
 			case 'sqlite3':
 				$journalMode = $connectionParams['sqlite.journal_mode'];
+				$busyTimeout = $connectionParams['sqlite.busy_timeout'];
 				$connectionParams['platform'] = new OCSqlitePlatform();
-				$eventManager->addEventSubscriber(new SQLiteSessionInit(true, $journalMode));
+				$eventManager->addEventSubscriber(new SQLiteSessionInit(true, $journalMode, $busyTimeout));
 				break;
 		}
 		$configuration = new Configuration();
@@ -206,6 +207,7 @@ class ConnectionFactory {
 
 		$connectionParams['tablePrefix'] = $this->config->getValue('dbtableprefix', self::DEFAULT_DBTABLEPREFIX);
 		$connectionParams['sqlite.journal_mode'] = $this->config->getValue('sqlite.journal_mode', 'WAL');
+		$connectionParams['sqlite.busy_timeout'] = $this->config->getValue('sqlite.busy_timeout', 30000);
 
 		//additional driver options, eg. for mysql ssl
 		$driverOptions = $this->config->getValue($configPrefix . 'dbdriveroptions', $this->config->getValue('dbdriveroptions', null));

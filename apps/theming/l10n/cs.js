@@ -108,6 +108,7 @@ OC.L10N.register(
     "Could not set primary color" : "Nepodařilo se nastavit primární barvu",
     "Set a primary color to highlight important elements. The color used for elements such as primary buttons might differ a bit as it gets adjusted to fulfill accessibility requirements." : "Nastavte hlavní barvu pro zvýraznění důležitých prvků. Barva slouží pro prvky jako například hlavní tlačítka a může se trochu lišit, protože je přizpůsobována aby plnila požadavky na zpřístupnění pro postižené.",
     "Reset primary color" : "Vrátit nastavení primární barvy na výchozí hodnotu",
+    "{time} seconds" : "{time} sekund",
     "Reset to default" : "Vrátit zpět na výchozí hodnoty",
     "Non image file selected" : "Nevybrán žádný soubor s obrázekem",
     "Failed to upload image" : "Nepodařilo se nahrát obrázek",

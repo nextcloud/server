@@ -33,6 +33,10 @@ class TempManager implements ITempManager {
 		$this->tmpBaseDir = $this->getTempBaseDir();
 	}
 
+	public function __destruct() {
+		$this->clean();
+	}
+
 	private function generateTemporaryPath(string $postFix): string {
 		$secureRandom = Server::get(ISecureRandom::class);
 		$absolutePath = $this->tmpBaseDir . '/' . self::TMP_PREFIX . $secureRandom->generate(32, ISecureRandom::CHAR_ALPHANUMERIC);
@@ -93,6 +97,7 @@ class TempManager implements ITempManager {
 	#[\Override]
 	public function clean() {
 		$this->cleanFiles($this->current);
+		$this->current = [];
 	}
 
 	/**

@@ -11,7 +11,7 @@
     "Restored by {user}" : "Restaurado por {user}",
     "Renamed by {user}" : "Renomeado por {user}",
     "Moved by {user}" : "Movido por {user}",
-    "\"remote account\"" : "\"conta remota\"",
+    "\"remote account\"" : "“conta remota”",
     "You created {file}" : "Você criou {file}",
     "You created an encrypted file in {file}" : "Você criou um arquivo criptografado em {file}",
     "{user} created {file}" : "{user} criou {file}",

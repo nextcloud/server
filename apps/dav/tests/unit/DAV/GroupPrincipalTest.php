@@ -206,6 +206,8 @@ class GroupPrincipalTest extends \Test\TestCase {
 			$this->shareManager->expects($this->once())
 				->method('shareWithGroupMembersOnly')
 				->willReturn($groupsOnly);
+			$this->shareManager->method('allowEnumeration')
+				->willReturn(true);
 
 			if ($groupsOnly) {
 				$user = $this->createMock(IUser::class);
@@ -261,6 +263,67 @@ class GroupPrincipalTest extends \Test\TestCase {
 			[false, false, false, 'allof', []],
 			[false, false, false, 'anyof', []],
 		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'searchPrincipalsEnumerationDataProvider')]
+	public function testSearchPrincipalsEnumeration(bool $allowEnumeration, bool $limitToGroups, bool $groupsOnly, array $excludeGroups, array $result): void {
+		$this->shareManager->method('shareAPIEnabled')->willReturn(true);
+		$this->shareManager->method('allowGroupSharing')->willReturn(true);
+		$this->shareManager->method('shareWithGroupMembersOnly')->willReturn($groupsOnly);
+		$this->shareManager->method('shareWithGroupMembersOnlyExcludeGroupsList')->willReturn($excludeGroups);
+		$this->shareManager->method('allowEnumeration')->willReturn($allowEnumeration);
+		$this->shareManager->method('limitEnumerationToGroups')->willReturn($limitToGroups);
+
+		$user = $this->createMock(IUser::class);
+		$this->userSession->method('getUser')->willReturn($user);
+		$this->groupManager->method('getUserGroupIds')
+			->with($user)
+			->willReturn(['member-foo', 'foobar']);
+
+		$groups = [];
+		foreach ([
+			'foo' => 'Some team',
+			'team-a' => 'FOO',
+			'foobar' => 'Foobar team',
+			'member-foo' => 'Member Foo',
+			'other' => 'Other Foo team',
+		] as $gid => $displayName) {
+			$group = $this->createMock(IGroup::class);
+			$group->method('getGID')->willReturn((string)$gid);
+			$group->method('getDisplayName')->willReturn($displayName);
+			$groups[] = $group;
+		}
+		$this->groupManager->expects($this->once())
+			->method('search')
+			->with('Foo')
+			->willReturn($groups);
+
+		$this->assertSame($result, $this->connector->searchPrincipals('principals/groups',
+			['{DAV:}displayname' => 'Foo']));
+	}
+
+	public static function searchPrincipalsEnumerationDataProvider(): array {
+		return [
+			'enumeration allowed' => [true, false, false, [], ['principals/groups/foo', 'principals/groups/team-a', 'principals/groups/foobar', 'principals/groups/member-foo', 'principals/groups/other']],
+			'enumeration disabled: full matches of id or display name only' => [false, false, false, [], ['principals/groups/foo', 'principals/groups/team-a']],
+			'enumeration limited to groups: own groups and full id matches' => [true, true, false, [], ['principals/groups/foo', 'principals/groups/foobar', 'principals/groups/member-foo']],
+			'share with group members only' => [true, false, true, [], ['principals/groups/foobar', 'principals/groups/member-foo']],
+			'share with group members only, with excluded group' => [true, false, true, ['member-foo'], ['principals/groups/foobar']],
+			'share with group members only and enumeration disabled' => [false, false, true, [], []],
+		];
+	}
+
+	public function testSearchPrincipalsLimitEnumerationToGroupsWithoutUser(): void {
+		$this->shareManager->method('shareAPIEnabled')->willReturn(true);
+		$this->shareManager->method('allowGroupSharing')->willReturn(true);
+		$this->shareManager->method('shareWithGroupMembersOnly')->willReturn(false);
+		$this->shareManager->method('allowEnumeration')->willReturn(true);
+		$this->shareManager->method('limitEnumerationToGroups')->willReturn(true);
+		$this->userSession->method('getUser')->willReturn(null);
+		$this->groupManager->expects($this->never())->method('search');
+
+		$this->assertSame([], $this->connector->searchPrincipals('principals/groups',
+			['{DAV:}displayname' => 'Foo']));
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'findByUriDataProvider')]

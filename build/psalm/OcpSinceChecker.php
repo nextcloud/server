@@ -140,6 +140,9 @@ class OcpSinceChecker implements Psalm\Plugin\EventHandler\AfterClassLikeVisitIn
 				)
 			);
 		}
+		foreach ($parsedDocblock->tags['since'] ?? [] as $since) {
+			self::checkSinceIsReleasable(trim($since), $statementsSource, $stmt);
+		}
 
 		if (isset($parsedDocblock->tags['depreacted'])) {
 			IssueBuffer::maybeAdd(
@@ -184,6 +187,9 @@ class OcpSinceChecker implements Psalm\Plugin\EventHandler\AfterClassLikeVisitIn
 				)
 			);
 		}
+		foreach ($parsedDocblock->tags['since'] ?? [] as $since) {
+			self::checkSinceIsReleasable(trim($since), $statementsSource, $stmt);
+		}
 
 		if (isset($parsedDocblock->tags['depreacted'])) {
 			IssueBuffer::maybeAdd(
@@ -213,9 +219,46 @@ class OcpSinceChecker implements Psalm\Plugin\EventHandler\AfterClassLikeVisitIn
 								new CodeLocation($statementsSource, $stmt)
 							)
 						);
+					} else {
+						self::checkSinceIsReleasable($arg->value->value, $statementsSource, $stmt);
 					}
 				}
 			}
 		}
+	}
+
+	/**
+	 * A since version must not be newer than the next patch release of the
+	 * current branch, so backports with an unadjusted since fail
+	 */
+	private static function checkSinceIsReleasable(string $since, FileSource $statementsSource, \PhpParser\Node $stmt): void {
+		// Backports may list multiple versions: "33.0.1, 32.0.7"
+		if (!preg_match('/^\d+(\.\d+)*(\s*,\s*\d+(\.\d+)*)*/', $since, $list)) {
+			return;
+		}
+
+		$maxVersion = self::getMaxSinceVersion();
+		foreach (preg_split('/\s*,\s*/', $list[0]) as $version) {
+			if (version_compare($version, $maxVersion, '<=')) {
+				return;
+			}
+		}
+
+		IssueBuffer::maybeAdd(
+			new InvalidDocblock(
+				'Since version ' . $list[0] . ' is newer than the next release ' . $maxVersion . ' of this branch, please adjust it to the version the change is released in.',
+				new CodeLocation($statementsSource, $stmt)
+			)
+		);
+	}
+
+	private static function getMaxSinceVersion(): string {
+		static $maxVersion = null;
+		if ($maxVersion === null) {
+			require __DIR__ . '/../../version.php';
+			/** @var array{0: int, 1: int, 2: int, 3: int} $OC_Version */
+			$maxVersion = $OC_Version[0] . '.' . $OC_Version[1] . '.' . ($OC_Version[2] + 1);
+		}
+		return $maxVersion;
 	}
 }

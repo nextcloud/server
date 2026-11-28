@@ -1149,9 +1149,20 @@ class UserConfig implements IUserConfig {
 		}
 
 		$this->assertParams($userId, $app, $key);
+		$requestedType = $type;
 		if (!$this->matchAndApplyLexiconDefinition($userId, $app, $key, $lazy, $type, $flags)) {
 			// returns false as database is not updated
 			return false;
+		}
+		if ($requestedType === ValueType::MIXED) {
+			// mixed values are untyped strings, so they need to be validated against the type from the lexicon
+			match ($type) {
+				ValueType::INT => $this->configManager->convertToInt($value),
+				ValueType::FLOAT => $this->configManager->convertToFloat($value),
+				ValueType::BOOL => $this->configManager->convertToBool($value),
+				ValueType::ARRAY => $this->configManager->convertToArray($value),
+				default => null,
+			};
 		}
 		$this->loadConfig($userId, $lazy);
 		if (!$lazy && strlen($value) > self::MAX_NON_LAZY_SIZE) {

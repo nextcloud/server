@@ -21,7 +21,9 @@ use OC\Core\Exception\LoginFlowV2NotFoundException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
@@ -35,6 +37,7 @@ class LoginFlowV2Service {
 		private ICrypto $crypto,
 		private LoggerInterface $logger,
 		private IProvider $tokenProvider,
+		private IEventDispatcher $eventDispatcher,
 	) {
 	}
 
@@ -111,7 +114,7 @@ class LoginFlowV2Service {
 
 	/**
 	 * @param string $loginToken
-	 * @return bool returns true if the start was successfull. False if not.
+	 * @return bool returns true if the start was successful. False if not.
 	 */
 	public function startLoginFlow(string $loginToken): bool {
 		try {
@@ -124,6 +127,10 @@ class LoginFlowV2Service {
 		$this->mapper->update($data);
 
 		return true;
+	}
+
+	public function decline(string $loginToken): bool {
+		return $this->mapper->deletePending($loginToken);
 	}
 
 	/**
@@ -140,6 +147,10 @@ class LoginFlowV2Service {
 			return false;
 		}
 
+		if ($data->getAppPassword() !== null) {
+			return false;
+		}
+
 		try {
 			$sessionToken = $this->tokenProvider->getToken($sessionId);
 			$loginName = $sessionToken->getLoginName();
@@ -153,7 +164,7 @@ class LoginFlowV2Service {
 		}
 
 		$appPassword = $this->random->generate(72, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
-		$this->tokenProvider->generateToken(
+		$generatedToken = $this->tokenProvider->generateToken(
 			$appPassword,
 			$userId,
 			$loginName,
@@ -162,15 +173,29 @@ class LoginFlowV2Service {
 			IToken::PERMANENT_TOKEN,
 			IToken::DO_NOT_REMEMBER
 		);
-
 		$data->setLoginName($loginName);
 		$data->setServer($server);
 
 		// Properly encrypt
 		$data->setAppPassword($this->encryptPassword($appPassword, $data->getPublicKey()));
 
-		$this->mapper->update($data);
-		return true;
+		$completed = false;
+		try {
+			$completed = $this->mapper->complete($data);
+		} finally {
+			if (!$completed) {
+				$this->tokenProvider->invalidateTokenById($userId, $generatedToken->getId());
+			}
+		}
+		if ($completed) {
+			$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+				'App password with ID "%s" and name "%s" was created',
+				['tokenId' => $generatedToken->getId(), 'tokenName' => $generatedToken->getName()],
+				false,
+				'auth.app_password.created',
+			));
+		}
+		return $completed;
 	}
 
 	public function flowDoneWithAppPassword(string $loginToken, string $server, string $loginName, string $appPassword): bool {
@@ -180,17 +205,20 @@ class LoginFlowV2Service {
 			return false;
 		}
 
+		if ($data->getAppPassword() !== null) {
+			return false;
+		}
+
 		$data->setLoginName($loginName);
 		$data->setServer($server);
 
 		// Properly encrypt
 		$data->setAppPassword($this->encryptPassword($appPassword, $data->getPublicKey()));
 
-		$this->mapper->update($data);
-		return true;
+		return $this->mapper->complete($data);
 	}
 
-	public function createTokens(string $userAgent): LoginFlowV2Tokens {
+	public function createTokens(string $userAgent, string $clientIp): LoginFlowV2Tokens {
 		$flow = new LoginFlowV2();
 		$pollToken = $this->random->generate(128, ISecureRandom::CHAR_DIGITS . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER);
 		$loginToken = $this->random->generate(128, ISecureRandom::CHAR_DIGITS . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER);
@@ -199,6 +227,7 @@ class LoginFlowV2Service {
 		$flow->setStarted(0);
 		$flow->setTimestamp($this->time->getTime());
 		$flow->setClientName($userAgent);
+		$flow->setClientIp($clientIp);
 
 		[$publicKey, $privateKey] = $this->getKeyPair();
 		$privateKey = $this->crypto->encrypt($privateKey, $pollToken);

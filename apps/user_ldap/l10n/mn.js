@@ -165,7 +165,6 @@ OC.L10N.register(
     "Test Base DN" : "Үндсэн DN туршилт",
     "Listing and searching for users is constrained by these criteria:" : "Хэрэглэгчдийг жагсаах ба хайх нь эдгээр шалгуураар хязгаарлагддаг:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "Хэрэглэгчдийн хувьд хамгийн түгээмэл объектын ангиуд нь organizationalPerson, person, user, inetOrgPerson юм. Ямар объектын анги сонгохоо мэдэхгүй бол лавлахын администратортай зөвлөлдөнө үү.",
-    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Шүүлтүүр нь ямар LDAP хэрэглэгчид {instanceName} инстанцад хандах эрхтэйг тодорхойлдог.",
     "Verify settings and count users" : "Тохиргоог шалгах ба хэрэглэгчдийг тоолох",
     "User count: {usersCount}" : "Хэрэглэгчийн тоо: {usersCount}",
     "Test Configuration" : "Туршилтын тохиргоо",
@@ -203,6 +202,7 @@ OC.L10N.register(
     "Mode switch" : "горим өөрчлөх",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Горимыг солих нь автомат LDAP хайлтуудыг идэвхжүүлнэ. LDAP-ийн хэмжээнээс хамааран хэсэг хугацаа шаардагдаж болно. Горимыг сэлгэхийг хүсэж байна уу?",
     "Confirm" : "Батлах",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Нэвтрэх оролдлого хийгдэх үед хэрэглэгдэх шүүлтүүрийг тодорхойлно. `%%uid` нь нэвтрэх үйлдэл дэх хэрэглэгчийн нэрийг орлоно. Жишээ: `uid=%%uid`"
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Нэвтрэх оролдлого хийгдэх үед хэрэглэгдэх шүүлтүүрийг тодорхойлно. `%%uid` нь нэвтрэх үйлдэл дэх хэрэглэгчийн нэрийг орлоно. Жишээ: `uid=%%uid`",
+    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Шүүлтүүр нь ямар LDAP хэрэглэгчид {instanceName} инстанцад хандах эрхтэйг тодорхойлдог."
 },
 "nplurals=2; plural=(n != 1);");

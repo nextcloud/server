@@ -27,6 +27,8 @@ use OCP\DB\Types;
  * @method void setPrivateKey(string $key)
  * @method string getClientName()
  * @method void setClientName(string $clientName)
+ * @method ?string getClientIp()
+ * @method void setClientIp(?string $clientIp)
  * @method string getLoginName()
  * @method void setLoginName(string $loginName)
  * @method string getServer()
@@ -49,6 +51,7 @@ class LoginFlowV2 extends Entity {
 	protected $privateKey;
 	/** @var string */
 	protected $clientName;
+	protected ?string $clientIp = null;
 	/** @var string */
 	protected $loginName;
 	/** @var string */
@@ -64,6 +67,7 @@ class LoginFlowV2 extends Entity {
 		$this->addType('publicKey', 'string');
 		$this->addType('privateKey', 'string');
 		$this->addType('clientName', 'string');
+		$this->addType('clientIp', 'string');
 		$this->addType('loginName', 'string');
 		$this->addType('server', 'string');
 		$this->addType('appPassword', 'string');

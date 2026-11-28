@@ -41,7 +41,6 @@ final class UserShareRecipientType extends AShareRecipientTypeSearchCollaborator
 		private readonly IUserManager $userManager,
 		private readonly ISharingManager $manager,
 	) {
-		$eventDispatcher->addServiceListener(BeforeUserDeletedEvent::class, self::class);
 	}
 
 	#[\Override]

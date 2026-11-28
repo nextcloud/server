@@ -170,7 +170,12 @@ class ExceptionSerializer {
 			}
 
 			$objectInfo = [ '__class__' => get_class($arg) ];
-			$objectVars = get_object_vars($arg);
+			try {
+				$objectVars = get_object_vars($arg);
+			} catch (\Throwable $e) {
+				// get_object_vars may throw if $arg was a ghost and failed to build
+				$objectVars = ['__failure__' => $e->getMessage()];
+			}
 			return array_map(function ($arg) use ($nestingLevel) {
 				return $this->encodeArg($arg, $nestingLevel - 1);
 			}, array_merge($objectInfo, $objectVars));

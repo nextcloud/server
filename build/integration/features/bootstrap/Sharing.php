@@ -6,6 +6,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 use Behat\Gherkin\Node\TableNode;
+use Behat\Hook\BeforeScenario;
+use Behat\Step\Given;
+use Behat\Step\Then;
+use Behat\Step\When;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use OCA\Files_Sharing\MountProvider;
@@ -24,9 +28,7 @@ trait Sharing {
 	private array $storedShareData = [];
 	private ?string $savedShareId = null;
 
-	/**
-	 * @BeforeScenario
-	 */
+	#[BeforeScenario]
 	public function resetSharingState(): void {
 		$this->lastShareData = null;
 		$this->storedShareData = [];
@@ -35,9 +37,7 @@ trait Sharing {
 	/** @var ResponseInterface */
 	private $response;
 
-	/**
-	 * @Given /^as "([^"]*)" creating a share with$/
-	 */
+	#[Given('/^as "([^"]*)" creating a share with$/')]
 	public function asCreatingAShareWith(string $user, ?TableNode $body): void {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares";
 		$client = new Client();
@@ -76,30 +76,22 @@ trait Sharing {
 		$this->lastShareData = simplexml_load_string($this->response->getBody());
 	}
 
-	/**
-	 * @When /^save the last share data as "([^"]*)"$/
-	 */
+	#[When('/^save the last share data as "([^"]*)"$/')]
 	public function saveLastShareData(string $name): void {
 		$this->storedShareData[$name] = $this->lastShareData;
 	}
 
-	/**
-	 * @When /^restore the last share data from "([^"]*)"$/
-	 */
+	#[When('/^restore the last share data from "([^"]*)"$/')]
 	public function restoreLastShareData(string $name): void {
 		$this->lastShareData = $this->storedShareData[$name];
 	}
 
-	/**
-	 * @When /^creating a share with$/
-	 */
+	#[When('/^creating a share with$/')]
 	public function creatingShare(?TableNode $body): void {
 		$this->asCreatingAShareWith($this->currentUser, $body);
 	}
 
-	/**
-	 * @When /^opening last share accept confirmation page$/
-	 */
+	#[When('/^opening last share accept confirmation page$/')]
 	public function openingLastShareAcceptConfirmationPage(): void {
 		$share_id = $this->lastShareData->data[0]->id;
 		$url = "/index.php/apps/files_sharing/accept/ocinternal:$share_id";
@@ -117,9 +109,7 @@ trait Sharing {
 		}
 	}
 
-	/**
-	 * @When /^accepting last share via the accept endpoint with requesttoken$/
-	 */
+	#[When('/^accepting last share via the accept endpoint with requesttoken$/')]
 	public function acceptingLastShareViaAcceptEndpointWithRequesttoken(): void {
 		$share_id = $this->lastShareData->data[0]->id;
 		$url = "/index.php/apps/files_sharing/accept/ocinternal:$share_id";
@@ -143,9 +133,7 @@ trait Sharing {
 		}
 	}
 
-	/**
-	 * @When /^accepting last share via the accept endpoint$/
-	 */
+	#[When('/^accepting last share via the accept endpoint$/')]
 	public function acceptingLastShareViaAcceptEndpoint(): void {
 		$this->loggingInUsingWebAs($this->currentUser);
 		$this->openingLastShareAcceptConfirmationPage();
@@ -158,9 +146,7 @@ trait Sharing {
 		$this->acceptingLastShareViaAcceptEndpointWithRequesttoken();
 	}
 
-	/**
-	 * @When /^accepting last share$/
-	 */
+	#[When('/^accepting last share$/')]
 	public function acceptingLastShare(): void {
 		$share_id = $this->lastShareData->data[0]->id;
 		$url = "/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/pending/$share_id";
@@ -169,9 +155,7 @@ trait Sharing {
 		$this->theHTTPStatusCodeShouldBe('200');
 	}
 
-	/**
-	 * @When /^user "([^"]*)" accepts last share$/
-	 */
+	#[When('/^user "([^"]*)" accepts last share$/')]
 	public function userAcceptsLastShare(string $user): void {
 		// "As userXXX" and "user userXXX accepts last share" steps are not
 		// expected to be used in the same scenario, but restore the user just
@@ -189,9 +173,7 @@ trait Sharing {
 		$this->theHTTPStatusCodeShouldBe('200');
 	}
 
-	/**
-	 * @Then /^last link share can be downloaded$/
-	 */
+	#[Then('/^last link share can be downloaded$/')]
 	public function lastLinkShareCanBeDownloaded(): void {
 		if (count($this->lastShareData->data->element) > 0) {
 			$url = $this->lastShareData->data[0]->url;
@@ -202,9 +184,7 @@ trait Sharing {
 		$this->checkDownload($fullUrl, null, 'text/plain');
 	}
 
-	/**
-	 * @Then /^last link share can not be downloaded with status "([^"]*)"$/
-	 */
+	#[Then('/^last link share can not be downloaded with status "([^"]*)"$/')]
 	public function lastLinkShareCanNotBeDownloaded(string $status): void {
 		if (count($this->lastShareData->data->element) > 0) {
 			$url = $this->lastShareData->data[0]->url;
@@ -222,9 +202,7 @@ trait Sharing {
 		Assert::assertNotEquals($status, $response->getStatusCode());
 	}
 
-	/**
-	 * @Then /^last share can be downloaded$/
-	 */
+	#[Then('/^last share can be downloaded$/')]
 	public function lastShareCanBeDownloaded(): void {
 		if (count($this->lastShareData->data->element) > 0) {
 			$token = $this->lastShareData->data[0]->token;
@@ -236,9 +214,7 @@ trait Sharing {
 		$this->checkDownload($fullUrl, null, 'text/plain');
 	}
 
-	/**
-	 * @Then /^last share with password "([^"]*)" can be downloaded$/
-	 */
+	#[Then('/^last share with password "([^"]*)" can be downloaded$/')]
 	public function lastShareWithPasswordCanBeDownloaded($password) {
 		if (count($this->lastShareData->data->element) > 0) {
 			$token = $this->lastShareData->data[0]->token;
@@ -274,9 +250,7 @@ trait Sharing {
 		}
 	}
 
-	/**
-	 * @When /^Adding expiration date to last share$/
-	 */
+	#[When('/^Adding expiration date to last share$/')]
 	public function addingExpirationDate() {
 		$share_id = (string)$this->lastShareData->data[0]->id;
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/$share_id";
@@ -294,9 +268,9 @@ trait Sharing {
 	}
 
 	/**
-	 * @When /^Updating last share with$/
 	 * @param TableNode|null $body
 	 */
+	#[When('/^Updating last share with$/')]
 	public function updatingLastShare($body) {
 		$share_id = (string)$this->lastShareData->data[0]->id;
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/$share_id";
@@ -438,37 +412,33 @@ trait Sharing {
 	}
 
 	/**
-	 * @Then /^File "([^"]*)" should be included in the response$/
-	 *
 	 * @param string $filename
 	 */
+	#[Then('/^File "([^"]*)" should be included in the response$/')]
 	public function checkSharedFileInResponse($filename) {
 		Assert::assertEquals(true, $this->isFieldInResponse('file_target', "/$filename"));
 	}
 
 	/**
-	 * @Then /^File "([^"]*)" should not be included in the response$/
-	 *
 	 * @param string $filename
 	 */
+	#[Then('/^File "([^"]*)" should not be included in the response$/')]
 	public function checkSharedFileNotInResponse($filename) {
 		Assert::assertEquals(false, $this->isFieldInResponse('file_target', "/$filename"));
 	}
 
 	/**
-	 * @Then /^User "([^"]*)" should be included in the response$/
-	 *
 	 * @param string $user
 	 */
+	#[Then('/^User "([^"]*)" should be included in the response$/')]
 	public function checkSharedUserInResponse($user) {
 		Assert::assertEquals(true, $this->isFieldInResponse('share_with', "$user"));
 	}
 
 	/**
-	 * @Then /^User "([^"]*)" should not be included in the response$/
-	 *
 	 * @param string $user
 	 */
+	#[Then('/^User "([^"]*)" should not be included in the response$/')]
 	public function checkSharedUserNotInResponse($user) {
 		Assert::assertEquals(false, $this->isFieldInResponse('share_with', "$user"));
 	}
@@ -484,12 +454,12 @@ trait Sharing {
 	}
 
 	/**
-	 * @Given /^(file|folder|entry) "([^"]*)" of user "([^"]*)" is shared with user "([^"]*)"( with permissions ([\d]*))?( view-only)?$/
 	 *
 	 * @param string $filepath
 	 * @param string $user1
 	 * @param string $user2
 	 */
+	#[Given('/^(file|folder|entry) "([^"]*)" of user "([^"]*)" is shared with user "([^"]*)"( with permissions ([\d]*))?( view-only)?$/')]
 	public function assureFileIsShared($entry, $filepath, $user1, $user2, $withPerms = null, $permissions = null, $viewOnly = null) {
 		// when view-only is set, permissions is empty string instead of null...
 		if ($permissions === '') {
@@ -517,12 +487,12 @@ trait Sharing {
 	}
 
 	/**
-	 * @Given /^(file|folder|entry) "([^"]*)" of user "([^"]*)" is shared with group "([^"]*)"( with permissions ([\d]*))?( view-only)?$/
 	 *
 	 * @param string $filepath
 	 * @param string $user
 	 * @param string $group
 	 */
+	#[Given('/^(file|folder|entry) "([^"]*)" of user "([^"]*)" is shared with group "([^"]*)"( with permissions ([\d]*))?( view-only)?$/')]
 	public function assureFileIsSharedWithGroup($entry, $filepath, $user, $group, $withPerms = null, $permissions = null, $viewOnly = null) {
 		// when view-only is set, permissions is empty string instead of null...
 		if ($permissions === '') {
@@ -549,27 +519,21 @@ trait Sharing {
 		Assert::assertEquals(true, $this->isUserOrGroupInSharedData($group, $permissions));
 	}
 
-	/**
-	 * @When /^Deleting last share$/
-	 */
+	#[When('/^Deleting last share$/')]
 	public function deletingLastShare() {
 		$share_id = $this->lastShareData->data[0]->id;
 		$url = "/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/$share_id";
 		$this->sendingToWith('DELETE', $url, null);
 	}
 
-	/**
-	 * @When /^Getting info of last share$/
-	 */
+	#[When('/^Getting info of last share$/')]
 	public function gettingInfoOfLastShare() {
 		$share_id = $this->lastShareData->data[0]->id;
 		$url = "/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/$share_id";
 		$this->sendingToWith('GET', $url, null);
 	}
 
-	/**
-	 * @Then /^last share_id is included in the answer$/
-	 */
+	#[Then('/^last share_id is included in the answer$/')]
 	public function checkingLastShareIDIsIncluded() {
 		$share_id = $this->lastShareData->data[0]->id;
 		if (!$this->isFieldInResponse('id', $share_id)) {
@@ -577,9 +541,7 @@ trait Sharing {
 		}
 	}
 
-	/**
-	 * @Then /^last share_id is not included in the answer$/
-	 */
+	#[Then('/^last share_id is not included in the answer$/')]
 	public function checkingLastShareIDIsNotIncluded() {
 		$share_id = $this->lastShareData->data[0]->id;
 		if ($this->isFieldInResponse('id', $share_id)) {
@@ -588,9 +550,9 @@ trait Sharing {
 	}
 
 	/**
-	 * @Then /^Share fields of last share match with$/
 	 * @param TableNode|null $body
 	 */
+	#[Then('/^Share fields of last share match with$/')]
 	public function checkShareFields($body) {
 		if ($body instanceof TableNode) {
 			$fd = $body->getRowsHash();
@@ -611,9 +573,7 @@ trait Sharing {
 		}
 	}
 
-	/**
-	 * @Then the list of returned shares has :count shares
-	 */
+	#[Then('the list of returned shares has :count shares')]
 	public function theListOfReturnedSharesHasShares(int $count): void {
 		$this->theHTTPStatusCodeShouldBe('200');
 		$this->theOCSStatusCodeShouldBe('100');
@@ -624,11 +584,11 @@ trait Sharing {
 	}
 
 	/**
-	 * @Then share :count is returned with
 	 *
 	 * @param int $number
 	 * @param TableNode $body
 	 */
+	#[Then('share :count is returned with')]
 	public function shareXIsReturnedWith(int $number, TableNode $body) {
 		$this->theHTTPStatusCodeShouldBe('200');
 		$this->theOCSStatusCodeShouldBe('100');
@@ -726,9 +686,7 @@ trait Sharing {
 		}
 	}
 
-	/**
-	 * @Then As :user remove all shares from the file named :fileName
-	 */
+	#[Then('As :user remove all shares from the file named :fileName')]
 	public function asRemoveAllSharesFromTheFileNamed($user, $fileName) {
 		$url = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares?format=json";
 		$client = new \GuzzleHttp\Client();
@@ -772,16 +730,12 @@ trait Sharing {
 		}
 	}
 
-	/**
-	 * @When save last share id
-	 */
+	#[When('save last share id')]
 	public function saveLastShareId() {
 		$this->savedShareId = ($this->lastShareData['data']['id'] ?? null);
 	}
 
-	/**
-	 * @Then share ids should match
-	 */
+	#[Then('share ids should match')]
 	public function shareIdsShouldMatch() {
 		if ($this->savedShareId !== ($this->lastShareData['data']['id'] ?? null)) {
 			throw new \Exception('Expected the same link share to be returned');
@@ -789,9 +743,9 @@ trait Sharing {
 	}
 
 	/**
-	 * @When /^getting sharees for$/
 	 * @param TableNode $body
 	 */
+	#[When('/^getting sharees for$/')]
 	public function whenGettingShareesFor($body) {
 		$url = '/apps/files_sharing/api/v1/sharees';
 		if ($body instanceof TableNode) {
@@ -814,11 +768,11 @@ trait Sharing {
 	}
 
 	/**
-	 * @Then /^"([^"]*)" sharees returned (are|is empty)$/
 	 * @param string $shareeType
 	 * @param string $isEmpty
 	 * @param TableNode|null $shareesList
 	 */
+	#[Then('/^"([^"]*)" sharees returned (are|is empty)$/')]
 	public function thenListOfSharees($shareeType, $isEmpty, $shareesList = null) {
 		if ($isEmpty !== 'is empty') {
 			$sharees = $shareesList->getRows();
@@ -882,9 +836,7 @@ trait Sharing {
 		return $sharees;
 	}
 
-	/**
-	 * @Then /^Share mounts for "([^"]*)" match$/
-	 */
+	#[Then('/^Share mounts for "([^"]*)" match$/')]
 	public function checkShareMounts(string $user, ?TableNode $body) {
 		if ($body instanceof TableNode) {
 			$fd = $body->getRows();
@@ -901,9 +853,7 @@ trait Sharing {
 		}
 	}
 
-	/**
-	 * @Then /^Share mounts for "([^"]*)" are empty$/
-	 */
+	#[Then('/^Share mounts for "([^"]*)" are empty$/')]
 	public function checkShareMountsEmpty(string $user) {
 		$this->runOcc(['files:mount:list', '--output', 'json', '--cached-only', $user]);
 		$mounts = json_decode($this->lastStdOut, true)['cached'];

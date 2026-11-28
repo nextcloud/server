@@ -10,7 +10,6 @@
 namespace OCA\DAV\CalDAV\Schedule;
 
 use OCA\DAV\CalDAV\CalendarObject;
-use OCA\DAV\CalDAV\EventComparisonService;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
@@ -64,7 +63,6 @@ class IMipPlugin extends SabreIMipPlugin {
 		private Defaults $defaults,
 		private IUserSession $userSession,
 		private IMipService $imipService,
-		private EventComparisonService $eventComparisonService,
 		private IMailManager $mailManager,
 		private IEmailValidator $emailValidator,
 		private IAccountManager $accountManager,
@@ -117,6 +115,10 @@ class IMipPlugin extends SabreIMipPlugin {
 			return;
 		}
 
+		if (strcasecmp($iTipMessage->method, self::METHOD_CANCEL) === 0) {
+			$this->imipService->deleteInvitationTokens($iTipMessage);
+		}
+
 		// don't send out mails for events that already took place
 		$lastOccurrence = $this->imipService->getLastOccurrence($iTipMessage->message);
 		$currentTime = $this->timeFactory->getTime();
@@ -145,29 +147,81 @@ class IMipPlugin extends SabreIMipPlugin {
 
 		$recipientName = $iTipMessage->recipientName ? (string)$iTipMessage->recipientName : null;
 
-		$newEvents = $iTipMessage->message;
-		$oldEvents = $this->getVCalendar();
+		$newObjects = $iTipMessage->message;
+		$oldObjects = $this->getVCalendar();
 
-		$modified = $this->eventComparisonService->findModified($newEvents, $oldEvents);
-		/** @var VEvent $vEvent */
-		$vEvent = array_pop($modified['new']);
-		/** @var VEvent $oldVevent */
-		$oldVevent = !empty($modified['old']) && is_array($modified['old']) ? array_pop($modified['old']) : null;
-		$isModified = isset($oldVevent);
+		$method = match (strtolower($iTipMessage->method)) {
+			'reply' => self::METHOD_REPLY,
+			'cancel' => self::METHOD_CANCEL,
+			default => self::METHOD_REQUEST,
+		};
 
-		// No changed events after all - this shouldn't happen if there is significant change yet here we are
+		// For REQUEST method, we need to determine which instances have changed by comparing new and old events
+		if ($method === self::METHOD_REQUEST) {
+			$newEvents = $this->imipService->eventInstances($newObjects);
+			$oldEventsByInstance = [];
+			if ($oldObjects !== null) {
+				foreach ($this->imipService->eventInstances($oldObjects) as $oldEvent) {
+					$oldEventsByInstance[$this->imipService->instanceKey($oldEvent)] = $oldEvent;
+				}
+			}
+
+			$allInstances = array_map(
+				fn (VEvent $newEvent) => ['new' => $newEvent, 'old' => $oldEventsByInstance[$this->imipService->instanceKey($newEvent)] ?? null],
+				$newEvents,
+			);
+
+			$changedInstances = array_values(array_filter(
+				$allInstances,
+				fn (array $pair) => $pair['old'] === null || $this->imipService->diffInstance($pair['new'], $pair['old']) !== [],
+			));
+
+			$modifiedInstances = $changedInstances !== [] ? $changedInstances : $allInstances;
+		}
+		// For CANCEL/REPLY only ever consume the new instance, so there's no old instance to diff against or compare
+		else {
+			$modifiedInstances = array_map(
+				static fn (VEvent $event) => ['new' => $event, 'old' => null],
+				$this->imipService->eventInstances($newObjects),
+			);
+		}
+
+		// No VEvents in the message at all - this shouldn't happen if there is significant change yet here we are
 		// The scheduling status is debatable
-		if (empty($vEvent)) {
-			$this->logger->warning('iTip message said the change was significant but comparison did not detect any updated VEvents');
+		if (empty($modifiedInstances)) {
+			$this->logger->warning('iTip message said the change was significant but the message contained no VEvents');
 			$iTipMessage->scheduleStatus = '1.0;We got the message, but it\'s not significant enough to warrant an email';
 			return;
 		}
 
-		// we (should) have one event component left
-		// as the ITip\Broker creates one iTip message per change
-		// and triggers the "schedule" event once per message
-		// we also might not have an old event as this could be a new
-		// invitation, or a new recurrence exception
+		if (count($modifiedInstances) > 1) {
+			$this->logger->debug('iTip message contains multiple instances; only the primary instance is reflected in the invitation email', [
+				'uid' => $iTipMessage->uid,
+				'instanceCount' => count($modifiedInstances),
+			]);
+		}
+
+		// we (should) have one instance per message, as the ITip\Broker creates
+		// one iTip message per attendee and triggers the "schedule" event once
+		// per message; a message can still bundle several instances (e.g.
+		// primary + overrides edited together), in which case only the primary
+		// instance is reflected in the email for now
+		$primaryInstance = null;
+		foreach ($modifiedInstances as $instance) {
+			if (!isset($instance['new']->{'RECURRENCE-ID'})) {
+				$primaryInstance = $instance;
+				break;
+			}
+		}
+		$primaryInstance ??= $modifiedInstances[0];
+
+		/** @var VEvent $vEvent */
+		$vEvent = $primaryInstance['new'];
+		/** @var VEvent|null $oldVevent */
+		$oldVevent = $primaryInstance['old'];
+
+		// we might not have an old event as this could be a new invitation,
+		// or a new recurrence exception
 		$attendee = $this->imipService->getCurrentAttendee($iTipMessage);
 		if ($attendee === null) {
 			$uid = $vEvent->UID ?? 'no UID found';
@@ -197,71 +251,15 @@ class IMipPlugin extends SabreIMipPlugin {
 			$senderName = $this->getSenderNameFor($sender);
 		}
 
-		$replyingAttendee = null;
-		switch (strtolower($iTipMessage->method)) {
-			case self::METHOD_REPLY:
-				$method = self::METHOD_REPLY;
-				$data = $this->imipService->buildReplyBodyData($vEvent);
-				$replyingAttendee = $this->imipService->getReplyingAttendee($iTipMessage);
-				break;
-			case self::METHOD_CANCEL:
-				$method = self::METHOD_CANCEL;
-				$data = $this->imipService->buildCancelledBodyData($vEvent);
-				break;
-			default:
-				$method = self::METHOD_REQUEST;
-				$data = $this->imipService->buildBodyData($vEvent, $oldVevent);
-				break;
-		}
-
-		$data['attendee_name'] = ($recipientName ?: $recipient);
-		$data['invitee_name'] = ($senderName ?: $sender);
+		$template = match ($method) {
+			self::METHOD_REPLY => $this->imipService->buildReplyEmail($iTipMessage, $vEvent, $recipient, $recipientName, $sender, $senderName),
+			self::METHOD_CANCEL => $this->imipService->buildCancellationEmail($vEvent, $recipient, $recipientName, $sender, $senderName),
+			default => $this->imipService->buildRequestEmail($iTipMessage, $vEvent, $oldVevent, $attendee, $recipient, $recipientName, $sender, $senderName, $lastOccurrence),
+		};
 
 		$fromEMail = Util::getDefaultEmailAddress('invitations-noreply');
 		$fromName = $this->imipService->getFrom($senderName, $this->defaults->getName());
 
-		$template = $this->mailer->createEMailTemplate('dav.calendarInvite.' . $method, $data);
-		$template->setLanguage($this->imipService->getLanguageCode());
-		$template->addHeader();
-		$template->addBodySender($data['invitee_name'], $senderName !== null ? $sender : '');
-
-		$this->imipService->addSubjectAndHeading($template, $method, $data['invitee_name'], $data['meeting_title'], $isModified, $replyingAttendee);
-		$this->imipService->addEventDetails($template, $vEvent, $data);
-
-		// Only add response buttons to invitation requests: Fix Issue #11230
-		if (strcasecmp($method, self::METHOD_REQUEST) === 0 && $this->imipService->getAttendeeRsvpOrReqForParticipant($attendee)) {
-
-			/*
-			** Only offer invitation accept/reject buttons, which link back to the
-			** nextcloud server, to recipients who can access the nextcloud server via
-			** their internet/intranet.  Issue #12156
-			**
-			** The app setting is stored in the appconfig database table.
-			**
-			** For nextcloud servers accessible to the public internet, the default
-			** "invitation_link_recipients" value "yes" (all recipients) is appropriate.
-			**
-			** When the nextcloud server is restricted behind a firewall, accessible
-			** only via an internal network or via vpn, you can set "dav.invitation_link_recipients"
-			** to the email address or email domain, or comma separated list of addresses or domains,
-			** of recipients who can access the server.
-			**
-			** To always deliver URLs, set invitation_link_recipients to "yes".
-			** To suppress URLs entirely, set invitation_link_recipients to boolean "no".
-			*/
-
-			$recipientDomain = substr(strrchr($recipient, '@'), 1);
-			$invitationLinkRecipients = explode(',', preg_replace('/\s+/', '', strtolower($this->config->getValueString('dav', 'invitation_link_recipients', 'yes'))));
-
-			if (strcmp('yes', $invitationLinkRecipients[0]) === 0
-				|| in_array(strtolower($recipient), $invitationLinkRecipients, true)
-				|| in_array(strtolower($recipientDomain), $invitationLinkRecipients, true)) {
-				$token = $this->imipService->createInvitationToken($iTipMessage, $vEvent, $lastOccurrence);
-				$this->imipService->addResponseButtons($template, $token);
-			}
-		}
-
-		$template->addFooter();
 		// convert iTip Message to string
 		$itip_msg = $iTipMessage->message->serialize();
 
@@ -352,7 +350,7 @@ class IMipPlugin extends SabreIMipPlugin {
 	}
 
 	/**
-	 * Profile email addresses are part of the user's calendar-user-address-set
+	 * Verified profile email addresses are part of the user's calendar-user-address-set
 	 * and therefore valid sender addresses next to the system email address.
 	 */
 	private function isAddressOfUser(string $address, IUser $user): bool {
@@ -363,7 +361,8 @@ class IMipPlugin extends SabreIMipPlugin {
 		$emailCollection = $this->accountManager->getAccount($user)
 			->getPropertyCollection(IAccountManager::COLLECTION_EMAIL);
 		foreach ($emailCollection->getProperties() as $property) {
-			if (strcasecmp($property->getValue(), $address) === 0) {
+			if ($property->getLocallyVerified() === IAccountManager::VERIFIED
+				&& strcasecmp($property->getValue(), $address) === 0) {
 				return true;
 			}
 		}

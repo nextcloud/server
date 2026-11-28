@@ -27,7 +27,6 @@
 				v-if="expirationDate !== null"
 				id="file-request-dialog-expirationDate"
 				:disabled="disabled"
-				:hide-label="true"
 				:label="t('files_sharing', 'Expiration date')"
 				:max="maxDate"
 				:min="minDate"
@@ -36,7 +35,7 @@
 				:model-value="expirationDate"
 				name="expirationDate"
 				type="date"
-				@input="$emit('update:expirationDate', $event)" />
+				@update:model-value="$emit('update:expirationDate', $event)" />
 
 			<p v-if="defaultExpireDateEnforced" class="file-request-dialog__info">
 				<IconInfo :size="18" class="file-request-dialog__info-icon" />
@@ -58,7 +57,7 @@
 
 			<div v-if="password !== null" class="file-request-dialog__password-field">
 				<NcPasswordField
-					ref="passwordField"
+					v-model:visible="isPasswordVisible"
 					:check-password-strength="true"
 					:disabled="disabled"
 					:label="t('files_sharing', 'Password')"
@@ -66,7 +65,7 @@
 					:required="enforcePasswordForPublicLink"
 					:model-value="password"
 					name="password"
-					@update:value="$emit('update:password', $event)" />
+					@update:model-value="$emit('update:password', $event)" />
 				<NcButton
 					:aria-label="t('files_sharing', 'Generate a new password')"
 					:title="t('files_sharing', 'Generate a new password')"
@@ -163,6 +162,7 @@ export default defineComponent({
 
 	data() {
 		return {
+			isPasswordVisible: false,
 			maxDate: null as Date | null,
 			minDate: new Date(new Date().setDate(new Date().getDate() + 1)),
 		}
@@ -244,8 +244,7 @@ export default defineComponent({
 		},
 
 		showPassword() {
-			// @ts-expect-error isPasswordHidden is private
-			this.$refs.passwordField.isPasswordHidden = false
+			this.isPasswordVisible = true
 		},
 	},
 })

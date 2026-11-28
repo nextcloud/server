@@ -17,7 +17,6 @@ use OC\Authentication\Token\IProvider;
 use OC\Core\AppInfo\Application;
 use OC\Core\AppInfo\ConfigLexicon;
 use OC\Files\FilenameValidator;
-use OC\Search\SearchQuery;
 use OC\Security\CSP\ContentSecurityPolicyNonceManager;
 use OC\Template\CSSResourceLocator;
 use OC\Template\JSConfigHelper;
@@ -87,15 +86,11 @@ class TemplateLayout {
 				$this->initialState->provideInitialState('core', 'appStoreLinkShown', Server::get(AppStoreLinkVisibility::class)->isShownToUsers());
 
 				$this->initialState->provideInitialState('unified-search', 'min-search-length', $this->appConfig->getValueInt(Application::APP_ID, ConfigLexicon::UNIFIED_SEARCH_MIN_SEARCH_LENGTH));
-				if ($this->config->getSystemValueBool('unified_search.enabled', false) || !$this->config->getSystemValueBool('enable_non-accessible_features', true)) {
-					$this->initialState->provideInitialState('unified-search', 'limit-default', (int)$this->config->getAppValue('core', 'unified-search.limit-default', (string)SearchQuery::LIMIT_DEFAULT));
-					$this->initialState->provideInitialState('unified-search', 'live-search', $this->config->getAppValue('core', 'unified-search.live-search', 'yes') === 'yes');
-					Util::addScript('core', 'legacy-unified-search', 'core');
-					Util::addStyle('core', 'legacy-unified-search');
-				} else {
-					Util::addScript('core', 'unified-search', 'core');
-					Util::addStyle('core', 'unified-search');
-				}
+				Util::addScript('core', 'unified-search', 'core');
+				Util::addStyle('core', 'unified-search');
+
+				Util::addScript('core', 'appmenu', 'core');
+				Util::addStyle('core', 'appmenu');
 
 				// Set logo link target
 				$logoUrl = $this->config->getSystemValueString('logo_url', '');

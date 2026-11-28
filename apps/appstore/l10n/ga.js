@@ -162,7 +162,6 @@ OC.L10N.register(
     "An error occurred during the request. Unable to proceed." : "Tharla earráid le linn an iarratais. Ní féidir dul ar aghaidh.",
     "Could not update an exApp. Please try again later." : "Níorbh fhéidir exApp a nuashonrú. Bain triail as arís níos déanaí, le do thoil.",
     "Could not update {app}. Please try again later." : "Níorbh fhéidir {app} a nuashonrú. Bain triail as arís níos déanaí, le do thoil.",
-    "Could not update an app. Please try again later." : "Níorbh fhéidir aip a nuashonrú. Bain triail as arís níos déanaí, le do thoil.",
-    "Failed to update app {appName}" : "Theip ar an aip {appName} a nuashonrú"
+    "Could not update an app. Please try again later." : "Níorbh fhéidir aip a nuashonrú. Bain triail as arís níos déanaí, le do thoil."
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

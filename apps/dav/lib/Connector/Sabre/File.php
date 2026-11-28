@@ -17,7 +17,6 @@ use OCA\DAV\Connector\Sabre\Exception\EntityTooLarge;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden as DAVForbiddenException;
 use OCA\DAV\Connector\Sabre\Exception\UnsupportedMediaType;
-use OCP\App\IAppManager;
 use OCP\Constants;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\Files;
@@ -418,7 +417,7 @@ class File extends Node implements IFile {
 			return substr($path, 0, strlen($path) - strlen($filename)) . $hashedFilename;
 		} else {
 			// will place the .part file in the users root directory
-			// therefor we need to make the name (semi) unique - hash does not need to be secure but fast.
+			// therefore we need to make the name (semi) unique - hash does not need to be secure but fast.
 			return hash('xxh128', $path);
 		}
 	}
@@ -436,11 +435,6 @@ class File extends Node implements IFile {
 
 		if (!$exists) {
 			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_create, [
-				Filesystem::signal_param_path => $hookPath,
-				Filesystem::signal_param_run => &$run,
-			]);
-		} else {
-			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_update, [
 				Filesystem::signal_param_path => $hookPath,
 				Filesystem::signal_param_run => &$run,
 			]);
@@ -463,10 +457,6 @@ class File extends Node implements IFile {
 		}
 		if (!$exists) {
 			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_create, [
-				Filesystem::signal_param_path => $hookPath
-			]);
-		} else {
-			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_update, [
 				Filesystem::signal_param_path => $hookPath
 			]);
 		}
@@ -582,9 +572,6 @@ class File extends Node implements IFile {
 	 * @throws NotPermittedException
 	 */
 	public function getDirectDownload(): array|false {
-		if (Server::get(IAppManager::class)->isEnabledForUser('encryption')) {
-			return false;
-		}
 		$node = $this->getNode();
 		$storage = $node->getStorage();
 		if (!$storage) {

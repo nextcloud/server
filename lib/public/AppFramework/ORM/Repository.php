@@ -74,8 +74,8 @@ class Repository {
 		foreach ($row as $column => $value) {
 			$property = $entityInfo->mappingColumnToProperty[$column];
 			$type = $entityInfo->mappingColumnToTypes[$column];
-			if ($type === ColumnType::Blob) {
-				// (B)LOB is treated as string when we read from the DB
+			if ($type === ColumnType::Blob || $type === ColumnType::Binary) {
+				// (B)LOB and binary are treated as string when we read from the DB
 				if (is_resource($value)) {
 					$value = stream_get_contents($value);
 				}
@@ -95,14 +95,14 @@ class Repository {
 
 			/** @psalm-suppress MixedAssignment $value is a raw DB driver value; each branch below settype()s or reconstructs it. */
 			$value = match ($type) {
-				ColumnType::Bigint, ColumnType::Smallint, ColumnType::Integer => (int)$value,
+				ColumnType::Bigint, ColumnType::Smallint, ColumnType::Integer, ColumnType::TinyInt => (int)$value,
 				ColumnType::Float => (float)$value,
 				ColumnType::Boolean => (bool)$value,
-				ColumnType::Binary, ColumnType::Decimal, ColumnType::Guid, ColumnType::Text, ColumnType::String => (string)$value,
+				ColumnType::Decimal, ColumnType::Guid, ColumnType::Text, ColumnType::String => (string)$value,
 				ColumnType::Time, ColumnType::Date, ColumnType::Datetime, ColumnType::DatetimeTz => $value instanceof \DateTime
 					? $value
 					: new \DateTime((string)$value),
-				ColumnType::TimeImmutable, ColumnType::DateImmutable, ColumnType::DatetimeImmutable, ColumnType::DatetimeTzImmutable => $value instanceof \DateTimeImmutable
+				ColumnType::TimeImmutable, ColumnType::DateImmutable, ColumnType::DatetimeImmutable, ColumnType::DatetimeTzImmutable, ColumnType::TimestampImmutable => $value instanceof \DateTimeImmutable
 					? $value
 					: new \DateTimeImmutable((string)$value),
 				ColumnType::Json => is_array($value) ? $value : json_decode((string)$value, true),

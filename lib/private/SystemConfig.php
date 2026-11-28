@@ -42,6 +42,8 @@ class SystemConfig {
 		'trusted_proxies' => true,
 		'preview_imaginary_url' => true,
 		'preview_imaginary_key' => true,
+		'preview_ffmpeg_address' => true,
+		'preview_ffmpeg_key' => true,
 		'proxyuserpwd' => true,
 		'sentry.dsn' => true,
 		'sentry.public-dsn' => true,

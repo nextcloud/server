@@ -57,6 +57,8 @@ OC.L10N.register(
     "Base User Tree" : "Base User Tree",
     "Optional; one attribute per line" : "Optional; one attribute per line",
     "User Search Attributes" : "User Search Attributes",
+    "User Active/Inactive Attribute" : "User Active/Inactive Attribute",
+    "User attribute whether user is active or inactive, should be `TRUE` if active, `FALSE` if not." : "User attribute whether user is active or inactive, should be `TRUE` if active, `FALSE` if not.",
     "When switched on, users imported from LDAP which are then missing will be disabled" : "When switched on, users imported from LDAP which are then missing will be disabled",
     "Disable users missing from LDAP" : "Disable users missing from LDAP",
     "Group Display Name Field" : "Group Display Name Field",
@@ -163,7 +165,7 @@ OC.L10N.register(
     "Test Base DN" : "Test Base DN",
     "Listing and searching for users is constrained by these criteria:" : "Listing and searching for users is constrained by these criteria:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "The most common object classes for users are organisationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin.",
-    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "The filter specifies which LDAP users shall have access to the {instanceName} instance.",
+    "The filter specifies which LDAP users are listed in the {instanceName} instance. To control who can log in, use the Login Attributes tab." : "The filter specifies which LDAP users are listed in the {instanceName} instance. To control who can log in, use the Login Attributes tab.",
     "Verify settings and count users" : "Verify settings and count users",
     "User count: {usersCount}" : "User count: {usersCount}",
     "Test Configuration" : "Test Configuration",
@@ -201,6 +203,7 @@ OC.L10N.register(
     "Mode switch" : "Mode switch",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?",
     "Confirm" : "Confirm",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`"
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`",
+    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "The filter specifies which LDAP users shall have access to the {instanceName} instance."
 },
 "nplurals=2; plural=(n != 1);");

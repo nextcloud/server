@@ -42,6 +42,16 @@ class SimpleFolder implements ISimpleFolder {
 	}
 
 	#[\Override]
+	public function getFolderListing(): array {
+		$folders = array_filter(
+			$this->folder->getDirectoryListing(),
+			static fn (Node $node): bool => $node instanceof Folder,
+		);
+
+		return array_values(array_map(static fn (Folder $folder): ISimpleFolder => new SimpleFolder($folder), $folders));
+	}
+
+	#[\Override]
 	public function delete(): void {
 		$this->folder->delete();
 	}

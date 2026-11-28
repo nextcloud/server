@@ -419,6 +419,19 @@ $CONFIG = [
 	'davstorage.request_timeout' => 30,
 
 	/**
+	 * Allow WebDAV based storages to connect to servers with local addresses
+	 * (e.g., a NAS on the local network). This applies to WebDAV and Nextcloud
+	 * external storages and to the file access of federated shares, without
+	 * allowing local addresses globally as ``allow_local_remote_servers`` does.
+	 *
+	 * Users who can create personal external storages can then make the server
+	 * send requests to hosts on the local network.
+	 *
+	 * Defaults to ``false``
+	 */
+	'davstorage_allow_local_address' => false,
+
+	/**
 	 * The timeout in seconds for synchronizing address books, e.g., federated system address books (as run by ``occ federation:sync-addressbooks``).
 	 *
 	 * Defaults to ``30`` seconds
@@ -448,6 +461,18 @@ $CONFIG = [
 	 * Defaults to ``true``
 	 */
 	'session_keepalive' => true,
+
+	/**
+	 * When enabled, this flag allows the download of a directory to proceed
+	 * even if some files or subdirectories are marked as non-downloadable.
+	 * If files are corrupted, missing, or the server encounter temporary errors
+	 * they are logged in a `missing_files[_unique_id].json` within the archive,
+	 * along with the cause. When disabled, the download is denied if any file
+	 * or subdirectory is marked as non-downloadable. Files that cannot be read
+	 * while the archive is being streamed are left out or incomplete, and only
+	 * logged in the server log.
+	 */
+	'archive_report_missing_files' => true,
 
 	/**
 	 * Enable or disable the automatic logout after session_lifetime, even if session
@@ -1622,6 +1647,48 @@ $CONFIG = [
 	'preview_imaginary_key' => 'secret',
 
 	/**
+	 * Set the address of an ffmpeg-over-ip server to generate video previews on,
+	 * as ``host:port``, ``tls://host:port`` or ``unix:/path/to/socket``. This is
+	 * not an HTTP URL. Also requires the ``OC\Preview\MovieRemote`` provider to
+	 * be enabled in the ``enabledPreviewProviders`` array. Neither ffmpeg nor the
+	 * ffmpeg-over-ip client is needed on the Nextcloud server in that case.
+	 *
+	 * The server reads the videos from Nextcloud over the same connection, so
+	 * it needs no access to the data directory. ffmpeg-over-ip itself does not
+	 * encrypt the connection and does not authenticate the server, so anyone
+	 * answering on this address can read the videos. Either only use it within
+	 * a trusted network, or put a TLS terminating proxy (e.g. stunnel) in front
+	 * of the server and use a ``tls://`` address. Like for other outgoing
+	 * connections of Nextcloud, its certificate is verified against Nextcloud's
+	 * certificate bundle, so a certificate of an internal CA has to be imported
+	 * with ``occ security:certificates:import``.
+	 *
+	 * Like with ``OC\Preview\Movie``, the server can only read up to 20 MB of
+	 * videos on storages that are not local (e.g. S3 or external storage), and
+	 * only the first 10 MB of videos on storages that cannot seek (e.g. WebDAV
+	 * or FTP external storage).
+	 *
+	 * If ``OC\Preview\Movie`` is enabled as well, the server is tried first and
+	 * the local ffmpeg is only used if the server could not generate a preview.
+	 *
+	 * See https://github.com/steelbrain/ffmpeg-over-ip
+	 */
+	'preview_ffmpeg_address' => 'ffmpeg-over-ip:5050',
+
+	/**
+	 * The ``authSecret`` configured on the ffmpeg-over-ip server.
+	 */
+	'preview_ffmpeg_key' => 'secret',
+
+	/**
+	 * Seconds generating a single video preview on the ffmpeg-over-ip server
+	 * may take in total. Values below 1 use the default.
+	 *
+	 * Defaults to ``120``
+	 */
+	'preview_ffmpeg_timeout' => 120,
+
+	/**
 	 * Only register providers that have been explicitly enabled
 	 *
 	 * The following providers are disabled by default due to performance or privacy
@@ -1634,6 +1701,7 @@ $CONFIG = [
 	 *  - ``OC\Preview\Illustrator``
 	 *  - ``OC\Preview\JP2``
 	 *  - ``OC\Preview\Movie``
+	 *  - ``OC\Preview\MovieRemote``
 	 *  - ``OC\Preview\MP3``
 	 *  - ``OC\Preview\MSOffice2003``
 	 *  - ``OC\Preview\MSOffice2007``
@@ -1784,6 +1852,19 @@ $CONFIG = [
 	 * Defaults to ``100`` which disables the feature
 	 */
 	'maintenance_window_start' => 1,
+
+	/**
+	 * Background job classes that are never picked up by cron, webcron, AJAX
+	 * or ``occ background-job:worker``. The jobs stay registered and can still
+	 * be run manually with ``occ background-job:execute``.
+	 *
+	 * Use the fully qualified class names as listed by ``occ background-job:list``.
+	 *
+	 * Defaults to an empty array
+	 */
+	'excluded_jobs' => [
+		'OCA\\Files\\BackgroundJob\\DeleteOrphanedItems',
+	],
 
 	/**
 	 * Log all LDAP requests into a file
@@ -2324,6 +2405,16 @@ $CONFIG = [
 	'sharing.federation.allowSelfSignedCertificates' => false,
 
 	/**
+	 * The timeout in seconds for requests made to remote servers when accessing
+	 * federated shares, e.g. fetching the share info or checking whether the
+	 * remote server is reachable. Increase it if the remote server is slow to
+	 * answer, e.g. under heavy load.
+	 *
+	 * Defaults to ``10`` seconds.
+	 */
+	'sharing.federation.request_timeout' => 10,
+
+	/**
 	 * Override the ``apiVersion`` advertised in the local OCM discovery document.
 	 * Setting this to a non-empty string also removes the non-standard ``version``
 	 * field. Leave empty for compatibility with older Nextcloud servers.
@@ -2412,6 +2503,14 @@ $CONFIG = [
 	 * can be ``'WAL'`` or ``'DELETE'``. See https://www.sqlite.org/wal.html for more details.
 	 */
 	'sqlite.journal_mode' => 'DELETE',
+
+	/**
+	 * Number of milliseconds a SQLite3 connection will wait for a lock held by
+	 * another connection to clear before giving up with a "database is locked"
+	 * error. See https://www.sqlite.org/pragma.html#pragma_busy_timeout for
+	 * more details.
+	 */
+	'sqlite.busy_timeout' => 30000,
 
 	/**
 	 * During setup, if requirements are met (see below), this setting is set to true
@@ -2619,9 +2718,9 @@ $CONFIG = [
 	 * Changing this may cause older, unsupported clients to malfunction, potentially
 	 * leading to data loss or unexpected behavior.
 	 *
-	 * Defaults to ``3.3.50``
+	 * Defaults to ``3.3.81``
 	 */
-	'minimum.supported.desktop.version' => '3.3.50',
+	'minimum.supported.desktop.version' => '3.3.81',
 
 	/**
 	 * Specify the maximum Nextcloud desktop client version allowed to sync with this
@@ -2658,6 +2757,22 @@ $CONFIG = [
 	 * Defaults to ``false``
 	 */
 	'localstorage.unlink_on_truncate' => false,
+
+	/**
+	 * Amount of physical disk space (in bytes) to keep available on the data
+	 * directory's filesystem. The free space reported for local storage is
+	 * reduced by this margin, so uploads are rejected before the disk is
+	 * actually full. This prevents users (in particular those with unlimited
+	 * quota) from filling up all available space, which would starve the
+	 * database, temporary files and logs and can render the instance
+	 * unrecoverable.
+	 *
+	 * Set this to a value large enough to keep the instance operational, or
+	 * to ``0`` to report the free space as-is.
+	 *
+	 * Defaults to 100 MiB
+	 */
+	'localstorage.min_free_space' => 100 * 1024 * 1024,
 
 	/**
 	 * Include external storage mounts in quota calculations.
@@ -3128,13 +3243,6 @@ $CONFIG = [
 	 * Defaults to ``true``
 	 */
 	'reference_opengraph' => true,
-
-	/**
-	 * Enable the legacy unified search.
-	 *
-	 * Defaults to ``false``
-	 */
-	'unified_search.enabled' => false,
 
 	/**
 	 * Enable features that do not yet comply with accessibility standards.

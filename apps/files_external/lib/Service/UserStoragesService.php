@@ -8,12 +8,11 @@
 
 namespace OCA\Files_External\Service;
 
-use OC\Files\Filesystem;
 use OCA\Files_External\Event\StorageCreatedEvent;
 use OCA\Files_External\Event\StorageDeletedEvent;
 use OCA\Files_External\Lib\StorageConfig;
-use OCA\Files_External\MountConfig;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\IAppConfig;
 use OCP\IUserSession;
 use Override;
@@ -44,42 +43,12 @@ class UserStoragesService extends StoragesService {
 		return $this->dbConfig->getUserMountsFor(DBConfigService::APPLICABLE_TYPE_USER, $this->getUser()->getUID());
 	}
 
-	/**
-	 * Triggers $signal for all applicable users of the given
-	 * storage
-	 *
-	 * @param StorageConfig $storage storage data
-	 * @param string $signal signal to trigger
-	 */
 	#[\Override]
-	protected function triggerHooks(StorageConfig $storage, string $signal): void {
-		$user = $this->getUser()->getUID();
-
-		// trigger hook for the current user
-		$this->triggerApplicableHooks(
-			$signal,
-			$storage->getMountPoint(),
-			MountConfig::MOUNT_TYPE_USER,
-			[$user]
-		);
-	}
-
-	/**
-	 * Triggers signal_create_mount or signal_delete_mount to
-	 * accommodate for additions/deletions in applicableUsers
-	 * and applicableGroups fields.
-	 *
-	 * @param StorageConfig $oldStorage old storage data
-	 * @param StorageConfig $newStorage new storage data
-	 */
-	#[\Override]
-	protected function triggerChangeHooks(StorageConfig $oldStorage, StorageConfig $newStorage): void {
-		// if mount point changed, it's like a deletion + creation
+	protected function dispatchChangeEvents(StorageConfig $oldStorage, StorageConfig $newStorage): void {
 		if ($oldStorage->getMountPoint() !== $newStorage->getMountPoint()) {
 			$this->eventDispatcher->dispatchTyped(new StorageDeletedEvent($oldStorage));
 			$this->eventDispatcher->dispatchTyped(new StorageCreatedEvent($newStorage));
-			$this->triggerHooks($oldStorage, Filesystem::signal_delete_mount);
-			$this->triggerHooks($newStorage, Filesystem::signal_create_mount);
+			$this->eventDispatcher->dispatchTyped(new InvalidateMountCacheEvent(null));
 		}
 	}
 

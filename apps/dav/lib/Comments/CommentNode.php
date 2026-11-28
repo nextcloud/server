@@ -75,7 +75,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 			'{http://owncloud.org/ns}latestChildDateTime',
 			'{http://owncloud.org/ns}objectType',
 			'{http://owncloud.org/ns}objectId',
-			// re-used property names are defined as constants
+			// reused property names are defined as constants
 			self::PROPERTY_NAME_MESSAGE,
 			self::PROPERTY_NAME_ACTOR_DISPLAYNAME,
 			self::PROPERTY_NAME_UNREAD,

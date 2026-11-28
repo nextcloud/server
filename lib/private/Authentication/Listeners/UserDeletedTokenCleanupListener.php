@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OC\Authentication\Listeners;
 
+use OC\Authentication\RememberLogin\RememberLoginTokenMapper;
 use OC\Authentication\Token\Manager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -22,6 +23,7 @@ use Throwable;
 class UserDeletedTokenCleanupListener implements IEventListener {
 	public function __construct(
 		private Manager $manager,
+		private RememberLoginTokenMapper $rememberLoginTokenMapper,
 		private LoggerInterface $logger,
 	) {
 	}
@@ -33,18 +35,27 @@ class UserDeletedTokenCleanupListener implements IEventListener {
 			return;
 		}
 
+		$uid = $event->getUser()->getUID();
+
 		/**
 		 * Catch any exception during this process as any failure here shouldn't block the
 		 * user deletion.
 		 */
 		try {
-			$uid = $event->getUser()->getUID();
 			$tokens = $this->manager->getTokenByUser($uid);
 			foreach ($tokens as $token) {
 				$this->manager->invalidateTokenById($uid, $token->getId());
 			}
 		} catch (Throwable $e) {
 			$this->logger->error('Could not clean up auth tokens after user deletion: ' . $e->getMessage(), [
+				'exception' => $e,
+			]);
+		}
+
+		try {
+			$this->rememberLoginTokenMapper->deleteByUid($uid);
+		} catch (Throwable $e) {
+			$this->logger->error('Could not clean up remember-me tokens after user deletion: ' . $e->getMessage(), [
 				'exception' => $e,
 			]);
 		}

@@ -289,6 +289,12 @@ class PublicKeyTokenProvider implements IProvider {
 		$authTokenThreshold = $this->time->getTime() - $this->config->getSystemValueInt('token_auth_token_retention', 60 * 60 * 24 * 365);
 		$this->logger->debug('Invalidating auth tokens older than ' . date('c', $authTokenThreshold), ['app' => 'cron']);
 		$this->mapper->invalidateOld($authTokenThreshold, OCPIToken::PERMANENT_TOKEN);
+
+		// Tokens past their explicit expiration date can't be used anymore. They are kept for a grace period,
+		// so a client still sending one is rejected quietly instead of counting as a failed login.
+		$expiredThreshold = $this->time->getTime() - $this->config->getSystemValueInt('token_auth_expired_token_retention', 60 * 60 * 24 * 7);
+		$this->logger->debug('Deleting auth tokens that expired before ' . date('c', $expiredThreshold), ['app' => 'cron']);
+		$this->mapper->invalidateExpired($expiredThreshold);
 	}
 
 	#[\Override]

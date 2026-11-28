@@ -87,7 +87,8 @@ class Sharing implements IDelegatedSettings {
 		$this->initialState->provideInitialState('sharingDocumentation', $this->urlGenerator->linkToDocs('admin-sharing'));
 		$this->initialState->provideInitialState('sharingSettings', $parameters);
 
-		Util::addScript($this->appName, 'vue-settings-admin-sharing');
+		Util::addStyle($this->appName, 'admin-sharing');
+		Util::addScript($this->appName, 'admin-sharing');
 		return new TemplateResponse($this->appName, 'settings/admin/sharing', [], '');
 	}
 

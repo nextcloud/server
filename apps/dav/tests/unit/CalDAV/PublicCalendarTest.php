@@ -10,12 +10,32 @@ namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\PublicCalendar;
+use OCA\DAV\CalDAV\Trashbin\Plugin as TrashbinPlugin;
 use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
+use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\VObject\Reader;
 
 class PublicCalendarTest extends CalendarTest {
+
+	public function testRestorePublic(): void {
+		/** @var CalDavBackend&MockObject $backend */
+		$backend = $this->createMock(CalDavBackend::class);
+		$backend->expects($this->never())->method('restoreCalendar');
+
+		$calendarInfo = [
+			'{http://owncloud.org/ns}owner-principal' => 'user2',
+			'principaluri' => 'user2',
+			'id' => 666,
+			'uri' => 'cal',
+		];
+		$c = new PublicCalendar($backend, $calendarInfo, $this->l10n, $this->config, $this->logger);
+
+		$this->expectException(Forbidden::class);
+		$c->restore();
+	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesConfidentialClassificationData')]
 	public function testPrivateClassification(int $expectedChildren, bool $isShared): void {
@@ -54,6 +74,32 @@ class PublicCalendarTest extends CalendarTest {
 		$this->assertCount(2, $children);
 
 		$this->assertFalse($c->childExists('event-2'));
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesTrashedObjectData')]
+	public function testTrashedObjectIsNotAChild(bool $isShared): void {
+		/** @var CalDavBackend&MockObject $backend */
+		$backend = $this->getMockBuilder(CalDavBackend::class)->disableOriginalConstructor()->getMock();
+		$backend->method('getCalendarObject')
+			->willReturnMap([
+				[666, 'event-0.ics', CalDavBackend::CALENDAR_TYPE_CALENDAR, ['uri' => 'event-0.ics', 'classification' => CalDavBackend::CLASSIFICATION_PUBLIC, TrashbinPlugin::PROPERTY_DELETED_AT => null]],
+				[666, 'event-1-deleted.ics', CalDavBackend::CALENDAR_TYPE_CALENDAR, ['uri' => 'event-1-deleted.ics', 'classification' => CalDavBackend::CLASSIFICATION_PUBLIC, TrashbinPlugin::PROPERTY_DELETED_AT => 1700000000]],
+			]);
+		$backend->method('applyShareAcl')->willReturnArgument(1);
+
+		$calendarInfo = [
+			'{http://owncloud.org/ns}owner-principal' => 'user2',
+			'principaluri' => 'user2',
+			'id' => 666,
+			'uri' => 'cal',
+		];
+		$c = new PublicCalendar($backend, $calendarInfo, $this->l10n, $this->config, $this->logger);
+
+		$this->assertTrue($c->childExists('event-0.ics'));
+		$this->assertSame('event-0.ics', $c->getChild('event-0.ics')->getName());
+		$this->assertFalse($c->childExists('event-1-deleted.ics'));
+		$this->expectException(NotFound::class);
+		$c->getChild('event-1-deleted.ics');
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesConfidentialClassificationData')]

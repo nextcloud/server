@@ -108,7 +108,6 @@ OC.L10N.register(
     "Share link" : "Povezava za souporabo",
     "Copy" : "Kopiraj",
     "Send link via email" : "Pošlji povezavo po elektronski pošti",
-    "Remove email" : "Odstrani elektronski naslov",
     "Select a destination" : "Izbor cilja",
     "Select" : "Izbor",
     "Where should these files go?" : "Kam želite poslati te datoteke?",
@@ -128,6 +127,7 @@ OC.L10N.register(
     "Cancel" : "Prekliči",
     "Continue" : "Nadaljuj",
     "Error while toggling options" : "Prišlo je do napake med preklapljanjem možnosti",
+    "Accept shares from other accounts and groups by default" : "Privzeto sprejmi deljenja z drugih računov in skupin",
     "Choose a default folder for accepted shares" : "Izbor privzete mape za sprejemanje map v souporabi",
     "Invalid path selected" : "Izbrana je neveljavna pot",
     "Unknown error" : "Neznana napaka",
@@ -215,6 +215,7 @@ OC.L10N.register(
     "Link to a file" : "Povezava do datoteke",
     "Open in Files" : "Odpri v mapi",
     "Shared" : "V souporabi",
+    "Shared by {ownerDisplayName}" : "V skupni rabi z uporabnikom {ownerDisplayName}",
     "Shared multiple times with different people" : "V več souporabah z različnimi uporabniki",
     "Sharing options" : "Možnosti souporabe",
     "Shared with others" : "V souporabi  z drugimi",
@@ -250,6 +251,6 @@ OC.L10N.register(
     "Public link sharing is disabled by the administrator" : "Souporaba z uporabo javne povezave je skrbniško onemogočena",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Souporaba %1$s je spodletela, ker ozadnji program ne omogoča souporabe prek vrste %2$s.",
     "Public upload disabled by the administrator" : "Javno pošiljanje v oblak je skrbniško onemogočeno",
-    "Via “{folder}”" : "Prek mape »{folder}«"
+    "Remove email" : "Odstrani elektronski naslov"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

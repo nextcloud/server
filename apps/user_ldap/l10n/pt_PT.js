@@ -116,7 +116,6 @@ OC.L10N.register(
     "Detect Base DN" : "Detetar Base DN",
     "Test Base DN" : "Testar Base DN",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "Os objetos mais comuns para utilizadores são <em>organizationalPerson, person, user, and inetOrgPerson</em>. Se não tem a certeza de que classe de objeto deverá selecionar, por favor, contacte o administrador do diretório.",
-    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "O filtro especifica quais usuários LDAP terão acesso à instância {instanceName}.",
     "Verify settings and count users" : "Verificar definições e contar utilizadores",
     "Test Configuration" : "Testar a configuração",
     "Help" : "Ajuda",
@@ -146,6 +145,7 @@ OC.L10N.register(
     "Mode switch" : "Trocar de modo",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Trocando o modo vai permitir a busca automática no LDAP. Dependendo do tamanho do seu LDAP poderá demorar um pouco. Ainda pretende trocar o modo?",
     "Confirm" : "Confirmar",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Define o filtro a ser aplicado quando for tentado o login. `%%uid` substitui o nome de usuário na ação de login. Exemplo: `uid=%%uid`"
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Define o filtro a ser aplicado quando for tentado o login. `%%uid` substitui o nome de usuário na ação de login. Exemplo: `uid=%%uid`",
+    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "O filtro especifica quais usuários LDAP terão acesso à instância {instanceName}."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

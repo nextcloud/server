@@ -268,7 +268,6 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "L'alministración desactivó la compartición grupal",
     "Public link sharing is disabled by the administrator" : "L'alministración desactivó al compartición d'enllaces públicos",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Nun se pudo compartir «%1$s» porque'l backend nun permite los elementos compartíos del tipu «%2$s»",
-    "Public upload disabled by the administrator" : "L'alministración desactivó la xuba pública",
-    "Via “{folder}”" : "Per «{folder}»"
+    "Public upload disabled by the administrator" : "L'alministración desactivó la xuba pública"
 },
 "nplurals=2; plural=(n != 1);");

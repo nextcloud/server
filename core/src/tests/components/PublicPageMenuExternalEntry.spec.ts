@@ -6,6 +6,7 @@
 import { enableAutoUnmount, mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it } from 'vitest'
 import { defineComponent, h } from 'vue'
+import PublicPageMenuEntryReal from '../../components/PublicPageMenu/PublicPageMenuEntry.vue'
 import PublicPageMenuExternalEntry from '../../components/PublicPageMenu/PublicPageMenuExternalEntry.vue'
 
 const PublicPageMenuEntry = defineComponent({
@@ -59,5 +60,25 @@ describe('PublicPageMenuExternalEntry', () => {
 		const wrapper = factory({ details: 'Nextcloud' })
 
 		expect(wrapper.get('li').attributes('data-details')).toBe('Nextcloud')
+	})
+})
+
+describe('PublicPageMenuEntry', () => {
+	it('does not throw when the anchor is missing in DOM', () => {
+		const NcListItemStub = defineComponent({
+			name: 'NcListItem',
+			setup() {
+				return () => h('li')
+			},
+		})
+		let wrapper
+		expect(() => {
+			wrapper = mount(PublicPageMenuEntryReal, {
+				props: { id: 'missing', label: 'Missing', href: 'https://example.com' },
+				global: { stubs: { NcListItem: NcListItemStub } },
+			})
+		}).not.toThrow()
+		expect(wrapper!.find('li').exists()).toBe(true)
+		expect(document.getElementById('missing--link')).toBeNull()
 	})
 })

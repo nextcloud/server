@@ -2,13 +2,13 @@ OC.L10N.register(
     "federation",
     {
     "Added to the list of trusted servers" : "Tilføjet til listen over betroede servere",
-    "No server found with ID: %s" : "Ingen server fundet med ID: %s",
+    "No server found with ID: %s" : "Der blev ikke fundet nogen server med id: %s",
     "Could not remove server" : "Serveren kunne ikke fjernes",
     "Server is already in the list of trusted servers." : "Serveren står allerede på listen over betroede servere.",
-    "No server to federate with found" : "Der blev ikke fundet nogen server til at sammenkoble med",
-    "Could not add server" : "Kunne ikke tilføje server",
+    "No server to federate with found" : "Der blev ikke fundet nogen server at føderere med",
+    "Could not add server" : "Serveren kunne ikke tilføjes",
     "Trusted servers" : "Betroede servere",
-    "Federation" : "Sammenkobling",
+    "Federation" : "Føderation",
     "Federation allows you to connect with other trusted servers to exchange the account directory." : "Føderation giver dig mulighed for at oprette forbindelse til andre betroede servere for at udveksle kontobiblioteket.",
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing." : "Føderation giver dig mulighed for at oprette forbindelse til andre betroede servere for at udveksle kontobiblioteket. Det bruges f.eks. til automatisk at udfylde eksterne konti ved fødereret deling.",
     "Could not add trusted server. Please try again later." : "Den betroede server kunne ikke tilføjes. Prøv igen senere.",
@@ -25,6 +25,6 @@ OC.L10N.register(
     "Failed to delete trusted server. Please try again later." : "Den betroede server kunne ikke slettes. Prøv igen senere.",
     "Delete" : "Slet",
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Føderation giver dig mulighed for at oprette forbindelse til andre betroede servere for at udveksle kontobiblioteket. Det bruges f.eks. til automatisk at udfylde eksterne konti ved fødereret deling. Du behøver ikke tilføje en server som betroet server for at oprette en fødereret deling.",
-    "Each server must validate the other. This process may require a few cron cycles." : "Hver server skal validere den anden. Denne proces kan kræve et par cron cyklusser."
+    "Each server must validate the other. This process may require a few cron cycles." : "Hver server skal validere den anden. Det kan tage et par cron-cyklusser."
 },
 "nplurals=2; plural=(n != 1);");

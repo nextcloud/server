@@ -65,6 +65,10 @@ export class ContactsMenuPage {
 	 * a network request always follows a fill().
 	 */
 	async search(query: string): Promise<void> {
+		const searched = this.page.waitForResponse((r) => r.url().includes('/contactsmenu/contacts')
+			&& r.request().method() === 'POST'
+			&& r.request().postDataJSON()?.filter === query)
 		await this.page.getByRole('searchbox', { name: 'Search contacts' }).fill(query)
+		await searched
 	}
 }

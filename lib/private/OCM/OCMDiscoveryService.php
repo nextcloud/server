@@ -206,7 +206,7 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 		$provider->setEnabled(true);
 		$provider->setApiVersion(self::API_VERSION);
 		$provider->setEndPoint(substr($url, 0, $pos));
-		$provider->setCapabilities(['notifications', 'shares', 'exchange-token']);
+		$provider->setCapabilities(['notifications', 'shares', 'exchange-token', 'protocol-object']);
 		$provider->setTokenEndPoint($tokenUrl);
 		if ($signingEnabled) {
 			try {

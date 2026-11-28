@@ -82,10 +82,10 @@ export default {
 
 	/**
 	 * Loads the current user's status from initial state
-	 * and stores it in Vuex
+	 * and stores it in the user status store
 	 */
 	mounted() {
-		this.$store.dispatch('loadStatusFromInitialState')
+		this.userStatusStore.loadStatusFromInitialState()
 
 		if (OC.config.session_keepalive) {
 			this.stopHeartbeat = startHeartbeat((isAway) => this._backgroundHeartbeat(isAway))
@@ -127,9 +127,9 @@ export default {
 			try {
 				const status = await sendHeartbeat(isAway)
 				if (status?.userId) {
-					this.$store.dispatch('setStatusFromHeartbeat', status)
+					this.userStatusStore.loadStatusFromServer(status)
 				} else {
-					await this.$store.dispatch('reFetchStatusFromServer')
+					await this.userStatusStore.reFetchStatusFromServer()
 				}
 			} catch (error) {
 				logger.debug('Failed sending heartbeat, got: ' + error.response?.status)
@@ -138,7 +138,7 @@ export default {
 
 		handleUserStatusUpdated(state) {
 			if (getCurrentUser()?.uid === state.userId) {
-				this.$store.dispatch('setStatusFromObject', {
+				this.userStatusStore.loadStatusFromServer({
 					status: state.status,
 					icon: state.icon,
 					message: state.message,

@@ -27,7 +27,9 @@ use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagAlreadyExistsException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Tree;
 use Sabre\HTTP\RequestInterface;
@@ -149,7 +151,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'getPropertiesDataProvider')]
+	#[DataProvider(methodName: 'getPropertiesDataProvider')]
 	public function testGetProperties(ISystemTag $systemTag, array $groups, array $requestedProperties, array $expectedProperties): void {
 		$this->user->expects($this->any())
 			->method('getUID')
@@ -198,7 +200,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 	}
 
 	public function testGetPropertiesForbidden(): void {
-		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+		$this->expectException(Forbidden::class);
 
 		$systemTag = new SystemTag('1', 'Test', true, false);
 		$requestedProperties = [
@@ -294,7 +296,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 	}
 
 	public function testUpdatePropertiesForbidden(): void {
-		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+		$this->expectException(Forbidden::class);
 
 		$systemTag = new SystemTag('1', 'Test', true, false);
 		$this->user->expects($this->any())
@@ -339,37 +341,34 @@ class SystemTagPluginTest extends \Test\TestCase {
 
 	public static function updateObjectIdsProvider(): array {
 		return [
-			'add a visible file' => [['2', '3'], ['2', '3', '1']],
-			'remove a visible file' => [['3'], ['3', '1']],
-			'remove all visible files' => [null, ['1']],
+			'add a visible file' => [['2', '3'], Constants::PERMISSION_ALL, true, ['2', '3', '1']],
+			'remove a visible file' => [['3'], Constants::PERMISSION_ALL, true, ['3', '1']],
+			'remove all visible files' => [null, Constants::PERMISSION_ALL, true, ['1']],
+			'add a hidden file' => [['1', '2', '4'], Constants::PERMISSION_ALL, true, null],
+			'remove a read-only file' => [null, Constants::PERMISSION_READ, true, null],
+			'add a visible file to non-assignable tag' => [['2', '3'], Constants::PERMISSION_ALL, false, null],
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'updateObjectIdsProvider')]
-	public function testUpdateObjectIdsKeepsHiddenObjects(?array $requestedIds, array $expectedIds): void {
-		$this->mockObjectIdsUpdate(Constants::PERMISSION_ALL);
+	/**
+	 * @param list<string>|null $expectedIds expected file ids for the tag after the update, or `null` if the update should be blocked
+	 */
+	#[DataProvider(methodName: 'updateObjectIdsProvider')]
+	public function testUpdateObjectIds(?array $requestedIds, int $filePermissions, bool $tagIsAssignable, ?array $expectedIds): void {
+		if ($expectedIds === null) {
+			$this->expectException(Forbidden::class);
+		}
+		$this->mockObjectIdsUpdate($filePermissions, $tagIsAssignable);
 
-		$this->tagMapper->expects($this->once())
-			->method('setObjectIdsForTag')
-			->with('5', 'files', $expectedIds);
+		if ($expectedIds) {
+			$this->tagMapper->expects($this->once())
+				->method('setObjectIdsForTag')
+				->with('5', 'files', $expectedIds);
+		} else {
+			$this->tagMapper->expects($this->never())
+				->method('setObjectIdsForTag');
 
-		$this->updateObjectIds($requestedIds);
-	}
-
-	public static function updateObjectIdsForbiddenProvider(): array {
-		return [
-			'add a hidden file' => [['1', '2', '4'], Constants::PERMISSION_ALL],
-			'remove a read-only file' => [null, Constants::PERMISSION_READ],
-		];
-	}
-
-	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'updateObjectIdsForbiddenProvider')]
-	public function testUpdateObjectIdsForbidden(?array $requestedIds, int $permissions): void {
-		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
-		$this->mockObjectIdsUpdate($permissions);
-
-		$this->tagMapper->expects($this->never())
-			->method('setObjectIdsForTag');
+		}
 
 		$this->updateObjectIds($requestedIds);
 	}
@@ -377,18 +376,19 @@ class SystemTagPluginTest extends \Test\TestCase {
 	/**
 	 * Files 1 and 2 are tagged, only files 2 and 3 are visible to the user
 	 */
-	private function mockObjectIdsUpdate(int $permissions): void {
+	private function mockObjectIdsUpdate(int $filePermissions, bool $tagIsAssignable): void {
 		$this->user->method('getUID')->willReturn('user');
 
 		$node = $this->createMock(SystemTagObjectType::class);
 		$node->method('getName')->willReturn('files');
-		$node->method('getSystemTag')->willReturn(new SystemTag('5', 'Test', true, true));
+		$node->method('getSystemTag')->willReturn(new SystemTag('5', 'Test', true, $tagIsAssignable));
 		$this->tree->method('getNodeForPath')->willReturn($node);
 
+		$this->tagManager->method('canUserAssignTag')->willReturn($tagIsAssignable);
 		$this->tagMapper->method('getObjectIdsForTags')->willReturn(['1', '2']);
 
 		$fileNode = $this->createMock(Node::class);
-		$fileNode->method('getPermissions')->willReturn($permissions);
+		$fileNode->method('getPermissions')->willReturn($filePermissions);
 		$userFolder = $this->createMock(IUserFolder::class);
 		$userFolder->method('getFirstNodeById')
 			->willReturnCallback(fn (int $id): ?Node => in_array($id, [2, 3], true) ? $fileNode : null);
@@ -412,7 +412,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 			[true, true, 'group1|group2'],
 		];
 	}
-	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'createTagInsufficientPermissionsProvider')]
+	#[DataProvider(methodName: 'createTagInsufficientPermissionsProvider')]
 	public function testCreateNotAssignableTagAsRegularUser(bool $userVisible, bool $userAssignable, string $groups): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 		$this->expectExceptionMessage('Not sufficient permissions');
@@ -521,7 +521,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'createTagProvider')]
+	#[DataProvider(methodName: 'createTagProvider')]
 	public function testCreateTagInByIdCollection(bool $userVisible, bool $userAssignable, string $groups): void {
 		$this->user->expects($this->once())
 			->method('getUID')
@@ -685,7 +685,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$this->plugin->httpPost($request, $response);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'nodeClassProvider')]
+	#[DataProvider(methodName: 'nodeClassProvider')]
 	public function testCreateTagConflict(string $nodeClass): void {
 		$this->expectException(\Sabre\DAV\Exception\Conflict::class);
 

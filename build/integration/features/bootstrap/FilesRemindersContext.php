@@ -5,6 +5,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 use Behat\Behat\Context\Context;
+use Behat\Step\Then;
+use Behat\Step\When;
 use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/autoload.php';
@@ -16,9 +18,7 @@ class FilesRemindersContext implements Context {
 	use BasicStructure;
 	use WebDav;
 
-	/**
-	 * @When the user sets a reminder for :path with due date :dueDate
-	 */
+	#[When('the user sets a reminder for :path with due date :dueDate')]
 	public function settingAReminderForFileWithDueDate($path, $dueDate) {
 		$fileId = $this->getFileIdForPath($this->currentUser, $path);
 		$this->sendRequestForJSON(
@@ -29,9 +29,7 @@ class FilesRemindersContext implements Context {
 		);
 	}
 
-	/**
-	 * @Then the user sees the reminder for :path is set to :dueDate
-	 */
+	#[Then('the user sees the reminder for :path is set to :dueDate')]
 	public function retrievingTheReminderForFile($path, $dueDate) {
 		$fileId = $this->getFileIdForPath($this->currentUser, $path);
 		$this->sendRequestForJSON(
@@ -44,9 +42,7 @@ class FilesRemindersContext implements Context {
 		Assert::assertEquals($dueDate, $response);
 	}
 
-	/**
-	 * @Then the user sees the reminder for :path is not set
-	 */
+	#[Then('the user sees the reminder for :path is not set')]
 	public function retrievingTheReminderForFileIsNotSet($path) {
 		$fileId = $this->getFileIdForPath($this->currentUser, $path);
 		$this->sendRequestForJSON(
@@ -59,9 +55,7 @@ class FilesRemindersContext implements Context {
 		Assert::assertNull($response);
 	}
 
-	/**
-	 * @When the user removes the reminder for :path
-	 */
+	#[When('the user removes the reminder for :path')]
 	public function removingTheReminderForFile($path) {
 		$fileId = $this->getFileIdForPath($this->currentUser, $path);
 		$this->sendRequestForJSON(

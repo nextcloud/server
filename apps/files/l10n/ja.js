@@ -230,7 +230,7 @@ OC.L10N.register(
     "(starting)" : "(開始)",
     "Fill template fields" : "テンプレートフィールドへの入力",
     "Submitting fields …" : "フィールドを送信中…",
-    "Submit" : "提出する",
+    "Submit" : "送信",
     "Choose a file or folder to transfer" : "譲渡するファイルまたはフォルダーを選択してください",
     "Transfer \"{path}\"" : "\"{path}\"を転送",
     "Select file or folder" : "ファイルまたはフォルダーを選択してください",

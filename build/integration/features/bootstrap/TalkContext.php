@@ -5,21 +5,19 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 use Behat\Behat\Context\Context;
+use Behat\Hook\AfterScenario;
+use Behat\Hook\BeforeFeature;
 
 class TalkContext implements Context {
-	/**
-	 * @BeforeFeature @Talk
-	 * @BeforeScenario @Talk
-	 */
+	#[BeforeFeature('@Talk')]
+	#[BeforeScenario('@Talk')]
 	public static function skipTestsIfTalkIsNotInstalled() {
 		if (!TalkContext::isTalkInstalled()) {
 			throw new Exception('Talk needs to be installed to run features or scenarios tagged with @Talk');
 		}
 	}
 
-	/**
-	 * @AfterScenario @Talk
-	 */
+	#[AfterScenario('@Talk')]
 	public static function disableTalk() {
 		TalkContext::runOcc(['app:disable', 'spreed']);
 	}

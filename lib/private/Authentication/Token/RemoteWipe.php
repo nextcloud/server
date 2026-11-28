@@ -10,11 +10,13 @@ declare(strict_types=1);
 namespace OC\Authentication\Token;
 
 use OC\Authentication\Events\RemoteWipeFinished;
+use OC\Authentication\Events\RemoteWipeMarked;
 use OC\Authentication\Events\RemoteWipeStarted;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use Psr\Log\LoggerInterface;
 use function array_filter;
 
@@ -41,6 +43,8 @@ class RemoteWipe {
 		$token->wipe();
 		$this->tokenProvider->updateToken($token);
 
+		$this->eventDispatcher->dispatchTyped(new RemoteWipeMarked($token));
+
 		return true;
 	}
 
@@ -64,6 +68,12 @@ class RemoteWipe {
 		foreach ($wipeable as $token) {
 			$token->wipe();
 			$this->tokenProvider->updateToken($token);
+
+			try {
+				$this->eventDispatcher->dispatchTyped(new RemoteWipeMarked($token));
+			} catch (\Throwable $e) {
+				$this->logger->error('Error while marking device for remote wipe', ['exception' => $e]);
+			}
 		}
 
 		return true;
@@ -119,6 +129,12 @@ class RemoteWipe {
 
 		$this->logger->info('user ' . $dbToken->getUID() . ' finished a remote wipe');
 		$this->eventDispatcher->dispatch(RemoteWipeFinished::class, new RemoteWipeFinished($dbToken));
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Remote wipe of app password with ID "%s" of user "%s" was finished',
+			['tokenId' => $dbToken->getId(), 'userId' => $dbToken->getUID()],
+			false,
+			'auth.remote_wipe.finished',
+		));
 
 		return true;
 	}

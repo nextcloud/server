@@ -13,10 +13,13 @@ use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\Federation\RemoteUserCalendarHome;
 use OCP\IConfig;
 use OCP\IL10N;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\Backend\BackendInterface;
+use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\MkCol;
 use Test\TestCase;
 
 class RemoteUserCalendarHomeTest extends TestCase {
@@ -117,5 +120,23 @@ class RemoteUserCalendarHomeTest extends TestCase {
 		$this->assertInstanceOf(Calendar::class, $actual[1]);
 		$this->assertEquals(11, $actual[1]->getResourceId());
 		$this->assertEquals('cal2', $actual[1]->getName());
+	}
+
+	public static function provideCreateExtendedCollectionData(): array {
+		return [
+			'calendar' => [['{DAV:}collection', '{urn:ietf:params:xml:ns:caldav}calendar']],
+			'subscription' => [['{DAV:}collection', '{http://calendarserver.org/ns/}subscribed']],
+		];
+	}
+
+	#[DataProvider(methodName: 'provideCreateExtendedCollectionData')]
+	public function testCreateExtendedCollection(array $resourceType): void {
+		$mkCol = new MkCol($resourceType, []);
+
+		$this->calDavBackend->expects(self::never())
+			->method('createCalendar');
+		$this->expectException(MethodNotAllowed::class);
+
+		$this->remoteUserCalendarHome->createExtendedCollection('cal3', $mkCol);
 	}
 }

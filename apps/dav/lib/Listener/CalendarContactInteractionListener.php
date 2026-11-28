@@ -50,6 +50,11 @@ class CalendarContactInteractionListener implements IEventListener {
 		}
 
 		if ($event instanceof CalendarObjectCreatedEvent || $event instanceof CalendarObjectUpdatedEvent) {
+			if (!$this->isOwnedBy($event->getCalendarData(), $user)) {
+				// Writes into other users' calendars (iTIP delivery, sharees, delegates) are not interactions
+				return;
+			}
+
 			// users: href => principal:principals/users/admin
 			foreach ($event->getShares() as $share) {
 				if (!isset($share['href'])) {
@@ -86,6 +91,13 @@ class CalendarContactInteractionListener implements IEventListener {
 				$this->emitFromUri($added['href'], $user);
 			}
 		}
+	}
+
+	private function isOwnedBy(array $calendarData, IUser $user): bool {
+		$ownerPrincipalUri = $calendarData['principaluri'] ?? null;
+		return $ownerPrincipalUri === self::URI_USERS . $user->getUID()
+			// legacy endpoint
+			|| $ownerPrincipalUri === 'principals/' . $user->getUID();
 	}
 
 	private function emitFromUri(string $uri, IUser $user): void {

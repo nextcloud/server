@@ -11,8 +11,11 @@ namespace OCA\AdminAudit\Tests\Listener;
 
 use OCA\AdminAudit\IAuditLogger;
 use OCA\AdminAudit\Listener\GroupManagementEventListener;
+use OCP\Group\Events\GroupChangedEvent;
 use OCP\Group\Events\GroupCreatedEvent;
 use OCP\Group\Events\GroupDeletedEvent;
+use OCP\Group\Events\SubAdminAddedEvent;
+use OCP\Group\Events\SubAdminRemovedEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\IGroup;
@@ -38,29 +41,68 @@ class GroupManagementEventListenerTest extends TestCase {
 		$this->user->method('getUID')->willReturn('alice');
 	}
 
-	private function expectInfo(string $message, string $operation): void {
+	private function expectInfo(string $message, string $operation, array $params): void {
 		$this->logger->expects($this->once())
 			->method('info')
-			->with($message, ['app' => 'admin_audit', 'operation' => $operation]);
+			->with($message, ['app' => 'admin_audit', 'operation' => $operation, 'params' => $params]);
 	}
 
 	public function testUserAdded(): void {
-		$this->expectInfo('User "alice" added to group "admins"', 'groups.member.added');
+		$this->expectInfo('User "alice" added to group "admins"', 'groups.member.added', ['user' => 'alice', 'group' => 'admins']);
 		$this->listener->handle(new UserAddedEvent($this->group, $this->user));
 	}
 
 	public function testUserRemoved(): void {
-		$this->expectInfo('User "alice" removed from group "admins"', 'groups.member.removed');
+		$this->expectInfo('User "alice" removed from group "admins"', 'groups.member.removed', ['user' => 'alice', 'group' => 'admins']);
 		$this->listener->handle(new UserRemovedEvent($this->group, $this->user));
 	}
 
 	public function testGroupCreated(): void {
-		$this->expectInfo('Group created: "admins"', 'groups.group.created');
+		$this->expectInfo('Group created: "admins"', 'groups.group.created', ['group' => 'admins']);
 		$this->listener->handle(new GroupCreatedEvent($this->group));
 	}
 
 	public function testGroupDeleted(): void {
-		$this->expectInfo('Group deleted: "admins"', 'groups.group.deleted');
+		$this->expectInfo('Group deleted: "admins"', 'groups.group.deleted', ['group' => 'admins']);
 		$this->listener->handle(new GroupDeletedEvent($this->group));
+	}
+
+	public function testGroupDisplayNameChanged(): void {
+		$this->logger->expects($this->once())
+			->method('info')
+			->with(
+				'Display name of group "admins" was changed',
+				$this->callback(fn (array $context): bool => $context['app'] === 'admin_audit' && $context['operation'] === 'groups.group.display_name_changed'),
+			);
+
+		$this->listener->handle(new GroupChangedEvent($this->group, 'displayName', 'Admins', 'Old admins'));
+	}
+
+	public function testGroupChangedOtherFeatureIsIgnored(): void {
+		$this->logger->expects($this->never())->method($this->anything());
+
+		$this->listener->handle(new GroupChangedEvent($this->group, 'unsupported', 'value'));
+	}
+
+	public function testSubAdminAdded(): void {
+		$this->logger->expects($this->once())
+			->method('info')
+			->with(
+				'User "alice" was added as subadmin of group "admins"',
+				$this->callback(fn (array $context): bool => $context['app'] === 'admin_audit' && $context['operation'] === 'groups.subadmin.added'),
+			);
+
+		$this->listener->handle(new SubAdminAddedEvent($this->group, $this->user));
+	}
+
+	public function testSubAdminRemoved(): void {
+		$this->logger->expects($this->once())
+			->method('info')
+			->with(
+				'User "alice" was removed as subadmin of group "admins"',
+				$this->callback(fn (array $context): bool => $context['app'] === 'admin_audit' && $context['operation'] === 'groups.subadmin.removed'),
+			);
+
+		$this->listener->handle(new SubAdminRemovedEvent($this->group, $this->user));
 	}
 }

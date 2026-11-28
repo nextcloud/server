@@ -7,6 +7,7 @@
 
 namespace OCA\DAV\CalDAV;
 
+use OCA\DAV\CalDAV\Trashbin\Plugin as TrashbinPlugin;
 use Sabre\DAV\Exception\NotFound;
 
 class PublicCalendar extends Calendar {
@@ -14,13 +15,12 @@ class PublicCalendar extends Calendar {
 	/**
 	 * @param string $name
 	 * @throws NotFound
-	 * @return PublicCalendarObject
 	 */
 	#[\Override]
-	public function getChild($name) {
+	public function getChild($name): PublicCalendarObject {
 		$obj = $this->caldavBackend->getCalendarObject($this->calendarInfo['id'], $name);
 
-		if (!$obj) {
+		if (!$obj || isset($obj[TrashbinPlugin::PROPERTY_DELETED_AT])) {
 			throw new NotFound('Calendar object not found');
 		}
 		if ($obj['classification'] === CalDavBackend::CLASSIFICATION_PRIVATE) {
@@ -35,7 +35,7 @@ class PublicCalendar extends Calendar {
 	 * @return PublicCalendarObject[]
 	 */
 	#[\Override]
-	public function getChildren() {
+	public function getChildren(): array {
 		$objs = $this->caldavBackend->getCalendarObjects($this->calendarInfo['id']);
 		$children = [];
 		foreach ($objs as $obj) {
@@ -53,7 +53,7 @@ class PublicCalendar extends Calendar {
 	 * @return PublicCalendarObject[]
 	 */
 	#[\Override]
-	public function getMultipleChildren(array $paths) {
+	public function getMultipleChildren(array $paths): array {
 		$objs = $this->caldavBackend->getMultipleCalendarObjects($this->calendarInfo['id'], $paths);
 		$children = [];
 		foreach ($objs as $obj) {
@@ -67,11 +67,10 @@ class PublicCalendar extends Calendar {
 	}
 
 	/**
-	 * public calendars are always shared
-	 * @return bool
+	 * Public calendars are always shared
 	 */
 	#[\Override]
-	public function isShared() {
+	public function isShared(): bool {
 		return true;
 	}
 }

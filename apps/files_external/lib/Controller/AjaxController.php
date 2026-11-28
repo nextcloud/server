@@ -18,11 +18,13 @@ use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 
 class AjaxController extends Controller {
 	/**
@@ -43,6 +45,7 @@ class AjaxController extends Controller {
 		private IUserManager $userManager,
 		private IL10N $l10n,
 		private AuthorizedGroupMapper $authorizedGroupMapper,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -132,6 +135,14 @@ class AjaxController extends Controller {
 
 		if ($allowedToEdit) {
 			$this->globalAuth->saveAuth($uid, $user, $password);
+			$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+				$uid === ''
+					? 'Admin-defined global credentials for external storages were updated'
+					: 'Global credentials for external storages of user "%s" were updated',
+				['targetUserId' => $uid],
+				false,
+				'files_external.credentials.updated',
+			));
 			return new JSONResponse([
 				'status' => 'success',
 			]);

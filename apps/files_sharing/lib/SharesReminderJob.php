@@ -23,6 +23,7 @@ use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Mail\EMailDetails;
+use OCP\Mail\Headers\AutoSubmitted;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -270,6 +271,7 @@ class SharesReminderJob extends TimedJob {
 		$message->setFrom($from);
 		$message->setTo([$reminderInfo['email']]);
 		$message->useTemplate($emailTemplate);
+		$message->setAutoSubmitted(AutoSubmitted::VALUE_AUTO_GENERATED);
 		$errorText = "Sending email with share reminder to $reminderInfo[email] failed.";
 		try {
 			$failedRecipients = $this->mailer->send($message);

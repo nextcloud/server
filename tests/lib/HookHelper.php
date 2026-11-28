@@ -29,12 +29,6 @@ class HookHelper {
 		);
 		Util::connectHook(
 			Filesystem::CLASSNAME,
-			Filesystem::signal_update,
-			'\Test\HookHelper',
-			'updateCallback'
-		);
-		Util::connectHook(
-			Filesystem::CLASSNAME,
 			Filesystem::signal_write,
 			'\Test\HookHelper',
 			'writeCallback'
@@ -45,12 +39,6 @@ class HookHelper {
 			Filesystem::signal_post_create,
 			'\Test\HookHelper',
 			'postCreateCallback'
-		);
-		Util::connectHook(
-			Filesystem::CLASSNAME,
-			Filesystem::signal_post_update,
-			'\Test\HookHelper',
-			'postUpdateCallback'
 		);
 		Util::connectHook(
 			Filesystem::CLASSNAME,
@@ -71,13 +59,6 @@ class HookHelper {
 		];
 	}
 
-	public static function updateCallback($params) {
-		self::$hookCalls[] = [
-			'signal' => Filesystem::signal_update,
-			'params' => $params
-		];
-	}
-
 	public static function writeCallback($params) {
 		self::$hookCalls[] = [
 			'signal' => Filesystem::signal_write,
@@ -88,13 +69,6 @@ class HookHelper {
 	public static function postCreateCallback($params) {
 		self::$hookCalls[] = [
 			'signal' => Filesystem::signal_post_create,
-			'params' => $params
-		];
-	}
-
-	public static function postUpdateCallback($params) {
-		self::$hookCalls[] = [
-			'signal' => Filesystem::signal_post_update,
 			'params' => $params
 		];
 	}

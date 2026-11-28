@@ -102,8 +102,6 @@ class SetupController {
 
 		Util::addStyle('server', null);
 
-		// include common nextcloud webpack bundle
-		Util::addScript('core', 'common');
 		Util::addScript('core', 'main');
 		Util::addStyle('core', 'main');
 		Util::addScript('core', 'install');

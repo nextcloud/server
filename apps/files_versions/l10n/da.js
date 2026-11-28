@@ -3,13 +3,13 @@ OC.L10N.register(
     {
     "Block file versioning" : "Bloker filversionering",
     "Automatic tag based blocking of file version creation." : "Automatisk blokering af nye filversioner ud fra mærker.",
-    "No rule given" : "Ingen regel givet",
+    "No rule given" : "Der er ikke angivet nogen regel",
     "A new version is created" : "Der oprettes en ny version",
     "Versions" : "Versioner",
     "This application automatically maintains older versions of files that are changed." : "Denne app gemmer automatisk ældre versioner af filer, der ændres.",
     "This application automatically maintains older versions of files that are changed. When enabled, a hidden versions folder is provisioned in every user's directory and is used to store old file versions. A user can revert to an older version through the web interface at any time, with the replaced file becoming a version. The app automatically manages the versions folder to ensure the account does not run out of Quota because of versions.\n\t\tIn addition to the expiry of versions, the versions app makes certain never to use more than 50% of the account's currently available free space. If stored versions exceed this limit, the app will delete the oldest versions first until it meets this limit. More information is available in the Versions documentation." : "Denne app gemmer automatisk ældre versioner af filer, der ændres. Når den er aktiveret, oprettes der en skjult versionsmappe i hver brugers mappe, som anvendes til at gemme gamle filversioner. En bruger kan til enhver tid vende tilbage til en ældre version via webbrugerfladen, hvor den erstattede fil bliver til en version. Appen administrerer automatisk versionsmappen for at sikre, at kontoen ikke løber tør for kvote på grund af versioner.\n\t\tUd over udløbet af versioner sørger versionsappen for aldrig at bruge mere end 50 % af kontoens aktuelt ledige plads. Hvis lagrede versioner overskrider denne grænse, sletter appen først de ældste versioner, indtil den når denne grænse. Du kan læse mere i dokumentationen til Versioner.",
     "Current version" : "Nuværende version",
-    "Initial version" : "Oprindelig version",
+    "Initial version" : "Første version",
     "You" : "Dig",
     "Actions for version from {versionHumanExplicitDate}" : "Handlinger for versionen fra {versionHumanExplicitDate}",
     "Name this version" : "Navngiv denne version",
@@ -23,11 +23,11 @@ OC.L10N.register(
     "Save version name" : "Gem versionsnavn",
     "Version name" : "Versionsnavn",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Navngivne versioner bevares og udelukkes fra automatiske oprydninger, når din lagerkvote er fuld.",
-    "Initial version restored" : "Første version genoprettet",
-    "Version restored" : "Version genoprettet",
-    "Could not restore version" : "Kunne ikke genoprette version",
-    "Could not set version label" : "Kunne ikke indstille versionslabel",
-    "Could not delete version" : "Kunne ikke slette version",
-    "File versions" : "Fil versioner"
+    "Initial version restored" : "Den første version er gendannet",
+    "Version restored" : "Versionen er gendannet",
+    "Could not restore version" : "Versionen kunne ikke gendannes",
+    "Could not set version label" : "Kunne ikke angive versionens navn",
+    "Could not delete version" : "Versionen kunne ikke slettes",
+    "File versions" : "Filversioner"
 },
 "nplurals=2; plural=(n != 1);");

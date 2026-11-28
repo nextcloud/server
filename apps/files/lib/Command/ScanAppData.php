@@ -27,6 +27,7 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
 use OCP\Server;
@@ -133,7 +134,7 @@ class ScanAppData {
 			$signalHandler->abortIfInterrupted();
 		});
 
-		$scanner->listen('\OC\Files\Utils\Scanner', 'StorageNotAvailable', function (StorageNotAvailableException $e) use ($output): void {
+		$scanner->listen('\OC\Files\Utils\Scanner', 'StorageNotAvailable', function (StorageNotAvailableException|StorageInvalidException $e) use ($output): void {
 			$output->writeln('Error while scanning, storage not available (' . $e->getMessage() . ')', Verbosity::Verbose);
 		});
 

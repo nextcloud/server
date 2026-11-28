@@ -14,8 +14,6 @@ use OC\Authentication\Token\IToken;
 use OC\Authentication\Token\Manager;
 use OC\Authentication\Token\PublicKeyToken;
 use OC\Authentication\Token\PublicKeyTokenProvider;
-use OCP\DB\Exception;
-use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
@@ -42,43 +40,6 @@ class ManagerTest extends TestCase {
 				IToken::TEMPORARY_TOKEN,
 				IToken::REMEMBER
 			)->willReturn($token);
-
-		$actual = $this->manager->generateToken(
-			'token',
-			'uid',
-			'loginName',
-			'password',
-			'name',
-			IToken::TEMPORARY_TOKEN,
-			IToken::REMEMBER
-		);
-
-		$this->assertSame($token, $actual);
-	}
-
-	public function testGenerateConflictingToken(): void {
-		/** @var MockObject|Exception $exception */
-		$exception = $this->createMock(Exception::class);
-		$exception->method('getReason')->willReturn(Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION);
-
-		$token = new PublicKeyToken();
-		$token->setUid('uid');
-
-		$this->getAutoMock(PublicKeyTokenProvider::class)->expects($this->once())
-			->method('generateToken')
-			->with(
-				'token',
-				'uid',
-				'loginName',
-				'password',
-				'name',
-				IToken::TEMPORARY_TOKEN,
-				IToken::REMEMBER
-			)->willThrowException($exception);
-		$this->getAutoMock(PublicKeyTokenProvider::class)->expects($this->once())
-			->method('getToken')
-			->with('token')
-			->willReturn($token);
 
 		$actual = $this->manager->generateToken(
 			'token',

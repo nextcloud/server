@@ -188,6 +188,7 @@ OC.L10N.register(
     "Third Last" : "Ya tatu mwisho",
     "Fourth Last" : "Ya nne mwisho",
     "Fifth Last" : "Ya tano mwisho",
+    "Content" : "Maudhui",
     "Owner" : "Mmiliki",
     "Shared" : "Imeshirikishwa",
     "Checksum" : "Hundi",

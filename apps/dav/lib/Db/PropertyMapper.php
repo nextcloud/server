@@ -63,23 +63,4 @@ class PropertyMapper extends QBMapper {
 
 		return $this->findEntities($selectQb);
 	}
-
-	/**
-	 * @param string[] $calendars
-	 * @param string[] $allowedProperties
-	 * @return Property[]
-	 * @throws \OCP\DB\Exception
-	 */
-	public function findPropertiesByPaths(array $calendars, array $allowedProperties = []): array {
-		$selectQb = $this->db->getQueryBuilder();
-		$selectQb->select('*')
-			->from(self::TABLE_NAME)
-			->where($selectQb->expr()->in('propertypath', $selectQb->createNamedParameter($calendars, IQueryBuilder::PARAM_STR_ARRAY)));
-
-		if ($allowedProperties) {
-			$selectQb->andWhere($selectQb->expr()->in('propertyname', $selectQb->createNamedParameter($allowedProperties, IQueryBuilder::PARAM_STR_ARRAY)));
-		}
-
-		return $this->findEntities($selectQb);
-	}
 }

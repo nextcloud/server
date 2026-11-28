@@ -15,7 +15,9 @@ use OCP\IL10N;
 use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\Backend;
 use Sabre\CalDAV\CalendarHome;
+use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\MkCol;
 
 class RemoteUserCalendarHome extends CalendarHome {
 	public function __construct(
@@ -65,5 +67,10 @@ class RemoteUserCalendarHome extends CalendarHome {
 		}
 
 		return $objects;
+	}
+
+	#[\Override]
+	public function createExtendedCollection($name, MkCol $mkCol): void {
+		throw new MethodNotAllowed('Remote users can not create calendars or subscriptions');
 	}
 }

@@ -27,6 +27,7 @@ use OCP\Security\ISecureRandom;
 use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
+use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Test\TestCase;
 
@@ -126,6 +127,16 @@ class PublicCalendarRootTest extends TestCase {
 		$this->assertEquals('public-calendars', $name);
 	}
 
+	public function testGetACL(): void {
+		$this->assertSame([
+			[
+				'privilege' => '{DAV:}read',
+				'principal' => '{DAV:}all',
+				'protected' => true,
+			],
+		], $this->publicCalendarRoot->getACL());
+	}
+
 	public function testGetChild(): void {
 		$calendar = $this->createPublicCalendar();
 
@@ -135,8 +146,18 @@ class PublicCalendarRootTest extends TestCase {
 
 		$publicCalendarURI = $publicCalendars[0]['uri'];
 
+		$this->mockAppConfig();
 		$calendarResult = $this->publicCalendarRoot->getChild($publicCalendarURI);
 		$this->assertEquals($calendar, $calendarResult);
+	}
+
+	public function testGetChildIsForbiddenWhenLinkSharingIsDisabled(): void {
+		$calendar = $this->createPublicCalendar();
+
+		$this->mockAppConfig(allowLinks: false);
+
+		$this->expectException(Forbidden::class);
+		$this->publicCalendarRoot->getChild($calendar->getPublishStatus());
 	}
 
 	public function testGetChildren(): void {
@@ -150,7 +171,7 @@ class PublicCalendarRootTest extends TestCase {
 		$publicUri = $calendar->getPublishStatus();
 
 		$this->mockDisabledOwner();
-		$this->setHideDisabledUserShares(true);
+		$this->mockAppConfig(hideDisabledUserShares: true);
 
 		$this->expectException(NotFound::class);
 		$this->publicCalendarRoot->getChild($publicUri);
@@ -161,7 +182,7 @@ class PublicCalendarRootTest extends TestCase {
 		$publicUri = $calendar->getPublishStatus();
 
 		$this->mockDisabledOwner();
-		$this->setHideDisabledUserShares(false);
+		$this->mockAppConfig(hideDisabledUserShares: false);
 
 		$calendarResult = $this->publicCalendarRoot->getChild($publicUri);
 		$this->assertEquals($calendar, $calendarResult);
@@ -188,9 +209,11 @@ class PublicCalendarRootTest extends TestCase {
 			->willReturn($disabledUser);
 	}
 
-	private function setHideDisabledUserShares(bool $hide): void {
+	private function mockAppConfig(bool $hideDisabledUserShares = true, bool $allowLinks = true): void {
 		$this->appConfig->method('getValueBool')
-			->with('files_sharing', 'hide_disabled_user_shares', 'yes')
-			->willReturn($hide);
+			->willReturnMap([
+				['core', 'shareapi_allow_links', true, false, $allowLinks],
+				['files_sharing', 'hide_disabled_user_shares', true, false, $hideDisabledUserShares],
+			]);
 	}
 }

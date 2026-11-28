@@ -157,7 +157,6 @@ OC.L10N.register(
     "Could not load app categories. Please try again later." : "Kategori aplikasi tidak dapat dimuat. Silakan coba lagi nanti.",
     "Could not load apps list. Please try again later." : "Daftar aplikasi tidak dapat dimuat. Silakan coba lagi nanti.",
     "Could not update the app. Please try again later." : "Aplikasi tidak dapat diperbarui. Silakan coba lagi nanti.",
-    "An error occurred during the request. Unable to proceed." : "Terjadi kesalahan selama permintaan. Tidak dapat melanjutkan.",
-    "Failed to update app {appName}" : "Gagal memperbarui aplikasi {appName}"
+    "An error occurred during the request. Unable to proceed." : "Terjadi kesalahan selama permintaan. Tidak dapat melanjutkan."
 },
 "nplurals=1; plural=0;");

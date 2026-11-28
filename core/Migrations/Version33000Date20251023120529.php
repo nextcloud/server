@@ -34,7 +34,9 @@ class Version33000Date20251023120529 extends SimpleMigrationStep {
 
 		if ($schema->hasTable('preview_locations')) {
 			$table = $schema->getTable('preview_locations');
-			$table->addUniqueIndex(['bucket_name', 'object_store_name'], 'unique_bucket_store');
+			if (!$table->hasIndex('unique_bucket_store')) {
+				$table->addUniqueIndex(['bucket_name', 'object_store_name'], 'unique_bucket_store');
+			}
 		}
 
 		return $schema;

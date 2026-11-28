@@ -16,12 +16,12 @@ permissions:
 
 jobs:
   phpunit-memcached:
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
 
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ["8.3", "8.5"]
+        php-versions: ["8.3", "8.6"]
 
     name: Memcached (PHP ${{ matrix.php-versions }})
 

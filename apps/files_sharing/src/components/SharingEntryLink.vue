@@ -51,12 +51,14 @@
 		</div>
 
 		<!-- pending actions -->
+		<!-- Auto placement prevents top/bottom placement flip on items toggle -->
 		<NcActions
 			v-if="!pending && pendingDataIsMissing"
+			v-model:open="open"
 			class="sharing-entry__actions"
 			:aria-label="actionsTooltip"
 			menu-align="right"
-			:open.sync="open"
+			placement="auto"
 			@close="onCancel">
 			<!-- pending data menu -->
 			<NcActionText
@@ -144,10 +146,10 @@
 		<!-- actions -->
 		<NcActions
 			v-else-if="!loading"
+			v-model:open="open"
 			class="sharing-entry__actions"
 			:aria-label="actionsTooltip"
-			menu-align="right"
-			:open.sync="open">
+			menu-align="right">
 			<template v-if="share">
 				<template v-if="share.canEdit && canReshare">
 					<NcActionButton
@@ -239,32 +241,28 @@
 		<!-- Modal to open whenever we have a QR code -->
 		<NcDialog
 			v-if="showQRCode"
+			v-model:open="showQRCode"
 			size="normal"
-			:open.sync="showQRCode"
 			:name="title"
 			:close-on-click-outside="true"
 			@close="showQRCode = false">
 			<div class="qr-code-dialog">
-				<VueQrcode
-					tag="img"
-					:value="shareLink"
-					class="qr-code-dialog__img" />
+				<img :src="qrCode" alt="" class="qr-code-dialog__img">
 			</div>
 		</NcDialog>
 	</li>
 </template>
 
 <script>
-import VueQrcode from '@chenfengyuan/vue-qrcode'
 import { mdiCheck, mdiContentCopy } from '@mdi/js'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
-import { t } from '@nextcloud/l10n'
-import moment from '@nextcloud/moment'
+import { formatRelativeTime, t } from '@nextcloud/l10n'
 import { generateUrl, getBaseUrl } from '@nextcloud/router'
 import { ShareType } from '@nextcloud/sharing'
 import { getSidebarInlineActions } from '@nextcloud/sharing/ui'
-import { toRaw } from 'vue'
+import { useQRCode } from '@vueuse/integrations/useQRCode'
+import { computed, ref, toRaw } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActionCheckbox from '@nextcloud/vue/components/NcActionCheckbox'
 import NcActionInput from '@nextcloud/vue/components/NcActionInput'
@@ -307,7 +305,6 @@ export default {
 		NcDialog,
 		NcIconSvgWrapper,
 		NcLoadingIcon,
-		VueQrcode,
 		Tune,
 		IconCalendarBlank,
 		IconQr,
@@ -335,10 +332,18 @@ export default {
 		},
 	},
 
-	setup() {
+	setup(props) {
+		// tracks whether modal should be opened or not
+		const showQRCode = ref(false)
+		const shareLink = computed(() => generateUrl('/s/{token}', { token: props.share?.token }, { baseURL: getBaseUrl() }))
+		const qrCode = useQRCode(() => showQRCode.value ? shareLink.value : '')
+
 		return {
 			mdiCheck,
 			mdiContentCopy,
+			qrCode,
+			shareLink,
+			showQRCode,
 		}
 	},
 
@@ -353,9 +358,6 @@ export default {
 
 			ExternalShareActions: OCA.Sharing.ExternalShareActions.state,
 			externalShareActions: getSidebarInlineActions(),
-
-			// tracks whether modal should be opened or not
-			showQRCode: false,
 		}
 	},
 
@@ -445,13 +447,13 @@ export default {
 				return null
 			}
 
-			const expirationTime = moment(this.share.passwordExpirationTime)
+			const expirationTime = new Date(this.share.passwordExpirationTime)
 
-			if (expirationTime.diff(moment()) < 0) {
+			if (expirationTime.getTime() < Date.now()) {
 				return false
 			}
 
-			return expirationTime.fromNow()
+			return formatRelativeTime(expirationTime)
 		},
 
 		/**
@@ -536,15 +538,6 @@ export default {
 		// the user deleted the original password
 		hasUnsavedPassword() {
 			return this.share.newPassword !== undefined
-		},
-
-		/**
-		 * Return the public share link
-		 *
-		 * @return {string}
-		 */
-		shareLink() {
-			return generateUrl('/s/{token}', { token: this.share.token }, { baseURL: getBaseUrl() })
 		},
 
 		/**
@@ -670,7 +663,7 @@ export default {
 				const share = new Share(shareDefaults)
 				// if password default or enforced, pre-fill with random one
 				if (this.config.enableLinkPasswordByDefault || this.config.enforcePasswordForPublicLink) {
-					this.$set(share, 'newPassword', await GeneratePassword(true))
+					share.newPassword = await GeneratePassword(true)
 				}
 
 				const component = await new Promise((resolve) => {
@@ -828,7 +821,7 @@ export default {
 		 * @param {string} password the changed password
 		 */
 		onPasswordChange(password) {
-			this.$set(this.share, 'newPassword', password)
+			this.share.newPassword = password
 		},
 
 		/**
@@ -839,7 +832,7 @@ export default {
 		 */
 		onPasswordDisable() {
 			// reset password state after sync
-			this.$set(this.share, 'newPassword', '')
+			this.share.newPassword = ''
 
 			// only update if valid share.
 			if (this.share.id) {

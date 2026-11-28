@@ -427,6 +427,83 @@ Scenario: Can copy file between shares into subfolder if share permissions
     When User "user1" copies file "/share/test.txt" to "/re-share/subfolder/copytest.txt"
     Then the HTTP status code should be "201"
 
+Scenario: Owner without sharing permission can move and copy files within their own share
+    Given user "user0" exists
+    Given user "user1" exists
+    And group "nosharing" exists
+    And user "user0" belongs to group "nosharing"
+    And As an "user0"
+    And user "user0" created a folder "/share"
+    And user "user0" created a folder "/share/a"
+    And user "user0" created a folder "/share/b"
+    And User "user0" uploads file with content "test" to "/share/a/test.txt"
+    When creating a share with
+      | path        | share |
+      | shareType   |     0 |
+      | shareWith   | user1 |
+      | permissions |    15 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    And parameter "shareapi_exclude_groups" of app "core" is set to "yes"
+    And parameter "shareapi_exclude_groups_list" of app "core" is set to "nosharing"
+    When User "user0" copies file "/share/a/test.txt" to "/share/b/copytest.txt"
+    Then the HTTP status code should be "201"
+    When User "user0" moves file "/share/a/test.txt" to "/share/b/test.txt"
+    Then the HTTP status code should be "201"
+
+Scenario: Owner without sharing permission cannot move files into their own share
+    Given user "user0" exists
+    Given user "user1" exists
+    And group "nosharing" exists
+    And user "user0" belongs to group "nosharing"
+    And As an "user0"
+    And user "user0" created a folder "/share"
+    And user "user0" created a folder "/not-shared"
+    And User "user0" uploads file with content "test" to "/not-shared/test.txt"
+    When creating a share with
+      | path        | share |
+      | shareType   |     0 |
+      | shareWith   | user1 |
+      | permissions |    15 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    And parameter "shareapi_exclude_groups" of app "core" is set to "yes"
+    And parameter "shareapi_exclude_groups_list" of app "core" is set to "nosharing"
+    When User "user0" moves file "/not-shared/test.txt" to "/share/test.txt"
+    Then the HTTP status code should be "403"
+
+Scenario: Owner without sharing permission cannot move files within their own share into a re-shared subfolder
+    Given user "user0" exists
+    Given user "user1" exists
+    Given user "user2" exists
+    And group "nosharing" exists
+    And user "user0" belongs to group "nosharing"
+    And As an "user0"
+    And user "user0" created a folder "/share"
+    And user "user0" created a folder "/share/a"
+    And user "user0" created a folder "/share/b"
+    And User "user0" uploads file with content "test" to "/share/a/test.txt"
+    When creating a share with
+      | path        | share |
+      | shareType   |     0 |
+      | shareWith   | user1 |
+      | permissions |    31 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    And As an "user1"
+    When creating a share with
+      | path        | share/b |
+      | shareType   |       0 |
+      | shareWith   |   user2 |
+      | permissions |      31 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    And As an "user0"
+    And parameter "shareapi_exclude_groups" of app "core" is set to "yes"
+    And parameter "shareapi_exclude_groups_list" of app "core" is set to "nosharing"
+    When User "user0" moves file "/share/a/test.txt" to "/share/b/test.txt"
+    Then the HTTP status code should be "403"
+
 Scenario: Group deletes removes mount without marking
 	Given As an "admin"
 	And user "user0" exists

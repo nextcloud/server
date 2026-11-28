@@ -21,6 +21,7 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\L10N\IFactory;
+use OCP\Mail\Headers\AutoSubmitted;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Notification\IManager as INotificationManager;
@@ -152,7 +153,7 @@ class CheckCodeIntegrityJob extends TimedJob {
 		if ($unverified !== []) {
 			$sentences[] = $l->n(
 				'The signature of %s is missing or invalid, so it could not be verified.',
-				'The signatures of %s are missing or invalid, so they could not be verified.',
+				'The %n signatures of %s are missing or invalid, so they could not be verified.',
 				count($unverified),
 				[implode(', ', $unverified)],
 			);
@@ -208,6 +209,7 @@ class CheckCodeIntegrityJob extends TimedJob {
 		$message = $this->mailer->createMessage();
 		$message->setTo([$email => $admin->getDisplayName()]);
 		$message->useTemplate($template);
+		$message->setAutoSubmitted(AutoSubmitted::VALUE_AUTO_GENERATED);
 
 		try {
 			$this->mailer->send($message);
