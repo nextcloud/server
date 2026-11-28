@@ -93,14 +93,6 @@ class FTP extends Common {
 		return rtrim($this->root . '/' . $path, '/');
 	}
 
-	public static function checkDependencies(): array|bool {
-		if (function_exists('ftp_login')) {
-			return true;
-		} else {
-			return ['ftp'];
-		}
-	}
-
 	#[\Override]
 	public function filemtime(string $path): int|false {
 		$result = $this->getConnection()->mdtm($this->buildPath($path));

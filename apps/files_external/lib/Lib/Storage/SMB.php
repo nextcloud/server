@@ -20,10 +20,8 @@ use Icewind\SMB\Exception\NotFoundException;
 use Icewind\SMB\Exception\OutOfSpaceException;
 use Icewind\SMB\Exception\TimedOutException;
 use Icewind\SMB\IFileInfo;
-use Icewind\SMB\Native\NativeServer;
 use Icewind\SMB\Options;
 use Icewind\SMB\ServerFactory;
-use Icewind\SMB\Wrapped\Server;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\Filesystem;
@@ -711,14 +709,6 @@ class SMB extends Common implements INotifyStorage {
 		} catch (\OCP\Files\ForbiddenException $e) {
 			return false;
 		}
-	}
-
-	/**
-	 * check if smbclient is installed
-	 */
-	public static function checkDependencies(): array|bool {
-		$system = \OCP\Server::get(SystemBridge::class);
-		return Server::available($system) || NativeServer::available($system) ?: ['smbclient'];
 	}
 
 	#[\Override]
