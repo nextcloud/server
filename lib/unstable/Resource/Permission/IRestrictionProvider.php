@@ -30,7 +30,11 @@ interface IRestrictionProvider {
 	 *
 	 * Results are remembered, call {@see IPermissionManager::clearCache} whenever the restrictions change.
 	 *
-	 * @param list<ResourceAccess> $accesses The access entries are always set
+	 * The access is given either as access entries or as aggregated permissions. Aggregated permissions
+	 * do not tell through which recipients the actor has access, so a restriction for a recipient has to be
+	 * returned whenever it may apply, it must not depend on the access entries being known.
+	 *
+	 * @param list<ResourceAccess> $accesses The access entries or the aggregated permissions are always set
 	 * @return iterable<Restriction>
 	 * @experimental 36.0.0
 	 */
