@@ -19,6 +19,7 @@
 					multiple
 					variant="primary"
 					data-cy-upload-picker
+					@finished="fetchContent"
 					@upload:finished="onUploadFinished" />
 			</Teleport>
 
@@ -140,6 +141,7 @@
 							:destination="currentFolder"
 							multiple
 							data-cy-upload-picker
+							@finished="fetchContent"
 							@upload:finished="onUploadFinished" />
 						<NcButton v-else :to="toPreviousDir" variant="primary">
 							{{ t('files', 'Go back') }}
@@ -193,6 +195,7 @@ import { useEnabledFileListActions } from '../composables/useFileListActions.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useNewFileMenuActions } from '../composables/useNewFileMenuActions.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
+import { fetchNode } from '../services/WebdavClient.ts'
 import { useActiveStore } from '../store/active.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useFiltersStore } from '../store/filters.ts'
@@ -633,10 +636,30 @@ export default defineComponent({
 
 			// Let's only refresh the current Folder
 			// Navigating to a different folder will refresh it anyway
-			// TODO: fetch uploaded files data only
 			if (dirname(upload.source) === this.currentFolder!.source) {
-				// fetchContent will cancel the previous ongoing promise
-				this.fetchContent()
+				this.fetchUploadedNode(upload)
+			}
+		},
+
+		/**
+		 * Fetch the uploaded node and add it to the current folder
+		 *
+		 * @param upload - The finished upload
+		 */
+		async fetchUploadedNode(upload: IUpload) {
+			if (upload.source.endsWith('/')) {
+				return
+			}
+
+			if ((this.currentFolder!.permissions & Permission.READ) === 0) {
+				return
+			}
+
+			try {
+				const node = await fetchNode(join(this.currentFolder!.path, basename(upload.source)))
+				emit('files:node:created', node)
+			} catch (error) {
+				logger.error('Could not fetch uploaded node', { error, upload })
 			}
 		},
 
