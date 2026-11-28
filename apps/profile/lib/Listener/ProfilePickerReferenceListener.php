@@ -44,6 +44,7 @@ class ProfilePickerReferenceListener implements IEventListener {
 
 		if ($profileEnabledGlobally && $profilePickerEnabled) {
 			Util::addScript(Application::APP_ID, 'reference');
+			Util::addStyle(Application::APP_ID, 'reference');
 		}
 	}
 }

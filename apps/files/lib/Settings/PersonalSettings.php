@@ -18,6 +18,7 @@ class PersonalSettings implements ISettings {
 	#[\Override]
 	public function getForm(): TemplateResponse {
 		Util::addScript(Application::APP_ID, 'settings-personal');
+		Util::addStyle(Application::APP_ID, 'settings-personal');
 		return new TemplateResponse(Application::APP_ID, 'settings-personal');
 	}
 

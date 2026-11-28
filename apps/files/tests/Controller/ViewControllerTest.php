@@ -160,6 +160,7 @@ class ViewControllerTest extends TestCase {
 	}
 
 	public function testIndexWithRegularBrowser(): void {
+		\OC_Util::$styles = [];
 		$this->viewController
 			->expects($this->any())
 			->method('getStorageInfo')
@@ -205,6 +206,8 @@ class ViewControllerTest extends TestCase {
 		$expected->setContentSecurityPolicy($policy);
 
 		$this->assertEquals($expected, $this->viewController->index('MyDir', 'MyView'));
+		// the Vue app's styles live in the entry's CSS file, which is not loaded through the script
+		$this->assertContains('files/css/main', \OC_Util::$styles);
 	}
 
 	public static function dataTestRedirectToFileFolder(): array {

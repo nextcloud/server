@@ -22,5 +22,6 @@ class LoadSearchPluginsListener implements IEventListener {
 		}
 
 		Util::addScript('files', 'search');
+		Util::addStyle('files', 'search');
 	}
 }
