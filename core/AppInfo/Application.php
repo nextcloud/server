@@ -42,6 +42,7 @@ use OC\Core\Sharing\Recipient\TokenShareRecipientType;
 use OC\Core\Sharing\Recipient\UserShareRecipientType;
 use OC\DirectEditing\Listeners\UserDeletedTokenCleanupListener as UserDeletedDirectEditingTokenCleanupListener;
 use OC\DirectEditing\Listeners\UserDisabledTokenCleanupListener as UserDisabledDirectEditingTokenCleanupListener;
+use OC\TaskProcessing\Listeners\UserDeletedTaskCleanupListener;
 use OC\OCM\OCMDiscoveryHandler;
 use OC\TagManager;
 use OCA\Circles\Events\DestroyingCircleEvent;
@@ -130,6 +131,7 @@ class Application extends App implements IBootstrap {
 		// Direct Editing
 		$context->registerEventListener(UserDeletedEvent::class, UserDeletedDirectEditingTokenCleanupListener::class);
 		$context->registerEventListener(UserChangedEvent::class, UserDisabledDirectEditingTokenCleanupListener::class);
+		$context->registerEventListener(UserDeletedEvent::class, UserDeletedTaskCleanupListener::class);
 
 		$registry = Server::get(ISharingRegistry::class);
 

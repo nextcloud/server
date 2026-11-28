@@ -348,6 +348,18 @@ class TaskMapper extends QBMapper {
 	}
 
 	/**
+	 * @param string $userId
+	 * @return int the number of deleted tasks
+	 * @throws Exception
+	 */
+	public function deleteByUser(string $userId): int {
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete($this->tableName)
+			->where($qb->expr()->eq('user_id', $qb->createPositionalParameter($userId)));
+		return $qb->executeStatement();
+	}
+
+	/**
 	 * @param int $timeout
 	 * @param bool $force If true, ignore the allow_cleanup flag
 	 * @return \Generator<Task>

@@ -12,11 +12,13 @@ use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Installer;
 use OC\Setup;
 use OC\SystemConfig;
+use OCP\BackgroundJob\IJobList;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IL10N;
 use OCP\L10N\IFactory as IL10NFactory;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class SetupTest extends \Test\TestCase {
@@ -129,6 +131,15 @@ class SetupTest extends \Test\TestCase {
 			->method('getValue')
 			->willReturn('NotAnArray');
 		$this->setupClass->getSupportedDatabases();
+	}
+
+	public function testInstallBackgroundJobsRegistersAiTasksCleanupJobs(): void {
+		Setup::installBackgroundJobs();
+
+		$jobList = Server::get(IJobList::class);
+		self::assertTrue($jobList->has(\OC\TaskProcessing\RemoveOldTasksBackgroundJob::class, null));
+		self::assertTrue($jobList->has(\OC\TextProcessing\RemoveOldTasksBackgroundJob::class, null));
+		self::assertTrue($jobList->has(\OC\TextToImage\RemoveOldTasksBackgroundJob::class, null));
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('findWebRootProvider')]

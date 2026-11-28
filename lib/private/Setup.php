@@ -27,7 +27,9 @@ use OC\Setup\MySQL;
 use OC\Setup\OCI;
 use OC\Setup\PostgreSQL;
 use OC\Setup\Sqlite;
+use OC\TaskProcessing\RemoveOldTasksBackgroundJob as RemoveOldTaskProcessingTasksBackgroundJob;
 use OC\TextProcessing\RemoveOldTasksBackgroundJob;
+use OC\TextToImage\RemoveOldTasksBackgroundJob as RemoveOldTextToImageTasksBackgroundJob;
 use OC\User\BackgroundJobs\CleanupDeletedUsers;
 use OC\User\BackgroundJobs\CleanupLoginTokens;
 use OC\User\Session;
@@ -534,6 +536,8 @@ class Setup {
 		$jobList->add(Rotate::class);
 		$jobList->add(BackgroundCleanupJob::class);
 		$jobList->add(RemoveOldTasksBackgroundJob::class);
+		$jobList->add(RemoveOldTextToImageTasksBackgroundJob::class);
+		$jobList->add(RemoveOldTaskProcessingTasksBackgroundJob::class);
 		$jobList->add(CleanupDeletedUsers::class);
 		$jobList->add(CleanupLoginTokens::class);
 		$jobList->add(GenerateMetadataJob::class);

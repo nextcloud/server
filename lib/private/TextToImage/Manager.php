@@ -243,6 +243,27 @@ class Manager implements IManager {
 	}
 
 	/**
+	 * Delete all tasks of a user together with their result folders in appdata
+	 */
+	public function deleteUserTasks(string $userId): void {
+		$deletedTasks = $this->taskMapper->deleteByUser($userId);
+		try {
+			$folder = $this->appData->getFolder('text2image');
+		} catch (NotFoundException) {
+			return;
+		}
+		foreach ($deletedTasks as $task) {
+			try {
+				$folder->getFolder((string)$task->getId())->delete();
+			} catch (NotFoundException) {
+				// noop
+			} catch (NotPermittedException $e) {
+				$this->logger->warning('Failed to delete text to image task files of deleted user ' . $userId, ['exception' => $e]);
+			}
+		}
+	}
+
+	/**
 	 * Get a task from its id
 	 *
 	 * @param int $id The id of the task

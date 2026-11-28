@@ -1200,6 +1200,34 @@ class Manager implements IManager {
 		$this->taskMapper->delete($taskEntity);
 	}
 
+	/**
+	 * Delete all tasks of a user together with the files of their finished
+	 * tasks stored in appdata
+	 */
+	public function deleteUserTasks(string $userId): void {
+		$fileIds = [];
+		foreach ($this->taskMapper->findByUserAndTaskType($userId) as $task) {
+			try {
+				$fileIds = array_merge($fileIds, $this->extractFileIdsFromTask($task->toPublicTask()));
+			} catch (\Throwable $e) {
+				// The task type is unknown, e.g. because its provider app was disabled,
+				// so the file ids cannot be extracted. The row is still deleted and the
+				// files are picked up by the aging cleanup later.
+				$this->logger->warning('Failed to extract file ids of a task of deleted user ' . $userId, ['exception' => $e]);
+			}
+		}
+		$this->taskMapper->deleteByUser($userId);
+		foreach ($fileIds as $fileId) {
+			try {
+				// only look for output files stored in appData/TaskProcessing/
+				$file = $this->rootFolder->getFirstNodeByIdInPath($fileId, '/' . $this->rootFolder->getAppDataDirectoryName() . '/core/TaskProcessing/');
+				$file?->delete();
+			} catch (\Throwable $e) {
+				$this->logger->warning('Failed to delete a file of a task of deleted user ' . $userId, ['exception' => $e]);
+			}
+		}
+	}
+
 	private function notifyTaskStatus(Task $task, int $status): void {
 		$userId = $task->getUserId();
 		if ($userId !== null
