@@ -28,6 +28,11 @@ class SearchQuery implements ISearchQuery {
 		private string $route = '',
 		private array $routeParameters = [],
 	) {
+		// An empty string is sent by clients that have no cursor yet and must
+		// behave like no cursor, as arithmetic on it fails on PHP 8
+		if ($this->cursor === '') {
+			$this->cursor = null;
+		}
 	}
 
 	#[\Override]
