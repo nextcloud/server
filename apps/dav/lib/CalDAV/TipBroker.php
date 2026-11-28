@@ -138,7 +138,7 @@ class TipBroker extends Broker {
 				$attendeeFound = false;
 				if (isset($vevent->ATTENDEE)) {
 					foreach ($vevent->ATTENDEE as $attendee) {
-						if ($attendee->getValue() === $itipMessage->sender) {
+						if (strcasecmp($attendee->getValue(), $itipMessage->sender) === 0) {
 							$attendeeFound = true;
 							$attendee['PARTSTAT'] = $instances[$recurId];
 							$attendee['SCHEDULE-STATUS'] = $requestStatus;
@@ -199,7 +199,7 @@ class TipBroker extends Broker {
 			$attendeeFound = false;
 			if (isset($newObject->ATTENDEE)) {
 				foreach ($newObject->ATTENDEE as $attendee) {
-					if ($attendee->getValue() === $itipMessage->sender) {
+					if (strcasecmp($attendee->getValue(), $itipMessage->sender) === 0) {
 						$attendeeFound = true;
 						$attendee['PARTSTAT'] = $partstat;
 						$attendee['SCHEDULE-STATUS'] = $requestStatus;
