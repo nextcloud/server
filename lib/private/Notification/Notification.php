@@ -55,6 +55,11 @@ class Notification implements INotification {
 		$this->dateTime->setTimestamp(0);
 	}
 
+	public function __clone() {
+		$this->actions = array_map(static fn (IAction $action): IAction => clone $action, $this->actions);
+		$this->actionsParsed = array_map(static fn (IAction $action): IAction => clone $action, $this->actionsParsed);
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
