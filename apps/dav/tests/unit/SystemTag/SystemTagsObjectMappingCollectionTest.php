@@ -165,6 +165,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 
 	public function testGetChildNonVisible(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+		$this->expectExceptionMessage('Tag with id 555 not present for object 111');
 
 		$tag = new SystemTag('555', 'TheTag', false, false);
 		$this->tagManager->expects($this->once())
@@ -187,6 +188,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 
 	public function testGetChildRelationNotFound(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+		$this->expectExceptionMessage('Tag with id 777 not present for object 111');
 
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
@@ -209,6 +211,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 
 	public function testGetChildTagDoesNotExist(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+		$this->expectExceptionMessage('Tag with id 777 not present for object 111');
 
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
