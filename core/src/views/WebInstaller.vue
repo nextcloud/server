@@ -28,13 +28,27 @@ enum PasswordStrength {
 }
 
 /**
- * Estimate the strength of a password from its entropy.
+ * Classify password strength using a rough heuristic (not a true entropy
+ * or comprehensive strength check). It does not account for dictionary
+ * words or most predictable patterns.
  *
- * @param password - The password
+ * This is only used during installation to minimize frontend asset size;
+ * a more comprehensive check would require additional assets (e.g.
+ * dictionaries).
+ *
+ * @param password - Password to evaluate; defaults to an empty string
+ * @return Estimated strength, from VeryWeak to ExtremelyStrong
  */
 function checkPasswordEntropy(password: string = ''): PasswordStrength {
+	if (password === '') {
+		return PasswordStrength.VeryWeak
+	}
+
 	const uniqueCharacters = new Set(password)
-	const entropy = parseInt(Math.log2(Math.pow(uniqueCharacters.size, password.length)).toFixed(2))
+	// The first non-zero match is the length of the shortest repeating unit.
+	const period = (password + password).indexOf(password, 1)
+	const effectiveLength = Array.from(password.slice(0, period)).length
+	const entropy = effectiveLength * Math.log2(uniqueCharacters.size)
 	if (entropy < 16) {
 		return PasswordStrength.VeryWeak
 	} else if (entropy < 31) {
@@ -66,7 +80,7 @@ const passwordHelperText = computed(() => {
 
 	switch (passwordStrength.value) {
 		case PasswordStrength.VeryWeak:
-			return t('core', 'Password is too weak')
+			return t('core', 'Password is very weak')
 		case PasswordStrength.Weak:
 			return t('core', 'Password is weak')
 		case PasswordStrength.Moderate:
@@ -173,7 +187,7 @@ onMounted(() => {
 			:heading="t('core', 'Autoconfig file detected')"
 			data-cy-setup-form-note="autoconfig"
 			type="success">
-			{{ t('core', 'The setup form below is pre-filled with the values from the config file.') }}
+			{{ t('core', 'Values set in the autoconfig file override changes made here. To change them, edit the file on the server and reload this page.') }}
 		</NcNoteCard>
 
 		<!-- Htaccess warning -->
@@ -218,6 +232,8 @@ onMounted(() => {
 			<!-- Password entropy -->
 			<NcNoteCard v-show="config.adminpass !== ''" :type="passwordHelperType">
 				{{ passwordHelperText }}
+				<br>
+				{{ t('core', 'Basic estimate only; common passwords and predictable patterns may score highly.') }}
 			</NcNoteCard>
 		</fieldset>
 
@@ -312,6 +328,7 @@ onMounted(() => {
 
 					<NcTextField
 						v-model="config.dbname"
+						:helperText="t('core', 'Use only ASCII letters, numbers, underscores, hyphens, and dollar signs.')"
 						:label="t('core', 'Database name')"
 						autocapitalize="none"
 						autocomplete="off"
@@ -427,6 +444,8 @@ onMounted(() => {
 
 		<!-- Help note -->
 		<NcNoteCard data-cy-setup-form-note="help" type="info">
+			{{ t('core', 'After installation, use the Password Policy app to configure password requirements.') }}
+			<br>
 			{{ t('core', 'Need help?') }}
 			<a target="_blank" rel="noreferrer noopener" :href="links.adminInstall">{{ t('core', 'See the documentation') }} ↗</a>
 		</NcNoteCard>

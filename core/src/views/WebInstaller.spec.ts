@@ -81,6 +81,29 @@ describe('Default setup page', () => {
 		expect(advancedConfig.style.display).toBe('')
 	})
 
+	it('Updates the password estimate for repeated and non-repeated passwords', async () => {
+		mockInitialState('core', 'config', defaultConfig)
+		const component = render(SetupView)
+		const password = component.getByLabelText('Administration account password')
+		const estimate = component.getByText(/Basic estimate only/)
+		const note = estimate.closest('.notecard') as HTMLElement
+
+		expect(note.style.display).toBe('none')
+
+		await fireEvent.update(password, 'abcd'.repeat(10))
+		expect(note.style.display).not.toBe('none')
+		expect(estimate.textContent).toContain('Password is very weak')
+
+		await fireEvent.update(password, 'aB3$dE7!fG9@hJ2#')
+		expect(estimate.textContent).toContain('Password is very strong')
+
+		await fireEvent.update(password, '\u{1F600}\u{1F601}\u{1F602}\u{1F603}\u{1F604}\u{1F605}\u{1F606}\u{1F607}')
+		expect(estimate.textContent).toContain('Password is weak')
+
+		await fireEvent.update(password, '')
+		expect(note.style.display).toBe('none')
+	})
+
 	it('Renders single DB sqlite', async () => {
 		mockInitialState('core', 'config', {
 			...defaultConfig,
