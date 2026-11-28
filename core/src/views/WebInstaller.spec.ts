@@ -85,7 +85,7 @@ describe('Default setup page', () => {
 		mockInitialState('core', 'config', defaultConfig)
 		const component = render(SetupView)
 		const password = component.getByLabelText('Administration account password')
-		const estimate = component.getByText(/This is a basic estimate/)
+		const estimate = component.getByText(/Basic estimate only/)
 		const note = estimate.closest('.notecard') as HTMLElement
 
 		expect(note.style.display).toBe('none')
