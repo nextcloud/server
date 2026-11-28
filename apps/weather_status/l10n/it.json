@@ -28,7 +28,7 @@
     "{temperature} {unit} partly cloudy" : "{temperature} {unit} parzialmente nuvoloso",
     "{temperature} {unit} foggy later today" : "{temperature} {unit} nebbioso più tardi in giornata",
     "{temperature} {unit} foggy" : "{temperature} {unit} nebbioso",
-    "{temperature} {unit} light rainfall later today" : "{temperature} {unit} leggeri rovesci di pioggia più tardi in giornata",
+    "{temperature} {unit} light rainfall later today" : "{temperature} {unit} deboli precipitazioni più tardi oggi",
     "{temperature} {unit} light rainfall" : "{temperature} {unit} precipitazioni deboli",
     "{temperature} {unit} rainfall later today" : "{temperature} {unit} precipitazioni più tardi in giornata",
     "{temperature} {unit} rainfall" : "{temperature} {unit} precipitazioni",
