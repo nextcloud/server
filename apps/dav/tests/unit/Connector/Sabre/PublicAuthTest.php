@@ -252,6 +252,35 @@ class PublicAuthTest extends \Test\TestCase {
 		self::invokePrivate($this->auth, 'checkToken');
 	}
 
+	public static function dataChallengeWithoutCredentials(): array {
+		return [
+			'WebDAV client' => ['', 'Basic realm='],
+			// A basic auth challenge would open the login popup of the browser
+			'ajax' => ['XMLHttpRequest', 'DummyBasic realm='],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataChallengeWithoutCredentials')]
+	public function testChallengeWithoutCredentials(string $requestedWith, string $challenge): void {
+		$this->request->method('getRawPathInfo')->willReturn('/dav/files/GX9HSGQrGE');
+		$this->request->method('getHeader')->with('X-Requested-With')->willReturn($requestedWith);
+
+		$share = $this->createMock(IShare::class);
+		$share->method('getToken')->willReturn('GX9HSGQrGE');
+		$share->method('isPasswordProtected')->willReturn(true);
+		$this->shareManager->method('getShareByToken')->with('GX9HSGQrGE')->willReturn($share);
+		$this->session->method('get')->willReturn(null);
+
+		$response = new \Sabre\HTTP\Response();
+		try {
+			$this->auth->check(new \Sabre\HTTP\Request('PROPFIND', '/public.php/dav/files/GX9HSGQrGE'), $response);
+			$this->fail('A password protected share without credentials must not be authenticated');
+		} catch (\Sabre\DAV\Exception\NotAuthenticated) {
+		}
+
+		$this->assertStringStartsWith($challenge, $response->getHeader('WWW-Authenticate') ?? '');
+	}
+
 	public function testCheckTokenPasswordNotAuthenticated(): void {
 		$this->request->method('getRawPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
