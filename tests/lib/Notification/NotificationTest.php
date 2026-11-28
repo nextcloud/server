@@ -9,6 +9,7 @@ declare(strict_types = 1);
 
 namespace Test\Notification;
 
+use OC\Notification\Action;
 use OC\Notification\Notification;
 use OCP\Notification\IAction;
 use OCP\Notification\INotification;
@@ -648,5 +649,27 @@ class NotificationTest extends TestCase {
 			->willReturn($objectId);
 
 		$this->assertEquals($expected, $this->invokePrivate($notification, 'isValidCommon'));
+	}
+
+	public function testCloneDoesNotShareActions(): void {
+		$action = new Action();
+		$action->setLabel('accept')
+			->setLink('https://example.tld/accept', 'POST');
+		$this->notification->addAction($action);
+
+		$parsedAction = new Action();
+		$parsedAction->setLabel('decline')
+			->setParsedLabel('Decline')
+			->setLink('https://example.tld/decline', 'POST');
+		$this->notification->addParsedAction($parsedAction);
+
+		$clone = clone $this->notification;
+		$clone->getActions()[0]->setParsedLabel('Accept');
+		$clone->getParsedActions()[0]->setParsedLabel('Ablehnen');
+
+		$this->assertSame('', $action->getParsedLabel());
+		$this->assertSame('Decline', $parsedAction->getParsedLabel());
+		$this->assertSame('Accept', $clone->getActions()[0]->getParsedLabel());
+		$this->assertSame('Ablehnen', $clone->getParsedActions()[0]->getParsedLabel());
 	}
 }
