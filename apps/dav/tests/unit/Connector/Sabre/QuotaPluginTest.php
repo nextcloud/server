@@ -10,8 +10,11 @@ declare(strict_types=1);
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Files\View;
+use OCA\DAV\Connector\Sabre\Node;
 use OCA\DAV\Connector\Sabre\QuotaPlugin;
+use OCA\DAV\Upload\UploadFolder;
 use OCP\Files\FileInfo;
+use Sabre\DAV\Tree;
 use Test\TestCase;
 
 class QuotaPluginTest extends TestCase {
@@ -103,6 +106,45 @@ class QuotaPluginTest extends TestCase {
 			[1024, ['OC-TOTAL-LENGTH' => 'A', 'X-EXPECTED-ENTITY-LENGTH' => '1024']],
 			[2048, ['OC-TOTAL-LENGTH' => '2048', 'X-EXPECTED-ENTITY-LENGTH' => 'A']],
 			[2048, ['OC-TOTAL-LENGTH' => '2048', 'CONTENT-LENGTH' => 'A']],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'chunkedUploadProvider')]
+	public function testChunkedUploadWithoutTotalLength(int $quota, int $existingChunks, int $chunkLength, bool $withinQuota): void {
+		if (!$withinQuota) {
+			$this->expectException(\Sabre\DAV\Exception\InsufficientStorage::class);
+		}
+
+		$this->init($quota, 'sub');
+
+		$destination = $this->createMock(Node::class);
+		$destination->method('getPath')->willReturn('sub');
+
+		$tree = $this->createMock(Tree::class);
+		$tree->method('nodeExists')->willReturn(false);
+		$tree->method('getNodeForPath')->willReturn($destination);
+		$this->server->tree = $tree;
+
+		$uploadFolder = $this->createMock(UploadFolder::class);
+		$uploadFolder->method('getSize')->willReturn($existingChunks);
+
+		$this->server->httpRequest = new \Sabre\HTTP\Request('PUT', '/uploads/test/123/1', [
+			'Destination' => '/sub/test.txt',
+			'Content-Length' => (string)$chunkLength,
+		]);
+
+		$result = $this->plugin->beforeCreateFile('1', null, $uploadFolder, false);
+		$this->assertTrue($result);
+	}
+
+	public static function chunkedUploadProvider(): array {
+		return [
+			// without any chunks the own content length is checked
+			[1024, 0, 512, true],
+			// already uploaded chunks count towards the quota
+			[1024, 300, 512, true],
+			[600, 200, 512, false],
+			[500, 0, 512, false],
 		];
 	}
 

@@ -115,6 +115,10 @@ class UploadFolder implements ICollection {
 		return $this->node->getLastModified();
 	}
 
+	public function getSize(): int|float {
+		return $this->node->getSize();
+	}
+
 	public function getStorage() {
 		return $this->storage;
 	}
