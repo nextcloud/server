@@ -8,8 +8,11 @@ import axios, { isAxiosError } from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
-import { NcButton, NcFormGroup, NcNoteCard, NcPasswordField } from '@nextcloud/vue'
 import { ref, useTemplateRef } from 'vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcFormGroup from '@nextcloud/vue/components/NcFormGroup'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
 
 defineProps<{
 	recoveryEnabledForUser: boolean

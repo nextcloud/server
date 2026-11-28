@@ -7,10 +7,10 @@
 import type { IAppstoreApp, IAppstoreExApp } from '../apps.d.ts'
 
 import { mdiCogOutline } from '@mdi/js'
-import { NcLoadingIcon } from '@nextcloud/vue'
 import PQueue from 'p-queue'
 import { ref, watchEffect } from 'vue'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 
 const props = defineProps<{
 	app: IAppstoreApp | IAppstoreExApp

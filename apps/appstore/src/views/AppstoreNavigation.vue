@@ -7,7 +7,7 @@
 import { emit } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
-import { useHotKey } from '@nextcloud/vue'
+import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { watchDebounced } from '@vueuse/core'
 import { computed, ref, useTemplateRef, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'

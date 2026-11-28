@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
 import { t } from '@nextcloud/l10n'
-import { NcSettingsSection } from '@nextcloud/vue'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import TransferOwnershipDialogue from './TransferOwnershipDialogue.vue'
 </script>
 

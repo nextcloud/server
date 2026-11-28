@@ -96,9 +96,12 @@
 <script lang="ts" setup>
 import { showInfo } from '@nextcloud/dialogs'
 import { n, t } from '@nextcloud/l10n'
-import { NcButton, NcCheckboxRadioSwitch, NcTextArea, NcTextField } from '@nextcloud/vue'
 import { storeToRefs } from 'pinia'
 import { computed, ref, watch } from 'vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcTextArea from '@nextcloud/vue/components/NcTextArea'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
 import { callWizard } from '../../services/ldapConfigService.ts'

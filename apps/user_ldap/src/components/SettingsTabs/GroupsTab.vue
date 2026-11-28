@@ -59,9 +59,13 @@
 <script lang="ts" setup>
 import { getCapabilities } from '@nextcloud/capabilities'
 import { t } from '@nextcloud/l10n'
-import { NcButton, NcCheckboxRadioSwitch, NcLoadingIcon, NcSelect, NcTextArea } from '@nextcloud/vue'
 import { storeToRefs } from 'pinia'
 import { computed, ref } from 'vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
+import NcTextArea from '@nextcloud/vue/components/NcTextArea'
 import { callWizard, showEnableAutomaticFilterInfo } from '../../services/ldapConfigService.ts'
 import { useLDAPConfigsStore } from '../../store/configs.ts'
 

@@ -89,9 +89,12 @@
 <script lang="ts" setup>
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
-import { NcButton, NcCheckboxRadioSwitch, NcNoteCard, NcSelect } from '@nextcloud/vue'
 import { storeToRefs } from 'pinia'
 import { computed, ref } from 'vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
 import Plus from 'vue-material-design-icons/Plus.vue'
 import AdvancedTab from '../components/SettingsTabs/AdvancedTab.vue'
 import ExpertTab from '../components/SettingsTabs/ExpertTab.vue'

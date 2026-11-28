@@ -39,8 +39,8 @@
 
 <script lang="ts" setup>
 import { t } from '@nextcloud/l10n'
-import { NcTextField } from '@nextcloud/vue'
 import { computed } from 'vue'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 import { useLDAPConfigsStore } from '../../store/configs.ts'
 
 const props = defineProps<{ configId: string }>()

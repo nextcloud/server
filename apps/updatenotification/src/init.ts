@@ -9,7 +9,7 @@ import axios from '@nextcloud/axios'
 import { subscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
 import { generateOcsUrl } from '@nextcloud/router'
-import { spawnDialog } from '@nextcloud/vue'
+import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import { defineAsyncComponent } from 'vue'
 
 import 'vite/modulepreload-polyfill'

@@ -6,10 +6,11 @@
 <script setup lang="ts">
 import type { ISidebarTab } from '@nextcloud/files'
 
-import { NcIconSvgWrapper, NcLoadingIcon } from '@nextcloud/vue'
 import { computed, ref, toRaw, toRef, watch } from 'vue'
 import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import { useSidebarStore } from '../../store/sidebar.ts'
 import { logger } from '../../utils/logger.ts'
 
