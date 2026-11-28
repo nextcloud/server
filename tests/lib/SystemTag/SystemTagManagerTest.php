@@ -286,12 +286,32 @@ class SystemTagManagerTest extends TestCase {
 		$this->tagManager->getTagsByIds([$tag1->getId(), 100, 101]);
 	}
 
+	public static function invalidTagIdFormatProvider(): array {
+		return [
+			'trailing characters' => ['%ssuffix'],
+			'fraction' => ['%s.5'],
+			'fraction of zero' => ['%s.0'],
+			'exponent' => ['%se0'],
+			'leading zero' => ['0%s'],
+			'leading whitespace' => [' %s'],
+			'trailing whitespace' => ['%s '],
+			'sign' => ['+%s'],
+		];
+	}
 
-	public function testGetInvalidTagIdFormat(): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('invalidTagIdFormatProvider')]
+	public function testGetInvalidTagIdFormat(string $format): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$tag1 = $this->tagManager->createTag('one', true, false);
-		$this->tagManager->getTagsByIds([$tag1->getId() . 'suffix']);
+		$this->tagManager->getTagsByIds([sprintf($format, $tag1->getId())]);
+	}
+
+	public function testGetInvalidTagIdType(): void {
+		$this->expectException(\InvalidArgumentException::class);
+
+		$tag1 = $this->tagManager->createTag('one', true, false);
+		$this->tagManager->getTagsByIds([(int)$tag1->getId() + 0.5]);
 	}
 
 	public static function updateTagProvider(): array {
@@ -426,6 +446,27 @@ class SystemTagManagerTest extends TestCase {
 			->willReturn($isAdmin);
 
 		$this->assertEquals($expectedResult, $this->tagManager->canUserSeeTag($tag1, $user));
+	}
+
+	public static function anonymousVisibilityCheckProvider(): array {
+		return [
+			// invisible
+			[false, false, false],
+			// restricted
+			[true, false, false],
+			// public
+			[true, true, true],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('anonymousVisibilityCheckProvider')]
+	public function testVisibilityCheckWithoutUser($userVisible, $userAssignable, $expectedResult): void {
+		$tag1 = $this->tagManager->createTag('one', $userVisible, $userAssignable);
+
+		$this->groupManager->expects($this->never())
+			->method('isAdmin');
+
+		$this->assertEquals($expectedResult, $this->tagManager->canUserSeeTag($tag1, null));
 	}
 
 	public static function assignabilityCheckProvider(): array {

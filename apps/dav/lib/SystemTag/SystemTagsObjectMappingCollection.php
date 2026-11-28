@@ -82,7 +82,9 @@ class SystemTagsObjectMappingCollection implements ICollection {
 		} catch (\InvalidArgumentException $e) {
 			throw new BadRequest('Invalid tag id', 0, $e);
 		} catch (TagNotFoundException $e) {
-			throw new NotFound('Tag with id ' . $tagName . ' not found', 0, $e);
+			// same message as for a tag that is not assigned or not visible,
+			// to not reveal which tag ids exist
+			throw new NotFound('Tag with id ' . $tagName . ' not present for object ' . $this->objectId, 0, $e);
 		}
 	}
 

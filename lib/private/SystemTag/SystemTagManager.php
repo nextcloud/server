@@ -60,9 +60,8 @@ class SystemTagManager implements ISystemTagManager {
 
 		$tags = [];
 
-		// note: not all databases will fail if it's a string or starts with a number
 		foreach ($tagIds as $tagId) {
-			if (!is_numeric($tagId)) {
+			if (!\is_int($tagId) && (!\is_string($tagId) || (string)(int)$tagId !== $tagId)) {
 				throw new \InvalidArgumentException('Tag id must be integer');
 			}
 		}
@@ -403,17 +402,12 @@ class SystemTagManager implements ISystemTagManager {
 	#[\Override]
 	public function canUserSeeTag(ISystemTag $tag, ?IUser $user): bool {
 		// If no user, then we only show public tags
-		if (!$user && $tag->getAccessLevel() === ISystemTag::ACCESS_LEVEL_PUBLIC) {
-			return true;
+		if ($user === null) {
+			return $tag->getAccessLevel() === ISystemTag::ACCESS_LEVEL_PUBLIC;
 		}
 
 		if ($tag->isUserVisible()) {
 			return true;
-		}
-
-		// if not returned yet, and user is not logged in, then the tag is not visible
-		if ($user === null) {
-			return false;
 		}
 
 		if ($this->groupManager->isAdmin($user->getUID())) {
