@@ -30,6 +30,7 @@ class ComposerStaticInitCloudFederationAPI
         'OCA\\CloudFederationAPI\\Migration\\Version1016Date202502262004' => __DIR__ . '/..' . '/../lib/Migration/Version1016Date202502262004.php',
         'OCA\\CloudFederationAPI\\Migration\\Version1017Date20260306120000' => __DIR__ . '/..' . '/../lib/Migration/Version1017Date20260306120000.php',
         'OCA\\CloudFederationAPI\\Migration\\Version2000Date20260919141251' => __DIR__ . '/..' . '/../lib/Migration/Version2000Date20260919141251.php',
+        'OCA\\CloudFederationAPI\\Migration\\Version3000Date20261117104444' => __DIR__ . '/..' . '/../lib/Migration/Version3000Date20261117104444.php',
         'OCA\\CloudFederationAPI\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
     );
 
