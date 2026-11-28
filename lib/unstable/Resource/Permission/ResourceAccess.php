@@ -21,12 +21,13 @@ use OCP\AppFramework\Attribute\Consumable;
 #[Consumable(since: '36.0.0')]
 final readonly class ResourceAccess {
 	/**
-	 * @param list<AccessEntry> $entries Without entries restrictions apply to the resource as a whole
+	 * @param ?list<AccessEntry> $entries Null to ask the resource type for the access of the actor,
+	 *                                    an empty list means the actor has no access
 	 * @experimental 36.0.0
 	 */
 	public function __construct(
 		public ResourceReference $resource,
-		public array $entries = [],
+		public ?array $entries = null,
 	) {
 	}
 }

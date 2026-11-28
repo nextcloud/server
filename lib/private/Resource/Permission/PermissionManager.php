@@ -49,6 +49,7 @@ final class PermissionManager implements IPermissionManager {
 		private readonly Coordinator $coordinator,
 		private readonly ContainerInterface $container,
 		private readonly LoggerInterface $logger,
+		private readonly AccessManager $accessManager,
 	) {
 		$this->cache = new CappedMemoryCache(2048);
 	}
@@ -140,27 +141,46 @@ final class PermissionManager implements IPermissionManager {
 	}
 
 	#[\Override]
-	public function check(Actor $actor, ResourceReference $resource, array $entries = []): EffectivePermissions {
+	public function check(Actor $actor, ResourceReference $resource, ?array $entries = null): EffectivePermissions {
 		return $this->checkAll($actor, [new ResourceAccess($resource, $entries)])[$resource->key()];
 	}
 
 	#[\Override]
 	public function checkAll(Actor $actor, array $accesses): array {
 		$actorKey = $actor->key();
+		$nothing = new EffectivePermissions([]);
+		/** @var array<non-empty-string, EffectivePermissions> $results in the order of the accesses */
 		$results = [];
-		/** @var array<non-empty-string, ResourceAccess> $misses */
-		$misses = [];
-		$cacheKeys = [];
+		$unresolved = [];
 		foreach ($accesses as $access) {
 			$resourceKey = $access->resource->key();
 			if ($this->getResourceType($access->resource->type) === null) {
 				throw new InvalidArgumentException('The resource type ' . $access->resource->type . ' is not registered');
 			}
-			if (isset($results[$resourceKey]) || isset($misses[$resourceKey])) {
+			if (isset($results[$resourceKey])) {
 				throw new InvalidArgumentException('The resource ' . $resourceKey . ' is passed more than once');
 			}
 
-			$cacheKeys[$resourceKey] = $actorKey . "\0" . $resourceKey . "\0" . $this->hashEntries($access->entries);
+			$results[$resourceKey] = $nothing;
+			if ($access->entries === null) {
+				$unresolved[] = $access->resource;
+			}
+		}
+		$resolved = $unresolved === [] ? [] : $this->accessManager->resolve($actor, $unresolved);
+
+		/** @var array<non-empty-string, ResourceAccess> $misses */
+		$misses = [];
+		$cacheKeys = [];
+		foreach ($accesses as $access) {
+			$resourceKey = $access->resource->key();
+			// No entries are left if the resource type failed, this is not cached as it may succeed on the next check.
+			$entries = $access->entries ?? $resolved[$resourceKey] ?? [];
+			if ($entries === []) {
+				continue;
+			}
+
+			$access = new ResourceAccess($access->resource, $entries);
+			$cacheKeys[$resourceKey] = $actorKey . "\0" . $resourceKey . "\0" . $this->hashEntries($entries);
 			$cached = $this->cache->get($cacheKeys[$resourceKey]);
 			if ($cached !== null) {
 				$results[$resourceKey] = $cached;
@@ -178,7 +198,6 @@ final class PermissionManager implements IPermissionManager {
 		foreach ($misses as $resourceKey => $access) {
 			if ($restrictions === null) {
 				// Not cached: the provider that failed may succeed on the next check.
-				$results[$resourceKey] = new EffectivePermissions([]);
 				continue;
 			}
 
@@ -194,13 +213,14 @@ final class PermissionManager implements IPermissionManager {
 	#[\Override]
 	public function clearCache(): void {
 		$this->cache->clear();
+		$this->accessManager->clearCache();
 	}
 
 	/**
 	 * Get the restricted permission IDs by resource key and recipient,
 	 * the empty recipient is the resource as a whole.
 	 *
-	 * @param list<ResourceAccess> $accesses
+	 * @param list<ResourceAccess> $accesses with the access entries set
 	 * @return ?array<string, array<string, array<string, true>>> null if a provider failed
 	 */
 	private function collectRestrictions(Actor $actor, array $accesses): ?array {
@@ -246,22 +266,18 @@ final class PermissionManager implements IPermissionManager {
 	 * @param array<string, array<string, true>> $restrictions restricted permission IDs by recipient
 	 */
 	private function evaluate(ResourceAccess $access, array $applicable, array $restrictions): EffectivePermissions {
-		if ($access->entries === []) {
-			$allowed = $applicable;
-		} else {
-			$allowed = [];
-			foreach ($access->entries as $entry) {
-				$granted = array_fill_keys($entry->permissionIds, true);
-				$notApplicable = array_diff_key($granted, $applicable);
-				if ($notApplicable !== []) {
-					$this->logger->warning('Ignoring permissions that do not apply to the resource type {type}: {permissions}', ['type' => $access->resource->type, 'permissions' => implode(', ', array_keys($notApplicable))]);
-				}
-
-				$allowed += array_diff_key(
-					array_intersect_key($granted, $applicable),
-					$restrictions[$this->recipientKey($entry->recipientKind, $entry->recipientId)] ?? [],
-				);
+		$allowed = [];
+		foreach ($access->entries ?? [] as $entry) {
+			$granted = array_fill_keys($entry->permissionIds, true);
+			$notApplicable = array_diff_key($granted, $applicable);
+			if ($notApplicable !== []) {
+				$this->logger->warning('Ignoring permissions that do not apply to the resource type {type}: {permissions}', ['type' => $access->resource->type, 'permissions' => implode(', ', array_keys($notApplicable))]);
 			}
+
+			$allowed += array_diff_key(
+				array_intersect_key($granted, $applicable),
+				$restrictions[$this->recipientKey($entry->recipientKind, $entry->recipientId)] ?? [],
+			);
 		}
 
 		return new EffectivePermissions(array_keys(array_diff_key($allowed, $restrictions[''] ?? [])));
@@ -344,13 +360,9 @@ final class PermissionManager implements IPermissionManager {
 	}
 
 	/**
-	 * @param list<AccessEntry> $entries
+	 * @param non-empty-list<AccessEntry> $entries
 	 */
 	private function hashEntries(array $entries): string {
-		if ($entries === []) {
-			return '';
-		}
-
 		return hash('xxh128', json_encode(
 			array_map(static fn (AccessEntry $entry): array => [$entry->recipientKind, $entry->recipientId, $entry->permissionIds], $entries),
 			JSON_THROW_ON_ERROR,
