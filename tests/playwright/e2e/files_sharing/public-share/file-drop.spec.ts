@@ -99,4 +99,26 @@ test.describe('files_sharing: Public share - file drop', () => {
 		await expect.poll(() => getFileContent(ownerRequest, user, `/${SHARE_NAME}/second.md`).catch(() => ''))
 			.toBe('x'.repeat(128))
 	})
+
+	test('lists the uploaded files without fetching them', async ({ page, publicShare }) => {
+		await expect(publicShare.fileDropDescription(SHARE_NAME)).toBeVisible()
+
+		const fileRequests: string[] = []
+		page.on('request', (request) => {
+			if (request.method() === 'PROPFIND' && /\/(first\.txt|second\.md)$/.test(request.url())) {
+				fileRequests.push(request.url())
+			}
+		})
+
+		await page.getByRole('button', { name: 'Upload', exact: true }).click()
+		await publicShare.uploadFiles('Upload files', [
+			{ name: 'first.txt', mimeType: 'text/plain', buffer: Buffer.from('first') },
+			{ name: 'second.md', mimeType: 'text/markdown', buffer: Buffer.from('second') },
+		])
+
+		await expect(page.getByText('Successfully uploaded files')).toBeVisible()
+		await expect(page.getByRole('listitem').filter({ hasText: 'first.txt' })).toBeVisible()
+		await expect(page.getByRole('listitem').filter({ hasText: 'second.md' })).toBeVisible()
+		expect(fileRequests).toHaveLength(0)
+	})
 })
