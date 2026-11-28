@@ -4,11 +4,11 @@
  */
 
 import { generateUrl } from '@nextcloud/router'
-import { supportedBrowsersRegExp } from '../services/BrowsersListService.ts'
 import browserStorage from '../services/BrowserStorageService.ts'
 import { logger } from './logger.ts'
 
 export const browserStorageKey = 'unsupported-browser-ignore'
+const supportedBrowsersRegExp = new RegExp(__SUPPORTED_BROWSERS_REGEXP__)
 const redirectPath = generateUrl('/unsupported')
 
 const isBrowserOverridden = browserStorage.getItem(browserStorageKey) === 'true'

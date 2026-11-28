@@ -8,6 +8,7 @@ import { exec } from 'node:child_process'
 import { resolve } from 'node:path'
 import { promisify } from 'node:util'
 import { defaultExclude, defineConfig } from 'vitest/config'
+import { supportedBrowsersDefine } from './build/supported-browsers.ts'
 
 const gitIgnore: string[] = []
 // get all files ignored in the apps directory (e.g. if putting `view` app there).
@@ -32,6 +33,7 @@ export default defineConfig({
 	define: {
 		appName: '"nextcloud"',
 		appVersion: '"1.0.0"',
+		...supportedBrowsersDefine,
 	},
 	resolve: {
 		preserveSymlinks: true,

@@ -6,6 +6,7 @@
 import { createAppConfig } from '@nextcloud/vite-config'
 import { resolve } from 'node:path'
 import { VitePWA } from 'vite-plugin-pwa'
+import { supportedBrowsersDefine } from './build/supported-browsers.ts'
 
 const modules = {
 	appstore: {
@@ -172,6 +173,7 @@ export default createAppConfig(Object.fromEntries(viteModuleEntries), {
 		includeSourceMaps: true,
 	},
 	config: {
+		define: supportedBrowsersDefine,
 		resolve: {
 			preserveSymlinks: true,
 			alias: [

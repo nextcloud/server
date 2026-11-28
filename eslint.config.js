@@ -29,6 +29,8 @@ export default defineConfig([
 		languageOptions: {
 			globals: {
 				PRODUCTION: 'readonly',
+				// build/supported-browsers.ts
+				__SUPPORTED_BROWSERS_REGEXP__: 'readonly',
 			},
 		},
 	},
