@@ -312,6 +312,7 @@ describe('Delete action execute tests', () => {
 	test('Delete action', async () => {
 		vi.spyOn(axios, 'delete')
 		vi.spyOn(eventBus, 'emit')
+		vi.spyOn(eventBus, 'broadcast')
 
 		const file = new File({
 			id: 1,
@@ -333,8 +334,8 @@ describe('Delete action execute tests', () => {
 		expect(axios.delete).toBeCalledTimes(1)
 		expect(axios.delete).toBeCalledWith('https://cloud.domain.com/remote.php/dav/files/test/foobar.txt')
 
-		expect(eventBus.emit).toBeCalledTimes(1)
-		expect(eventBus.emit).toBeCalledWith('files:node:deleted', file)
+		expect(eventBus.broadcast).toBeCalledTimes(1)
+		expect(eventBus.broadcast).toBeCalledWith('files:node:deleted', file, expect.any(Object))
 	})
 
 	test('Delete action triggered by hotkey asks for confirmation', async () => {
@@ -343,6 +344,7 @@ describe('Delete action execute tests', () => {
 
 		vi.spyOn(axios, 'delete')
 		vi.spyOn(eventBus, 'emit')
+		vi.spyOn(eventBus, 'broadcast')
 
 		// Emulate the confirmation dialog to always confirm
 		const confirmMock = vi.fn().mockImplementation((a, b, c, resolve) => resolve(true))
@@ -371,13 +373,14 @@ describe('Delete action execute tests', () => {
 		expect(axios.delete).toBeCalledTimes(1)
 		expect(axios.delete).toBeCalledWith('https://cloud.domain.com/remote.php/dav/files/test/foobar.txt')
 
-		expect(eventBus.emit).toBeCalledTimes(1)
-		expect(eventBus.emit).toBeCalledWith('files:node:deleted', file)
+		expect(eventBus.broadcast).toBeCalledTimes(1)
+		expect(eventBus.broadcast).toBeCalledWith('files:node:deleted', file, expect.any(Object))
 	})
 
 	test('Delete action triggered by hotkey is cancelled', async () => {
 		vi.spyOn(axios, 'delete')
 		vi.spyOn(eventBus, 'emit')
+		vi.spyOn(eventBus, 'broadcast')
 
 		// Emulate the confirmation dialog to always cancel
 		const confirmMock = vi.fn().mockImplementation((a, b, c, resolve) => resolve(false))
@@ -404,7 +407,7 @@ describe('Delete action execute tests', () => {
 
 		expect(exec).toBe(null)
 		expect(axios.delete).toBeCalledTimes(0)
-		expect(eventBus.emit).toBeCalledTimes(0)
+		expect(eventBus.broadcast).toBeCalledTimes(0)
 	})
 
 	test('Delete action triggered from the menu does not ask for confirmation', async () => {
@@ -413,6 +416,7 @@ describe('Delete action execute tests', () => {
 
 		vi.spyOn(axios, 'delete')
 		vi.spyOn(eventBus, 'emit')
+		vi.spyOn(eventBus, 'broadcast')
 
 		const confirmMock = vi.fn()
 		window.OC = { dialogs: { confirmDestructive: confirmMock } }
@@ -444,6 +448,7 @@ describe('Delete action execute tests', () => {
 	test('Delete action batch', async () => {
 		vi.spyOn(axios, 'delete')
 		vi.spyOn(eventBus, 'emit')
+		vi.spyOn(eventBus, 'broadcast')
 
 		const confirmMock = vi.fn()
 		window.OC = { dialogs: { confirmDestructive: confirmMock } }
@@ -481,14 +486,15 @@ describe('Delete action execute tests', () => {
 		expect(axios.delete).toHaveBeenNthCalledWith(1, 'https://cloud.domain.com/remote.php/dav/files/test/foo.txt')
 		expect(axios.delete).toHaveBeenNthCalledWith(2, 'https://cloud.domain.com/remote.php/dav/files/test/bar.txt')
 
-		expect(eventBus.emit).toBeCalledTimes(2)
-		expect(eventBus.emit).toHaveBeenNthCalledWith(1, 'files:node:deleted', file1)
-		expect(eventBus.emit).toHaveBeenNthCalledWith(2, 'files:node:deleted', file2)
+		expect(eventBus.broadcast).toBeCalledTimes(2)
+		expect(eventBus.broadcast).toHaveBeenNthCalledWith(1, 'files:node:deleted', file1, expect.any(Object))
+		expect(eventBus.broadcast).toHaveBeenNthCalledWith(2, 'files:node:deleted', file2, expect.any(Object))
 	})
 
 	test('Delete action batch large set', async () => {
 		vi.spyOn(axios, 'delete')
 		vi.spyOn(eventBus, 'emit')
+		vi.spyOn(eventBus, 'broadcast')
 
 		// Emulate the confirmation dialog to always confirm
 		const confirmMock = vi.fn().mockImplementation((a, b, c, resolve) => resolve(true))
@@ -557,12 +563,12 @@ describe('Delete action execute tests', () => {
 		expect(axios.delete).toHaveBeenNthCalledWith(4, 'https://cloud.domain.com/remote.php/dav/files/test/qux.txt')
 		expect(axios.delete).toHaveBeenNthCalledWith(5, 'https://cloud.domain.com/remote.php/dav/files/test/quux.txt')
 
-		expect(eventBus.emit).toBeCalledTimes(5)
-		expect(eventBus.emit).toHaveBeenNthCalledWith(1, 'files:node:deleted', file1)
-		expect(eventBus.emit).toHaveBeenNthCalledWith(2, 'files:node:deleted', file2)
-		expect(eventBus.emit).toHaveBeenNthCalledWith(3, 'files:node:deleted', file3)
-		expect(eventBus.emit).toHaveBeenNthCalledWith(4, 'files:node:deleted', file4)
-		expect(eventBus.emit).toHaveBeenNthCalledWith(5, 'files:node:deleted', file5)
+		expect(eventBus.broadcast).toBeCalledTimes(5)
+		expect(eventBus.broadcast).toHaveBeenNthCalledWith(1, 'files:node:deleted', file1, expect.any(Object))
+		expect(eventBus.broadcast).toHaveBeenNthCalledWith(2, 'files:node:deleted', file2, expect.any(Object))
+		expect(eventBus.broadcast).toHaveBeenNthCalledWith(3, 'files:node:deleted', file3, expect.any(Object))
+		expect(eventBus.broadcast).toHaveBeenNthCalledWith(4, 'files:node:deleted', file4, expect.any(Object))
+		expect(eventBus.broadcast).toHaveBeenNthCalledWith(5, 'files:node:deleted', file5, expect.any(Object))
 	})
 
 	test('Delete action batch dialog enabled', async () => {
@@ -572,6 +578,7 @@ describe('Delete action execute tests', () => {
 
 		vi.spyOn(axios, 'delete')
 		vi.spyOn(eventBus, 'emit')
+		vi.spyOn(eventBus, 'broadcast')
 		vi.spyOn(capabilities, 'getCapabilities').mockImplementation(() => {
 			return {
 				files: {},
@@ -615,9 +622,9 @@ describe('Delete action execute tests', () => {
 		expect(axios.delete).toHaveBeenNthCalledWith(1, 'https://cloud.domain.com/remote.php/dav/files/test/foo.txt')
 		expect(axios.delete).toHaveBeenNthCalledWith(2, 'https://cloud.domain.com/remote.php/dav/files/test/bar.txt')
 
-		expect(eventBus.emit).toBeCalledTimes(2)
-		expect(eventBus.emit).toHaveBeenNthCalledWith(1, 'files:node:deleted', file1)
-		expect(eventBus.emit).toHaveBeenNthCalledWith(2, 'files:node:deleted', file2)
+		expect(eventBus.broadcast).toBeCalledTimes(2)
+		expect(eventBus.broadcast).toHaveBeenNthCalledWith(1, 'files:node:deleted', file1, expect.any(Object))
+		expect(eventBus.broadcast).toHaveBeenNthCalledWith(2, 'files:node:deleted', file2, expect.any(Object))
 
 		eventBus.emit('files:config:updated', { key: 'show_dialog_deletion', value: false })
 	})
@@ -628,6 +635,7 @@ describe('Delete action execute tests', () => {
 		})
 		vi.spyOn(logger, 'error').mockImplementation(() => vi.fn())
 		vi.spyOn(eventBus, 'emit')
+		vi.spyOn(eventBus, 'broadcast')
 
 		const file = new File({
 			id: 1,
@@ -649,7 +657,7 @@ describe('Delete action execute tests', () => {
 		expect(axios.delete).toBeCalledTimes(1)
 		expect(axios.delete).toBeCalledWith('https://cloud.domain.com/remote.php/dav/files/test/foobar.txt')
 
-		expect(eventBus.emit).toBeCalledTimes(0)
+		expect(eventBus.broadcast).toBeCalledTimes(0)
 		expect(logger.error).toBeCalledTimes(1)
 	})
 
@@ -659,6 +667,7 @@ describe('Delete action execute tests', () => {
 
 		vi.spyOn(axios, 'delete')
 		vi.spyOn(eventBus, 'emit')
+		vi.spyOn(eventBus, 'broadcast')
 		vi.spyOn(capabilities, 'getCapabilities').mockImplementation(() => {
 			return {
 				files: {},
@@ -690,7 +699,7 @@ describe('Delete action execute tests', () => {
 		expect(exec).toStrictEqual([null])
 		expect(axios.delete).toBeCalledTimes(0)
 
-		expect(eventBus.emit).toBeCalledTimes(0)
+		expect(eventBus.broadcast).toBeCalledTimes(0)
 
 		eventBus.emit('files:config:updated', { key: 'show_dialog_deletion', value: false })
 	})

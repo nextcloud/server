@@ -8,10 +8,10 @@ import type { OCSResponse } from '@nextcloud/typings/ocs'
 
 import axios, { isAxiosError } from '@nextcloud/axios'
 import { showError, showLoading, showSuccess } from '@nextcloud/dialogs'
-import { emit } from '@nextcloud/event-bus'
 import { n, t } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
 import PQueue from 'p-queue'
+import { broadcastNode } from '../services/NodeBroadcast.ts'
 import { fetchNode } from '../services/WebdavClient.ts'
 import { logger } from '../utils/logger.ts'
 
@@ -103,7 +103,7 @@ export async function convertFiles(fileIds: number[], targetMimeType: string) {
 		const newFiles = await Promise.all(newPaths.map((path) => fetchNode(path)))
 
 		// Inform the file list about the new files
-		newFiles.forEach((file) => emit('files:node:created', file))
+		newFiles.forEach((file) => broadcastNode('files:node:created', file))
 
 		// Switch to the new files
 		const firstSuccess = results[0] as PromiseFulfilledResult<ConversionSuccess>
@@ -133,7 +133,7 @@ export async function convertFile(fileId: number, targetMimeType: string) {
 
 		// Inform the file list about the new file
 		const newFile = await fetchNode(result.data.ocs.data.path)
-		emit('files:node:created', newFile)
+		broadcastNode('files:node:created', newFile)
 
 		// Switch to the new file
 		const newFileId = result.data.ocs.data.fileId

@@ -8,9 +8,9 @@ import type { Capabilities } from '../types.ts'
 
 import axios from '@nextcloud/axios'
 import { getCapabilities } from '@nextcloud/capabilities'
-import { emit } from '@nextcloud/event-bus'
 import { FileType } from '@nextcloud/files'
 import { n, t } from '@nextcloud/l10n'
+import { broadcastNode } from '../services/NodeBroadcast.ts'
 import { pinia } from '../store/index.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
 
@@ -176,5 +176,5 @@ export async function deleteNode(node: INode) {
 	// Let's delete even if it's moved to the trashbin
 	// since it has been removed from the current view
 	// and changing the view will trigger a reload anyway.
-	emit('files:node:deleted', node)
+	broadcastNode('files:node:deleted', node)
 }

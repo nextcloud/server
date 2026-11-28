@@ -206,6 +206,7 @@ describe('Favorite action execute tests', () => {
 	test('Favorite triggers tag addition', async () => {
 		vi.spyOn(axios, 'post')
 		vi.spyOn(eventBus, 'emit')
+		vi.spyOn(eventBus, 'broadcast')
 
 		const file = new File({
 			id: 1,
@@ -230,13 +231,14 @@ describe('Favorite action execute tests', () => {
 
 		// Check node change propagation
 		expect(file.attributes.favorite).toBe(1)
-		expect(eventBus.emit).toHaveBeenCalled()
-		expect(eventBus.emit).toBeCalledWith('files:favorites:added', file)
+		expect(eventBus.broadcast).toHaveBeenCalled()
+		expect(eventBus.broadcast).toBeCalledWith('files:favorites:added', file, expect.any(Object))
 	})
 
 	test('Favorite triggers tag removal', async () => {
 		vi.spyOn(axios, 'post')
 		vi.spyOn(eventBus, 'emit')
+		vi.spyOn(eventBus, 'broadcast')
 
 		const file = new File({
 			id: 1,
@@ -264,13 +266,14 @@ describe('Favorite action execute tests', () => {
 
 		// Check node change propagation
 		expect(file.attributes.favorite).toBe(0)
-		expect(eventBus.emit).toHaveBeenCalled()
-		expect(eventBus.emit).toBeCalledWith('files:favorites:removed', file)
+		expect(eventBus.broadcast).toHaveBeenCalled()
+		expect(eventBus.broadcast).toBeCalledWith('files:favorites:removed', file, expect.any(Object))
 	})
 
 	test('Favorite triggers node removal if favorite view and root dir', async () => {
 		vi.spyOn(axios, 'post')
 		vi.spyOn(eventBus, 'emit')
+		vi.spyOn(eventBus, 'broadcast')
 
 		const file = new File({
 			id: 1,
@@ -298,14 +301,15 @@ describe('Favorite action execute tests', () => {
 
 		// Check node change propagation
 		expect(file.attributes.favorite).toBe(0)
-		expect(eventBus.emit).toHaveBeenCalled()
+		expect(eventBus.broadcast).toHaveBeenCalled()
 		expect(eventBus.emit).toHaveBeenCalledWith('files:node:deleted', file)
-		expect(eventBus.emit).toHaveBeenCalledWith('files:favorites:removed', file)
+		expect(eventBus.broadcast).toHaveBeenCalledWith('files:favorites:removed', file, expect.any(Object))
 	})
 
 	test('Favorite triggers node removal if favorite view root even for nested files', async () => {
 		vi.spyOn(axios, 'post')
 		vi.spyOn(eventBus, 'emit')
+		vi.spyOn(eventBus, 'broadcast')
 
 		const file = new File({
 			id: 1,
@@ -332,12 +336,13 @@ describe('Favorite action execute tests', () => {
 
 		expect(file.attributes.favorite).toBe(0)
 		expect(eventBus.emit).toHaveBeenCalledWith('files:node:deleted', file)
-		expect(eventBus.emit).toHaveBeenCalledWith('files:favorites:removed', file)
+		expect(eventBus.broadcast).toHaveBeenCalledWith('files:favorites:removed', file, expect.any(Object))
 	})
 
 	test('Favorite does NOT triggers node removal if favorite view but NOT root dir', async () => {
 		vi.spyOn(axios, 'post')
 		vi.spyOn(eventBus, 'emit')
+		vi.spyOn(eventBus, 'broadcast')
 
 		const file = new File({
 			id: 1,
@@ -365,8 +370,8 @@ describe('Favorite action execute tests', () => {
 
 		// Check node change propagation
 		expect(file.attributes.favorite).toBe(0)
-		expect(eventBus.emit).toHaveBeenCalled()
-		expect(eventBus.emit).toBeCalledWith('files:favorites:removed', file)
+		expect(eventBus.broadcast).toHaveBeenCalled()
+		expect(eventBus.broadcast).toBeCalledWith('files:favorites:removed', file, expect.any(Object))
 		expect(eventBus.emit).not.toHaveBeenCalledWith('files:node:deleted', file)
 	})
 
@@ -405,7 +410,7 @@ describe('Favorite action execute tests', () => {
 		expect(logger.error).toBeCalledTimes(1)
 		expect(logger.error).toBeCalledWith('Error while adding a file to favourites', { error, source: file.source, node: file })
 		expect(file.attributes.favorite).toBe(0)
-		expect(eventBus.emit).toBeCalledTimes(0)
+		expect(eventBus.broadcast).toBeCalledTimes(0)
 	})
 
 	test('Removing from favorites fails and show error', async () => {
@@ -443,7 +448,7 @@ describe('Favorite action execute tests', () => {
 		expect(logger.error).toBeCalledTimes(1)
 		expect(logger.error).toBeCalledWith('Error while removing a file from favourites', { error, source: file.source, node: file })
 		expect(file.attributes.favorite).toBe(1)
-		expect(eventBus.emit).toBeCalledTimes(0)
+		expect(eventBus.broadcast).toBeCalledTimes(0)
 	})
 })
 

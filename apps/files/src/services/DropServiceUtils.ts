@@ -8,7 +8,6 @@ import type { FileStat, ResponseDataDetailed } from 'webdav'
 
 import { showInfo, showWarning } from '@nextcloud/dialogs'
 import { openConflictPicker } from '@nextcloud/dialogs'
-import { emit } from '@nextcloud/event-bus'
 import { getUniqueName } from '@nextcloud/files'
 import { defaultRemoteURL, defaultRootPath, getClient, getDefaultPropfind, resultToNode } from '@nextcloud/files/dav'
 import { t } from '@nextcloud/l10n'
@@ -16,6 +15,7 @@ import { join } from '@nextcloud/paths'
 import { getFilenameValidity } from '../utils/filenameValidity.ts'
 import { logger } from '../utils/logger.ts'
 import { newNodeName } from '../utils/newNodeDialog.ts'
+import { broadcastNode } from './NodeBroadcast.ts'
 
 /**
  * This represents a Directory in the file tree
@@ -193,7 +193,7 @@ export async function createDirectoryIfNotExists(path: string, destination?: IFo
 		logger.debug('Directory does not exist, creating it', { path, davUrl })
 		await davClient.createDirectory(path, { recursive: true })
 		const stat = await davClient.stat(path, { details: true, data: getDefaultPropfind() }) as ResponseDataDetailed<FileStat>
-		emit('files:node:created', resultToNode(stat.data, davRoot, davUrl))
+		broadcastNode('files:node:created', resultToNode(stat.data, davRoot, davUrl))
 	}
 }
 

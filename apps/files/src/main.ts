@@ -8,6 +8,7 @@ import { createApp } from 'vue'
 import FilesApp from './FilesApp.vue'
 import SettingsModel from './models/Setting.ts'
 import { router } from './router/router.ts'
+import { registerNodeDeserializers } from './services/NodeBroadcast.ts'
 import RouterService from './services/RouterService.ts'
 import SettingsService from './services/Settings.js'
 import { setSidebarDataProvider } from './sidebar/provider.ts'
@@ -31,6 +32,7 @@ if (!window.OCP.Files.Router) {
 // Same condition as for rendering it in `FilesApp.vue`.
 if (!isPublicShare()) {
 	setSidebarDataProvider(createFilesStoreDataProvider())
+	registerNodeDeserializers()
 	exposeSidebarApi()
 }
 

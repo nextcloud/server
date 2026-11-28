@@ -6,13 +6,14 @@
 import type { INode } from '@nextcloud/files'
 
 import axios, { isAxiosError } from '@nextcloud/axios'
-import { emit, subscribe } from '@nextcloud/event-bus'
+import { subscribe } from '@nextcloud/event-bus'
 import { FileType, NodeStatus } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { basename, dirname, extname } from '@nextcloud/paths'
 import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import { defineStore } from 'pinia'
 import { defineAsyncComponent, ref } from 'vue'
+import { broadcastNode, broadcastNodeMoved } from '../services/NodeBroadcast.ts'
 import { fetchNode } from '../services/WebdavClient.ts'
 import { logger } from '../utils/logger.ts'
 import { useUserConfigStore } from './userconfig.ts'
@@ -104,12 +105,9 @@ export const useRenamingStore = defineStore('renaming', () => {
 			}
 
 			// Success 🎉
-			emit('files:node:updated', node)
-			emit('files:node:renamed', node)
-			emit('files:node:moved', {
-				node,
-				oldSource: `${dirname(node.source)}/${oldName}`,
-			})
+			broadcastNode('files:node:updated', node)
+			broadcastNode('files:node:renamed', node)
+			broadcastNodeMoved(node, `${dirname(node.source)}/${oldName}`)
 
 			// Reset the state not changed
 			if (renamingNode.value === node) {

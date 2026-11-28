@@ -60,7 +60,6 @@ import type { TemplateFile } from '../types.ts'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
-import { emit } from '@nextcloud/event-bus'
 import { File } from '@nextcloud/files'
 import { getClient, getDefaultPropfind, getRootPath, resultToNode } from '@nextcloud/files/dav'
 import { translate as t } from '@nextcloud/l10n'
@@ -73,6 +72,7 @@ import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcModal from '@nextcloud/vue/components/NcModal'
 import TemplateFiller from '../components/TemplateFiller.vue'
 import TemplatePreview from '../components/TemplatePreview.vue'
+import { broadcastNode } from '../services/NodeBroadcast.ts'
 import { createFromTemplate, getTemplateFields, getTemplates } from '../services/Templates.js'
 import { logger } from '../utils/logger.ts'
 
@@ -299,7 +299,7 @@ export default defineComponent({
 
 		handleFileCreation(node: Node) {
 			// Update files list
-			emit('files:node:created', node)
+			broadcastNode('files:node:created', node)
 
 			// Open the new file
 			window.OCP.Files.Router.goToRoute(
