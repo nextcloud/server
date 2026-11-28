@@ -23,6 +23,7 @@ use OCP\Files\Folder;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
+use OCP\Files\Mount\IMountManager;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
@@ -75,6 +76,7 @@ class DefaultShareProvider implements
 		private LoggerInterface $logger,
 		private IManager $shareManager,
 		private IConfig $config,
+		private IMountManager $mountManager,
 	) {
 	}
 
@@ -685,13 +687,14 @@ class DefaultShareProvider implements
 			}
 		}
 
-		// todo? maybe get these from the oc_mounts table
-		$childMountNodes = array_filter($node->getDirectoryListing(), function (Node $node): bool {
-			return $node->getInternalPath() === '';
-		});
-		$childMountRootIds = array_map(function (Node $node): int {
-			return $node->getId();
-		}, $childMountNodes);
+		// Only direct children of this folder can appear as mount roots in its listing
+		$folderPath = rtrim($node->getPath(), '/');
+		$childMountRootIds = [];
+		foreach ($this->mountManager->findIn($folderPath) as $mount) {
+			if (dirname(rtrim($mount->getMountPoint(), '/')) === $folderPath) {
+				$childMountRootIds[] = $mount->getStorageRootId();
+			}
+		}
 
 		$qb->innerJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'));
 		$qb->andWhere(
