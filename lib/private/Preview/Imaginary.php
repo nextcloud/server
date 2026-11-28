@@ -202,7 +202,7 @@ class Imaginary extends ProviderV2 {
 		if (!is_resource($stream)) {
 			return true;
 		}
-		$head = fread($stream, self::EXIF_HEAD_SIZE);
+		$head = stream_get_contents($stream, self::EXIF_HEAD_SIZE);
 		fclose($stream);
 		if ($head === false) {
 			return true;
