@@ -106,14 +106,16 @@ class PublicAuthTest extends \Test\TestCase {
 			->willReturn('/dav/uploads/tokenA/../tokenB/upload-id/1');
 
 		$share = $this->createMock(IShare::class);
+		$share->method('getToken')->willReturn('GX9HSGQrGE');
 		$share->method('isPasswordProtected')->willReturn(true);
+		$share->method('isPasswordHashed')->willReturn(true);
 
 		$this->shareManager->expects($this->once())
 			->method('getShareByToken')
 			->with('tokenB')
 			->willReturn($share);
 
-		$this->session->method('exists')->with('public_link_authenticated')->willReturn(false);
+		$this->session->method('get')->with('public_link_authenticated_frontend')->willReturn(null);
 
 		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
 		self::invokePrivate($this->auth, 'checkToken');
