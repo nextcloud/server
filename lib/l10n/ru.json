@@ -263,6 +263,7 @@
     "A valid password must be provided" : "Укажите допустимый пароль",
     "The Login is already being used" : "Логин уже используется",
     "Could not create account" : "Не удалось создать учётную запись",
+    "Only the following characters are allowed in a Login: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "В логине допустимы только символы «a-z», «A-Z», «0-9», пробелы и «_.@-'».",
     "A valid Login must be provided" : "Укажите допустимый логин",
     "Login contains whitespace at the beginning or at the end" : "Логин содержит пробелы в начале или в конце",
     "Login must not consist of dots only" : "Логин не должен состоять только из точек",
