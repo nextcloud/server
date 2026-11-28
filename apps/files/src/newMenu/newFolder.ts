@@ -9,10 +9,10 @@ import FolderPlusSvg from '@mdi/svg/svg/folder-plus-outline.svg?raw'
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import { emit } from '@nextcloud/event-bus'
 import { Folder, Permission } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { basename } from 'path'
+import { broadcastNode } from '../services/NodeBroadcast.ts'
 import { logger } from '../utils/logger.ts'
 import { newNodeName } from '../utils/newNodeDialog.ts'
 
@@ -54,7 +54,7 @@ export const entry: NewMenuEntry = {
 			})
 
 			// Show success
-			emit('files:node:created', folder)
+			broadcastNode('files:node:created', folder)
 			showSuccess(t('files', 'Created new folder "{name}"', { name: basename(source) }))
 			logger.debug('Created new folder', { folder, source })
 

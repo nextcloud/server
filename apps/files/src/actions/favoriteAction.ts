@@ -15,6 +15,7 @@ import { encodePath } from '@nextcloud/paths'
 import { generateUrl } from '@nextcloud/router'
 import { isPublicShare } from '@nextcloud/sharing/public'
 import PQueue from 'p-queue'
+import { broadcastNode } from '../services/NodeBroadcast.ts'
 import { logger } from '../utils/logger.ts'
 
 const queue = new PQueue({ concurrency: 5 })
@@ -106,13 +107,13 @@ export async function favoriteNode(node: INode, view: IView, willFavorite: boole
 
 		// Update the node webdav attribute
 		node.attributes.favorite = willFavorite ? 1 : 0
-		emit('files:node:updated', node)
+		broadcastNode('files:node:updated', node)
 
 		// Dispatch event to whoever is interested
 		if (willFavorite) {
-			emit('files:favorites:added', node)
+			broadcastNode('files:favorites:added', node)
 		} else {
-			emit('files:favorites:removed', node)
+			broadcastNode('files:favorites:removed', node)
 		}
 
 		return true

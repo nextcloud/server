@@ -127,6 +127,7 @@ describe('Favorites view definition', () => {
 describe('Dynamic update of favorite folders', () => {
 	test('Add a favorite folder creates a new entry in the navigation', async () => {
 		vi.spyOn(eventBus, 'emit')
+		vi.spyOn(eventBus, 'broadcast')
 		vi.spyOn(filesDavUtils, 'getFavoriteNodes').mockReturnValue(Promise.resolve([]))
 		vi.spyOn(favoritesService, 'getContents').mockReturnValue(Promise.resolve({ folder: {} as IFolder, contents: [] }))
 
@@ -155,9 +156,9 @@ describe('Dynamic update of favorite folders', () => {
 			contents: [],
 		})
 
-		expect(eventBus.emit).toHaveBeenCalledTimes(2)
-		expect(eventBus.emit).toHaveBeenCalledWith('files:favorites:added', folder)
-		expect(eventBus.emit).toHaveBeenCalledWith('files:node:updated', folder)
+		expect(eventBus.broadcast).toHaveBeenCalledTimes(2)
+		expect(eventBus.broadcast).toHaveBeenCalledWith('files:favorites:added', folder, expect.any(Object))
+		expect(eventBus.broadcast).toHaveBeenCalledWith('files:node:updated', folder, expect.any(Object))
 	})
 
 	test('Remove a favorite folder remove the entry from the navigation column', async () => {
@@ -168,6 +169,7 @@ describe('Dynamic update of favorite folders', () => {
 			owner: 'admin',
 		})]
 		vi.spyOn(eventBus, 'emit')
+		vi.spyOn(eventBus, 'broadcast')
 		vi.spyOn(filesDavUtils, 'getFavoriteNodes').mockReturnValue(Promise.resolve(favoriteFolders))
 		vi.spyOn(favoritesService, 'getContents').mockReturnValue(Promise.resolve({ folder: {} as IFolder, contents: favoriteFolders }))
 
@@ -202,10 +204,11 @@ describe('Dynamic update of favorite folders', () => {
 			contents: [],
 		})
 
-		expect(eventBus.emit).toHaveBeenCalledTimes(3)
+		expect(eventBus.emit).toHaveBeenCalledTimes(1)
+		expect(eventBus.broadcast).toHaveBeenCalledTimes(2)
 		expect(eventBus.emit).toHaveBeenCalledWith('files:node:deleted', folder)
-		expect(eventBus.emit).toHaveBeenCalledWith('files:favorites:removed', folder)
-		expect(eventBus.emit).toHaveBeenCalledWith('files:node:updated', folder)
+		expect(eventBus.broadcast).toHaveBeenCalledWith('files:favorites:removed', folder, expect.any(Object))
+		expect(eventBus.broadcast).toHaveBeenCalledWith('files:node:updated', folder, expect.any(Object))
 		expect(fo).toHaveBeenCalled()
 
 		favoritesView = navigation.views.find((view) => view.id === 'favorites')
@@ -219,6 +222,7 @@ describe('Dynamic update of favorite folders', () => {
 
 	test('Renaming a favorite folder updates the navigation', async () => {
 		vi.spyOn(eventBus, 'emit')
+		vi.spyOn(eventBus, 'broadcast')
 		vi.spyOn(filesDavUtils, 'getFavoriteNodes').mockReturnValue(Promise.resolve([]))
 		vi.spyOn(favoritesService, 'getContents').mockReturnValue(Promise.resolve({ folder: {} as IFolder, contents: [] }))
 
@@ -248,8 +252,8 @@ describe('Dynamic update of favorite folders', () => {
 			folder: {} as IFolder,
 			contents: [],
 		})
-		expect(eventBus.emit).toHaveBeenCalledWith('files:favorites:added', folder)
-		expect(eventBus.emit).toHaveBeenCalledWith('files:node:updated', folder)
+		expect(eventBus.broadcast).toHaveBeenCalledWith('files:favorites:added', folder, expect.any(Object))
+		expect(eventBus.broadcast).toHaveBeenCalledWith('files:node:updated', folder, expect.any(Object))
 
 		// Create a folder with the same id but renamed
 		const renamedFolder = new Folder({

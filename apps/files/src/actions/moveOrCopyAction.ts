@@ -11,12 +11,12 @@ import type { MoveCopyResult } from './moveOrCopyActionUtils.ts'
 import FolderMoveSvg from '@mdi/svg/svg/folder-move-outline.svg?raw'
 import CopyIconSvg from '@mdi/svg/svg/folder-multiple-outline.svg?raw'
 import { FilePickerClosed, getFilePickerBuilder, openConflictPicker, showError, showLoading } from '@nextcloud/dialogs'
-import { emit } from '@nextcloud/event-bus'
 import { FileType, getUniqueName, NodeStatus, Permission } from '@nextcloud/files'
 import { defaultRootPath, getClient, getDefaultPropfind, resultToNode } from '@nextcloud/files/dav'
 import { n, t } from '@nextcloud/l10n'
 import { basename, join } from '@nextcloud/paths'
 import { getContents } from '../services/Files.ts'
+import { broadcastNode } from '../services/NodeBroadcast.ts'
 import { getConflicts } from '../utils/conflicts.ts'
 import { logger } from '../utils/logger.ts'
 import { canCopy, canMove, getQueue, MoveCopyAction } from './moveOrCopyActionUtils.ts'
@@ -183,13 +183,13 @@ export async function* handleCopyMoveNodesTo(nodes: INode[], destination: IFolde
 									data: getDefaultPropfind(),
 								},
 							) as ResponseDataDetailed<FileStat>
-							emit('files:node:created', resultToNode(data))
+							broadcastNode('files:node:created', resultToNode(data))
 						}
 					} else {
 						await client.moveFile(currentPath, destinationPath)
 						// Delete the node as it will be fetched again
 						// when navigating to the destination folder
-						emit('files:node:deleted', node)
+						broadcastNode('files:node:deleted', node)
 					}
 				} catch (error) {
 					logger.debug(`Error while trying to ${method === MoveCopyAction.COPY ? 'copy' : 'move'} node`, { node, error })
