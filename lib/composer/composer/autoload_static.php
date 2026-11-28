@@ -70,6 +70,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'NCU\\Governance\\LabelModification' => __DIR__ . '/../../..' . '/lib/unstable/Governance/LabelModification.php',
         'NCU\\Governance\\LabelType' => __DIR__ . '/../../..' . '/lib/unstable/Governance/LabelType.php',
         'NCU\\Governance\\ResourceLabel' => __DIR__ . '/../../..' . '/lib/unstable/Governance/ResourceLabel.php',
+        'NCU\\Resource\\Events\\ResourceDeletedEvent' => __DIR__ . '/../../..' . '/lib/unstable/Resource/Events/ResourceDeletedEvent.php',
         'NCU\\Resource\\IResourceType' => __DIR__ . '/../../..' . '/lib/unstable/Resource/IResourceType.php',
         'NCU\\Resource\\Permission\\APermission' => __DIR__ . '/../../..' . '/lib/unstable/Resource/Permission/APermission.php',
         'NCU\\Resource\\Permission\\AccessEntry' => __DIR__ . '/../../..' . '/lib/unstable/Resource/Permission/AccessEntry.php',
