@@ -7,7 +7,7 @@ import type { UserConfig } from '../types.ts'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
-import { emit, subscribe } from '@nextcloud/event-bus'
+import { broadcast, subscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
@@ -54,7 +54,8 @@ export const useUserConfigStore = defineStore('userconfig', () => {
 				value,
 			})
 		}
-		emit('files:config:updated', { key, value })
+		// This tab and the other open tabs apply it through the same event
+		broadcast('files:config:updated', { key, value })
 	}
 
 	// Register the event listener
