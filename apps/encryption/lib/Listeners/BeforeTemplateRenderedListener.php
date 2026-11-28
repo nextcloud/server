@@ -31,5 +31,6 @@ class BeforeTemplateRenderedListener implements IEventListener {
 		}
 
 		Util::addScript(Application::APP_ID, 'encryption');
+		Util::addStyle(Application::APP_ID, 'encryption');
 	}
 }

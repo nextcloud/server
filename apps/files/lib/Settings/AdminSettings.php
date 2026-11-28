@@ -47,6 +47,7 @@ class AdminSettings implements ISettings {
 		]);
 
 		Util::addScript(Application::APP_ID, 'settings-admin');
+		Util::addStyle(Application::APP_ID, 'settings-admin');
 		return new TemplateResponse(Application::APP_ID, 'settings-admin', renderAs: TemplateResponse::RENDER_AS_BLANK);
 	}
 }
