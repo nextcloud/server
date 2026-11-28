@@ -287,8 +287,12 @@ defineExpose({ focus })
 	}
 
 	&__field {
-		--resting-background: rgba(0, 0, 0, 0.15);
-		--resting-background-hover: rgba(0, 0, 0, 0.22);
+		// Tint the resting pill with the header's own text colour so it stays
+		// visible on any header background: dark text colour on light headers
+		// reads the same as the former black overlay, light text colour on
+		// custom-coloured dark headers keeps the pill visible.
+		--resting-background: color-mix(in srgb, var(--color-background-plain-text) 15%, transparent);
+		--resting-background-hover: color-mix(in srgb, var(--color-background-plain-text) 22%, transparent);
 		// Shared geometry: the resting group and the input's leading padding read the
 		// same tokens so the placeholder and the typed value line up.
 		--search-icon-pad: 12px;
